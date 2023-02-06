@@ -22,13 +22,15 @@ const ExploreCollectionList = ({collections}) => {
                                             <div className="card-img-block">
                                                 <img
                                                     className={collection.display_theme === "contained-theme" ? 'containedImage' : collection.display_theme === "padded-theme" ? 'paddedImage' : 'coveredImage'}
-                                                    src={`${process.env.REACT_APP_BASE_URL}/${collection.logo_image?.filename}`}
+                                                    src={`${process.env.REACT_APP_BASE_URL}/images/${collection.logo_image?.filename}`}
                                                     alt=""
                                                 />
                                             </div>
                                             <div className="card-body pt-5">
                                                 <img
-                                                    src="assets/images/avt-4.jpg"
+                                                    src={collection.featured_image?`${process.env.REACT_APP_BASE_URL}/images/${collection.featured_image?.filename}`:"assets/images/avt-4.jpg"}
+                                                
+                                                    // src={"assets/images/avt-4.jpg"}
                                                     alt=""
                                                     className="profile"
                                                 />

@@ -22,6 +22,7 @@ function Register() {
         country: '',
     })
 
+    console.log(register,":><><<<<>>>>")
     const [loading, setLoading] = useState(false)
     const handleChange = (e) => {
         const value = e.target.value
@@ -156,7 +157,7 @@ function Register() {
                                                         required: true,
                                                         pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
                                                     })} >
-                                                        <input type="email_address" className="form-control"
+                                                        <input type="email" className="form-control"
                                                                onChange={handleChange} name="email_address"
                                                                value={userData.email_address}
                                                                placeholder="Email Address"/>
