@@ -31,6 +31,7 @@ function Explore() {
     }
 
     useEffect(() => {
+        console.log("first",collections)
         setFilteredCollections(collections)
     }, [collections])
 

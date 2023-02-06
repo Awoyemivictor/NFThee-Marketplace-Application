@@ -176,6 +176,7 @@ const CreateNewItem = () => {
             email: user.email_address,
         },
         name: "",
+        symbol:"",
         description: "",
         logo_image: {},
         featured_image: {},
@@ -203,6 +204,7 @@ const CreateNewItem = () => {
             email: user.email_address,
         },
         name: "",
+        symbol:"",
         chooseType: "",
         uploadFile: {},
         designation: "",
@@ -262,7 +264,7 @@ const CreateNewItem = () => {
 
 
     const [itemData, setItemData] = useState(initialDataState)
-    console.log("::::::::>",{itemData})
+    console.log("::::::::>",{itemData},{collectionData})
 
     const handleCollectionChange = e => {
         setCollectionData({
@@ -1349,6 +1351,71 @@ const CreateNewItem = () => {
                                 {/*<form  onSubmit={handleSubmitNew}>*/}
                                 <div className="col-md-12 col-lg-12">
                                     <div className="create-item-section">
+                                    <div className="create-item-content border-bottom pb-3 mb-3">
+                                                    <h4 className="create-item-title">Choose Type</h4>
+                                                    <h5 className="create-item-subtitle">
+                                                        Choose "Single" for one of a kind or "multiple" if
+                                                        you want to sell one collectible multiple times
+                                                    </h5>
+                                                    <div className="row mt-4">
+                                                        <div className="col-lg-4 col-md-6 mb-lg-0 mb-4">
+                                                            <label className="w-100 mb-0">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="chooseType"
+                                                                    value="single"
+                                                                    className="card-input-element"
+                                                                    defaultChecked
+                                                                />
+                                                                <div className="panel card-input m-0">
+                                                                    <div className="panel-body d-flex">
+                                                                        <div className="panel-body-content-two">
+                                                                            <img
+                                                                                src="assets/images/icons/mobile-phone1.png"
+                                                                                alt=""
+                                                                                className="img-fluid"
+                                                                            />
+                                                                            <h3>Single</h3>
+                                                                            <p>
+                                                                                If you want to highlight the
+                                                                                uniqueness and individuality of your
+                                                                                item
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div className="col-lg-4 col-md-6">
+                                                            <label className="w-100 mb-0">
+                                                                <input
+                                                                    // onChange={handleRadioChange}
+                                                                    type="radio"
+                                                                    name="chooseType"
+                                                                    value="multiple"
+                                                                    className="card-input-element"
+                                                                />
+                                                                <div className="panel card-input m-0">
+                                                                    <div className="panel-body d-flex">
+                                                                        <div className="panel-body-content-two">
+                                                                            <img
+                                                                                src="assets/images/icons/mobile-phone2.png"
+                                                                                alt=""
+                                                                                className="img-fluid"
+                                                                            />
+                                                                            <h3>Multiple</h3>
+                                                                            <p>
+                                                                                If you want to share your item with
+                                                                                a
+                                                                                large number of community members
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         <div className="create-item-content border-bottom pb-3 mb-3">
                                             <h4 className="create-item-title">
                                                 Logo Image <span className="text-red">*</span>
@@ -1457,6 +1524,21 @@ const CreateNewItem = () => {
                                                     <input
                                                         name="name"
                                                         value={collectionData.name}
+                                                        onChange={handleCollectionChange}
+                                                        type="text"
+                                                        className="form-control"
+                                                        placeholder="E.g. Treasures of the sea"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="create-item-content border-bottom pb-3 mb-3">
+                                            <h4 className="create-item-title">Symbol</h4>
+                                            <div className="row">
+                                                <div className="col-lg-9 col-md-9">
+                                                    <input
+                                                        name="symbol"
+                                                        value={collectionData.symbol}
                                                         onChange={handleCollectionChange}
                                                         type="text"
                                                         className="form-control"
