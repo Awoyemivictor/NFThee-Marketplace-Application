@@ -4,6 +4,7 @@ const fs = require('fs');
 const { adminModel } = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
+
 /**
  * @function admin data
  * @description using this function to generate refercode for user
