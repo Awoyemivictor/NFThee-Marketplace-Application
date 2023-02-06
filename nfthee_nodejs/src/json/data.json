@@ -1,0 +1,309 @@
+{
+	"success": true,
+	"message": "All Create Item Data Fetch.....",
+	"data": [{
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63b7f3e90a3790a5941251fe",
+		"nOrders": ["63b7f3ee0a3790a594125205"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "CryptoKitties #1",
+		"nCollection": "0x23ea1144f04c3a1e6dc3b0358156325bc1271e2e",
+		"nHash": "bafybeifyzbp2koauec2htxk2esyo2t5rdplrquxmbkvho2q4wo2smbglr4",
+		"nOwnedBy": [{
+			"_id": "63b7f3e90a3790a5941251ff",
+			"address": "0x77762367630a10bde52a6c2283fe05f397b89d42",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Test Kittie #1",
+		"nTokenID": 0,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "b7ac8b78ab91906795e859e53c4634c4",
+		"nCreated": "2023-01-06T10:11:53.186Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63b7f4f50a3790a59412527b",
+		"nOrders": ["63b7f4fb0a3790a594125282"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Crypto Punk #1",
+		"nCollection": "0xde8cb94f035d6a16f7405172740344ad295e30c0",
+		"nHash": "bafybeighz2zvittmsgftct4ednlh5vabici47quaqhu7ecn34c2xuzdrg4",
+		"nOwnedBy": [{
+			"_id": "63b7f4f50a3790a59412527c",
+			"address": "0x77762367630a10bde52a6c2283fe05f397b89d42",
+			"quantity": 7
+		}, {
+			"_id": "63b7f54b0a3790a5941252f0",
+			"address": "0xb238bd8acc023659a2c3d632a046f59cee615311",
+			"quantity": 3
+		}],
+		"nQuantity": 10,
+		"nRoyaltyPercentage": 40,
+		"nDescription": "Test Punk",
+		"nTokenID": 0,
+		"nType": 2,
+		"nLockedContent": "",
+		"nNftImage": "3924d1d05ef326900ac4841f2a2f88cd",
+		"nCreated": "2023-01-06T10:16:21.525Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63b824609f662a003402be4d",
+		"nOrders": ["63b8246d9f662a003402be54"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Demi God #1",
+		"nCollection": "0xddd328c81b1ea47004d457359b46c99ff6ab1cbf",
+		"nHash": "bafybeifk7w2ri4i5aw4s55ugv7l5wrjjbmiypmtns7v3x7f5evqundhfeq",
+		"nOwnedBy": [{
+			"_id": "63b824609f662a003402be4e",
+			"address": "0x1b11384cab7ff0f34f987883aa8c2ac52a3f5cb8",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Test God",
+		"nTokenID": 0,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "a31229139950a66a32aff8bf6dc4aae3",
+		"nCreated": "2023-01-06T13:38:40.832Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63b826859f662a003402bea5",
+		"nOrders": ["63b8269b9f662a003402beac"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Vishal's NFT",
+		"nCollection": "0x2ce3076c00c50d56691a3f0b4ca593576bb1fd9f",
+		"nHash": "bafybeig3qfck74agmbl65pcbzkbab3wi4kdgzfqs5terlm6g4dheorj6le",
+		"nOwnedBy": [{
+			"_id": "63b826859f662a003402bea6",
+			"address": "0xb238bd8acc023659a2c3d632a046f59cee615311",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Test",
+		"nTokenID": 0,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "b2032a4ea38b5ca9551280bf0a79bd05",
+		"nCreated": "2023-01-06T13:47:49.007Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63bb9fa2c022130034301b9c",
+		"nOrders": ["63bb9faac022130034301ba3"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Demi God #2",
+		"nCollection": "0xddd328c81b1ea47004d457359b46c99ff6ab1cbf",
+		"nHash": "bafybeibnk3fd6s3dtnywz3pnklathsgyi4sgujbg6lez2f2ubwxbarneoi",
+		"nOwnedBy": [{
+			"_id": "63bba26ec022130034301d8a",
+			"address": "0x1b11384cab7ff0f34f987883aa8c2ac52a3f5cb8",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Unique Demi Gods that all play a part in an eternal war to save the Metaverse",
+		"nTokenID": 1,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "04bfb06e342f7993b34ef3f23acc0d6d",
+		"nCreated": "2023-01-09T05:01:22.244Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63bbb15e7b72cd6328ce8ffa",
+		"nOrders": ["63bbb1637b72cd6328ce9001"],
+		"nCollaborator": ["0xd0470ea874b3c6b3c009c5d19b023df85c7261b9"],
+		"nCollaboratorPercentage": [2],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Crypto Kitty #4",
+		"nCollection": "0x23ea1144f04c3a1e6dc3b0358156325bc1271e2e",
+		"nHash": "bafybeiheiylgp2mswaxy42ufdsvbn6zrpaack23p5u6i5d2wedrtvhuk2m",
+		"nOwnedBy": [{
+			"_id": "63bbb15e7b72cd6328ce8ffb",
+			"address": "0x77762367630a10bde52a6c2283fe05f397b89d42",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Building a marketing agency for degen projects and more",
+		"nTokenID": 1,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "93f5a1e3693b6886ec9cf8d414043b61",
+		"nCreated": "2023-01-09T06:17:02.267Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63bbb7337b72cd6328ce9047",
+		"nOrders": ["63bbb73b7b72cd6328ce904e"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Crypto Kitties #5",
+		"nCollection": "0x23ea1144f04c3a1e6dc3b0358156325bc1271e2e",
+		"nHash": "bafybeia5gyprmqjj5opnecotcdwkjopev3lmu5sytzkz7awxlr2n5of5q4",
+		"nOwnedBy": [{
+			"_id": "63bbb7337b72cd6328ce9048",
+			"address": "0x77762367630a10bde52a6c2283fe05f397b89d42",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Kitties from the future here to take over Polygon. Building a marketing agency for degen projects and more..",
+		"nTokenID": 2,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "dee66edac26b0849617547104375b517",
+		"nCreated": "2023-01-09T06:41:55.899Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63bbb8957b72cd6328ce908f",
+		"nOrders": ["63bbb89b7b72cd6328ce9096"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Crypto Kitty #9",
+		"nCollection": "0x23ea1144f04c3a1e6dc3b0358156325bc1271e2e",
+		"nHash": "bafybeics7ouqutxwg7nfixuoytxxh3a637ibogakmyzujxjfviedtc45k4",
+		"nOwnedBy": [{
+			"_id": "63bbb8957b72cd6328ce9090",
+			"address": "0x77762367630a10bde52a6c2283fe05f397b89d42",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "CryptoKitties is a decentralized application (DApp) that allows users to buy, sell, and breed digital cats using the Polygon blockchain",
+		"nTokenID": 3,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "e47529deb644ff891889f135be6365e9",
+		"nCreated": "2023-01-09T06:47:49.155Z",
+		"__v": 1
+	}, {
+		"unlockOncePurchased": true,
+		"explicitAndSensitiveContent": true,
+		"_id": "63bbbd554a8a790034e41497",
+		"nOrders": ["63bbbd5d4a8a790034e4149e"],
+		"nCollaborator": [""],
+		"nCollaboratorPercentage": [0],
+		"nUser_likes": [],
+		"nLazyMintingStatus": 0,
+		"nTitle": "Demo God #5",
+		"nCollection": "0xddd328c81b1ea47004d457359b46c99ff6ab1cbf",
+		"nHash": "bafybeidg4ndsi64ztwhc57sqj3s2wkrycavvbalrjgwqkyl7miuhncrbse",
+		"nOwnedBy": [{
+			"_id": "63bbbd554a8a790034e41498",
+			"address": "0x1b11384cab7ff0f34f987883aa8c2ac52a3f5cb8",
+			"quantity": 1
+		}],
+		"nQuantity": 1,
+		"nRoyaltyPercentage": 10,
+		"nDescription": "Demi Gods Universe NFT !! 10,000 Demi Gods Universe NFT’s seeking victory in an eternal war to save the Metaverse. Be part of Demi Gods Universe NFT and Win The War.",
+		"nTokenID": 2,
+		"nType": 1,
+		"nLockedContent": "",
+		"nNftImage": "6c7a6311947279410601c540a0051025",
+		"nCreated": "2023-01-09T07:08:05.131Z",
+		"__v": 1
+	}, {
+		"_id": "63d37a4610ca2c76d9e14054",
+		"chooseType": "",
+		"name": "",
+		"designation": "",
+		"about": "",
+		"chooseCollection": "",
+		"chooseCategory": "",
+		"chooseBlockchain": "",
+		"putOnMarketplace": {
+			"minimumBid": 0,
+			"startDate": 0,
+			"finishDate": 0
+		},
+		"unlockOncePurchased": false,
+		"attribute": {
+			"attrType": "",
+			"attrName": ""
+		},
+		"levels": {
+			"levelSpeed": "",
+			"levelUsername": 0,
+			"levelServer": 0
+		},
+		"stats": {
+			"statsSpeed": "",
+			"statsUsername": 0,
+			"statsServer": 0
+		},
+		"explicitAndSensitiveContent": true,
+		"createdAt": "2023-01-27T07:16:22.652Z",
+		"updatedAt": "2023-01-27T07:16:22.652Z",
+		"__v": 0
+	}, {
+		"_id": "63d37a4910ca2c76d9e14056",
+		"chooseType": "",
+		"name": "",
+		"designation": "",
+		"about": "",
+		"chooseCollection": "",
+		"chooseCategory": "",
+		"chooseBlockchain": "",
+		"putOnMarketplace": {
+			"minimumBid": 0,
+			"startDate": 0,
+			"finishDate": 0
+		},
+		"unlockOncePurchased": false,
+		"attribute": {
+			"attrType": "",
+			"attrName": ""
+		},
+		"levels": {
+			"levelSpeed": "",
+			"levelUsername": 0,
+			"levelServer": 0
+		},
+		"stats": {
+			"statsSpeed": "",
+			"statsUsername": 0,
+			"statsServer": 0
+		},
+		"explicitAndSensitiveContent": true,
+		"createdAt": "2023-01-27T07:16:25.948Z",
+		"updatedAt": "2023-01-27T07:16:25.948Z",
+		"__v": 0
+	}]
+}

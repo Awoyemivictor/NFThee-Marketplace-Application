@@ -1,0 +1,68 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "title": "Weekly Bigbazar Shopping",
+      "category": "photos",
+      "status": "pending",
+      "label": "Event",
+      "labelColor": "primary"
+    },
+    {
+      "id": 1,
+      "title": "Go Outside Picnic on Sunday",
+      "category": "videos",
+      "status": "pending",
+      "label": "Marriage",
+      "labelColor": "secondary"
+    },
+    {
+      "id": 2,
+      "title": "Write a blog post",
+      "category": "stories",
+      "status": "completed",
+      "label": "Personal",
+      "labelColor": "info"
+    },
+    {
+      "id": 3,
+      "title": "Do the chicken dance",
+      "category": "photos",
+      "status": "pending",
+      "label": "Event",
+      "labelColor": "primary"
+    },
+    {
+      "id": 4,
+      "title": "Pay the electricity bills",
+      "category": "videos",
+      "status": "pending",
+      "label": "Marriage",
+      "labelColor": "secondary"
+    },
+    {
+      "id": 5,
+      "title": "Make dinner reservation",
+      "category": "stories",
+      "status": "completed",
+      "label": "Personal",
+      "labelColor": "info"
+    },
+    {
+      "id": 6,
+      "title": "Meeting with photographer",
+      "category": "photos",
+      "status": "pending",
+      "label": "Marriage",
+      "labelColor": "secondary"
+    },
+    {
+      "id": 7,
+      "title": "Birthday wish to best friend",
+      "category": "stories",
+      "status": "completed",
+      "label": "Personal",
+      "labelColor": "info"
+    }
+  ]
+}
