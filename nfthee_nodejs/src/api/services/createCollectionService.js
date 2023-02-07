@@ -46,9 +46,9 @@ exports.createCollectionInfo = async (req, res) => {
 
 exports.read_createCollectionInfo = async (req, res) => {
   try {
-    let userId = req.body.userId;
+    let userId = req.query.id;
     console.log(userId);
-    let result = await createCollection.findOne({ userId: userId });
+    let result = await createCollection.findOne({ _id: userId });
     return {
       message: 'Read Collection Data Fetch.....',
       status: true,
