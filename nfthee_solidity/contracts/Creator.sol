@@ -10,6 +10,22 @@ contract Creator {
 
     mapping(address => bool) public deployedTokenContract;
 
+    event ERC721Deployed(
+        address owner,
+        string name,
+        string symbol,
+        string uri,
+        uint256 royalty,
+        address tokenAddress
+    );
+
+    event ERC1155Deployed(
+        address owner,
+        string uri,
+        uint256 royalty,
+        address tokenAddress
+    );
+
     /*
      * Params
      * string memory _name - NFT name
