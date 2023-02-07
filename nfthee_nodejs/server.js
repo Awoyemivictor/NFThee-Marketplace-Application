@@ -16,18 +16,20 @@ const { routeNotFound, globalErrors } = require('./src/api/middlewares').ErrorHa
 app.use(cors());
 app.use(flash());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ extended: true }));
+app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 // multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, 'public/images'));
+        cb(null, path.join(__dirname, 'public/fileUpload'));
     },
     filename: function (req, file, cb) {
         cb(null, `${file.fieldname}_dateVal_${Date.now()}_${file.originalname}`)
     }
 })
+
+
 
 exports.imageUpload = multer({ storage: storage })
 

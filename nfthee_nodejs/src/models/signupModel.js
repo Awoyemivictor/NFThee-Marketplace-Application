@@ -23,6 +23,32 @@ const signupInfo = new Schema({
     country: {
         type: String,
         required: true
+    },
+    profile_image:{
+        type:String
+
+    },
+    banner_image:{
+        type:String
+
+    },
+    bio:{
+        type:String
+
+    },
+    website:{
+        type:String
+
+    },
+    facebook:{
+        type:String
+    },
+    linkedin:{
+        type:String
+
+    },
+    youtube:{
+        type:String
     }
 }, { timestamps: true });
 

@@ -93,7 +93,7 @@ exports.loginOne = async (req) => {
 exports.register = async (req, res) => {
     try {
         const { email_address } = req.body
-        // console.log(req.body)
+        console.log(req.body)
         const isSigned = await signup.findOne({ email_address })
         const userMail = new Mail(req.body.email_address);
         // console.log(isSigned)
@@ -125,6 +125,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email_address } = req.query
+        console.log(req.body,req.query)
         const user = await signup.findOne({ email_address })
         if (user) {
             return {
@@ -142,4 +143,39 @@ exports.login = async (req, res) => {
     } catch (err) {
         return err
     }
+}
+exports.updateProfile=  async (req,res)=>{
+    console.log( req.body,"first")
+    try {
+        //  console.log('req.files:::::::>', req.files);
+          const profile_image=`${req.files.profile_image[0].filename}`;
+          const banner_image=`${req.files.banner_image[0].filename}`;
+          const upadate_data = {
+            user_name:req.body.username,
+            email_address:req.body.email,
+            profile_image: profile_image,
+            banner_image: banner_image,
+            bio:req.body.bio,
+            website:req.body.website,
+            facebook:req.body.facebook,
+            linkedin:req.body.linkedin,
+            youtube:req.body.youtube,
+
+        };
+        console.log("::::::>",upadate_data)
+        let result = await signup.findOneAndUpdate(
+            { email_address: req.body.email },
+            { $set: upadate_data }
+          );
+          return {
+            message: 'profile updated successfully',
+            status: true,
+            data: result,
+          };
+        } catch (error) {
+          return error;
+        }
+
+      
+
 }

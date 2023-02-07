@@ -34,3 +34,11 @@ exports.login = async(req, res, next) => {
         next(error);
     }
 }
+exports.updateProfile = async (req, res, next) => {
+    try {
+        const data = await signupServices.updateProfile(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}

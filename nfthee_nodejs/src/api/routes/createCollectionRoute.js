@@ -23,7 +23,7 @@ let uploadMultiple = upload.fields([
 router.get('/createCollection/all', indexAll)
 router.post('/collectionImage', imageUpload.single('fileName'), upload_image);
 router.post('/createCollection', uploadMultiple, createCollectionInfo);
-router.post('/createCollection/read', read_createCollectionInfo);
+router.get('/createCollection/read', read_createCollectionInfo);
 router.post('/createCollection/update', uploadMultiple, update_createCollectionInfo);
 router.post('/createCollection/delete', delete_createCollectionInfo);
 
