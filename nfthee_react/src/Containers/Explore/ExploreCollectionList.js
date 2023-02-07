@@ -17,7 +17,7 @@ const ExploreCollectionList = ({collections}) => {
                         >
                             <div className>
                                 <div className="item-content">
-                                    <Link to="/explorefilter">
+                                    <Link to={`/explorefilter/${collection._id}`}>
                                         <div className="tabbable-card">
                                             <div className="card-img-block">
                                                 <img

@@ -462,7 +462,7 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({ title, bidInfo, price ,img}) => {
+  export const FilterCard = ({ uploadFile,designation,title, name,putOnMarketplace}) => {
     const { t } = useTranslation();
     return (
         <div className="col-12 col-sm-3">
@@ -473,9 +473,9 @@ const images = [
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} @Lorihart</span> </div>
+                    <div className="auction-create-by"> <img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {name ? name : '@Lorihart'}</span> </div>
                     <div className="card-media">
-                       <img src={img} alt="" className="img-fluid" />
+                       <img src={uploadFile?.filename?`http://192.168.1.4:8002/images/${uploadFile?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
 
                        <img  alt="" className="img-fluid" />
 
@@ -486,9 +486,9 @@ const images = [
                     </div>
                     <div className="meta-info m-t-24">
                         <div className="meta-info-wrapper">
-                            <div className="bid-title mb-1"> <span>{bidInfo}</span> </div>
+                            <div className="bid-title mb-1"> <span>{designation}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src="assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {price} </h6>
+                                <h6> <img src="assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace?.price} </h6>
                             </div>
                         </div> <button className="btn place-bid-btn"> { t('explore.Place Bid') }</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
                     </div>

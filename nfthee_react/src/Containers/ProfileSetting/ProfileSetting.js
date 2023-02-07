@@ -23,8 +23,8 @@ function ProfileSetting() {
   const [userData, setUserData] = useState({
     username: '',
     email: '',
-    profileImage:"assets/images/avt-5.jpg",
-    bannerImage:"assets/images/Banner4.png",
+    profile_image:"assets/images/avt-5.jpg",
+    banner_image:"assets/images/Banner4.png",
     bio: '',
     website: '',
     facebook: '',
@@ -36,13 +36,13 @@ function ProfileSetting() {
 
  
   const handleChange = (e) => {
-    if (e.target.name === "profileImage" || e.target.name === "bannerImage") {
+    if (e.target.name === "profile_image" || e.target.name === "banner_image") {
       if (e.target.files.length) {
         setUserData({
           ...userData,
           [e.target.name]: e.target.files[0]
         });
-        if (e.target.name === "profileImage") {
+        if (e.target.name === "profile_image") {
           setProfile(URL.createObjectURL(e.target.files[0]));
         } else {
           setBanner(URL.createObjectURL(e.target.files[0]));
@@ -56,25 +56,25 @@ function ProfileSetting() {
     }
   };
   
-
+// console.log("><<<><<<<>>>>>>>>>>>>>>>>>>>>>>>>>",userData.profile_image,userData.banner_image,";khsdkfgdiu ")
   const handleData=(e)=>{
 
   
       e.preventDefault();
-      // const formData = new FormData();
-      // formData.append("username", userData.username);
-      // formData.append("email", userData.email);
-      // formData.append("bio", userData.bio);
-      // formData.append("website", userData.website);
-      // formData.append("facebook", userData.facebook);
-      // formData.append("instagram", userData.instagram);
-      // formData.append("linkedin", userData.linkedin);
-      // formData.append("youtube", userData.youtube);
-      // formData.append("profileImage", userData.profileImage);
-      // formData.append("bannerImage", userData.bannerImage);
+      const formData = new FormData();
+      formData.append("username", userData.username);
+      formData.append("email", userData.email);
+      formData.append("bio", userData.bio);
+      formData.append("website", userData.website);
+      formData.append("facebook", userData.facebook);
+      formData.append("instagram", userData.instagram);
+      formData.append("linkedin", userData.linkedin);
+      formData.append("youtube", userData.youtube);
+      formData.append("profile_image", userData.profile_image);
+      formData.append("banner_image", userData.banner_image);
     
       axios
-        .post("http://localhost:8002/api/update", userData)
+        .post("http://192.168.1.4:8002/api/updateProfile", formData)
         .then((response) => {
           console.log(response.data);
         })
@@ -100,9 +100,9 @@ function ProfileSetting() {
     <section className="profile-banner-section">
       <div className="profile-banner-image">
     
-        <img src={banner?banner:userData.bannerImage} alt="" className="img-fluid w-100 profile-banner-img" />
+        <img src={banner?banner:userData.banner_image} alt="" className="img-fluid w-100 profile-banner-img" />
         <span className="edit-img-box">
-        <input id="select-Banner"  type="file" name="bannerImage" style={{
+        <input id="select-Banner"  type="file" name="banner_image" style={{
             opacity: 0,
             position: "absolute",
             width: "1px",
@@ -121,9 +121,9 @@ function ProfileSetting() {
             <div className="col-lg-8 col-md-8 mx-auto">
               <div className="setting-profile-icon">
                 <div className="user-box">
-                  <img src={profile?profile:userData.profileImage} alt="" className="img-fluid user-img" />
+                  <img src={profile?profile:userData.profile_image} alt="" className="img-fluid user-img" />
                   <span className="edit-img-box">
-                  <input id="select-profile"  type="file" name="profileImage" style={{
+                  <input id="select-profile"  type="file" name="profile_image" style={{
             opacity: 0,
             position: "absolute",
             width: "1px",
