@@ -6,7 +6,7 @@ import "./Common/IDeployerInterface.sol";
 import "./TheeERC1155.sol";
 import "hardhat/console.sol";
 
-contract ERC721Deployer is AccessControl, IERC1155Deployer {
+contract TheeERC1155Deployer is AccessControl, IERC1155Deployer {
     address public creator;
     bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
     bytes32 internal constant CREATOR_ROLE = keccak256("CREATOR_ROLE");
