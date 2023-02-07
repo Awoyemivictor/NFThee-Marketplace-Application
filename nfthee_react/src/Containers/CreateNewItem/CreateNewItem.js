@@ -299,13 +299,14 @@ const CreateNewItem = () => {
         fetchData()
     }, [])
 
-    const [uploadedFile, setUploadedFile] = useState(null)
+    const [uploadedFile, setUploadedFile] = useState([  ])
     const [newData,setNewData]=useState()
     const handleImageChange = e => {
         const formData = new FormData()
         formData.append("fileName", e.target.files[0])
         instance.post('/api/image', formData).then(response => response.data.data).then(data => {
-            setUploadedFile(data);
+            setUploadedFile(URL.createObjectURL(e.target.files[0]));
+         
             setItemData({
                 ...itemData,
                 uploadFile: data
@@ -317,7 +318,7 @@ const CreateNewItem = () => {
 
 
     
-    console.log(":::::<><><><><>>>",newData)
+    console.log(":::::<><><><><>>>",{newData},uploadedFile)
     const handleSubmitNewCollection = async () => {
         await instance.post('/api/createCollection', collectionData)
             .then(response => {
@@ -504,7 +505,7 @@ const CreateNewItem = () => {
         const formData = new FormData()
         formData.append('fileName', e.target.files[0])
         instance.post('/api/collectionImage', formData).then(response => response.data.data).then(data => {
-            setLogoImage(data);
+            setLogoImage(URL.createObjectURL(e.target.files[0]));
             setCollectionData({
                 ...collectionData,
                 logo_image: data
@@ -516,7 +517,7 @@ const CreateNewItem = () => {
         const formData = new FormData()
         formData.append('fileName', e.target.files[0])
         instance.post('/api/collectionImage', formData).then(response => response.data.data).then(data => {
-            setBannerImage(data);
+            setBannerImage(URL.createObjectURL(e.target.files[0]));
             setCollectionData({
                 ...collectionData,
                 banner_image: data
@@ -529,7 +530,7 @@ const CreateNewItem = () => {
         const formData = new FormData()
         formData.append('fileName', e.target.files[0])
         instance.post('/api/collectionImage', formData).then(response => response.data.data).then(data => {
-            setFeaturedImage(data);
+            setFeaturedImage(URL.createObjectURL(e.target.files[0]));
             setCollectionData({
                 ...collectionData,
                 featured_image: data
@@ -824,7 +825,7 @@ const CreateNewItem = () => {
                                                                         100Mb.</h4>
                                                                     {uploadedFile ? (
                                                                         <img
-                                                                            src={`${process.env.REACT_APP_BASE_URL}/${uploadedFile.filename}`}
+                                                                            src={uploadedFile}
                                                                             alt=""
                                                                             className="bannerImage position-absolute"
                                                                         />
@@ -1431,7 +1432,7 @@ const CreateNewItem = () => {
                                                     >
                                                         {collectionData.logo_image.filename ? (
                                                             <img
-                                                                src={`${process.env.REACT_APP_BASE_URL}/${collectionData.logo_image.filename}`}
+                                                                src={logoImage}
                                                                 alt=""
                                                                 className="bannerImage"
                                                             />
@@ -1464,7 +1465,7 @@ const CreateNewItem = () => {
                                                     >
                                                         {collectionData.featured_image.filename ? (
                                                             <img
-                                                                src={`${process.env.REACT_APP_BASE_URL}/${collectionData.featured_image.filename}`}
+                                                                src={featuredImage}
                                                                 alt=""
                                                                 className="bannerImage"
                                                             />
@@ -1498,7 +1499,7 @@ const CreateNewItem = () => {
                                                     >
                                                         {collectionData.banner_image.filename ? (
                                                             <img
-                                                                src={`${process.env.REACT_APP_BASE_URL}/${collectionData.banner_image.filename}`}
+                                                                src={bannerImage}
                                                                 alt=""
                                                                 className="bannerImage"
                                                             />

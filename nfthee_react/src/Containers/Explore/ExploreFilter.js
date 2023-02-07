@@ -1,21 +1,28 @@
-import {useState,useRef} from 'react'
+import {useState,useRef,useEffect} from 'react'
 import { TopSeller_select,TopSeller_select_Sortby } from "../../Components/NiceSelect"; 
-import {NavLink, Link } from 'react-router-dom'
+import {NavLink, Link, useParams } from 'react-router-dom'
 import { useTranslation, initReactI18next } from "react-i18next"; 
  import {ExploreFilter_Select } from "../../Components/NiceSelect";
  import { FilterCard, filter_card, AccordionCards, cardData, PillsList  } from "./ExploreFilterData"
  import { activity,   AccordionCards1, List } from "../Activity/Data";
 import  Apexcharts from "../../Components/Apexcharts"
+import instance from '../../axios';
+import axios from 'axios';
 function ExploreFilter() {
 
-  const ref = useRef(null);
+  // const ref = useRef(null);
+  const {id} = useParams();
 
+  console.log(id,"param id")
   const [show, setShow] = useState('hidden');
+  const [collections, setCollections] = useState([]);
+
   const { t } = useTranslation(); 
   const ShowResult = () =>{
     setShow('show')
   }
 
+  
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState("");
   const loadMore = () => {
@@ -81,7 +88,42 @@ function ExploreFilter() {
   //     element.removeEventListener('click', Exploreshow);
   //   };
   // }, []);
+ 
+  useEffect(async () => {
+    await axios
+      .get(`http://192.168.1.4:8002/api/createCollection/read?id=${id}`)
+      .then((response) => {
+        // setLoading(true);
+        console.log(response.data,"<><><>><>><><><><><><><");
+        setCollections(response.data.data);
+        // setLoading(false);
+      })
+      .catch((e) => {
+        // setLoading(true);
+      });
+  }, []);
+const [shownList,setShownList]=useState([])
+useEffect(async() => {
+  if (collections.name) {
+    await axios
+      .get(`http://192.168.1.4:8002/api/all?collection=${collections?.name}`)
+      .then((response) => {
+        console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
+        if (response.data.data.length === 0) {
+          axios
+            .get("http://192.168.1.4:8002/api/all")
+            .then((response) => {
+              console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
+              setShownList(response.data.data);
+            });
+        } else {
+          setShownList(response.data.data);
+        }
+      });
+  }
+}, [collections]);
 
+  
 
   function myHandleHide() {
     var x = document.getElementById("sectionHide");
@@ -103,7 +145,7 @@ function ExploreFilter() {
   <section className="explore-filter-section bg-section pt-0" >
    <div className="explore-banner-area">
    <div className="banner-image">
-          <img src="assets/images/explore-bg.png" alt="" className="img-fluid" />
+          <img src={collections?.banner_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.banner_image?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
           <div className="d-lg-none d-block">
             <div className="col-lg-12 col-md-12 mobile-dropdown">
               <div className="d-flex justify-content-between align-items-center mt-3">
@@ -140,14 +182,15 @@ function ExploreFilter() {
               <div className="user-profile-wrapper">
                 <div className="user-profile-icon">
                   <div className="user-box">
-                    <img src="assets/images/avt-4.jpg" alt="" className="img-fluid user-img" />
+                    <img src={collections.logo_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.logo_image?.filename}`:"assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
                     <span className="star-check-icon"><img src="assets/images/icons/star-check.png" alt="" /></span>
                   </div>
                 </div>
               </div>
               <div className="banner-profile-icon-detail ">
                 <div className="d-flex justify-content-between mobile">
-                  <h2> <h2>{t("explore.Metroverse")}</h2></h2>
+                  
+                  <h2> <h2>{collections.name?`${collections.name}`:t("explore.Metaroverse")}</h2></h2>
                   <div className="explore-social-icon d-lg-flex d-none align-items-center justify-content-end">
                     <div className="border-end me-4 pe-4">
                       <ul>
@@ -250,7 +293,8 @@ function ExploreFilter() {
                   </div>
                   <div className="col-lg-6 col-md-6 p-0"></div>
                 </div>
-                <p className="desc" >{t("explore.Metroverse_title")} <br/> {t("explore.Utility Token")} </p>
+
+                <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> {t("explore.Utility Token")} </p>
                 <div className="d-flex mb-3" >
                   <button className="btn btn-violetFilter d-flex likeBtn"><i className="ri-heart-line me-2 fw-light" />
                    {t("explore.Like")}</button>
@@ -364,7 +408,7 @@ function ExploreFilter() {
                                    <div className="tab-pane fade show active" id="pills-grid-view" role="tabpanel" aria-labelledby="pills-grid-view-tab">
                                        <div className="bottom-wrapper">
                                            <div className="row gx-3 d-flex">
-                                           {slice.map((item) => {
+                                           {shownList.map((item) => {
                                               return(
                                                 <FilterCard {...item}/>
                                               )

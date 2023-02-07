@@ -35,6 +35,7 @@ function Explore() {
         setFilteredCollections(collections)
     }, [collections])
 
+   
     return (
         <>
             {isLoading ? <Loader/> : (
