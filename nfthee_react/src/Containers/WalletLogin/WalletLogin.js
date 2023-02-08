@@ -153,28 +153,28 @@ function WalletLogin() {
     var val = tabvalue;
     console.log(val);
     if (val === 1) {
-      if (window.ethereum === undefined) {
-        // console.log("fhjthra")
-        document.location.href = 'https://metamask.io/download/';
-      }
-      const accounts = await window.ethereum
-        .request({ method: 'eth_requestAccounts' })
-        .then((accounts) => {
-          if (accounts[0]) {
-            Swal.fire({
-              // position: 'top-end',
-              icon: 'success',
-              title: 'Successfully Logged In',
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            localStorage.setItem('TokenData', JSON.stringify(accounts));
+      // if (window.ethereum === undefined) {
+      //   // console.log("fhjthra")
+      //   document.location.href = 'https://metamask.io/download/';
+      // }
+      // const accounts = await window.ethereum
+      //   .request({ method: 'eth_requestAccounts' })
+      //   .then((accounts) => {
+      //     if (accounts[0]) {
+      //       Swal.fire({
+      //         // position: 'top-end',
+      //         icon: 'success',
+      //         title: 'Successfully Logged In',
+      //         showConfirmButton: false,
+      //         timer: 1500,
+      //       });
+      //       localStorage.setItem('TokenData', JSON.stringify(accounts));
 
-            history.push('/');
-            // window.location.href = "/"
-          } else {
-          }
-        });
+      //       history.push('/');
+      //       // window.location.href = "/"
+      //     } else {
+      //     }
+      //   });
     } else if (val === 2) {
       console.log(val);
     } else if (val === 3) {
