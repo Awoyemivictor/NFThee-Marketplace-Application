@@ -4,7 +4,13 @@ require('hardhat-gas-reporter');
 require('dotenv').config();
 require('solidity-coverage');
 
-const { PRIVATE_KEY, POLYGON_API_KEY, POLYGON_RPC_URL } = process.env;
+const {
+  PRIVATE_KEY,
+  POLYGON_API_KEY,
+  POLYGON_RPC_URL,
+  ETHEREUM_API_KEY,
+  BINANCE_API_KEY,
+} = process.env;
 
 task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -32,6 +38,18 @@ module.exports = {
 
   networks: {
     hardhat: {},
+    ethereumMainnet: {
+      url: 'https://eth-mainnet.g.alchemy.com/v2/T6UkWrU2qhiuxKJXWjFTMNURkc74xtbp',
+      accounts: [PRIVATE_KEY],
+    },
+    goerliTestnet: {
+      url: 'https://eth-goerli.g.alchemy.com/v2/KinLNLcEoSgPTt8pYT49ZbVlQxYBz0Cm',
+      accounts: [PRIVATE_KEY],
+    },
+    polygonMainnet: {
+      url: 'https://polygon-mumbai.g.alchemy.com/v2/_ULp5HCwK_YWhB3OfsvTU64A8G9A0KsY',
+      account: [PRIVATE_KEY],
+    },
 
     polygonTestnet: {
       url: POLYGON_RPC_URL,
@@ -46,16 +64,22 @@ module.exports = {
       url: 'https://data-seed-prebsc-2-s3.binance.org:8545/',
       accounts: [PRIVATE_KEY],
     },
-    harmonyTestnet: {
-      url: `https://api.s0.b.hmny.io`,
-      accounts: [PRIVATE_KEY],
-    },
     harmonyMainnet: {
       url: `https://api.harmony.one`,
       accounts: [PRIVATE_KEY],
     },
+    harmonyTestnet: {
+      url: `https://api.s0.b.hmny.io`,
+      accounts: [PRIVATE_KEY],
+    },
   },
   etherscan: {
-    apiKey: POLYGON_API_KEY,
+    // apiKey: {
+    //   goerli: ETHEREUM_API_KEY || '',
+    //   polygon: POLYGON_API_KEY || '',
+    //   binance: '',
+    //   harmony: '',
+    // },
+    apiKey: BINANCE_API_KEY,
   },
 };
