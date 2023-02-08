@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation, initReactI18next } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { ModalBuynft } from '../../Components/Layout/Modal';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setFavorite } from '../../redux/favoriteSlice';
@@ -34,10 +35,10 @@ const ExploreNftListRow = ({ data }) => {
   return (
     <div className="row">
       {isModalOpen && <ModalBuynft onRequestClose={toggleModal} />}
-      {slice.map((collection, index) => {
+      {slice.map((collection, index) => {console.log(collection._id,"explorenftRow id")
         return (
-          <>
-            <div className="col-12 col-sm-3 " key={index}>
+          <div className="col-12 col-sm-3 " key={index}>
+              <Link to={`/exploredetail/${collection._id}`}>
               <div className="live-auction-area">
                 <div className="auction-card-two mb-4 ">
                   <div className="card-body">
@@ -56,12 +57,12 @@ const ExploreNftListRow = ({ data }) => {
                     <div className="card-media">
                       <a href="#">
                         <img
-                          src={'assets/images/featured-img7.jpg'}
-                          // src={
-                          //   collection?.uploadFile
-                          //     ? `${process.env.REACT_APP_BASE_URL}/${collection?.uploadFile?.filename}`
-                          //     : 'assets/images/featured-img7.jpg'
-                          // }
+                          // src={'/assets/images/featured-img7.jpg'}
+                          src={
+                            collection?.uploadFile
+                              ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection?.uploadFile?.filename}`
+                              : '/assets/images/featured-img7.jpg'
+                          }
                           alt=""
                           className="img-fluid"
                         />
@@ -114,8 +115,8 @@ const ExploreNftListRow = ({ data }) => {
                   </div>
                 </div>
               </div>
+          </Link>
             </div>
-          </>
         );
       })}
       <div className="row mb-4">

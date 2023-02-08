@@ -1,12 +1,13 @@
 import React, {useState, useEffect } from 'react'
 import { FilterCard, filter_card, AccordionCards, cardData ,SingleSlider } from "./ExploreFilterData" 
-import {NavLink, Link } from 'react-router-dom'
+import {NavLink, Link,useParams } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import Apexcharts from '../../Components/Apexcharts'
 
 import $ from "jquery"
 import { MultiSelect } from "react-multi-select-component";
  import "../../index.css"
+import axios from 'axios';
  const options = [
   { label: "Mint", value: "mint" }, 
   { label: "Transfer", value: "Transfer" }, 
@@ -30,11 +31,30 @@ import { MultiSelect } from "react-multi-select-component";
 //   borderRadius: "0.25rem" 
 // }  
 function ExploreDetail() {
+  const {id}=useParams()
+  console.log("id of /ExploreDetails",id)
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
   useEffect(()=>{
     collectionSlider();
   })
+  const [collections, setCollections] = useState([]);
+
+  useEffect(async () => {
+    
+    await axios
+      .get(`http://192.168.1.4:8002/api/read?id=${id}`)
+      .then((response) => {
+        // setLoading(true);
+        console.log(response.data,"<><><>><>><><><><><><><");
+        setCollections(response.data.data);
+        // setLoading(false);
+      })
+      .catch((e) => {
+        // setLoading(true);
+      });
+  }, []);
+  console.log("exploreDetail",collections)
   const collectionSlider =()=>{  
   $(document).ready(function() {
     $('.explore-collection-slider').slick({
@@ -101,27 +121,27 @@ function ExploreDetail() {
           <div className="container-fluid px-lg-5">
             <div className="row mb-3">
               <div className="col-lg-12 col-md-12">
-                <Link to="/explorefilter"><span className="back-text"> <i className="ri-arrow-left-s-line" />{t("product.Back")}</span></Link>
+                <Link to="/explorenft"><span className="back-text"> <i className="ri-arrow-left-s-line" />{t("product.Back")}</span></Link>
               </div>
             </div>
             <div className="explore-item-detail mb-lg-5 mb-3">
               <div className="row">
                 <div className="col-lg-6 col-md-6">
                   <div className="item-image">
-                    <img src="assets/images/featured-img3.png" alt="" className="img-fluid" />
+                    <img src={collections?.uploadFile?.filename?`${process.env.REACT_APP_BASE_URL}/fileUpload/${collections?.uploadFile?.filename}`:"/assets/images/featured-img3.png"} alt="" className="img-fluid" />
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="explore-item-detail-content">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h3 className="heading-title mb-0">{t("product.The Fantasy Flower Illustration")}</h3>
+                      <h3 className="heading-title mb-0">{collections?collections.name:t("product.The Fantasy Flower Illustration")}</h3>
                       <div className="user-more-detail">
                        <div className="explore-social-icon d-flex align-items-center">
                       <ul>
                       <li>
                         <div className="user-more-detail">
                               <div className="more">
-                                  <div className="icon"> <a href="/exploredetail"> <img src="assets/images/icons/rotate.png" alt="" /> </a> </div>
+                                  <div className="icon"> <a href={`/exploredetail/${id}`}> <img src={"/assets/images/icons/rotate.png"} alt="" /> </a> </div>
                               </div>
                           </div>
                       </li>
@@ -131,9 +151,9 @@ function ExploreDetail() {
                             <div className="icon dropdown">
                               <a href="#" data-bs-toggle="dropdown" aria-expanded="false"><i className="ri-more-fill" /></a>
                               <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                 <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/share.png" /></span> {t("product.share")} </a>
-                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/report.png" /></span> {t("product.report")} </a>
-                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/home.png" /></span> {t("product.website")} </a>
+                                 <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src={"/assets/images/icons/share.png" }/></span> {t("product.share")} </a>
+                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src={"/assets/images/icons/report.png"}/></span> {t("product.report")} </a>
+                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src={"/assets/images/icons/home.png"} /></span> {t("product.website")} </a>
                               </div>
                             </div>
                            </div>
@@ -157,7 +177,7 @@ function ExploreDetail() {
                       <a href="#" className="token-detail"><span>{t("product.Token id")} : </span>#958</a>
                       <a href="#" className="token-detail ms-lg-3"><span>{t("product.Token standard")} : </span>Erc721</a>
                       <a href="#" className="token-detail ms-lg-3"><span>Contract: </span>0X…5623</a> <br />
-                      <a href="#" className="token-detail "><span style={{marginLeft: "0"}}>{t("product.Blockchain")} : </span>Ethereum</a>
+                      <a href="#" className="token-detail "><span style={{marginLeft: "0"}}>{t("product.Blockchain")} : </span>{collections?collections.chooseBlockchain:"undefined"}</a>
                       <a href="#" className="token-detail ms-lg-3"><span>Creator Royalties : </span>0.5 %   <i class="las la-info-circle"></i></a>
                     </div>
                     <div className="row mb-4 gx-lg-3">
@@ -168,7 +188,7 @@ function ExploreDetail() {
                           <div className="card-body">
                             <div className="avatars">
                               <div className="media">
-                               <img src="assets/images/avt-1.jpg" alt="" className="avatar" /> 
+                               <img src="/assets/images/avt-1.jpg" alt="" className="avatar" /> 
                               </div>
                               <div className="ms-3">
                                 <p className="text1">Owned By</p>
@@ -186,12 +206,12 @@ function ExploreDetail() {
                           <div className="card-body">
                             <div className="avatars">
                               <div className="media">
-                                <a href="#"> <img src="assets/images/icons/tezoz.png" alt="" className="avatar" />
+                                <a href="#"> <img src="/assets/images/icons/tezoz.png" alt="" className="avatar" />
                                 </a>
                               </div>
                               <div className="ms-3">
                                 <p className="text1">Collection By</p>
-                                <span className="text2">Rarible</span>
+                                <span className="text2">{collections?collections.chooseCollection:"undefined"}</span>
                               </div>
                             </div>
                           </div>
@@ -217,17 +237,17 @@ function ExploreDetail() {
                       <div className="tab-content custom-scrollbar" id="myTabContent">
                         <div className="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                           <div className="card-body">
-                            <p className="para1">{t("product.detail_description")}</p>
+                            <p className="para1">{collections?collections.designation:t("product.detail_description")}</p>
                             <div className="col-lg-6 col-md-6 px-lg-0">
                               <div className="creator-card creator-card-two mb-lg-4">
                                 <div className="card-body">
                                   <div className="avatars">
                                     <div className="media">
                                       <div className="badge">
-                                        <img src="assets/images/icons/star-check.png" alt="" />
+                                        <img src="/assets/images/icons/star-check.png" alt="" />
                                       </div>
                                       <a href="#">
-                                        <img src="assets/images/avt-1.jpg" alt="" className="avatar" />
+                                        <img src="/assets/images/avt-1.jpg" alt="" className="avatar" />
                                       </a>
                                     </div>
                                     <div className="ms-3">
@@ -240,20 +260,26 @@ function ExploreDetail() {
                             </div>
                           </div>
                         </div>
-                        <div className="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">2</div>
+                        <div className="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">{collections?collections.about:'lorem35'}</div>
                         <div className="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">3</div>
                         <div className="tab-pane fade" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
                         <div className="explore-attribute-card-section">
         <div className="row">
-          <div className="col-lg-4">
+           {collections?.attribute?.map((attri,i)=>(
+            <div className="col-lg-4" key={i}>
             <div className="card">
               <div className="card-body">
-                <h3 className="card-title">BACKGROUND</h3>
-                <h4 className="card-text">Lightgreenbg</h4>
-                <p className="card-subtext">18% have this trait</p>
-              </div>
+               
+                  <h3 className="card-title">Attribute </h3>
+                <h4 className="card-text">Attribute Name:{attri.attrName}</h4>
+                <p className="card-subtext">Attribute Type:{attri.attrType}</p>
+                </div>
             </div>
           </div>
+              
+                ))}
+                
+              
           <div className="col-lg-4">
             <div className="card">
               <div className="card-body">
@@ -339,14 +365,14 @@ function ExploreDetail() {
                             <div className="card-body">
                               <div className="d-flex align-items-center">
                                 <div className="media">
-                                  <a href="#"><img src="assets/images/avatar3.png" alt="" /></a>
+                                  <a href="#"><img src="/assets/images/avatar3.png" alt="" /></a>
                                 </div>
                                 <div className="pricing-detail">
                                   <h4> {t("product.Highest Bid By")} Kohaku Tora</h4>
                                   <div className="d-flex align-items-center">
                                     <span className="d-flex">
-                                    <a href="#" className="value1"><img src="assets/images/icons/ethereum-big.png" alt="" />0.1 ETH</a>
-                                    <sup> <a href="#" className="value2 ml-1">$319</a></sup></span>
+                                    <a href="#" className="value1"><img src="/assets/images/icons/ethereum-big.png" alt="" />0.1 ETH</a>
+                                    <sup> <a href="#" className="value2 ml-1">${collections?.putOnMarketplace?.price}</a></sup></span>
                                   </div>
                                 </div>
                               </div>
@@ -380,7 +406,7 @@ function ExploreDetail() {
                               <label htmlFor className="form-label">{t("product.Price")}</label>
                               <div className="input-group mb-3">
                                 <div className="input-group-prepend">
-                                  <span className="input-group-text"><img src="assets/images/icons/ethereum-pink.png" alt="" className="me-1 eth-icon" /> WETH</span>
+                                  <span className="input-group-text"><img src="/assets/images/icons/ethereum-pink.png" alt="" className="me-1 eth-icon" /> WETH</span>
                                 </div>
                                 <input type="text" className="form-control" placeholder= {t("product.amount")}  />
                                 <div className="input-group-append">
@@ -448,7 +474,7 @@ function ExploreDetail() {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 0.3 WETH</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 0.3 WETH</td>
                                   <td>$959.13</td>
                                   <td>In 5 days</td>
                                   <td><a href="#">Shreepadgaonkar</a></td>
@@ -486,7 +512,7 @@ function ExploreDetail() {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 0.3 WETH</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 0.3 WETH</td>
                                   <td>$959.13</td>
                                   <td>48.3% Below</td>
                                   <td>In 5 days</td>
@@ -608,110 +634,110 @@ function ExploreDetail() {
                               <tbody>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td><span className="d-flex align-items-center"><i className="bx bxs-purchase-tag me-1" /> list</span></td>
-                                  <td><img src="assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
+                                  <td><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" />$959.13</td>
                                   <td><a href="#">John Doe</a></td>
                                   <td><a href="#">John Doe</a></td>
-                                  <td><a href="#" className="tooltip-wrapper"><img src="assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
+                                  <td><a href="#" className="tooltip-wrapper"><img src="/assets/images/icons/share-blue-icon.png" alt="" className="me-1" /> 2 Days Ago
                                       <span className="tooltip">March 22 2021, 5:10 Pm</span>
                                     </a>
                                   </td>

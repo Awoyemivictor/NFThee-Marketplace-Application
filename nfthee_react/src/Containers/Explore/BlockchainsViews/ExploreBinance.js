@@ -13,15 +13,14 @@ const ExploreBinance = () => {
     const [data, setData] = useState([]);
     const [sortedData, setSortedData] = useState([]);
     useEffect(() => {
-        instance.get('/api/all')
+        instance.get('/api/all?blockChain=Binance Smart Chain')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
     }, [])
-
     useEffect(() => {
         let arr = []
         data.filter((nft) => {
-            if (nft.chooseBlockchain === "Binance")
+            if (nft.chooseBlockchain === "Binance Smart Chain")
                 return arr.push(nft)
         })
         setSortedData(arr)
@@ -88,11 +87,12 @@ const ExploreBinance = () => {
     }
 
     const [filteredData, setFilteredData] = useState([]);
+    
 
     const [searchText, setSearchText] = useState("")
-    const handleSearchText = e => {
-        setSearchText(e.target.value)
-    }
+    // const handleSearchText = e => {
+    //     setSearchText(e.target.value)
+    // }
 
     useEffect(() => {
         setFilteredData(sortedData)
@@ -191,7 +191,10 @@ const ExploreBinance = () => {
                                                     <div className="panel-body">
                                                         <div className="accordion" id="accordionExample">
                                                             <Filters handleSelectFilters={handleSelectFilters}
-                                                                     handleSearchText={handleSearchText}/>
+                                                                    //  handleSearchText={handleSearchText}
+                                                                     searchText={searchText}
+                                                                     setSearchText={setSearchText}
+                                                                     />
                                                         </div>
                                                     </div>
                                                     : null}

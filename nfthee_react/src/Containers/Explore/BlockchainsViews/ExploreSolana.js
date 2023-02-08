@@ -13,7 +13,7 @@ const ExploreSolana = () => {
     const [data, setData] = useState([]);
     const [sortedData, setSortedData] = useState([]);
     useEffect(() => {
-        instance.get('/api/all')
+        instance.get('/api/all?blockChain=Solana Testnet')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
     }, [])
@@ -21,7 +21,7 @@ const ExploreSolana = () => {
     useEffect(() => {
         let arr = []
         data.filter((nft) => {
-            if (nft.chooseBlockchain === "Solana")
+            if (nft.chooseBlockchain === "Solana Testnet")
                 return arr.push(nft)
         })
         setSortedData(arr)
@@ -90,17 +90,17 @@ const ExploreSolana = () => {
     const [filteredData, setFilteredData] = useState([]);
 
     const [searchText, setSearchText] = useState("")
-    const handleSearchText = e => {
-        setSearchText(e.target.value)
-    }
+    // const handleSearchText = e => {
+    //     setSearchText(e.target.value)
+    // }
 
     useEffect(() => {
-        setFilteredData(nftData)
-    }, [nftData])
+        setFilteredData(sortedData)
+    }, [sortedData])
 
     useEffect(() => {
-        const filterByCollection = nftData.filter((data) => {
-            return selectedFilter.includes(data.collection)
+        const filterByCollection = sortedData.filter((data) => {
+            return selectedFilter.includes(data.chooseCollection)
         })
 
         if (selectedFilter.length)
@@ -118,6 +118,7 @@ const ExploreSolana = () => {
             else
                 setFilteredData(sortedData)
         })
+        console.log("soloan",filteredArray)
         if (filteredArray.length)
             setFilteredData([
                 ...filteredArray
@@ -190,7 +191,10 @@ const ExploreSolana = () => {
                                                     <div className="panel-body">
                                                         <div className="accordion" id="accordionExample">
                                                             <Filters handleSelectFilters={handleSelectFilters}
-                                                                     handleSearchText={handleSearchText}/>
+                                                                    //  handleSearchText={handleSearchText}
+                                                                     searchText={searchText}
+                                                                     setSearchText={setSearchText}
+                                                                     />
                                                         </div>
                                                     </div>
                                                     : null}
@@ -302,14 +306,14 @@ const ExploreSolana = () => {
                                         <div className="tab-pane fade show active" id="pills-grid-view" role="tabpanel"
                                              aria-labelledby="pills-grid-view-tab">
                                             <div className="bottom-wrapper">
-                                                <ExploreItemRow data={sortedData}/>
+                                                <ExploreItemRow data={filteredData}/>
                                             </div>
                                         </div>
                                         <div className="tab-pane fade" id="pills-list-view" role="tabpanel"
                                              aria-labelledby="pills-list-view-tab">
                                             <div className="bottom-wrapper">
                                                 <div className="shop-bottom-wrapper">
-                                                    <ExploreItemColumn data={sortedData}/>
+                                                    <ExploreItemColumn data={filteredData}/>
                                                 </div>
                                             </div>
                                         </div>

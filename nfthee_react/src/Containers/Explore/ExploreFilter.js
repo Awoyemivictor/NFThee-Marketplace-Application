@@ -91,7 +91,7 @@ function ExploreFilter() {
  
   useEffect(async () => {
     await axios
-      .get(`http://192.168.1.4:8002/api/createCollection/read?id=${id}`)
+      .get(`${process.env.REACT_APP_BASE_URL}/api/createCollection/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
         console.log(response.data,"<><><>><>><><><><><><><");
@@ -106,12 +106,12 @@ const [shownList,setShownList]=useState([])
 useEffect(async() => {
   if (collections.name) {
     await axios
-      .get(`http://192.168.1.4:8002/api/all?collection=${collections?.name}`)
+      .get(`${process.env.REACT_APP_BASE_URL}/api/all?collection=${collections?.name}`)
       .then((response) => {
         console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
         if (response.data.data.length === 0) {
           axios
-            .get("http://192.168.1.4:8002/api/all")
+            .get(`${process.env.REACT_APP_BASE_URL}/api/all`)
             .then((response) => {
               console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
               setShownList(response.data.data);

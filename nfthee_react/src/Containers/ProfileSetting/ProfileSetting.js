@@ -74,7 +74,7 @@ function ProfileSetting() {
       formData.append("banner_image", userData.banner_image);
     
       axios
-        .post("http://192.168.1.4:8002/api/updateProfile", formData)
+        .post(`${process.env.REACT_APP_BASE_URL}/api/updateProfile`, formData)
         .then((response) => {
           console.log(response.data);
         })

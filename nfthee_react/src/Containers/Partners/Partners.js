@@ -89,7 +89,7 @@ function Partners() {
     formdataN.append("send_email_to", formData.send_email_to);
 
     axios
-      .post("http://localhost:8002/api/addPartner", formdataN, {
+      .post(`${process.env.REACT_APP_BASE_URL}/api/addPartner`, formdataN, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then(function (response) {

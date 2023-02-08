@@ -1,6 +1,6 @@
 // const BASE_URL = 'https://theemarketplace.onrender.com/api/';
 
-const BASE_URL = 'http://localhost:8002/api/';
+const BASE_URL = process.env.REACT_APP_BASE_URL+'/api';
 
 export const getBlogData = async () => {
   const requestOptions = {

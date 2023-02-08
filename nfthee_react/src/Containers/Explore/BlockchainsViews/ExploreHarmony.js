@@ -14,7 +14,7 @@ const ExploreHarmony = () => {
     const [sortedData, setSortedData] = useState([]);
 
     useEffect(() => {
-        instance.get('/api/all')
+        instance.get('/api/all?blockChain=Harmony Testnet')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
     }, [])
@@ -22,7 +22,7 @@ const ExploreHarmony = () => {
     useEffect(() => {
         let arr = []
         data.filter((nft) => {
-            if (nft.chooseBlockchain === "Harmony")
+            if (nft.chooseBlockchain === "Harmony Testnet ")
                 return arr.push(nft)
         })
         setSortedData(arr)
@@ -48,6 +48,7 @@ const ExploreHarmony = () => {
     };
 
     const [selectedFilter, setSelectedFilter] = useState([]);
+
     const handleSelectFilters = (name) => {
         if (selectedFilter.includes(name)) {
             const removeFilter = selectedFilter.filter((el) => {
@@ -90,10 +91,12 @@ const ExploreHarmony = () => {
 
     const [filteredData, setFilteredData] = useState([]);
 
+    
+
     const [searchText, setSearchText] = useState("")
-    const handleSearchText = e => {
-        setSearchText(e.target.value)
-    }
+    // const handleSearchText = e => {
+    //     setSearchText(e.target.value)
+    // }
 
     useEffect(() => {
         setFilteredData(sortedData)
@@ -196,7 +199,9 @@ const ExploreHarmony = () => {
                                                     <div className="panel-body">
                                                         <div className="accordion" id="accordionExample">
                                                             <Filters handleSelectFilters={handleSelectFilters}
-                                                                     handleSearchText={handleSearchText}/>
+                                                                    //  handleSearchText={handleSearchText}
+                                                                     searchText={searchText}
+                                                                     setSearchText={setSearchText}/>
                                                         </div>
                                                     </div>
                                                     : null}
