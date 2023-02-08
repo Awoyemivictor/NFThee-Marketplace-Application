@@ -49,7 +49,7 @@ const ExploreItemColumn = ({data}) => {
                                                     <div
                                                         className="card-media">
                                                         <img
-                                                            src={collection.uploadFile ? `${process.env.REACT_APP_BASE_URL}/${collection.uploadFile.filename}` : "assets/images/featured-img7.jpg"}
+                                                            src={collection?.uploadFile ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection.uploadFile.filename}` : "/assets/images/featured-img7.jpg"}
                                                             alt=""
                                                             className="img-fluid"/>
                                                     </div>
@@ -68,7 +68,7 @@ const ExploreItemColumn = ({data}) => {
                                                                 <div
                                                                     className="auction-create-by mb-2">
                                                                     <img
-                                                                        src="assets/images/img2.png"
+                                                                        src="/assets/images/img2.png"
                                                                         alt=""
                                                                         className="avatar-icon img-fluid"/>
                                                                     <span
@@ -95,7 +95,7 @@ const ExploreItemColumn = ({data}) => {
                                                         <div
                                                             className="eth-price">
                                                             <h6><img
-                                                                src="assets/images/icons/ethereum-big.png"
+                                                                src="/assets/images/icons/ethereum-big.png"
                                                                 alt=""
                                                                 className="me-1"/>
                                                                 {!collection.putOnMarketplace ? (<small

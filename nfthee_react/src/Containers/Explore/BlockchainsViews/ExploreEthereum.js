@@ -22,7 +22,7 @@ const ExploreEthereum = () => {
     const [filter, setFilter] = useState("filterClose");
 
     useEffect(() => {
-        instance.get('/api/all')
+        instance.get('/api/all?blockChain=Ethereum Testnet')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
     }, [])
@@ -30,7 +30,7 @@ const ExploreEthereum = () => {
     useEffect(() => {
         let arr = []
         data.filter((nft) => {
-            if (nft.chooseBlockchain === "Ethereum")
+            if (nft.chooseBlockchain === "Ethereum Testnet")
                 return arr.push(nft)
         })
         setSortedData(arr)
@@ -50,6 +50,7 @@ const ExploreEthereum = () => {
     };
 
     const handleSelectFilters = (name) => {
+        // console.log("exploreEthereum",name,selectedFilter,sortedData)
         if (selectedFilter.includes(name)) {
             const removeFilter = selectedFilter.filter((el) => {
                 return el !== name ? true : false
@@ -101,9 +102,9 @@ const ExploreEthereum = () => {
     }, [sortBy])
 
     const [searchText, setSearchText] = useState("")
-    const handleSearchText = e => {
-        setSearchText(e.target.value)
-    }
+    // const handleSearchText = e => {
+    //     setSearchText(e.target.value)
+    // }
 
 
     useEffect(() => {
@@ -130,18 +131,7 @@ const ExploreEthereum = () => {
             setFilteredData(sortedData)
     }, [selectedFilter])
 
-    useEffect(() => {
-        const filterByCollection = sortedData.filter((data) => {
-            return selectedFilter.includes(data.collection)
-        })
-
-        if (selectedFilter.length)
-            setFilteredData([
-                ...filterByCollection
-            ])
-        else
-            setFilteredData(sortedData)
-    }, [selectedFilter])
+   
 
     useEffect(() => {
         const filteredArray = sortedData.filter(data => {
@@ -190,7 +180,10 @@ const ExploreEthereum = () => {
                                                     <div className="panel-body">
                                                         <div className="accordion" id="accordionExample">
                                                             <Filters handleSelectFilters={handleSelectFilters}
-                                                                     handleSearchText={handleSearchText}/>
+                                                                    //  handleSearchText={handleSearchText}
+                                                                     searchText={searchText}
+                                                                     setSearchText={setSearchText}
+                                                                     />
                                                         </div>
                                                     </div>
                                                     : null}

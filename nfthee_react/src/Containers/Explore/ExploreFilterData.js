@@ -475,7 +475,7 @@ const images = [
                 <div className="card-body">
                     <div className="auction-create-by"> <img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {name ? name : '@Lorihart'}</span> </div>
                     <div className="card-media">
-                       <img src={uploadFile?.filename?`http://192.168.1.4:8002/images/${uploadFile?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
+                       <img src={uploadFile?.filename?`${process.env.REACT_APP_BASE_URL}/images/${uploadFile?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
 
                        <img  alt="" className="img-fluid" />
 

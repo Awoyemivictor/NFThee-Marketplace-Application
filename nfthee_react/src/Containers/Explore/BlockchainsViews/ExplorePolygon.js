@@ -91,9 +91,9 @@ const ExplorePolygon = () => {
     const [filteredData, setFilteredData] = useState([]);
 
     const [searchText, setSearchText] = useState("")
-    const handleSearchText = e => {
-        setSearchText(e.target.value)
-    }
+    // const handleSearchText = e => {
+    //     setSearchText(e.target.value)
+    // }
 
     useEffect(() => {
         setFilteredData(sortedData)
@@ -197,7 +197,9 @@ const ExplorePolygon = () => {
                                                     <div className="panel-body">
                                                         <div className="accordion" id="accordionExample">
                                                             <Filters handleSelectFilters={handleSelectFilters}
-                                                                     handleSearchText={handleSearchText}/>
+                                                                    //  handleSearchText={handleSearchText}
+                                                                     searchText={searchText}
+                                                                     setSearchText={setSearchText}/>
                                                         </div>
                                                     </div>
                                                     : null}
