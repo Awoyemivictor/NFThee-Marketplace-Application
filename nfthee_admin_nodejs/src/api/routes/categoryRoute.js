@@ -1,15 +1,24 @@
-
 const express = require('express');
 
-const { Multer: { upload },ApiAuth: { auth } } = require('../../utils');
+const {
+  Multer: { upload },
+  ApiAuth: { auth },
+} = require('../../utils');
 const router = express.Router();
-const {addCategory,deleteCategory,getCategory,updateCategory, getSuggestion, deleteSuggestion} = require('../controller').categoryController;
+const {
+  addCategory,
+  deleteCategory,
+  getCategory,
+  updateCategory,
+  getSuggestion,
+  deleteSuggestion,
+} = require('../controller').categoryController;
 
-router.post("/addCategory",auth, addCategory);
-router.post("/updateCategory",auth, updateCategory);
-router.get("/getCategory", auth, getCategory);
-router.get("/deleteCategory", auth, deleteCategory);
-router.get("/getSuggestion", auth, getSuggestion);
-router.get("/deleteSuggestion", auth, deleteSuggestion);
+router.post('/addCategory', addCategory);
+router.post('/updateCategory', updateCategory);
+router.get('/getCategory', getCategory);
+router.get('/deleteCategory', deleteCategory);
+router.get('/getSuggestion', getSuggestion);
+router.get('/deleteSuggestion', deleteSuggestion);
 
 module.exports = router;
