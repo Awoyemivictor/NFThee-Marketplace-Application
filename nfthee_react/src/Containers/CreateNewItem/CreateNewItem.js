@@ -6,7 +6,7 @@ import { swal } from 'sweetalert';
 import Select, { components } from 'react-select';
 import { useAppSelector } from '../../hooks/useRedux';
 import Swal from 'sweetalert2';
-import { handleCollectionCreation } from '../../Config/sendFunctions';
+import { handleCollectionCreation, handleListNFTSale, handleNFTCreation } from '../../Config/sendFunctions';
 import { bscTest, ethTest, polyTest } from '../../Config/chains';
 
 const CreateNewItem = () => {
@@ -359,6 +359,7 @@ const CreateNewItem = () => {
       collectionData.creator_earnings
     );
     console.log(contractAddress);
+    await handleNFTCreation(contractAddress)
     // await instance
     //   .post('/api/createCollection', collectionData)
     //   .then((response) => {
@@ -380,6 +381,11 @@ const CreateNewItem = () => {
     //     });
     //   });
   };
+
+  const handleNFTListing = async()=>{
+   const res =  await handleListNFTSale()
+   console.log(res)
+  }
 
   const [openForBids, setOpenForBids] = useState({});
   const [fixedPrice, setFixedPrice] = useState({
@@ -469,6 +475,7 @@ const CreateNewItem = () => {
 
   const handleItemBlockchain = (option) => {
     console.info(option);
+    getChains(option.value);
 
     setItemData({
       ...itemData,
@@ -2129,6 +2136,13 @@ const CreateNewItem = () => {
                         onClick={handleSubmitNewCollection}
                       >
                         Submit
+                      </button>
+
+                      <button
+                        className='btn btn-violet w-100'
+                        onClick={handleNFTListing}
+                      >
+                       Test
                       </button>
                     </div>
                   </div>
