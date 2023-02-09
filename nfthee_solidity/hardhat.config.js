@@ -80,6 +80,6 @@ module.exports = {
     //   binance: '',
     //   harmony: '',
     // },
-    apiKey: BINANCE_API_KEY,
+    apiKey: POLYGON_API_KEY,
   },
 };
