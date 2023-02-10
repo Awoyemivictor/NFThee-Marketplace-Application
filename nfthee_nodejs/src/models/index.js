@@ -7,3 +7,5 @@ exports.createCollection = require('./createCollectionModel');
 exports.signup = require('./signupModel');
 exports.emailApiModel = require('./emailApiModel');
 exports.blockchainModel = require('./blockchainModel');
+exports.history = require('./historyModel');
+exports.likes = require('./likesModel');

@@ -7,3 +7,5 @@ exports.createCollectionController = require('./createCollectionController');
 exports.signupController = require('./signupController');
 exports.blockchainController = require('./blockchainController');
 exports.searchController = require('./searchController');
+exports.historyController=require('./historyController')
+exports.likesController=require('./likesController')
