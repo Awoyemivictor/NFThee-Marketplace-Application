@@ -12,4 +12,8 @@ module.exports = (app) => {
     app.use(apiV1Prefix, require('./signupRouter'));
     app.use(apiV1Prefix, require('./blockchainRoute'));
     app.use(apiV1Prefix, require('./searchRoute'));
+    app.use(apiV1Prefix, require('./historyRoute'));
+    app.use(apiV1Prefix, require('./likesRoute'));
+   
+
 };
