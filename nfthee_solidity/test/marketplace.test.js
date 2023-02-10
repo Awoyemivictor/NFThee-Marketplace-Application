@@ -9,7 +9,7 @@ const MetaData =
 let marketplaceAddress = '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9';
 let count = 0;
 
-let Creator, Offer, Sale, Auction, Market;
+let Creator, Offer, Sale, Auction, Market, NFT721;
 let creator, theeERC721Deployer, offer, sale, auction, market;
 let signers, owner, addr1, addr2, addr3, addr4, addr5;
 
@@ -51,7 +51,7 @@ describe('Creator and Marketplace Deployer ', async function () {
   });
   it('should deploy marketplace , offer,sale ,auction contracts', async () => {
     Offer = await ethers.getContractFactory('Offer');
-    offer = await Offer.deploy();
+    offer = await Offer.deploy();BigNumber { value: "5" }
     await offer.deployed();
 
     Sale = await ethers.getContractFactory('Sale');
@@ -63,7 +63,7 @@ describe('Creator and Marketplace Deployer ', async function () {
     await auction.deployed();
   });
 
-  it('Setting Deployers', async () => {
+  it('Setting Deployers', async () => {BigNumber { value: "5" }
     await creator.setDeployerAddress(
       theeERC721Deployer.address,
       marketplaceAddress
@@ -86,6 +86,13 @@ describe('Preparing Tokens', async function () {
     expect(await NFT721.symbol()).to.equal('TST');
   });
   it("should mint Multiple NFT's", async () => {
-    
+    for (let i = 0; i <= 4; i++) {
+      await NFT721.connect(addr1).mint(i, MetaData);
+      expect(await NFT721.tokenURI(i)).to.equal(MetaData);
+      expect(await NFT721.ownerOf(i)).to.equal(addr1.address);
+
+      // // expect(D).to.equal(5)
+      // const nftCount = await NFT721.balanceOf(addr1.address);
+    }
   });
 });
