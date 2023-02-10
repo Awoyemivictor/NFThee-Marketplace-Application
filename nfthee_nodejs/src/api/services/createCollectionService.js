@@ -23,7 +23,7 @@ exports.indexAll = async (req, res) => {
 
 exports.createCollectionInfo = async (req, res) => {
   try {
-    // let userId = req.body.userId;
+    let user = req.body.user;
     // console.log(userId);
     // //console.log('req.files', req.files);
     // let body = req.body;
@@ -33,7 +33,7 @@ exports.createCollectionInfo = async (req, res) => {
     // if (req.files.featured_image) body.featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
     // if (req.files.banner_image) body.banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
 
-    let addCreateItem = await createCollection.create(req.body);
+    let addCreateItem = await createCollection.create({user:user});
     return {
       message: 'create item added successfully.',
       status: true,
@@ -43,12 +43,56 @@ exports.createCollectionInfo = async (req, res) => {
     throw error;
   }
 };
-
+exports.getCollectionInfo = async (req, res) => {
+  try {
+    
+    let result = await createCollection.find({});
+    
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.read_getCollectionInfo = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    let result = await createCollection.findOne({_id:userId});
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.update_getCollectionInfo = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    let result = await createCollection.findOneAndUpdate({_id:userId}, {$set: {status:"verified"}});  
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 exports.read_createCollectionInfo = async (req, res) => {
   try {
     let userId = req.query.id;
-    console.log(userId);
-    let result = await createCollection.findOne({ _id: userId });
+    // console.log(userId);
+    let result = await createCollection.findOne({ _id:userId}).populate("created_by");
+
+    // console.log(result)
     return {
       message: 'Read Collection Data Fetch.....',
       status: true,
@@ -139,7 +183,7 @@ exports.delete_createCollectionInfo = async (req, res) => {
       };
     }
   } catch (error) {
-    return error;
+    return error; 
   }
 };
 

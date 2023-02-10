@@ -12,7 +12,7 @@ exports.indexAll = async (req, res, next) => {
             return successResponse(req, res, data.data, data.message);
         } else {
             return successErrorResponse(req, res, data.data, data.message);
-        }
+        }  
     } catch (error) {
         next(error);
     }
@@ -39,8 +39,30 @@ exports.createCollectionInfo = async (req, res, next) => {
         next(error);
     }
 }
-
-
+exports.getCollectionInfo = async (req, res, next) => {
+    try {
+        const data = await createCollectionService.getCollectionInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+exports.read_getCollectionInfo = async (req, res, next) => {
+    try {
+        const data = await createCollectionService.read_getCollectionInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+exports.update_getCollectionInfo = async (req, res, next) => {
+    try {
+        const data = await createCollectionService.update_getCollectionInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.read_createCollectionInfo = async (req, res, next) => {
     try {
         const data = await createCollectionService.read_createCollectionInfo(req);

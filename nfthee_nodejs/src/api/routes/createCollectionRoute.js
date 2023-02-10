@@ -10,7 +10,10 @@ const {
     createCollectionInfo,
     read_createCollectionInfo,
     update_createCollectionInfo,
-    delete_createCollectionInfo
+    delete_createCollectionInfo,
+    getCollectionInfo,
+    read_getCollectionInfo,
+    update_getCollectionInfo,
 } = require('../controller').createCollectionController;
 
 
@@ -26,5 +29,9 @@ router.post('/createCollection', uploadMultiple, createCollectionInfo);
 router.get('/createCollection/read', read_createCollectionInfo);
 router.post('/createCollection/update', uploadMultiple, update_createCollectionInfo);
 router.post('/createCollection/delete', delete_createCollectionInfo);
+router.get('/getCollection', getCollectionInfo);
+router.get('/getCollection/read', read_getCollectionInfo);
+router.get('/getCollection/update', update_getCollectionInfo);
+
 
 module.exports = router;

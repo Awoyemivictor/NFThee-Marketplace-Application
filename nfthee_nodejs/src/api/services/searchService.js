@@ -6,10 +6,11 @@ const { signup } = require('../../models');
 
 exports.searchCollection = async (req, res, next) => {
   try {
+    console.log(req.body)
     let searchParam = req.body.searchParam
     result = await createCollection.find({ "name": searchParam });
-   
-    return {
+    
+      return {
       message: 'Found Collection ',
       status: true,
       data: result,
