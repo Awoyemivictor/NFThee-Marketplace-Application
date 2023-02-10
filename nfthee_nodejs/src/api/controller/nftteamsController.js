@@ -10,6 +10,32 @@ exports.index = async (req, res, next) => {
     }
 }
 
+exports.getItemInfo = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.getItemInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+} 
+
+exports.read_getItemInfo = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.read_getItemInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.update_getItemInfo = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.update_getItemInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 
 exports.upload_image = async (req, res, next) => {
     try {

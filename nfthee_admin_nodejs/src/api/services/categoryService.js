@@ -11,6 +11,31 @@ const { credentials } = require('../../config').constantCredentials;
  * @author Rinku sain
  */
 
+// exports.addCategory = async (req, res) => {
+//     try {
+        
+//         let body = req.body;
+//         let find = await categoryModel.findOne({ name: body.name });
+//         if (find) {
+//             return {
+//                 message: "Category Name Already Exist.",
+//                 status: false,
+//                 data: {}
+//             }
+//         }
+//         let addCategory = await categoryModel.create(body);
+
+
+//         return {
+//             message: "Category added successfully.",
+//             status: true,
+//             data: addCategory,
+//         };
+
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 exports.addCategory = async (req, res) => {
     try {
         
@@ -36,7 +61,6 @@ exports.addCategory = async (req, res) => {
         throw error;
     }
 }
-
 
 exports.getCategory = async (req,res) => {
     try {

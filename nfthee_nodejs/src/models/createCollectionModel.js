@@ -63,9 +63,14 @@ const create_collection = new Schema(
       type: Boolean,
     },
     created_by: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'SingupInfo',
+      type: mongoose.Schema.ObjectId,  
+      ref: 'user',
     },
+    status: {
+      type:String,  
+      default:"pending",
+    },
+
   },
 
   { timestamps: true }

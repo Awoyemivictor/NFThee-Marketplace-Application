@@ -31,8 +31,10 @@ exports.searchResults = async (req, res, next) => {
 
 exports.searchCollection = async (req, res, next) => {
   try {
+   
     const data = await searchCollection(req)
-    if (data.status == true) {
+    if (data.status == true) 
+    {
       return successResponse(req, res, data.data, data.message);
     } else {
       return successErrorResponse(req, res, data.data, data.message);
@@ -41,6 +43,24 @@ exports.searchCollection = async (req, res, next) => {
     next(error);
   }
 };
+// exports.searchCollection = async (req, res, next) => {
+//   try {
+//     console.log("ddddddddddddddddddddddddddddd",searchCollection(req))
+//     const data = await searchCollection(req)
+//     // if (data.status == true) 
+//     // console.log("::::::DDD",data)
+//     // if (data.data.status==="verified")
+//     if (data.status == true) 
+    
+//     {
+//       return successResponse(req, res, data.data, data.message);
+//     } else {
+//       return successErrorResponse(req, res, data.data, data.message);
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.searchUser = async(req,res,next)=>{
   try {
