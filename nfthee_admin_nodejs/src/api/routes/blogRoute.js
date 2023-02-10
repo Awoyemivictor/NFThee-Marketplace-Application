@@ -14,16 +14,16 @@ const {
 
 
 
-router.post("/blog", auth, upload.single('uploadFile'), adminBlog);
-router.get("/blog/all", auth, all_blog)
-router.post("/blog/modify", auth, upload.single('uploadFile'), adminUpdate)
-router.post("/blog/delete", auth, blog_delete)
-router.get("/singleBlog", auth, single_blog)
+router.post("/blog",  upload.single('uploadFile'), adminBlog);
+router.get("/blog/all",  all_blog)
+router.post("/blog/modify",  upload.single('uploadFile'), adminUpdate)
+router.post("/blog/delete",  blog_delete)
+router.get("/singleBlog",  single_blog)
 
 //login api
 
 router.post("/user/login", loginUser)
 
 //change password
-router.post("/user/changePassword", auth, changePassword)
+router.post("/user/changePassword",  changePassword)
 module.exports = router;

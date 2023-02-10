@@ -17,13 +17,14 @@ import {
 	Input,
 } from 'reactstrap';
 import SimpleMDE from "react-simplemde-editor";
+import Dropzone from 'react-dropzone-uploader';
 import { useHistory } from 'react-router';
 import instance from '../../../axios';
 
 const addcategory = () => {
 	const history=useHistory()
 	const [name, setName] = useState('');
-	const [icon, setIcon] = useState('');
+	const [icon, setIcon] = useState();
 	const [description, setDescription] = useState("");
 	// const [content, setContent] = useState('');
 	// //desc
@@ -38,6 +39,15 @@ const addcategory = () => {
 		},
 	});
 
+	const getUploadParams = ({ meta }) => {
+		return { url: 'https://httpbin.org/post' };
+	};
+	const handleChangeStatus = ({ meta, file }, status) => {
+		// console.log(status);
+		if (status === 'done') {
+			setIcon(file);
+		}
+	};
 
 	const handleChange = (description) => {
 		setDescription(description);
@@ -140,16 +150,24 @@ const addcategory = () => {
 									</Row>
 									<Row>
 										<Col>
-											<FormGroup>
-												<Label htmlFor="exampleFormControlInput1">Icon</Label>
-												<Input
-													className="form-control"
-													type="text"
-													placeholder="Add your icon"
-													onChange={(e) => setIcon(e.target.value)}
-													value={icon}
-													name="icon"
+										<FormGroup>
+												<Label htmlFor="exampleFormControlInput1">
+													Category Icon
+												</Label>
+												<div className="dz-message needsclick">
+												<Dropzone
+													getUploadParams={getUploadParams}
+													onChangeStatus={handleChangeStatus}
+													maxFiles={1}
+													multiple={false}
+													canCancel={false}
+													inputContent="Drop A File"
+													styles={{
+														dropzone: { height: 50 },
+														dropzoneActive: { borderColor: 'green' },
+													}}
 												/>
+											</div>
 											</FormGroup>
 											<Button
 												color="primary"
