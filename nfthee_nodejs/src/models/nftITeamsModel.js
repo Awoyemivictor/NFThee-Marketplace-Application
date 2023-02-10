@@ -12,6 +12,10 @@ const nftSchema = new Schema(
     uploadFile: {
       type: Object,
     },
+    status: {
+      type: String,
+      default:'pending',
+    },
     name: {
       type: String,
     },

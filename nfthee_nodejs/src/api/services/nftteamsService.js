@@ -7,27 +7,6 @@ const { nftIteams } = require('../../models');
 const { credentials } = require('../../config').constantCredentials;
 
 
-// exports.index = async (req) => {
-  
-//   try {
-//     let str = req.query.str ? { name: { $regex: new RegExp(req.query.str, 'i') } } : {};
-//     let blockChain = req.query.blockChain ? { chooseBlockchain: { $regex: new RegExp(req.query.blockChain.split(',').join('|'),'i') }  } : {};
-//     let collection = req.query.collection ? { chooseCollection: { $regex: new RegExp(req.query.collection.split(',').join('|'),'i') }  } : {};
-
-    
-//     let result = await nftIteams.find({ ...str,...blockChain,...collection}).sort({id:-1});
-
-//     if (result) {
-//       return {
-//         message: 'All Create Item Data Fetch.....',
-//         status: true,
-//         data: result,
-//       };
-//     }
-//   } catch (error) {
-//     return error;
-//   }
-// };
 exports.index = async (req) => {
   
   try {
@@ -70,6 +49,52 @@ exports.nftStore = async (req) => {
     };
   } catch (error) {
     return error;
+  }
+};
+exports.getItemInfo = async (req, res) => {
+  try {
+    
+    let result = await nftIteams.find({});
+    
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.read_getItemInfo = async (req, res) => {
+  try {
+    let userId=req.query.id;
+    let result = await nftIteams.findOne({_id:userId});
+    
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.update_getItemInfo = async (req, res) => {
+  try {
+    let userId=req.query.id;
+    let result = await nftIteams.findOneAndUpdate({_id:userId},{$set:{status:'verified'}});
+    
+    return {
+      message: 'create item added successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
   }
 };
 
