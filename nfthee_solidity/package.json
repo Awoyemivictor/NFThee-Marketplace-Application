@@ -23,6 +23,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.1",
     "dotenv": "^16.0.3",
-    "ethers-eip712": "^0.2.0"
+    "ethers-eip712": "^0.2.0",
+    "nodemon": "^2.0.20"
   }
 }
