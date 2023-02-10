@@ -3,24 +3,29 @@ import {useHistory} from "react-router-dom";
 import Breadcrumb from "../../common/breadcrumb.component";
 import DataTable from "react-data-table-component";
 import "react-data-table-component-extensions/dist/index.css";
+import DataTableExtensions from 'react-data-table-component-extensions';
+
 import {Container} from "reactstrap";
 import Swal from "sweetalert2";
 import instance from "../../../axios";
+import axios from "axios";
+import { width } from "@mui/system";
 
 
 const CollectionDetail = () => {
     let history = useHistory();
-
-    const [collectionsData, setCollectionsData] = useState([]);
-    useEffect(() => {
-        instance.get("/api/getCollections")
-            .then(response => setCollectionsData(response.data.data))
-            .finally(() => setLoading(false))
-
-    }, []);
-
     const [loading, setLoading] = useState(true);
 
+    const [data, setdata] = useState([]);
+    useEffect(() => {
+        axios.get(`http://192.168.1.4:8002/api/getCollection`)
+             .then(response => setdata(response.data.data))
+             .finally(() => setLoading(false))
+     
+     }, [loading]);
+     
+
+    console.log("dsfsdfsf",data)
     // const columns = [
     //     {
     //         name: " userId",
@@ -121,24 +126,31 @@ const CollectionDetail = () => {
 
     const columns = [
         {
-            name: "name",
-            selector: row => row.name,
+            name: "Name",
+            selector: 'name',
             sortable: true,
         },
         {
-            name: "url",
-            selector: row => row.url,
+            name: "Blockchain",
+            selector: 'blockchain',
             sortable: true,
         },
         {
-            name: "description",
-            selector: row => row.url,
+            name: "Status",
+            selector: 'status',
             sortable: true,
         },
         {
             name: "links",
-            selector: row => row.links,
+            selector: 'links',
             sortable: true,
+        },
+        {
+            name: "Description",
+            selector: "description",
+            sortable: true,
+            truncateText: true,
+            maxWidth: '1px',
         },
         {
             name: "Action",
@@ -146,12 +158,22 @@ const CollectionDetail = () => {
             sortable: true,
             cell: (collections) => (
                 <div>
+                     
+        {collections.status === 'pending' && (
+          <button 
+          className="btn btn-success btn-sm"
+          onClick={() => completeTask(collections)}
+          id="1"
+          >
+          <i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+        )}
+    
                     <button
                         className="btn btn-primary btn-sm"
                         onClick={() => handleViewCollection(collections)}
-                        id="1"
+                        id="2"
                     >
-                        <i className="fa fa-link"></i>
+                        <i className="fa fa-eye"></i>
                     </button>
                     {" "}
                     {/* <button
@@ -172,7 +194,20 @@ const CollectionDetail = () => {
             ),
         },
     ];
+    const tableData = {
+		data,
+		columns,
+	};
 
+
+const completeTask=(collections)=>{
+    setLoading(true)
+ 
+console.log(collections._id)
+axios.get(`http://192.168.1.4:8002/api/getCollection/update?id=${collections._id}`)
+.then(response => console.log(response.data.data))
+.finally(() => setLoading(false))
+}
     const handleViewCollection = collections => {
         history.push(`${process.env.PUBLIC_URL}/dashboard/view/collectionSingle?id=${collections._id}`, {
             state: {
@@ -196,20 +231,25 @@ const CollectionDetail = () => {
         });
     }
 
+    
     return (
         <Fragment>
             <Breadcrumb title="Collection Details" parent="view"/>
-            <Container fluid={true}>
+            <Container fluid={true} >
+            <DataTableExtensions {...tableData}>
                 <DataTable
-                    columns={columns}
-                    data={collectionsData}
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    highlightOnHover
-                    pagination
-                    striped
+                   	columns={columns}
+                       data={data}
+                       noHeader
+                       defaultSortField="id"
+                       defaultSortAsc={false}
+                       highlightOnHover
+                       pagination
+                       striped
+                 
+                   
                 />
+   </DataTableExtensions>
             </Container>
             {/* <Item/> */}
         </Fragment>

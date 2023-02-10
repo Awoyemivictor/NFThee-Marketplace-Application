@@ -69,7 +69,7 @@ const ExploreNftListRow = ({ data }) => {
                       </a>
                     </div>
                     <div className="card-title mb-2 pb-2 border-bottom-0">
-                      <div>
+                      <div className='c-card-detail'>
                         <h5>
                           <a href="#">{collection?.name}</a>
                         </h5>

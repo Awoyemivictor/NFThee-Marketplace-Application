@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 // import Loader from "./loader";
 import {toast} from "react-toastify";
 
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import instance from "../../../axios";
 
 const ItemDetail = () => {
@@ -18,7 +18,9 @@ const ItemDetail = () => {
     const [loading, setLoading] = useState(true);
     const [itemsData, setItemsData] = useState([]);
     useEffect(() => {
-        instance.get("/api/getItems")
+     
+        axios.get("http://192.168.1.4:8002/api/getItem")
+
             .then(response => setItemsData(response.data.data))
             .finally(() => setLoading(false))
     }, []);
@@ -56,7 +58,7 @@ const ItemDetail = () => {
                         onClick={() => handleViewItems(itemsData)}
                         id="1"
                     >
-                        <i className="fa fa-link"></i>
+                        <i className="fa fa-eye"></i>
                     </button>
                     <button
                         className="btn btn-danger btn-sm"
