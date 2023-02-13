@@ -6,11 +6,13 @@ const provider = ethers.provider;
 const MetaData =
   'https://gateway.pinata.cloud/ipfs/QmcFc5kmpbRvhoQjfUfR2PmUotJQsz3s83rt22529xnvcB';
 
+const ZERO_ADDRESS = 0x0000000000000000000000000000000000000000;
+
 let marketplaceAddress = '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9';
 let count = 0;
 
-let Creator, Offer, Sale, Auction, Market, NFT721;
-let creator, theeERC721Deployer, offer, sale, auction, market;
+let Creator, Offer, Sale, Auction, Market, NFT721, Trade;
+let creator, theeERC721Deployer, offer, sale, auction, market, trade;
 let signers, owner, addr1, addr2, addr3, addr4, addr5;
 
 const now = async () => (await ethers.provider.getBlock('latest')).timestamp;
@@ -51,7 +53,7 @@ describe('Creator and Marketplace Deployer ', async function () {
   });
   it('should deploy marketplace , offer,sale ,auction contracts', async () => {
     Offer = await ethers.getContractFactory('Offer');
-    offer = await Offer.deploy();BigNumber { value: "5" }
+    offer = await Offer.deploy();
     await offer.deployed();
 
     Sale = await ethers.getContractFactory('Sale');
@@ -61,9 +63,17 @@ describe('Creator and Marketplace Deployer ', async function () {
     Auction = await ethers.getContractFactory('Auction');
     auction = await Auction.deploy();
     await auction.deployed();
+
+    Market = await ethers.getContractFactory('Market');
+    market = await Market.deploy();
+    await market.deployed();
+
+    Trade = await ethers.getContractFactory('Trade');
+    trade = await Trade.deploy();
+    await trade.deployed();
   });
 
-  it('Setting Deployers', async () => {BigNumber { value: "5" }
+  it('Setting Deployers', async () => {
     await creator.setDeployerAddress(
       theeERC721Deployer.address,
       marketplaceAddress
@@ -94,5 +104,84 @@ describe('Preparing Tokens', async function () {
       // // expect(D).to.equal(5)
       // const nftCount = await NFT721.balanceOf(addr1.address);
     }
+  });
+});
+
+describe('Should able to sell tokens ', async function () {
+  // it('should not list if nft nft contract address is zero address', async () => {
+  //   const price = 1000000000000000;
+  //   const time = 172800;
+  //   await market.setSale(ZERO_ADDRESS);
+  //   await market.connect(addr1).sell(NFT721.address, 2, price, time);
+  // });
+  it('should put on sale if all params are correct', async () => {
+    const price = 1000000000000000;
+    const time = 172800;
+
+    await NFT721.connect(addr1).mint(7, MetaData);
+
+    await market.setSale(sale.address);
+    await market.connect(addr1).sell(NFT721.address, 7, price, time);
+  });
+});
+
+describe('Should be able to cancel sell ', async function () {
+  it('should be able to cancel listing if all params are correct', async () => {
+    const price = 1000000000000000;
+    const time = 172800;
+
+    await NFT721.connect(addr1).mint(8, MetaData);
+
+    await market.setSale(sale.address);
+    await market.connect(addr1).sell(NFT721.address, 8, price, time);
+
+    // await trade.setMarket(market.address);
+
+    await market.connect(addr1).cancelSale(2);
+  });
+
+  it('it should revert if owner is not seller', async () => {
+    const price = 1000000000000000;
+    const time = 172800;
+
+    await NFT721.connect(addr1).mint(9, MetaData);
+
+    await market.setSale(sale.address);
+    await market.connect(addr1).sell(NFT721.address, 9, price, time);
+
+    await expect(market.connect(addr2).cancelSale(3)).to.revertedWith(
+      'mismatch seller'
+    );
+  });
+});
+
+describe('Buy NFT', async function () {
+  it('should able to buy if all params are correct', async () => {
+    const price = ethers.utils.parseEther('1');
+    const time = 172800;
+
+    await NFT721.connect(addr1).mint(10, MetaData);
+
+    await market.setSale(sale.address);
+    await market.connect(addr1).sell(NFT721.address, 10, price, time);
+    await NFT721.connect(addr1).setApprovalForAll(market.address, true);
+
+    //!to Check  Balanace of User
+    const balance0ETH = await provider.getBalance(addr2.address);
+
+    // await market.connect(addr2).buy(4, { value: price });
+  });
+});
+
+describe('Offer', async function () {
+  it('should able to make offer if all params are correct ', async () => {
+    const price = ethers.utils.parseEther('1');
+    const time = 172800;
+
+    await NFT721.connect(addr1).mint(11, MetaData);
+
+    await market.setOffer(offer.address);
+
+    await market.offer(NFT721.address, 11, price, time, { value: price });
   });
 });

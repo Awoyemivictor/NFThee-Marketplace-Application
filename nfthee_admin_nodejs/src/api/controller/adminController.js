@@ -59,6 +59,20 @@ exports.blog_delete = async (req, res, next) => {
     }
 }
 
+exports.registerAdmin =async(req,res,next)=>{
+    try {
+        const data = await adminService.registerAdmin(req);
+        if (data.status === true) {
+            return successResponse(req, res, data.data, data.message);
+        } else {
+            return errorResponseBadReq(res, data.data, data.message);
+        }
+    } catch (error) {
+        console.log('error',error)
+        next(error);
+    }
+}
+
 
 exports.loginUser = async (req, res, next) => {
     try {

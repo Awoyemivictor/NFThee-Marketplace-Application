@@ -1,5 +1,6 @@
-const { DB_URL, DB_NAME } = require("../config").constantCredentials.credentials;
-const mongoose = require("mongoose");
+const { DB_URL, DB_NAME } =
+  require('../config').constantCredentials.credentials;
+const mongoose = require('mongoose');
 
 /**
  * @description database connection
@@ -7,10 +8,10 @@ const mongoose = require("mongoose");
  */
 
 exports.connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(`${DB_URL}${DB_NAME}?authSource=NFTHee`);
-        console.log(`Database connected successfully on ${conn.connection.host}`)
-    } catch (error) {
-        console.log("Database not connected", error);
-    }
-}
+  try {
+    const conn = await mongoose.connect(DB_URL);
+    console.log(`Database connected successfully on ${conn.connection.host}`);
+  } catch (error) {
+    console.log('Database not connected', error);
+  }
+};
