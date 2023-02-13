@@ -9,7 +9,7 @@ const {
     blog_delete,
     single_blog,
     loginUser,
-    changePassword
+    changePassword,registerAdmin
 } = require('../controller').adminController;
 
 
@@ -23,6 +23,7 @@ router.get("/singleBlog",  single_blog)
 //login api
 
 router.post("/user/login", loginUser)
+router.post("/registerAdmin",registerAdmin)
 
 //change password
 router.post("/user/changePassword",  changePassword)
