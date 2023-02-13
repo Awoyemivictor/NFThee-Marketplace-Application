@@ -11,3 +11,12 @@ exports.insertLikes= async (req, res, next) => {
     next(error);
   }
 };
+exports.getLikes= async (req, res, next) => {
+  try {
+    const data = await likesServices.getLikes(req);
+
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -9,8 +9,13 @@ const likesSchema=new Schema({
         type:mongoose.Schema.ObjectId,
         ref:'nft'
     },
-    likes:{
-        type:Number
-    }
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+      }
 })
 module.exports=mongoose.model('likesmodel',likesSchema);

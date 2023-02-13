@@ -7,37 +7,117 @@ const jwt = require('jsonwebtoken');
 
 const { credentials } = require('../../config').constantCredentials;
 
+
+
+
+
+// exports.insertLikes = async (req, res) => {
+//   try {
+//     const userId = req.body.userId;
+//     const postId = req.body.postId;
+//     const type = req.body.type;
+
+//     let like = await likes.findOne({userId, postId});
+//     if (!like) {
+//       if (type === 'like') {
+//         like = new likes({
+//           userId,
+//           postId,
+//           likes: [userId],
+//         });
+//       } else {
+//         return res.status(400).json({message: "You have not liked this post"});
+//       }
+//     } else {
+//       if (type === 'like') {
+//         if (like.likes.includes(userId)) {
+//           return {message: "You have already liked this post"};
+//         }
+//         like.likes.push(userId);
+//       } else if (type === 'unlike') {
+//         if (!like.likes.includes(userId)) {
+//           return {message: "You have not liked this post"};
+//         }
+//         like.likes = like.likes.filter(id => id.toString() !== userId.toString());
+//       } else {
+//         return res.status(400).json({message: "Invalid type"});
+//       }
+//     }
+
+//     return like.save().then((results) => {
+//             return {
+
+//               message: 'Like added successfully',
+//               status: true,
+//               data: results,
+//             };
+//           });
+//   } catch (error) {
+//     throw error
+//   }
+// };
+exports.getLikes= async(req,res)=>{
+  const getlikes= await likes.find({});
+  try{
+  if(getlikes){
+    return {
+
+      message: 'This is your data',
+      status: true,
+      data: getlikes,
+    };
+  }
+}
+catch(error){
+  throw error
+}
+
+}
 exports.insertLikes = async (req, res) => {
   try {
-    const existingLike = await likes.findOne({
-      userId: req.body.userId,
-      postId: req.body.postId,
-      likes:  req.body.likes
-    });
+    const userId = req.body.userId;
+    const postId = req.body.postId;
+    const type = req.body.type;   
 
-    if (existingLike) {
-      return {
-        message: 'Like already exists',
-        status: false,
-        data: existingLike
-      };
+    let like = await likes.findOne({postId});
+    if (!like) {
+      if (type === 'like') {
+        like = new likes({
+          postId,
+          likes: [userId],
+        });
+      } else {
+        return {message: "You have not liked this post"}  ;
+      }
+    } else {
+      if (type === 'like') {
+        if (like.likes.includes(userId)) {
+          return {message: "You have already liked this post"};
+        }
+        like.likes.push(userId);
+      } else if (type === 'unlike') {
+        if (!like.likes.includes(userId)) {
+          return {message: "You have not liked this post"};
+        }
+        like.likes = like.likes.filter(id => id.toString() !== userId.toString());
+      } else {
+        return {message: "Invalid type"};
+      }
     }
 
-    const insertData = new likes({
-      userId: req.body.userId,
-      postId: req.body.postId,
-      likes: req.body.likes
-    });
+    return like.save().then((results) => {
+      const count = like.likes.length;
+            return {
 
-    return insertData.save().then((results) => {
-      return {
-        message: 'Like added successfully',
-        status: true,
-        data: results
-      };
-    });
-
+              message: 'Like added successfully',
+              status: true,
+              data: {results,count},
+            };
+          });
   } catch (error) {
-    throw error;
+    throw error
   }
 };
+
+
+

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import { useTranslation, initReactI18next } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ModalBuynft } from '../../Components/Layout/Modal';
@@ -6,8 +7,11 @@ import { useAppDispatch } from '../../hooks/useRedux';
 import { setFavorite } from '../../redux/favoriteSlice';
 
 const ExploreNftListRow = ({ data }) => {
+  console.log("<><><><><><><><><>><>><><><><><><><><><><><><><><><><><><><><><>",data)
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+const [like,setLike]=useState([])
+
   const [isModalOpen, setModalIsOpen] = useState(false);
   const toggleModal = () => {
     setModalIsOpen(!isModalOpen);
@@ -17,8 +21,18 @@ const ExploreNftListRow = ({ data }) => {
   const slice = data.slice(0, noOfElement);
 
   const handleAddFavorite = (collection) => {
+    
+    const request={
+      postId:collection._id,
+      type:'like'
+    }
+    alert('warn')
     dispatch(setFavorite(collection));
-  };
+    axios.post("http://localhost:8002/api/insertLikes",request)
+    .then((res)=>
+    setLike(res.data))
+
+};
 
   const handleLengthClick = () => {
     if (noOfElement > data.length) {
@@ -108,7 +122,7 @@ const ExploreNftListRow = ({ data }) => {
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
                         >
-                          <i className="ri-heart-line me-1" /> 75
+                          <i className="ri-heart-line me-1" /> 25
                         </span>
                       </button>
                     </div>
