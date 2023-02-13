@@ -9,7 +9,14 @@ exports.adminBlog = async (req, res, next) => {
         next(error);
     }
 }
-
+exports.addAdmin = async (req, res, next) => {
+    try {
+        const data = await adminService.addAdmin(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 exports.all_blog = async (req, res, next) => {
@@ -52,6 +59,20 @@ exports.blog_delete = async (req, res, next) => {
     }
 }
 
+exports.registerAdmin =async(req,res,next)=>{
+    try {
+        const data = await adminService.registerAdmin(req);
+        if (data.status === true) {
+            return successResponse(req, res, data.data, data.message);
+        } else {
+            return errorResponseBadReq(res, data.data, data.message);
+        }
+    } catch (error) {
+        console.log('error',error)
+        next(error);
+    }
+}
+
 
 exports.loginUser = async (req, res, next) => {
     try {
@@ -62,7 +83,7 @@ exports.loginUser = async (req, res, next) => {
             return errorResponseBadReq(res, data.data, data.message);
         }
     } catch (error) {
-        console.log('error',error)
+        // console.log('error',error)
         next(error);
     }
 }

@@ -4,18 +4,27 @@ const create_collection = new Schema(
   {
     user: {
       type: Object,
+      require:true,
+
     },
     logo_image: {
       type: Object,
+      require:true,
+
     },
     featured_image: {
       type: Object,
+      require:true,
+
     },
     banner_image: {
       type: Object,
+      require:true,
+
     },
     category: {
       type: String,
+      require:true,
     },
     name: {
       type: String,

@@ -16,53 +16,70 @@ import instance from "../../../axios";
 const ItemDetail = () => {
     let history = useHistory();
     const [loading, setLoading] = useState(true);
-    const [itemsData, setItemsData] = useState([]);
+    const [data, setdata] = useState([]);
     useEffect(() => {
      
-        axios.get("http://192.168.1.4:8002/api/getItem")
+        axios.get("http://192.168.1.4:8002/api/admin/getAllItem")
 
-            .then(response => setItemsData(response.data.data))
+            .then(response => setdata(response.data.data))
             .finally(() => setLoading(false))
-    }, []);
+    }, [loading]);
 
 
     const columns = [
         {
             name: "Name",
-            selector: row => row.name,
+            selector:'name',
             sortable: true,
         },
         {
             name: "About",
-            selector: row => row.about,
+            selector:'about',
             sortable: true,
+            truncateText: true,
+            maxWidth: '1px',
         },
         {
             name: "Designation",
-            selector: row => row.designation,
+            selector:"designation",
             sortable: true,
+            truncateText: true,
+            maxWidth: '1px',
         },
         {
             name: "Blockchain",
-            selector: row => row.chooseBlockchain,
+            selector: "chooseBlockchain",
+            sortable: true,
+        },
+        {
+            name: "Status",
+            selector: "status",
             sortable: true,
         },
         {
             name: "Action",
             selector: "_id",
             sortable: true,
-            cell: (itemsData) => (
+            cell: (data) => (
                 <div>
+                    {data.status === 'pending' && (
+          <button 
+          className="btn btn-success btn-sm"
+          onClick={() => completeTask(data)}
+          id="1"
+          >
+          <i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+        )}
                     <button
                         className="btn btn-primary btn-sm"
-                        onClick={() => handleViewItems(itemsData)}
-                        id="1"
+                        onClick={() => handleViewItems(data)}
+                        id="2"
                     >
                         <i className="fa fa-eye"></i>
                     </button>
                     <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleDeleteItem(itemsData)}
+                        onClick={() => handleDeleteItem(data)}
                         id="3"
                     >
                         <i className="fa fa-trash"></i>
@@ -71,16 +88,30 @@ const ItemDetail = () => {
             ),
         },
     ];
+    const tableData = {
+		data,
+		columns,
+	};
 
-    const handleViewItems = itemsData => {
-        history.push(`${process.env.PUBLIC_URL}/dashboard/view/createItemSingle?id=${itemsData._id}`, {
+
+    const completeTask=(collections)=>{
+        setLoading(true)
+     
+    console.log(collections._id)
+    axios.get(`http://192.168.1.4:8002/api/getItem/update?id=${collections._id}`)
+    .then(response => console.log(response.data.data))
+    .finally(() => setLoading(false))
+    }
+
+    const handleViewItems = data => {
+        history.push(`${process.env.PUBLIC_URL}/dashboard/view/createItemSingle?id=${data._id}`, {
             state: {
-                _id: itemsData._id
+                _id: data._id
             }
         });
     }
 
-    const handleDeleteItem = itemsData => {
+    const handleDeleteItem = data => {
         Swal.fire({
             title: "Are you sure you want to do this?",
             cancelButtonText: "No!",
@@ -89,7 +120,7 @@ const ItemDetail = () => {
             showCancelButton: true,
         }).then(function (result) {
             if (result.value) {
-                instance.post(`/api/deleteItem/?id=${itemsData._id}`)
+                instance.post(`/api/deleteItem/?id=${data._id}`)
                     .then(response => console.info(response.data.data))
             }
         });
@@ -98,9 +129,10 @@ const ItemDetail = () => {
         <Fragment>
             <Breadcrumb title="Collection Details" parent="view"/>
             <Container fluid={true}>
+            <DataTableExtensions {...tableData}>
                 <DataTable
                     columns={columns}
-                    data={itemsData}
+                    data={data}
                     noHeader
                     defaultSortField="id"
                     defaultSortAsc={false}
@@ -108,6 +140,7 @@ const ItemDetail = () => {
                     pagination
                     striped
                 />
+                </DataTableExtensions>
             </Container>
             {/* <Item/> */}
         </Fragment>

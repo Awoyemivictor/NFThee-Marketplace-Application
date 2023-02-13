@@ -18,7 +18,7 @@ const CollectionDetail = () => {
 
     const [data, setdata] = useState([]);
     useEffect(() => {
-        axios.get(`http://192.168.1.4:8002/api/getCollection`)
+        axios.get(`http://192.168.1.4:8002/api/getAll`)
              .then(response => setdata(response.data.data))
              .finally(() => setLoading(false))
      
@@ -208,6 +208,8 @@ axios.get(`http://192.168.1.4:8002/api/getCollection/update?id=${collections._id
 .then(response => console.log(response.data.data))
 .finally(() => setLoading(false))
 }
+
+
     const handleViewCollection = collections => {
         history.push(`${process.env.PUBLIC_URL}/dashboard/view/collectionSingle?id=${collections._id}`, {
             state: {

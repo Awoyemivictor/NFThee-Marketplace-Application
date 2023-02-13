@@ -45,7 +45,7 @@ function ExploreNft() {
     }
     const { checked } = e.target;
     const j = e.target.name;
-
+console.log(checked,j,e.target.name,name,"expolorenft")
     //for checkbox checked or unchecked
     if (checked) {
       setFilterSearch((state) => [...state, { [e.target.name]: name }]);
@@ -58,6 +58,9 @@ function ExploreNft() {
     }
     if (checked == false && j === "singleItem") {
       setFilterSearch((state) => state.filter((el) => el.singleItem != name));
+    }
+    if (checked == false && j === "categories") {
+      setFilterSearch((state) => state.filter((el) => el.categories != name));
     }
   };
 
@@ -108,6 +111,9 @@ function ExploreNft() {
     const singleItemArr = filterSearch.filter((obj) =>
       obj.hasOwnProperty("singleItem")
     );
+    const categoriesArr = filterSearch.filter((obj) =>
+    obj.hasOwnProperty("categories")
+  );
     let url = "/explorenft?";
 
     const addQueryParam = (paramName, arr) => {
@@ -117,7 +123,7 @@ function ExploreNft() {
       url += `${paramName}=${paramValues}&`;
       setQueryParamChanged(true)
     };
-
+    addQueryParam("categories", categoriesArr);
     addQueryParam("collection", collectionArr);
     addQueryParam("singleItem", singleItemArr);
     addQueryParam("blockChain", blockChainArr);
@@ -134,7 +140,7 @@ function ExploreNft() {
     setQueryParamChanged(true)
 
     instance
-      .get("/api/all" + window.location.search)
+      .get("api/all" + window.location.search)
       .then((response) => setNftData(response.data.data))
       .finally(() => setIsLoading(false));
   }, [filterSearch, searchText, serachButton]);
@@ -197,7 +203,7 @@ function ExploreNft() {
   //   });
   //   if (filteredArray.length) setFilteredData([...filteredArray]);
   // }, [searchText]);
-
+  
   console.info(minPriceInput);
   console.info(maxPriceInput);
   console.log(searchText);

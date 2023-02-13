@@ -46,10 +46,11 @@ const [like,setLike]=useState([])
     }
   };
 
+
   return (
     <div className="row">
       {isModalOpen && <ModalBuynft onRequestClose={toggleModal} />}
-      {slice.map((collection, index) => {console.log(collection._id,"explorenftRow id")
+      {slice.map((collection, index) => {
         return (
           <div className="col-12 col-sm-3 " key={index}>
               <Link to={`/exploredetail/${collection._id}`}>

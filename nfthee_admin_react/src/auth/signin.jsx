@@ -47,7 +47,7 @@ const Signin = (props) => {
   useEffect(() => {
     const user = localStorage.getItem("isUser");
     if (user && user != "null") {
-      history.push("/blog/blogPost");
+      history.push("/dashboard/default");
     }
   }, []);
 
@@ -88,10 +88,10 @@ const Signin = (props) => {
 
     setLoading(true);
     try {
-      instance
+   await   instance
         .post("/api/user/login", data)
         .then((res) => {
-          console.log(res.data);
+          console.log('<><><><><<>:>:LKK',res.data);
           console.log(res.data.message);
           if (res.data && res.data.success === true) {
             localStorage.setItem("isUser", true);

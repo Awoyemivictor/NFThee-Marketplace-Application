@@ -18,6 +18,7 @@ const nftSchema = new Schema(
     },
     name: {
       type: String,
+      require:true,
     },
     designation: {
       type: String,
@@ -30,6 +31,11 @@ const nftSchema = new Schema(
     },
     chooseCategory: {
       type: String,
+      require:true,
+    },
+    chooseType: {
+      type: String,
+      required:true
     },
     chooseBlockchain: {
       type: String,
