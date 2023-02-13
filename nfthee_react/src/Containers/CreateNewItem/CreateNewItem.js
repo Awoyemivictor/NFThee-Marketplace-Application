@@ -184,6 +184,7 @@ const CreateNewItem = () => {
     name: '',
     symbol: '',
     description: '',
+    chooseType: '',
     logo_image: {},
     featured_image: {},
     banner_image: {},
@@ -865,8 +866,9 @@ const CreateNewItem = () => {
                                 <input
                                   type='radio'
                                   name='chooseType'
-                                  value='single'
+                                  value='item single'
                                   className='card-input-element'
+                              onChange={handleItemChange}
                                   defaultChecked
                                 />
                                 <div className='panel card-input m-0'>
@@ -893,8 +895,10 @@ const CreateNewItem = () => {
                                   // onChange={handleRadioChange}
                                   type='radio'
                                   name='chooseType'
-                                  value='multiple'
+                                  value='item multiple'
                                   className='card-input-element'
+                              onChange={handleItemChange}
+
                                 />
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
@@ -1459,8 +1463,10 @@ const CreateNewItem = () => {
                             <input
                               type='radio'
                               name='chooseType'
-                              value='single'
+                              value='collection single'
                               className='card-input-element'
+                            onChange={handleCollectionChange}
+
                               defaultChecked
                             />
                             <div className='panel card-input m-0'>
@@ -1487,8 +1493,10 @@ const CreateNewItem = () => {
                               // onChange={handleRadioChange}
                               type='radio'
                               name='chooseType'
-                              value='multiple'
+                              value='collection multiple'
                               className='card-input-element'
+                            onChange={handleCollectionChange}
+
                             />
                             <div className='panel card-input m-0'>
                               <div className='panel-body d-flex'>

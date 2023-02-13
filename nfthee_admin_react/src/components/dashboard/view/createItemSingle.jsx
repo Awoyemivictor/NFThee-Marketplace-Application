@@ -1,96 +1,108 @@
 import React, {Fragment, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory,useLocation} from "react-router-dom";
 import Breadcrumb from "../../common/breadcrumb.component";
-import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import {Container} from "reactstrap";
-import {useParams} from "react-router-dom";
+// import {Container} from "reactstrap";
+import moment from 'moment';
 
 import Swal from "sweetalert2";
 import Loader from "./loader";
 import {toast} from "react-toastify";
 import axios from "axios";
 import instance from "../../../axios";
-
+import {
+	Container,
+	Row,
+	Col,
+	Card,
+	CardHeader,
+	CardBody,
+	Button,
+	ListGroup,
+	ListGroupItem,
+	TabContent,
+	TabPane,
+	Media,
+	Form,
+	FormGroup,
+} from 'reactstrap';
 const ItemSingle = () => {
     let history = useHistory();
     // debugger
-    const {params} = useParams();
-    console.log(params);
-
+    const location = useLocation();
+    const _ID = (location.state.state._id);
     const [data, setdata] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const columns = [
-        {
-            name: " ID",
-            selector: "_id",
-            sortable: true,
-            emptyValue: () => <em>null</em>
-        },
-        {
-            name: "Title",
-            selector: "title",
-            sortable: true,
-            emptyValue: () => <em>null</em>
+    // const columns = [
+    //     {
+    //         name: " ID",
+    //         selector: "_id",
+    //         sortable: true,
+    //         emptyValue: () => <em>null</em>
+    //     },
+    //     {
+    //         name: "Title",
+    //         selector: "name",
+    //         sortable: true,
+    //         emptyValue: () => <em>null</em>
 
-        },
-        {
-            name: "Author",
-            selector: "author_name",
-            sortable: true,
-        },
-        {
-            name: "Sub Description",
-            selector: "sub_description",
-            sortable: true,
-        },
-        {
-            name: "Dscription",
-            selector: "description",
-            sortable: true,
-        },
-        {
-            name: "Posting",
-            selector: "date_of_posting",
-            sortable: true,
-        },
-        {
-            name: "Status",
-            selector: "status",
-            sortable: true,
-        },
-        {
-            name: "Meta Tag",
-            selector: "meta_tag",
-            sortable: true,
-        },
-        {
-            name: "meta Title",
-            selector: "meta_title",
-            sortable: true,
-        },
-        {
-            name: "Meta Description",
-            selector: "meta_description",
-            sortable: true,
-        },
-        {
-            name: "keyword tag",
-            selector: "keyword_tag",
-            sortable: true,
-        },
-        {
-            name: "created At",
-            selector: "createdAt",
-            sortable: true,
-        },
-        {
-            name: "updated At",
-            selector: "updatedAt",
-            sortable: true,
-        },
+    //     },
+    //     {
+    //         name: "Author",
+    //         selector: "author_name",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Sub Description",
+    //         selector: "sub_description",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Dscription",
+    //         selector: "description",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Posting",
+    //         selector: "date_of_posting",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Status",
+    //         selector: "status",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Meta Tag",
+    //         selector: "meta_tag",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "meta Title",
+    //         selector: "meta_title",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "Meta Description",
+    //         selector: "meta_description",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "keyword tag",
+    //         selector: "keyword_tag",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "created At",
+    //         selector: "createdAt",
+    //         sortable: true,
+    //     },
+    //     {
+    //         name: "updated At",
+    //         selector: "updatedAt",
+    //         sortable: true,
+    //     },
         // {
         //   name: "Action",
         //   selector: "_id",
@@ -122,24 +134,23 @@ const ItemSingle = () => {
         //     </div>
         //   ),
         // },
-    ];
+    // ];
 
 
-    const tableData = {
-        data,
-        columns,
-    };
-
+    // const tableData = {
+    //     data,
+    //     columns,
+    // };
     useEffect(() => {
         // if (loading) {
-        axios.post(`http://192.168.0.105:2022/api/nftteam/read?id=${params}`).then((res) => {
+        axios.get(`http://192.168.1.4:8002/api/getItem/read?id=${_ID}`).then((res) => {
             if (res.data) {
-                setdata(res.data.ress);
-                console.log(res.data);
+                setdata(res.data.data);
+                console.log("hsvbadjhvsdjhbahiuegdibsdjkb",res.data);
                 setLoading(false);
             }
         });
-        // }
+       
     }, []);
 
 //   const deleteBlog = (e) => {
@@ -155,26 +166,163 @@ const ItemSingle = () => {
 
     return (
         <Fragment>
-            <Breadcrumb title="Created Item Details" parent="view"/>
-            {/* {loading ? (
-        <Loader />
-      ) : ( */}
-            <Container fluid={true}>
-                <DataTableExtensions {...tableData}>
-                    <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        highlightOnHover
-                        pagination
-                        striped
-                    />
-                </DataTableExtensions>
-            </Container>
-            {/* )} */}
-        </Fragment>
+        <Breadcrumb title="Collection Detail" parent="Base" />
+        <Container fluid={true}>
+            <Row>
+                <Col sm="12" xl="12">
+                    <Card>
+                        <CardHeader>
+                            <h5>Collection View</h5>
+                        </CardHeader>
+                        
+                            <CardBody>
+                                <Row>
+                                    <Col md="12">
+                                        <Form className="theme-form">
+                                           
+                                           
+                                        <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Uploaded File:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <img alt="" src="" height="100px" width="100px"/>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Name:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.name}</p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Blockchain:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.chooseBlockchain}</p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Status:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.status}</p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Description:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.designation}</p>
+                                                    {/* <CKEditors
+                                                        activeclassName="p10"
+                                                        content={content}
+                                                        events={{
+                                                            change: onChange,
+                                                        }}
+                                                    /> */}
+                                                </div>
+                                            </FormGroup>
+
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Created At:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{moment(data.createdAt).format('DD/MM/YYYY')}</p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Updated At:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{moment(data.updatedAt).format('DD/MM/YYYY')}</p>
+                                                </div>
+                                            </FormGroup>
+
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Date Of Posting:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>
+                                                        {moment(data.date_of_posting).format(
+                                                            'DD/MM/YYYY'
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Date Of Publishing:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>
+                                                        {moment(data.date_of_publishing).format(
+                                                            'DD/MM/YYYY'
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Keyword Tag:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left ">
+                                                    <p>{data.keyword_tag}</p>
+                                                </div>
+                                            </FormGroup>
+                                        </Form>
+                                        {/* <h6>Seo</h6> */}
+                                        <Form className="theme-form">
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Meta Title:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.meta_title}</p>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Link:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <a>{data.links}</a>
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup className="form-row">
+                                                <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                                                    Payment Token:
+                                                </h6>
+                                                <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                                                    <p>{data.payment_token}</p>
+                                                </div>
+                                            </FormGroup>
+                                            
+                                           
+                                        </Form>
+                                    </Col>
+                                </Row>
+                                <Button
+                color="primary"
+                onClick={() => history.goBack()}
+              >
+                Back
+              </Button>
+                            </CardBody>
+                
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    </Fragment>
     );
 };
 
