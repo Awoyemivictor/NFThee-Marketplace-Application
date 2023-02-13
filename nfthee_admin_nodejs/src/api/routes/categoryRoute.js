@@ -7,7 +7,7 @@ const {
 const router = express.Router();
 const {
   addCategory,
-  deleteCategory,
+  deleteCategory, 
   getCategory,
   updateCategory,
   getSuggestion,

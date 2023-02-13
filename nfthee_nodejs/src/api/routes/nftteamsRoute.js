@@ -12,6 +12,7 @@ const {
     read_nftStore,
     upadte_nftStore,
     delete_nftStore,
+    getAllItemInfo,
     getItemInfo,
     read_getItemInfo,
     update_getItemInfo,
@@ -24,6 +25,7 @@ router.post('/image', imageUpload.single('fileName'), upload_image);
 router.get('/read', read_nftStore);
 router.post('/update', upload.single('uploadFile'), upadte_nftStore);
 router.post('/delete', delete_nftStore);
+router.get('/admin/getAllItem', getAllItemInfo);
 router.get('/getItem', getItemInfo);
 router.get('/getItem/read', read_getItemInfo);
 router.get('/getItem/update', update_getItemInfo);

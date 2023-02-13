@@ -23,8 +23,8 @@ exports.indexAll = async (req, res) => {
 
 exports.createCollectionInfo = async (req, res) => {
   try {
-    let user = req.body.user;
-    // console.log(userId);
+    // let user = req.body.user;
+    // // console.log(userId);
     // //console.log('req.files', req.files);
     // let body = req.body;
     // console.log(body)
@@ -46,10 +46,25 @@ exports.createCollectionInfo = async (req, res) => {
 exports.getCollectionInfo = async (req, res) => {
   try {
     
+    let result = await createCollection.find({ status: 'verified' });
+    
+    return {
+      message: 'data find successfully.',
+      status: true,
+      data: result,
+      
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.getAllInfo = async (req, res) => {
+  try {
+    
     let result = await createCollection.find({});
     
     return {
-      message: 'create item added successfully.',
+      message: 'data find successfully.',
       status: true,
       data: result,
       
@@ -63,7 +78,7 @@ exports.read_getCollectionInfo = async (req, res) => {
     let userId = req.query.id;
     let result = await createCollection.findOne({_id:userId});
     return {
-      message: 'create item added successfully.',
+      message: 'data find successfully.',
       status: true,
       data: result,
       
@@ -77,7 +92,7 @@ exports.update_getCollectionInfo = async (req, res) => {
     let userId = req.query.id;
     let result = await createCollection.findOneAndUpdate({_id:userId}, {$set: {status:"verified"}});  
     return {
-      message: 'create item added successfully.',
+      message: 'status updated successfully.',
       status: true,
       data: result,
       

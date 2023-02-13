@@ -8,7 +8,7 @@ exports.addCategory = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+} 
 
 exports.updateCategory = async (req, res, next) => {
     try {
