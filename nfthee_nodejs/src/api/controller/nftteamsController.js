@@ -18,6 +18,14 @@ exports.getItemInfo = async (req, res, next) => {
         next(error);
     }
 } 
+exports.getAllItemInfo = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.getAllItemInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+} 
 
 exports.read_getItemInfo = async (req, res, next) => {
     try {

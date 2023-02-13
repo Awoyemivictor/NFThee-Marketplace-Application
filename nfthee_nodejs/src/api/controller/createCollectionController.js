@@ -47,6 +47,14 @@ exports.getCollectionInfo = async (req, res, next) => {
         next(error);
     }
 }
+exports.getAllInfo = async (req, res, next) => {
+    try {
+        const data = await createCollectionService.getAllInfo(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.read_getCollectionInfo = async (req, res, next) => {
     try {
         const data = await createCollectionService.read_getCollectionInfo(req);

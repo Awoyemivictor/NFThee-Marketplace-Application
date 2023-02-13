@@ -9,7 +9,14 @@ exports.adminBlog = async (req, res, next) => {
         next(error);
     }
 }
-
+exports.addAdmin = async (req, res, next) => {
+    try {
+        const data = await adminService.addAdmin(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 exports.all_blog = async (req, res, next) => {
@@ -62,7 +69,7 @@ exports.loginUser = async (req, res, next) => {
             return errorResponseBadReq(res, data.data, data.message);
         }
     } catch (error) {
-        console.log('error',error)
+        // console.log('error',error)
         next(error);
     }
 }
