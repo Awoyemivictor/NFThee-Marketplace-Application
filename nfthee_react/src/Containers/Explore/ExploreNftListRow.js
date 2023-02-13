@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation, initReactI18next } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ModalBuynft } from '../../Components/Layout/Modal';
@@ -32,10 +32,11 @@ const ExploreNftListRow = ({ data }) => {
     }
   };
 
+
   return (
     <div className="row">
       {isModalOpen && <ModalBuynft onRequestClose={toggleModal} />}
-      {slice.map((collection, index) => {console.log(collection._id,"explorenftRow id")
+      {slice.map((collection, index) => {
         return (
           <div className="col-12 col-sm-3 " key={index}>
               <Link to={`/exploredetail/${collection._id}`}>
