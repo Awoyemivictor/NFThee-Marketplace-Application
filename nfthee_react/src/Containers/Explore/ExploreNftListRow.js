@@ -11,6 +11,7 @@ const ExploreNftListRow = ({ data }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 const [like,setLike]=useState([])
+const [isLiked, setIsLiked] = useState(false);
 
   const [isModalOpen, setModalIsOpen] = useState(false);
   const toggleModal = () => {
@@ -21,16 +22,18 @@ const [like,setLike]=useState([])
   const slice = data.slice(0, noOfElement);
 
   const handleAddFavorite = (collection) => {
-    
-    const request={
-      postId:collection._id,
-      type:'like'
+     dispatch(setFavorite(collection));
+     const requestBody={
+      userId:"63e78caf2acaaee14ca0c8d9",
+      postId:collection._id
     }
-    alert('warn')
-    dispatch(setFavorite(collection));
-    axios.post("http://localhost:8002/api/insertLikes",request)
-    .then((res)=>
-    setLike(res.data))
+    const apiUrl=isLiked?'http://localhost:8002/api/removeLikes':'http://localhost:8002/api/insertLikes'
+    axios.post(apiUrl,requestBody).then(response=>{
+      setLike(response.data);
+    }).catch(error=>{
+      console.log(error);
+    })
+    
 
 };
 
@@ -123,7 +126,7 @@ const [like,setLike]=useState([])
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
                         >
-                          <i className="ri-heart-line me-1" /> 25
+                          <i className={isLiked ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>75
                         </span>
                       </button>
                     </div>
