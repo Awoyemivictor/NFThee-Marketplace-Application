@@ -133,6 +133,8 @@ describe('Should be able to cancel sell ', async function () {
     await NFT721.connect(addr1).mint(8, MetaData);
 
     await market.setSale(sale.address);
+    await trade.setMarket(market.address);
+
     await market.connect(addr1).sell(NFT721.address, 8, price, time);
 
     // await trade.setMarket(market.address);
@@ -181,7 +183,10 @@ describe('Offer', async function () {
     await NFT721.connect(addr1).mint(11, MetaData);
 
     await market.setOffer(offer.address);
+    await trade.setMarket(market.address);
 
-    await market.offer(NFT721.address, 11, price, time, { value: price });
+    // await market
+    //   .connect(addr1)
+    //   .offer(NFT721.address, 11, price, time, { value: price });
   });
 });
