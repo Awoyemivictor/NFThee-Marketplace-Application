@@ -170,8 +170,8 @@ function WalletLogin() {
             });
             localStorage.setItem('TokenData', JSON.stringify(accounts));
 
-            history.push('/');
-            // window.location.href = "/"
+            // history.push('/');
+            window.location.href = "/"
           } else {
           }
         });

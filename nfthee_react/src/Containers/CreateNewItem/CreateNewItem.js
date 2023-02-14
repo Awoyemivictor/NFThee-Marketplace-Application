@@ -8,6 +8,7 @@ import { useAppSelector } from '../../hooks/useRedux';
 import Swal from 'sweetalert2';
 import { handleCollectionCreation, handleListNFTSale, handleNFTCreation } from '../../Config/sendFunctions';
 import { bscTest, ethTest, polyTest } from '../../Config/chains';
+import axios from 'axios';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -172,22 +173,17 @@ const CreateNewItem = () => {
       //$('.btn-select').attr('value', 'en');
     }
   };
-
+  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'));
+  console.log(_id,"id on the create ")
   const [collectionData, setCollectionData] = useState({
-    user: {
-      id: user._id,
-      user_name: user.user_name,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email_address,
-    },
+   
     name: '',
     symbol: '',
     description: '',
     chooseType: '',
-    logo_image: {},
-    featured_image: {},
-    banner_image: {},
+    logo_image: '',
+    featured_image: '',
+    banner_image: '',
     url: '',
     category: '',
     website: '',
@@ -196,6 +192,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
+    created_by:_id,
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -203,13 +200,7 @@ const CreateNewItem = () => {
   });
 
   const initialDataState = {
-    user: {
-      id: user._id,
-      user_name: user.user_name,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email_address,
-    },
+   
     name: '',
     symbol: '',
     chooseType: '',
@@ -240,6 +231,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
+    created_by:_id,
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -306,7 +298,7 @@ const CreateNewItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       const arr = [];
-      await instance.get('/api/createCollection/all').then((response) => {
+      await axios.get('http://192.168.1.4:8002/api/createCollection/all').then((response) => {
         let result = response.data.data;
         result.map((collection) => {
           // console.info(collection)
@@ -335,7 +327,7 @@ const CreateNewItem = () => {
 
         setItemData({
           ...itemData,
-          uploadFile: data,
+          uploadFile: data.filename,
         });
       });
   };
@@ -351,36 +343,38 @@ const CreateNewItem = () => {
       collectionData.blockchain
     );
 
-    const contractAddress = await handleCollectionCreation(
-      collectionData.blockchain,
-      true,
-      collectionData.name,
-      collectionData.symbol,
-      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-      collectionData.creator_earnings
-    );
-    console.log(contractAddress);
-    await handleNFTCreation(contractAddress)
-    // await instance
-    //   .post('/api/createCollection', collectionData)
-    //   .then((response) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'success',
-    //       title: 'Successful',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'error',
-    //       title: 'Try to create again',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   });
+    // const contractAddress = await handleCollectionCreation(
+    //   collectionData.blockchain,
+    //   true,
+    //   collectionData.name,
+    //   collectionData.symbol,
+    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+    //   collectionData.creator_earnings
+    // );
+    // console.log(contractAddress);
+    // await handleNFTCreation(contractAddress)
+    
+    await 
+    axios
+      .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
+      .then((response) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Successful',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Try to create again',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   };
 
   const handleNFTListing = async()=>{
@@ -416,8 +410,8 @@ const CreateNewItem = () => {
     const post = itemData;
     post.putOnMarketplace = data;
 
-    instance
-      .post('/api/store', post)
+    axios
+      .post('http://192.168.1.4:8002/api/store', post)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -576,30 +570,30 @@ const CreateNewItem = () => {
   const [logoImage, setLogoImage] = useState(null);
   const handleLogoImage = (e) => {
     const formData = new FormData();
-    formData.append('fileName', e.target.files[0]);
-    instance
-      .post('/api/collectionImage', formData)
+    formData.append('logo_image', e.target.files[0]);
+    // instance
+     axios .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setLogoImage(URL.createObjectURL(e.target.files[0]));
         setCollectionData({
           ...collectionData,
-          logo_image: data,
+          logo_image: data.logo_image,
         });
       });
   };
   const [bannerImage, setBannerImage] = useState(null);
   const handleBannerImage = (e) => {
     const formData = new FormData();
-    formData.append('fileName', e.target.files[0]);
-    instance
-      .post('/api/collectionImage', formData)
+    formData.append('banner_image', e.target.files[0]);
+    // instance
+     axios .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setBannerImage(URL.createObjectURL(e.target.files[0]));
         setCollectionData({
           ...collectionData,
-          banner_image: data,
+          banner_image: data.banner_image,
         });
       });
   };
@@ -607,15 +601,15 @@ const CreateNewItem = () => {
   const [featuredImage, setFeaturedImage] = useState(null);
   const handleFeaturedImage = (e) => {
     const formData = new FormData();
-    formData.append('fileName', e.target.files[0]);
-    instance
-      .post('/api/collectionImage', formData)
+    formData.append('featured_image', e.target.files[0]);
+    // instance
+    axios  .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setFeaturedImage(URL.createObjectURL(e.target.files[0]));
         setCollectionData({
           ...collectionData,
-          featured_image: data,
+          featured_image: data.featured_image,
         });
       });
   };
@@ -1529,7 +1523,7 @@ const CreateNewItem = () => {
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box1 overflow-hidden'>
-                            {collectionData.logo_image.filename ? (
+                            {logoImage? (
                               <img
                                 src={logoImage}
                                 alt=''
@@ -1537,7 +1531,7 @@ const CreateNewItem = () => {
                               />
                             ) : (
                               <img
-                                src='assets/images/icons/picture-icon.png'
+                                src='/assets/images/icons/picture-icon.png'
                                 alt=''
                                 className='img-fluid'
                               />
@@ -1561,7 +1555,7 @@ const CreateNewItem = () => {
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box2 overflow-hidden'>
-                            {collectionData.featured_image.filename ? (
+                            {featuredImage ? (
                               <img
                                 src={featuredImage}
                                 alt=''
@@ -1569,7 +1563,7 @@ const CreateNewItem = () => {
                               />
                             ) : (
                               <img
-                                src='assets/images/icons/picture-icon.png'
+                                src='/assets/images/icons/picture-icon.png'
                                 alt=''
                                 className='img-fluid'
                               />
@@ -1594,7 +1588,7 @@ const CreateNewItem = () => {
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box3 overflow-hidden'>
-                            {collectionData.banner_image.filename ? (
+                            {bannerImage ? (
                               <img
                                 src={bannerImage}
                                 alt=''
@@ -1602,7 +1596,7 @@ const CreateNewItem = () => {
                               />
                             ) : (
                               <img
-                                src='assets/images/icons/picture-icon.png'
+                                src='/assets/images/icons/picture-icon.png'
                                 alt=''
                                 className='img-fluid'
                               />
