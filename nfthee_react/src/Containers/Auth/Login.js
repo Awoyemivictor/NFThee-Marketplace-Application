@@ -137,7 +137,9 @@ function Login() {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + didToken,
             }
-        }).then(response => dispatch(setUser(response.data.data)))
+        }).then(response => {
+        localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+            dispatch(setUser(response.data.data))})
             .catch(err => {
                 Swal.fire({
                     position: "top-center",

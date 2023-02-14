@@ -121,7 +121,9 @@ export const Navbar = () => {
     LoginStatis === null ? true : false && (window.location.href = '/')
   );
   const logOut = () => {
-    localStorage.removeItem('TokenData');
+    localStorage.removeItem('TokenData');    
+    localStorage.removeItem('userLoggedIn');
+
     window.location.href = '/';
   };
 
@@ -321,7 +323,7 @@ export const Navbar = () => {
                         <div className="drop-heading">
                           <a href="#" style={{ width: '50px' }}>
                             <img
-                              src="images/avatar1.png"
+                              src="/images/avatar1.png"
                               alt=""
                               className="img-fluid user-avatar ms-0"
                             />

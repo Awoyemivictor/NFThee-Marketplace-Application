@@ -43,7 +43,7 @@ function MagicLink() {
               timer: 1500
             })
             localStorage.setItem('LoginInfo', JSON.stringify(response.data));
-            console.log(response.data.accessToken)
+            console.log("setettettetetteet",response.data)
 
             const token = response.data.accessToken.split(" ")[1];
             console.log(token)

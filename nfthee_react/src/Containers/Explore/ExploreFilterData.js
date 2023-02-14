@@ -473,9 +473,9 @@ const images = [
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {name ? name : '@Lorihart'}</span> </div>
+                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {name ? name : '@Lorihart'}</span> </div>
                     <div className="card-media">
-                       <img src={uploadFile?.filename?`${process.env.REACT_APP_BASE_URL}/images/${uploadFile?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
+                       <img src={uploadFile?.filename?`${process.env.REACT_APP_BASE_URL}/fileUpload/${uploadFile?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
 
                        <img  alt="" className="img-fluid" />
 
@@ -486,7 +486,7 @@ const images = [
                     </div>
                     <div className="meta-info m-t-24">
                         <div className="meta-info-wrapper">
-                            <div className="bid-title mb-1"> <span>{designation}</span> </div>
+                            <div className="c-card-detail"> <span>{designation}</span> </div>
                             <div className="eth-price">
                                 <h6> <img src="assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace?.price} </h6>
                             </div>

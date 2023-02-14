@@ -3,6 +3,7 @@ import { NavLink, Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
+import axios from "axios";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -75,6 +76,14 @@ const Profile = () => {
   //   }, 1500);
   // }
   const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
+const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+const[collectionData,setCollectionData]=useState([])
+  useEffect(()=>{
+
+    axios.get(`http://192.168.1.4:8002/api/userCollections?id=${_id}`)
+    .then(res=>( setCollectionData(res.data.data)))
+
+  },[])
 
   const handleChange = e => {
     if (e.target.files.length) {
@@ -325,7 +334,7 @@ const Profile = () => {
                       aria-selected="false"
                     >
                       <img src="assets/images/icons/pic-icon.png" alt="" />
-                      Collections (05)
+                      Collections ({collectionData?.length})
                     </button>
                     <button
                       className="nav-link"
@@ -667,10 +676,92 @@ const Profile = () => {
                     2
                   </div>
                   <div className="tab-pane fade" id="created">
-                    3
+                   3 
                   </div>
                   <div className="tab-pane fade" id="collections">
-                    4
+                    4<div className="row">
+                    {collectionData.map((collection, index) => {
+        return (
+          <div className="col-12 col-sm-3 " key={index}>
+              <div className="live-auction-area">
+                <div className="auction-card-two mb-4 ">
+                  <div className="card-body">
+                    <div className="auction-create-by">
+                      <img
+                        src="assets/images/img2.png"
+                        alt=""
+                        className="avatar-icon img-fluid"
+                      />
+                      <span className="creator-name">
+                        {console.log({ collection })}
+                        Created By @
+                        {collection?.name ? collection?.name : 'undefined'}
+                      </span>
+                    </div>
+                    <div className="card-media">
+              <Link to={`/exploredetail/${collection._id}`}>
+
+                        <img
+                          // src={'/assets/images/featured-img7.jpg'}
+                          src={
+                            collection?.uploadFile
+                              ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection?.uploadFile?.filename}`
+                              : '/assets/images/featured-img7.jpg'
+                          }
+                          alt=""
+                          className="img-fluid"
+                        />
+          </Link>
+                    </div>
+                    <div className="card-title mb-2 pb-2 border-bottom-0">
+                      <div className='c-card-detail'>
+                        <h5>
+                          <a href="#">{collection?.name}</a>
+                        </h5>
+                        <h6>
+                          {collection?.about ? collection?.about : 'undefined'}
+                        </h6>
+                      </div>
+                      <div className="eth-price">
+                        <div className="bid-title">
+                          <span></span>
+                        </div>
+                        <h6>
+                          <img
+                            src="assets/images/icons/ethereum.png"
+                            alt=""
+                            className="me-1"
+                          />
+                          {!collection?.putOnMarketplace ? (
+                            <small className="font-weight-light">Bids</small>
+                          ) : collection?.putOnMarketplace?.price ? (
+                            <span>{collection?.putOnMarketplace?.price}</span>
+                          ) : (
+                            <span>
+                              {collection?.putOnMarketplace?.minimumBid}
+                            </span>
+                          )}
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="meta-info">
+                        {/* Buy Now */}
+                      {/* <button className="wishlist-button ms-auto" tabIndex={0}>
+                        <span
+                          className="number-like d-flex"
+                          onClick={() => handleAddFavorite(collection)}
+                        >
+                          <i className="ri-heart-line me-1" /> 25
+                        </span>
+                      </button> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        );
+      })}
+      </div>
                   </div>
                   <div className="tab-pane fade" id="liked">
                     5

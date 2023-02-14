@@ -145,7 +145,7 @@ useEffect(async() => {
   <section className="explore-filter-section bg-section pt-0" >
    <div className="explore-banner-area">
    <div className="banner-image">
-          <img src={collections?.banner_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.banner_image?.filename}`:"assets/images/explore-bg.png"} alt="" className="img-fluid" />
+          <img src={`${process.env.REACT_APP_BASE_URL}/fileUpload/${collections.banner_image?.filename}`||"/assets/images/explore-bg.png"} alt="" className="img-fluid" />
           <div className="d-lg-none d-block">
             <div className="col-lg-12 col-md-12 mobile-dropdown">
               <div className="d-flex justify-content-between align-items-center mt-3">
@@ -156,17 +156,17 @@ useEffect(async() => {
                   <div className="user-more-detail">
                     <div className="more">
                       <div className="icon dropdown">
-                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="assets/images/icons/three-dots.png" alt="" /></a>
+                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="/assets/images/icons/three-dots.png" alt="" /></a>
                         <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/discord-icon.png" /></span> Discord </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/twitter-icon.png" /></span> Twitter </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/instagram-icon.png" /></span> Instagram </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/youtube-icon.png" /></span> Youtube </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/mail-icon.png" /></span> Mail </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/etherscan-logo.png" /></span> Etherscan </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/rotate.png" /></span> Refresh </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/report.png" /></span> Report </a>
-                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/home.png" /></span>Website </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/discord-icon.png" /></span> Discord </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/twitter-icon.png" /></span> Twitter </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/instagram-icon.png" /></span> Instagram </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/youtube-icon.png" /></span> Youtube </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/mail-icon.png" /></span> Mail </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/etherscan-logo.png" /></span> Etherscan </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/rotate.png" /></span> Refresh </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/report.png" /></span> Report </a>
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/home.png" /></span>Website </a>
                         </div>
                       </div>
                     </div>
@@ -182,8 +182,8 @@ useEffect(async() => {
               <div className="user-profile-wrapper">
                 <div className="user-profile-icon">
                   <div className="user-box">
-                    <img src={collections.logo_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.logo_image?.filename}`:"assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
-                    <span className="star-check-icon"><img src="assets/images/icons/star-check.png" alt="" /></span>
+                    <img src={collections.logo_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.logo_image?.filename}`:"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
+                    <span className="star-check-icon"><img src="/assets/images/icons/star-check.png" alt="" /></span>
                   </div>
                 </div>
               </div>
@@ -194,11 +194,11 @@ useEffect(async() => {
                   <div className="explore-social-icon d-lg-flex d-none align-items-center justify-content-end">
                     <div className="border-end me-4 pe-4">
                       <ul>
-                        <li><a href="#" className="icon-box"><img src="assets/images/icons/discord-icon.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="assets/images/icons/youtube-icon2.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="assets/images/icons/mail-icon.png" alt="" /></a>
+                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/discord-icon.png" alt="" /></a></li>
+                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
+                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
+                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
                         </li>
                       </ul>
                     </div>
@@ -207,7 +207,7 @@ useEffect(async() => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon" s>
-                              <a href="#"><img src="assets/images/icons/etherscan-logo.png" alt="" style={{width: "19px"}} /></a>
+                              <a href="#"><img src="/assets/images/icons/etherscan-logo.png" alt="" style={{width: "19px"}} /></a>
                             </div>
                           </div>
                         </div>
@@ -216,7 +216,7 @@ useEffect(async() => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href="#"><img src="assets/images/icons/rotate.png" alt="" style={{width: "19px"}}  /></a>
+                              <a href="#"><img src="/assets/images/icons/rotate.png" alt="" style={{width: "19px"}}  /></a>
                             </div>
                           </div>
                         </div>
@@ -225,12 +225,12 @@ useEffect(async() => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon dropdown">
-                              <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="assets/images/icons/three-dots.png" alt="" /></a>
+                              <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="/assets/images/icons/three-dots.png" alt="" /></a>
                               <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 {/* <a class="dropdown-item" href="#"> <span class="dropdown-icon"><img
-                                                   src="assets/images/icons/share.png"></span> Share </a> */}
-                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/report.png" /></span> Report </a>
-                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/home.png" /></span>Website </a>
+                                                   src="/assets/images/icons/share.png"></span> Share </a> */}
+                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/report.png" /></span> Report </a>
+                                <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/home.png" /></span>Website </a>
                               </div>
                             </div>
                           </div>
@@ -268,7 +268,7 @@ useEffect(async() => {
                       <a href="#">
                         <div className="card" style={{backgroundColor: "transparent"}}>
                           <div className="card-body p-1">
-                            <div className="card-title"><img src="assets/images/icons/ethereum-pink.png" alt="" />
+                            <div className="card-title"><img src="/assets/images/icons/ethereum-pink.png" alt="" />
                             <span className="card-title"> 0.649</span> 
                             </div>
                             <div className="card-text">{t("explore.floor price")}</div>
@@ -281,7 +281,7 @@ useEffect(async() => {
                         <div className="card"style={{backgroundColor: "transparent"}}>
                           <div className="card-body p-1">
                             <div className="card-title">
-                              <img src="assets/images/icons/ethereum-pink.png" alt="" />
+                              <img src="/assets/images/icons/ethereum-pink.png" alt="" />
                               <span className="card-title">  2.4K</span>
                             </div> 
                             
@@ -333,12 +333,12 @@ useEffect(async() => {
                                    <div className="panel-heading d-flex justify-content-between align-items-center mb-4">
                                         <div className="panel-title">
                                             {filter ? 
-                                            <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} /> 
-                                            : <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} /> }  
+                                            <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} /> 
+                                            : <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} /> }  
                                          </div> 
                                          <span><h5>Filter</h5></span>
-                                            <span> {filter ? <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
-                                            : <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
+                                            <span> {filter ? <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
+                                            : <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
                                      </div> 
                                        {isOpen ?
                                         <div className="panel-body">
@@ -355,7 +355,7 @@ useEffect(async() => {
                                <div className="collection-filter filter-sticky">
                                    <div className="panel p-0">
                                        <div className="panel-heading">
-                                           <div className="panel-title filter-border filter-button" onClick={ToggleSidebar}> <img src="assets/images/icons/filter-icon.png" alt="" className="filter-icon " /> </div>
+                                           <div className="panel-title filter-border filter-button" onClick={ToggleSidebar}> <img src="/assets/images/icons/filter-icon.png" alt="" className="filter-icon " /> </div>
                                        </div>
                                    </div>
                                </div>
@@ -364,7 +364,7 @@ useEffect(async() => {
                              
                             {filter ?  
                             <div className="col-lg-12 filter-mobile-wrapper"> 
-                            <button onClick={FilterClose} className="filter_button"><img src="assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
+                            <button onClick={FilterClose} className="filter_button"><img src="/assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
                             </div> : ""}
 
                             <div className={`${isOpen ? 'col-lg-9' :'col-lg-11'} collection-filter-card`} style={{width:`${isOpen ?"" : "94.666667%"}`}}>
@@ -396,8 +396,8 @@ useEffect(async() => {
                                                </div>
                                                <div className="collection-grid-mode">
                                                    <ul className="nav" id="pills-tab" role="tablist">
-                                                       <li className="nav-item" role="presentation"> <a href="#" className="active" id="grid-view" data-bs-toggle="pill" data-bs-target="#pills-grid-view" type="button" role="tab" aria-controls="pills-grid-view" aria-selected="true"> <img src="assets/images/icons/grid-view-pink.png" alt="" className="img-fluid grid-icon1" /> <img src="assets/images/icons/grid-view-gray.png" alt="" className="img-fluid grid-icon2" /> </a> </li>
-                                                       <li className="nav-item" role="presentation"> <a href="#" className="ms-2" id="list-view" data-bs-toggle="pill" data-bs-target="#pills-list-view" type="button" role="tab" aria-controls="pills-list-view" aria-selected="false"> <img src="assets/images/icons/list-view-gray.png" alt="" className="img-fluid grid-icon2 " /> <img src="assets/images/icons/list-view-pink.png" alt="" className="img-fluid grid-icon1" /> </a> </li>
+                                                       <li className="nav-item" role="presentation"> <a href="#" className="active" id="grid-view" data-bs-toggle="pill" data-bs-target="#pills-grid-view" type="button" role="tab" aria-controls="pills-grid-view" aria-selected="true"> <img src="/assets/images/icons/grid-view-pink.png" alt="" className="img-fluid grid-icon1" /> <img src="/assets/images/icons/grid-view-gray.png" alt="" className="img-fluid grid-icon2" /> </a> </li>
+                                                       <li className="nav-item" role="presentation"> <a href="#" className="ms-2" id="list-view" data-bs-toggle="pill" data-bs-target="#pills-list-view" type="button" role="tab" aria-controls="pills-list-view" aria-selected="false"> <img src="/assets/images/icons/list-view-gray.png" alt="" className="img-fluid grid-icon2 " /> <img src="/assets/images/icons/list-view-pink.png" alt="" className="img-fluid grid-icon1" /> </a> </li>
                                                    </ul>
                                                </div>
                                            </div>
@@ -495,11 +495,11 @@ useEffect(async() => {
                                    <div className="panel">
                                    <div className="panel-heading d-flex justify-content-between align-items-center mb-4">
                                     <div className="panel-title">
-                                        {filter ? <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} />
-                                        : <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} />}   </div> 
+                                        {filter ? <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} />
+                                        : <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} />}   </div> 
                                         <span><h5>Filter</h5></span>
-                                        <span> {filter ? <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
-                                        : <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
+                                        <span> {filter ? <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
+                                        : <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
                                      </div>  
                                        {isOpen ?
                                         <div className="panel-body">
@@ -516,14 +516,14 @@ useEffect(async() => {
                                <div className="collection-filter filter-sticky">
                                    <div className="panel p-0">
                                        <div className="panel-heading">
-                                           <div className="panel-title  filter-border" onClick={ToggleSidebar}> <img src="assets/images/icons/filter-icon.png" alt="" className="filter-icon" /> </div>
+                                           <div className="panel-title  filter-border" onClick={ToggleSidebar}> <img src="/assets/images/icons/filter-icon.png" alt="" className="filter-icon" /> </div>
                                        </div>
                                    </div>
                                </div>
                            </div> }  
                                         {filter ?  
                                     <div className="col-lg-12 filter-mobile-wrapper"> 
-                                    <button onClick={FilterClose} className="filter_button"><img src="assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
+                                    <button onClick={FilterClose} className="filter_button"><img src="/assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
                                     </div> : ""}
 
                               <div className={`${isOpen ? 'col-lg-9' :'col-lg-11'} px-lg-0 ps-lg-0 collection-filter-card overflow-hidden`}style={{width:`${isOpen ?"" : "94.666667%"}`}}>
@@ -553,7 +553,7 @@ useEffect(async() => {
                                                    <th scope="col">{t("explore.Quantity")}</th>
                                                    <th scope="col">{t("explore.From")}</th>
                                                    <th scope="col">{t("explore.to")}</th>
-                                                   <th scope="col" className="d-flex align-items-center justify-content-between border-bottom-0">{t("explore.time")} <span className="graph-icon" onClick={()=> setIsRevealPwd(prevState => !prevState)}> <img src="assets/images/icons/graph-icon.png" alt="" className="img-fluid" id="btnColor" /> </span> </th>
+                                                   <th scope="col" className="d-flex align-items-center justify-content-between border-bottom-0">{t("explore.time")} <span className="graph-icon" onClick={()=> setIsRevealPwd(prevState => !prevState)}> <img src="/assets/images/icons/graph-icon.png" alt="" className="img-fluid" id="btnColor" /> </span> </th>
                                                </tr>
                                            </thead>
                                            <tbody>
@@ -597,196 +597,196 @@ useEffect(async() => {
                                                    </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")}<img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")}<img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                                <tr>
-                                                   <td> <img src="assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
-                                                       <div className="d-flex align-items-center"> <img src="assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
+                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
                                                            <h6>$52547.30</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                                            </tbody>
                                        </table>

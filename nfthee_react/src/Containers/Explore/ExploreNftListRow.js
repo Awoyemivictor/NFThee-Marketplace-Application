@@ -11,6 +11,7 @@ const ExploreNftListRow = ({ data }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 const [like,setLike]=useState([])
+const [isLiked, setIsLiked] = useState(false);
 
   const [isModalOpen, setModalIsOpen] = useState(false);
   const toggleModal = () => {
@@ -21,16 +22,19 @@ const [like,setLike]=useState([])
   const slice = data.slice(0, noOfElement);
 
   const handleAddFavorite = (collection) => {
-    
-    const request={
-      postId:collection._id,
-      type:'like'
+     dispatch(setFavorite(collection));
+     const requestBody={
+      userId:"63e78caf2acaaee14ca0c8d9",
+      postId:collection._id
     }
-    alert('warn')
-    dispatch(setFavorite(collection));
-    axios.post("http://localhost:8002/api/insertLikes",request)
-    .then((res)=>
-    setLike(res.data))
+    setIsLiked(true)
+    const apiUrl=isLiked?'http://localhost:8002/api/removeLikes':'http://localhost:8002/api/insertLikes'
+    axios.post(apiUrl,requestBody).then(response=>{
+      setLike(response.data);
+    }).catch(error=>{
+      console.log(error);
+    })
+    
 
 };
 
@@ -53,7 +57,6 @@ const [like,setLike]=useState([])
       {slice.map((collection, index) => {
         return (
           <div className="col-12 col-sm-3 " key={index}>
-              <Link to={`/exploredetail/${collection._id}`}>
               <div className="live-auction-area">
                 <div className="auction-card-two mb-4 ">
                   <div className="card-body">
@@ -70,7 +73,8 @@ const [like,setLike]=useState([])
                       </span>
                     </div>
                     <div className="card-media">
-                      <a href="#">
+              <Link to={`/exploredetail/${collection._id}`}>
+
                         <img
                           // src={'/assets/images/featured-img7.jpg'}
                           src={
@@ -81,7 +85,8 @@ const [like,setLike]=useState([])
                           alt=""
                           className="img-fluid"
                         />
-                      </a>
+          </Link>
+
                     </div>
                     <div className="card-title mb-2 pb-2 border-bottom-0">
                       <div className='c-card-detail'>
@@ -123,14 +128,13 @@ const [like,setLike]=useState([])
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
                         >
-                          <i className="ri-heart-line me-1" /> 25
+                          <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>75
                         </span>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-          </Link>
             </div>
         );
       })}

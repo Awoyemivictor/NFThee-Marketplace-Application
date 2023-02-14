@@ -16,7 +16,7 @@ const Filters = ({
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     instance
-      .get("/api/createCollection/all")
+      .get("/api/getCollection")
       .then((response) => setCollections(response.data.data));
     instance
       .get("/api/getBlockchain")

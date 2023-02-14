@@ -4856,6 +4856,13 @@ a:hover {
   max-width: 200px;
   max-height: 45px;
 }
+.c-card-detail1{
+  overflow: hidden;
+  color:black;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  max-height: 45px;
+}
 
 .blog-card .card-text {
   font: normal normal normal 15px/22px SF Pro Display regular;

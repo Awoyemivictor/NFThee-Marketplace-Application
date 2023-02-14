@@ -11,7 +11,7 @@ function Explore() {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        instance.get("/api/createCollection/all")
+        instance.get("/api/getCollection")
             .then(response => setCollections(response.data.data))
 
         instance.get('/api/getCategory')
