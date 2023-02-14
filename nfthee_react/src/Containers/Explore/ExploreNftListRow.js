@@ -27,6 +27,7 @@ const [isLiked, setIsLiked] = useState(false);
       userId:"63e78caf2acaaee14ca0c8d9",
       postId:collection._id
     }
+    setIsLiked(true)
     const apiUrl=isLiked?'http://localhost:8002/api/removeLikes':'http://localhost:8002/api/insertLikes'
     axios.post(apiUrl,requestBody).then(response=>{
       setLike(response.data);
@@ -56,7 +57,6 @@ const [isLiked, setIsLiked] = useState(false);
       {slice.map((collection, index) => {
         return (
           <div className="col-12 col-sm-3 " key={index}>
-              <Link to={`/exploredetail/${collection._id}`}>
               <div className="live-auction-area">
                 <div className="auction-card-two mb-4 ">
                   <div className="card-body">
@@ -73,7 +73,8 @@ const [isLiked, setIsLiked] = useState(false);
                       </span>
                     </div>
                     <div className="card-media">
-                      <a href="#">
+              <Link to={`/exploredetail/${collection._id}`}>
+
                         <img
                           // src={'/assets/images/featured-img7.jpg'}
                           src={
@@ -84,7 +85,8 @@ const [isLiked, setIsLiked] = useState(false);
                           alt=""
                           className="img-fluid"
                         />
-                      </a>
+          </Link>
+
                     </div>
                     <div className="card-title mb-2 pb-2 border-bottom-0">
                       <div className='c-card-detail'>
@@ -126,14 +128,13 @@ const [isLiked, setIsLiked] = useState(false);
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
                         >
-                          <i className={isLiked ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>75
+                          <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>75
                         </span>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-          </Link>
             </div>
         );
       })}

@@ -6,5 +6,7 @@ export const authLogin = async (email, token) => {
             'Content-Type': 'application/json',
             Authorization: 'Bearer' + token
         }
-    }).then(response => console.info(response))
+    }).then(response =>{
+        localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+        console.info(response)})
 }

@@ -130,13 +130,7 @@ exports.insertLikes = async (req, res) => {
         postId,
         likes: [userId],
       });
-    } else {
-      if (like.likes.includes(userId)) {
-        return {message: "You have already liked this post"};
-      }
-      like.likes.push(userId);
     }
-
     return like.save().then((results)=>{
       const count = like.likes.length;
       return ({message: "Post liked successfully",
@@ -158,13 +152,7 @@ exports.removeLikes = async (req, res) => {
     const postId = req.body.postId;
 
     const like = await likes.findOne({ postId});
-    if (!like) {
-      return {message: "You have not liked this post"};
-    }
-
-    if (!like.likes.includes(userId)) {
-      return {message: "You have not liked this post"};
-    }
+ 
 
     like.likes = like.likes.filter(id => id.toString() !== userId.toString());
     return like.save().then((results)=>{
