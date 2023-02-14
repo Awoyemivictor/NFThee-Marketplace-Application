@@ -12,8 +12,8 @@ let uploadMultiple = upload.fields([
 ]);
 
 // router.post("/addPartner",auth, uploadMultiple, addPartner);
-router.post("/addPartner", uploadMultiple, addPartner);
+router.post("/addPartner",auth, uploadMultiple, addPartner);
 
 router.get("/getPartner", auth,getPartner);
-router.post("/createPageToken", createPageToken);
+router.post("/createPageToken",auth, createPageToken);
 module.exports = router;

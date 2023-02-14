@@ -351,36 +351,36 @@ const CreateNewItem = () => {
       collectionData.blockchain
     );
 
-    const contractAddress = await handleCollectionCreation(
-      collectionData.blockchain,
-      true,
-      collectionData.name,
-      collectionData.symbol,
-      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-      collectionData.creator_earnings
-    );
-    console.log(contractAddress);
-    await handleNFTCreation(contractAddress)
-    // await instance
-    //   .post('/api/createCollection', collectionData)
-    //   .then((response) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'success',
-    //       title: 'Successful',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'error',
-    //       title: 'Try to create again',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   });
+    // const contractAddress = await handleCollectionCreation(
+    //   collectionData.blockchain,
+    //   true,
+    //   collectionData.name,
+    //   collectionData.symbol,
+    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+    //   collectionData.creator_earnings
+    // );
+    // console.log(contractAddress);  
+    // await handleNFTCreation(contractAddress)
+    await instance
+      .post('/api/createCollection', collectionData)
+      .then((response) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Successful',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Try to create again',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   };
 
   const handleNFTListing = async()=>{

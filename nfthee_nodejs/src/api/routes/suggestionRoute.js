@@ -7,6 +7,6 @@ const router = express.Router();
 const {submitSuggestion} = require('../controller').suggestionController;
 
 // router.post("/submitSuggestion", auth, submitSuggestion);
-router.post("/submitSuggestion", submitSuggestion);
+router.post("/submitSuggestion",auth, submitSuggestion);
 
 module.exports = router;

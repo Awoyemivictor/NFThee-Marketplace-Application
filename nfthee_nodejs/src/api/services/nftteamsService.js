@@ -43,6 +43,7 @@ exports.nftStore = async (req) => {
   try {
     console.info(req.body);
     let result = await nftIteams.create(req.body);
+    console.log(result)
     return {
       message: 'Create Item Data Save..........',
       status: true,
@@ -85,7 +86,7 @@ exports.getAllItemInfo = async (req, res) => {
 exports.read_getItemInfo = async (req, res) => {
   try {
     let userId=req.query.id;
-    let result = await nftIteams.findOne({_id:userId});
+    let result = await nftIteams.findOne({_id:userId});;
     
     return {
       message: 'create item added successfully.',

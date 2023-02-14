@@ -9,8 +9,10 @@ const {
   signupDataAll,
   loginOne,
   updateAccountAddress,
+  userCollections,
+  userItems
 } = require('../controller').signupController;
-const {
+const {  
   Multer: { upload },
 } = require('../../utils');
 
@@ -24,6 +26,8 @@ router.get('/signup/all', signupDataAll);
 router.get('/login/email', login);
 router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
+router.get('/userCollections', userCollections);
+router.get('/userItems', userItems);
 
 // router.post("/reg", SignUp)
 

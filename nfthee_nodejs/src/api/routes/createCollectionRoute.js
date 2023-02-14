@@ -24,7 +24,7 @@ let uploadMultiple = upload.fields([
     { name: 'banner_image', maxCount: 1 },
 ]);
 
-router.get('', indexAll)
+router.get('/createCollection/all', indexAll)
 router.post('/collectionImage', imageUpload.single('fileName'), upload_image);
 router.post('/createCollection', uploadMultiple, createCollectionInfo);
 router.get('/createCollection/read', read_createCollectionInfo);

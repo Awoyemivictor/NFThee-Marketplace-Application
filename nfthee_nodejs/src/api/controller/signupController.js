@@ -3,7 +3,7 @@ const { successResponse, errorResponseBadReq, successErrorResponse } =
   require('../helpers').ResponseHelper;
 
 exports.register = async (req, res, next) => {
-  try {
+  try { 
     const data = await signupServices.register(req);
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
@@ -48,6 +48,29 @@ exports.updateAccountAddress = async (req, res, next) => {
   try {
     const data = await signupServices.updateAddress(req);
     return successErrorResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};
+exports.userCollections = async (req, res, next) => {
+  try {
+    const data = await signupServices.userCollections(req)
+    // console.log('<><><><S>S<S><S>S<S<>S<',data);
+    return successResponse(req, res, data.data, data.message)
+    
+    ;
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.userItems = async (req, res, next) => {
+  try {
+    const data = await signupServices.userItems(req)
+    // console.log('<><><><S>S<S><S>S<S<>S<',data);
+    return successResponse(req, res, data.data, data.message)
+    
+    ;
   } catch (error) {
     next(error);
   }

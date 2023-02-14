@@ -2,32 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const create_collection = new Schema(
   {
-    user: {
-      type: Object,
-      require:true,
+    // user: {
+    //   type: Object,
+    //   require:true,
 
-    },
+    // },
     logo_image: {
-      type: Object,
+      type: String,
       require:true,
 
     },
     featured_image: {
-      type: Object,
+      type: String,
       require:true,
 
     },
     banner_image: {
-      type: Object,
-      require:true,
-
-    },
-    category: {
       type: String,
-      require:true,
-    },
-    name: {
-      type: String,
+     
     },
     url: {
       type: String,

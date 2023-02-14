@@ -14,11 +14,11 @@ const {
   deleteSuggestion,
 } = require('../controller').categoryController;
 
-router.post('/addCategory', addCategory);
-router.post('/updateCategory', updateCategory);
-router.get('/getCategory', getCategory);
-router.get('/deleteCategory', deleteCategory);
-router.get('/getSuggestion', getSuggestion);
-router.get('/deleteSuggestion', deleteSuggestion);
+router.post('/addCategory',auth, addCategory);
+router.post('/updateCategory',auth, updateCategory);
+router.get('/getCategory',auth, getCategory);
+router.get('/deleteCategory',auth, deleteCategory);
+router.get('/getSuggestion',auth, getSuggestion);
+router.get('/deleteSuggestion',auth, deleteSuggestion);
 
 module.exports = router;

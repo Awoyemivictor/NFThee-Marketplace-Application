@@ -33,6 +33,7 @@ exports.upload_image = async (req, res, next) => {
 
 exports.createCollectionInfo = async (req, res, next) => {
     try {
+        // console.log(req)
         const data = await createCollectionService.createCollectionInfo(req);
         return successResponse(req, res, data.data, data.message);
     } catch (error) {

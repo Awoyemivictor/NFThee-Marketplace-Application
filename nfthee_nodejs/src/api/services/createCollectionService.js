@@ -24,21 +24,23 @@ exports.indexAll = async (req, res) => {
 exports.createCollectionInfo = async (req, res) => {
   try {
     // let user = req.body.user;
+
     // // console.log(userId);
-    // //console.log('req.files', req.files);
-    // let body = req.body;
+    // console.log('req.files', req.files);
+    let body = req.body;
     // console.log(body)
 
-    // if (req.files.logo_image) body.logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
-    // if (req.files.featured_image) body.featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
-    // if (req.files.banner_image) body.banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
-
-    let addCreateItem = await createCollection.create({user:user});
+    
+    console.log(body.logo_image,"kesfnlekf")
+if(body){
+    let addCreateItem = await createCollection.create(body);
+    console.log(addCreateItem)
     return {
       message: 'create item added successfully.',
       status: true,
-      data: addCreateItem,
+      data: addCreateItem, 
     };
+  }
   } catch (error) {
     throw error;
   }

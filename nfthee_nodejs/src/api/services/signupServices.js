@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { signup } = require('../../models');
-const { sign } = require('crypto');
+
+const { sign } = require('crypto');  
 const { Mail } = require('../../utils');
 const jwt = require('jsonwebtoken');
+const { createCollection } = require('../../models');
+const {nftIteams} = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
 
@@ -11,10 +14,7 @@ exports.signupData = async (req, res) => {
   try {
     let signupDetails = {
       user_name: req.body.user_name,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email_address: req.body.email_address,
-      country: req.body.country,
+      first_name: req.body.first_name,getCollection
     };
 
     // let checkUser = await signup.findOne({user_name:req.body.user_name});
@@ -114,7 +114,7 @@ exports.register = async (req, res) => {
         data: null,
       };
     }
-  } catch (err) {
+0  } catch (err) {
     return err;
   }
 };
@@ -179,6 +179,52 @@ exports.updateAddress = async (req, res) => {
     if (user) {
       return {
         message: 'Address Updated Sucessfully',
+        status: true,
+        data: user,
+      };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+exports.userCollections = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    // const user = await createCollection.find({ created_by: userId ,status:'pending'}); 
+    const user = await createCollection.find({ created_by: userId });
+    // console.log(user)
+    if (user) {
+      return {
+        message: 'data Updated Sucessfully',
+        status: true,
+        data: user,
+      };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+exports.userItems = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    // const user = await createCollection.find({ created_by: userId ,status:'pending'}); 
+    const user = await nftIteams.find({created_by:userId });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>',user)
+    if (user) {
+      return {
+        message: 'data Updated Sucessfully',
         status: true,
         data: user,
       };
