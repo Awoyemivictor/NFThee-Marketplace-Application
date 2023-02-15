@@ -175,18 +175,34 @@ describe('Buy NFT', async function () {
   });
 });
 
-describe('Offer', async function () {
-  it('should able to make offer if all params are correct ', async () => {
+// describe('Offer', async function () {
+//   it('should able to make offer if all params are correct ', async () => {
+//     const price = ethers.utils.parseEther('1');
+//     const time = 172800;
+
+//     await NFT721.connect(addr1).mint(11, MetaData);
+
+//     await market.setOffer(offer.address);
+//     await trade.setMarket(market.address);
+
+//     // await market
+//     //   .connect(addr1)
+//     //   .offer(NFT721.address, 11, price, time, { value: price });
+//   });
+// });
+
+describe('Auction', async function () {
+  it('should able to list for auction if all params are correct', async () => {
     const price = ethers.utils.parseEther('1');
     const time = 172800;
 
     await NFT721.connect(addr1).mint(11, MetaData);
 
-    await market.setOffer(offer.address);
-    await trade.setMarket(market.address);
+    // await market.setSale(sale.address);
+    // await trade.connect(addr1).setMarket(market.address);
 
-    // await market
-    //   .connect(addr1)
-    //   .offer(NFT721.address, 11, price, time, { value: price });
+    await market.connect(addr1).auction(NFT721.address, 11, price, time);
+
+    // await NFT721.connect(addr1).setApprovalForAll(market.address, true);
   });
 });
