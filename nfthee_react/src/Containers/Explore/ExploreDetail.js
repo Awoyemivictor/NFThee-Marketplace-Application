@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import { FilterCard, filter_card, AccordionCards, cardData ,SingleSlider } from "./ExploreFilterData" 
-import {NavLink, Link,useParams } from 'react-router-dom'
+import {NavLink, Link,useParams, useHistory } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import Apexcharts from '../../Components/Apexcharts'
 
@@ -8,6 +8,7 @@ import $ from "jquery"
 import { MultiSelect } from "react-multi-select-component";
  import "../../index.css"
 import axios from 'axios';
+import instance from '../../axios';
  const options = [
   { label: "Mint", value: "mint" }, 
   { label: "Transfer", value: "Transfer" }, 
@@ -32,6 +33,7 @@ import axios from 'axios';
 // }  
 function ExploreDetail() {
   const {id}=useParams()
+  const history=useHistory()
   console.log("id of /ExploreDetails",id)
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
@@ -42,8 +44,8 @@ function ExploreDetail() {
 
   useEffect(async () => {
     
-    await axios
-      .get(`http://192.168.1.4:8002/api/read?id=${id}`)
+    await instance
+      .get(`/api/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
         console.log(response.data,"<><><>><>><><><><><><><");
@@ -121,7 +123,9 @@ function ExploreDetail() {
           <div className="container-fluid px-lg-5">
             <div className="row mb-3">
               <div className="col-lg-12 col-md-12">
-                <Link to="/explorenft"><span className="back-text"> <i className="ri-arrow-left-s-line" />{t("product.Back")}</span></Link>
+                <button  onClick={() => {
+                    history.goBack();
+                }}><span className="back-text"> <i className="ri-arrow-left-s-line" />{t("product.Back")}</span></button>
               </div>
             </div>
             <div className="explore-item-detail mb-lg-5 mb-3">

@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
+import instance from "../../axios";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -78,10 +79,19 @@ const Profile = () => {
   const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
 const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
 const[collectionData,setCollectionData]=useState([])
+const[itemData,setItemData]=useState([])
   useEffect(()=>{
 
-    axios.get(`http://192.168.1.4:8002/api/userCollections?id=${_id}`)
+    instance
+    .get(`/api/userCollections?id=${_id}`)
     .then(res=>( setCollectionData(res.data.data)))
+
+  },[])
+  useEffect(()=>{
+
+    instance
+    .get(`/api/userItems?id=${_id}`)
+    .then(res=>( setItemData(res.data.data)))
 
   },[])
 
@@ -324,7 +334,7 @@ const[collectionData,setCollectionData]=useState([])
                       aria-selected="false"
                     >
                       <img src="assets/images/icons/create-icon.png" alt="" />
-                      Created (05)
+                      Created ({itemData?.length})
                     </button>
                     <button
                       className="nav-link"
@@ -688,7 +698,7 @@ const[collectionData,setCollectionData]=useState([])
                   <div className="card-body">
                     <div className="auction-create-by">
                       <img
-                        src="assets/images/img2.png"
+                        src="/assets/images/img2.png"
                         alt=""
                         className="avatar-icon img-fluid"
                       />
@@ -728,7 +738,7 @@ const[collectionData,setCollectionData]=useState([])
                         </div>
                         <h6>
                           <img
-                            src="assets/images/icons/ethereum.png"
+                            src="/assets/images/icons/ethereum.png"
                             alt=""
                             className="me-1"
                           />

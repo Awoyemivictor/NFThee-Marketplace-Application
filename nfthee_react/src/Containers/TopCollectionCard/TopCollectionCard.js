@@ -3,6 +3,8 @@ import { top_collection, top_sellers } from '../Home/Data';
 import $ from 'jquery';
 import { TopCollectionCard_select } from '../../Components/NiceSelect';
 import Card from '../Card';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function TopCollectionCard() {
   const [isRevealPwd, setIsRevealPwd] = useState(false);
@@ -11,6 +13,8 @@ function TopCollectionCard() {
     isOpen === true ? setIsopen(false) : setIsopen(true);
   };
 
+  const history = useHistory();
+ 
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState('');
   const loadMore = () => {
@@ -31,6 +35,108 @@ function TopCollectionCard() {
   const FilterClose = () => {
     window.scrollTo(0, 0);
     filter === 'filterClose' ? setfilter('') : setfilter('filterClose');
+  };
+
+  const [collections, setCollections] = useState([]);
+  const [blockchains, setBlockchains] = useState([]);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://192.168.1.4:8002/api/getCollection")
+      .then((response) => setCollections(response.data.data));
+    axios
+      .get("http://192.168.1.4:8002/api/getBlockchain")
+      .then((response) => setBlockchains(response.data.data));
+    axios
+      .get("http://192.168.1.4:8002/api/getCategory")
+      .then((response) => setCategories(response.data.data));
+  }, []);
+
+  const [selectedFilter, setSelectedFilter] = useState([]);
+  const [filterSearch, setFilterSearch] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [serachButton, setSearchButton] = useState(false);
+
+
+  const handleSelectFilters = (name, e) => {
+    if (selectedFilter.includes(name)) {
+      const removeFilter = selectedFilter.filter((el) => {
+        return el !== name ? true : false;
+      });
+      setSelectedFilter(removeFilter);
+    } else {
+      setSelectedFilter([...selectedFilter, name]);
+    }
+    const { checked } = e.target;
+    const j = e.target.name;
+    //for checkbox checked or unchecked
+    if (checked) {
+      setFilterSearch((state) => [...state, { [e.target.name]: name }]);
+    }
+    if (checked == false && j === "blockChain") {
+      setFilterSearch((state) => state.filter((el) => el.blockChain != name));
+    }
+    if (checked == false && j === "collection") {
+      setFilterSearch((state) => state.filter((el) => el.collection != name));
+    }
+
+    if (checked == false && j === "categories") {
+      setFilterSearch((state) => state.filter((el) => el.categories != name));
+    }
+  };
+  console.log("<><<><><><<<>><>>>", { collections }, { blockchains }, { categories }, { filterSearch })
+
+  const [queryParamChanged, setQueryParamChanged] = useState(false);
+
+
+  useEffect(() => {
+    // if (!serachButton) return;
+    // if (location.search) {
+    //   let a = location.search.slice(5);
+    //   setSearchText(a);
+    // }
+    const collectionArr = filterSearch.filter((obj) =>
+      obj.hasOwnProperty("collection")
+    );
+    const blockChainArr = filterSearch.filter((obj) =>
+      obj.hasOwnProperty("blockChain")
+    );
+
+    const categoriesArr = filterSearch.filter((obj) =>
+      obj.hasOwnProperty("categories")
+    );
+    let url = "/liveaction?";
+
+    const addQueryParam = (paramName, arr) => {
+      if (arr.length === 0) return;
+      const paramValues = arr.map((obj) => obj[paramName]).join(`,`);
+
+      url += `${paramName}=${paramValues}&`;
+      setQueryParamChanged(true)
+    };
+    addQueryParam("categories", categoriesArr);
+    addQueryParam("collection", collectionArr);
+    addQueryParam("blockChain", blockChainArr); 
+
+    if (searchText) {
+      url += `str=${searchText.replace(" ", "+")}&`;
+    }
+    if (serachButton || performance.navigation.type === 1 || queryParamChanged) {
+      history.push(url.slice(0, -1));
+    }
+
+
+    setSearchButton(false);
+    setQueryParamChanged(true)
+
+    // instance
+    //   .get("api/all" + window.location.search)
+    //   .then((response) => setNftData(response.data.data))
+    //   .finally(() => setIsLoading(false));
+  }, [filterSearch, searchText, serachButton]);
+  const handleSearchText = (e) => {
+    e.preventDefault();
+    setSearchButton(true);
   };
 
   return (
@@ -105,462 +211,90 @@ function TopCollectionCard() {
                           </div>
                           {isOpen ? (
                             <div className="panel-body">
-                              <form className="filter-search me-auto d-none d-md-block mb-3">
-                                {' '}
-                                <input
-                                  type="text"
-                                  placeholder="Search"
-                                  className="form-control"
-                                />
-                                <div className="search-icon">
-                                  {' '}
-                                  <button className="btn">
-                                    {' '}
-                                    <i className="bx bx-search-alt-2" />{' '}
-                                  </button>{' '}
-                                </div>
-                              </form>
-                              <div className="accordion" id="accordionExample">
-                                <div className="accordion-item">
-                                  <h2
-                                    className="accordion-header"
-                                    id="headingOne"
-                                  >
-                                    {' '}
-                                    <button
-                                      className="accordion-button"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#collapseOne"
-                                      aria-expanded="true"
-                                      aria-controls="collapseOne"
-                                    >
-                                      {' '}
-                                      BLOCKCHAIN{' '}
-                                    </button>{' '}
-                                  </h2>
-                                  <div
-                                    id="collapseOne"
-                                    className="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne"
-                                    data-bs-parent="#accordionExample"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="custom-checkbox">
-                                        <div className="form-check">
-                                          {' '}
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox1"
-                                          />{' '}
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox1"
-                                          >
-                                            {' '}
-                                            <img
-                                              src={
-                                                'assets/images/icons/ethereum_select.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />{' '}
-                                            <span>Ethereum</span>{' '}
-                                          </label>{' '}
-                                        </div>
-                                        <div className="form-check">
-                                          {' '}
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox2"
-                                          />{' '}
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox2"
-                                          >
-                                            {' '}
-                                            <img
-                                              src={
-                                                'assets/images/icons/solana_select.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />{' '}
-                                            <span>Solana</span>{' '}
-                                          </label>{' '}
-                                        </div>
-                                        <div className="form-check">
-                                          {' '}
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox3"
-                                          />{' '}
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox3"
-                                          >
-                                            {' '}
-                                            <img
-                                              src={
-                                                'assets/images/icons/binance_select.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />{' '}
-                                            <span>Polygon</span>{' '}
-                                          </label>{' '}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                          <form className="filter-search me-auto d-none d-md-block mb-3"> <input type="text" placeholder="Search" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="form-control" />
+                            <div className="search-icon"> <button className="btn" onClick={handleSearchText}> <i className="bx bx-search-alt-2" /> </button> </div>
+                          </form>
+                          <div className="accordion" id="accordionExample">
+                            <div className="accordion-item">
+                              <h2 className="accordion-header" id="headingOne"> <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> BLOCKCHAIN </button> </h2>
+                              <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
+                                  {blockchains?.map((blockchain, i) => (
 
-                                <div className="accordion-item">
-                                  <h2
-                                    className="accordion-header"
-                                    id="headingTwo"
-                                  >
-                                    <button
-                                      className="accordion-button"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#collapseTwo"
-                                      aria-expanded="true"
-                                      aria-controls="collapseOne"
-                                    >
-                                      Categories
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="collapseTwo"
-                                    className="accordion-collapse collapse show"
-                                    aria-labelledby="headingTwo"
-                                    data-bs-parent="#accordionExample"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="custom-checkbox">
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox11"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox11"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/trand.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Trending</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox22"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox22"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/top.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Top</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox33"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox33"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/art.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Art</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox4"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox4"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/domain.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Domain Name</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox5"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox5"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/music.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Music</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox6"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox6"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/photo.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Photography</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="exampleCheckbox7"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox7"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/sport.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Sports</span>
-                                          </label>
-                                        </div>
+                                    <div className="custom-checkbox" key={blockchain.name}>
+                                      <div className="form-check">
+                                        <input
+                                          className="form-check-input "
+                                          type="checkbox"
+                                          id={blockchain.name}
+                                          name={'blockChain'}
+                                          onClick={(e) => handleSelectFilters(blockchain.name, e)}
+                                        />
+                                        <label className="form-check-label " htmlFor={blockchain.name}>
+                                          <span className="ml-2">{blockchain.name}</span>
+                                        </label>
                                       </div>
                                     </div>
-                                  </div>
+                                  ))}
                                 </div>
-                                <div className="accordion-item">
-                                  <h2
-                                    className="accordion-header"
-                                    id="headingThree"
-                                  >
-                                    <button
-                                      className="accordion-button"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#collapseThree"
-                                      aria-expanded="true"
-                                      aria-controls="collapseTwo"
-                                    >
-                                      Collection
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="collapseThree"
-                                    className="accordion-collapse collapse show"
-                                    aria-labelledby="headingThree"
-                                    data-bs-parent="#accordionExample"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="custom-checkbox">
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox8"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox8"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/azudi.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Azudi</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox9"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox9"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/women.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>World Of Women</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox10"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox10"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/cryto.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Cryptoskulls</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox011"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox011"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/phantabear.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Phantabear</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox12"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox12"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/bear.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>FLUF Bear</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox13"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox13"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/fomo.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>FOMO MOFOS</span>
-                                          </label>
-                                        </div>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            defaultValue
-                                            id="exampleCheckbox14"
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleCheckbox14"
-                                          >
-                                            <img
-                                              src={
-                                                'assets/images/icons/doddles.png'
-                                              }
-                                              alt=""
-                                              className="me-1"
-                                            />
-                                            <span>Doddles</span>
-                                          </label>
-                                        </div>
+                              </div>
+                            </div>
+
+                            <div className="accordion-item">
+                              <h2 className="accordion-header" id="headingTwo">
+                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                  Categories
+                                </button>
+                              </h2>
+                              <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
+                                  {categories?.map((categorie, i) => (
+
+                                    <div className="custom-checkbox" key={categorie.name}>
+                                      <div className="form-check">
+                                        <input
+                                          className="form-check-input "
+                                          type="checkbox"
+                                          id={categorie.name}
+                                          name={'categories'}
+                                          onClick={(e) => handleSelectFilters(categorie.name, e)}
+                                        />
+                                        <label className="form-check-label " htmlFor={categorie.name}>
+                                          <span className="ml-2">{categorie.name}</span>
+                                        </label>
                                       </div>
                                     </div>
-                                  </div>
+                                  ))}
+
                                 </div>
+                              </div>
+                            </div>
+                            <div className="accordion-item">
+                              <h2 className="accordion-header" id="headingThree">
+                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
+                                  Collection
+                                </button>
+                              </h2>
+                              <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
+                                  {collections?.map((collection, i) => (
+
+                                    <div className="custom-checkbox" key={collection.name}>
+                                      <div className="form-check">
+                                        <input
+                                          className="form-check-input "
+                                          type="checkbox"
+                                          id={collection.name}
+                                          name={'collection'}
+                                          onClick={(e) => handleSelectFilters(collection.name, e)}
+                                        />
+                                        <label className="form-check-label " htmlFor={collection.name}>
+                                          <span className="ml-2">{collection.name}</span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  ))}</div></div>
+                            </div>
                                 <div className="accordion-item">
                                   <h2
                                     className="accordion-header"

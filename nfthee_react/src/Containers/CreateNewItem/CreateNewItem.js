@@ -359,8 +359,7 @@ const CreateNewItem = () => {
     // await handleNFTCreation(contractAddress)
     
     await 
-    axios
-      .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
+instance      .post(`/api/createCollection`, collectionData)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -414,8 +413,8 @@ const CreateNewItem = () => {
     const post = itemData;
     post.putOnMarketplace = data;
 
-    axios
-      .post('http://192.168.1.4:8002/api/store', post)
+    instance
+      .post('/api/store', post)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -576,7 +575,7 @@ const CreateNewItem = () => {
     const formData = new FormData();
     formData.append('logo_image', e.target.files[0]);
     // instance
-     axios .post('http://192.168.1.4:8002/api/createCollection', formData)
+     instance .post('/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setLogoImage(URL.createObjectURL(e.target.files[0]));
@@ -591,7 +590,7 @@ const CreateNewItem = () => {
     const formData = new FormData();
     formData.append('banner_image', e.target.files[0]);
     // instance
-     axios .post('http://192.168.1.4:8002/api/createCollection', formData)
+     instance .post('/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setBannerImage(URL.createObjectURL(e.target.files[0]));
@@ -607,7 +606,7 @@ const CreateNewItem = () => {
     const formData = new FormData();
     formData.append('featured_image', e.target.files[0]);
     // instance
-    axios  .post('http://192.168.1.4:8002/api/createCollection', formData)
+    instance  .post('/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setFeaturedImage(URL.createObjectURL(e.target.files[0]));

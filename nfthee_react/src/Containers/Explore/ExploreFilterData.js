@@ -462,12 +462,12 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({ uploadFile,designation,title, name,putOnMarketplace}) => {
+  export const FilterCard = ({_id, uploadFile,designation,title, name,putOnMarketplace}) => {
     const { t } = useTranslation();
     return (
         <div className="col-12 col-sm-3">
         <div className="live-auction-area">
-            <Link to="/exploredetail">
+            <Link to={`/exploredetail/${_id}`}>
             {/* {images.map((item,index)=>{
                         return( */}
             <div className="auction-card-two mb-4 ">
