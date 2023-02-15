@@ -8,6 +8,7 @@ import {Magic} from "magic-sdk";
 import {useAppDispatch} from "../../hooks/useRedux";
 import {setUser} from "../../redux/userSlice";
 import {setMeta} from "../../redux/metaSlice";
+import axios from "axios";
 
 function Registration_Veriyfy() {
     // Constants
@@ -36,6 +37,9 @@ function Registration_Veriyfy() {
                 showConfirmButton: false,
                 timer: 1500,
             });
+            await axios.post('http://192.168.1.4:8002/api/signup', registerData).then(response => {
+            localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+        })
         } else {
             Swal.fire({
                 position: "top-center",
@@ -50,13 +54,13 @@ function Registration_Veriyfy() {
             email: registerData.email_address,
             redirectURI: new URL('/walletlogin', window.location.origin).href
         })
-
-        const res = await instance.post('/api/signup', registerData, {
+        const res = await axios.post('http://192.168.1.4:8002/api/signup', registerData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + didToken,
             }
-        }).catch(err => {
+        })
+        .catch(err => {
             Swal.fire({
                 position: "top-center",
                 icon: "error",
@@ -65,6 +69,7 @@ function Registration_Veriyfy() {
                 timer: 1500,
             })
         })
+
 
 
         if (res.status === 200) {
