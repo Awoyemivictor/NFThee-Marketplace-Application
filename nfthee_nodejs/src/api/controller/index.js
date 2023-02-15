@@ -8,4 +8,5 @@ exports.signupController = require('./signupController');
 exports.blockchainController = require('./blockchainController');
 exports.searchController = require('./searchController');
 exports.historyController=require('./historyController')
+exports.followController=require('./followController')
 exports.likesController=require('./likesController')

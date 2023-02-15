@@ -8,7 +8,8 @@ exports.getBlockchain = async (req,res) => {
         if(req.query?.id){
             query={ _id:req.query.id }
         }
-        let findData = await blockchainModel.find(query).sort({'createdAt':-1});
+        // let findData = await blockchainModel.find(query).sort({'createdAt':-1});
+        let findData = await blockchainModel.find({}).sort({'createdAt':-1});
         return {
             message: "Getting blockchain listing.",
             status: true,

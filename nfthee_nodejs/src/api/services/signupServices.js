@@ -7,6 +7,7 @@ const { Mail } = require('../../utils');
 const jwt = require('jsonwebtoken');
 const { createCollection } = require('../../models');
 const {nftIteams} = require('../../models');
+// const {signup} = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
 
@@ -105,7 +106,8 @@ exports.register = async (req, res) => {
       return {
         message: 'Registration Data Save..........',
         status: true,
-        data: isSigned,
+        // data: isSigned,
+        data:result
       };
     } else {
       return {
@@ -228,6 +230,41 @@ exports.userItems = async (req, res) => {
         status: true,
         data: user,
       };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+exports.userFollow = async (req, res) => {
+  try {
+  console.log('njbadjajdjdajdbj',req.body)
+    
+    let userId = req.query.id;
+    console.log("sjjndjknjkdnnnnnnnnnn",userId)
+    // const user = await createCollection.find({ created_by: userId ,status:'pending'}); 
+
+    const user = await signup.findByIdAndUpdate(req.body.id,{
+        $push:{followers:userId}},{new:true})
+        console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>',user)
+      &&
+       signup.findByIdAndUpdate(req.body.id,{
+        $push:{following:userId}
+      },{new:true})
+    // }
+    
+    
+    
+    if (user) {
+      return {
+        message: 'follow Sucessfully',
+        status: true,
+        data:user,}
     } else {
       return {
         message: "User hasn't found",

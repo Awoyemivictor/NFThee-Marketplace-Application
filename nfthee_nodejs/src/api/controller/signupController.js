@@ -47,7 +47,7 @@ exports.updateProfile = async (req, res, next) => {
 exports.updateAccountAddress = async (req, res, next) => {
   try {
     const data = await signupServices.updateAddress(req);
-    return successErrorResponse(req, res, data.data, data.message);
+    return successResponse(req, res, data.data, data.message);
   } catch (error) {
     next(error);
   }
@@ -66,7 +66,21 @@ exports.userCollections = async (req, res, next) => {
 
 exports.userItems = async (req, res, next) => {
   try {
+  
     const data = await signupServices.userItems(req)
+    // console.log('<><><><S>S<S><S>S<S<>S<',data);
+    return successResponse(req, res, data.data, data.message)
+    
+    ;
+  } catch (error) {
+    next(error);
+  }
+};
+exports.userFollow = async (req, res, next) => {
+  try {
+    
+
+    const data = await signupServices.userFollow(req)
     // console.log('<><><><S>S<S><S>S<S<>S<',data);
     return successResponse(req, res, data.data, data.message)
     
