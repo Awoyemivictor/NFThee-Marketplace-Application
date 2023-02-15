@@ -14,6 +14,7 @@ module.exports = (app) => {
     app.use(apiV1Prefix, require('./searchRoute'));
     app.use(apiV1Prefix, require('./historyRoute'));
     app.use(apiV1Prefix, require('./likesRoute'));
+    app.use(apiV1Prefix, require('./followRoute'));
    
 
 };

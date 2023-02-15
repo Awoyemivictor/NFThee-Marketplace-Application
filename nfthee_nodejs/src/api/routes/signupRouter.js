@@ -10,7 +10,8 @@ const {
   loginOne,
   updateAccountAddress,
   userCollections,
-  userItems
+  userItems,
+  userFollow
 } = require('../controller').signupController;
 const {  
   Multer: { upload },
@@ -28,6 +29,7 @@ router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
 router.get('/userCollections', userCollections);
 router.get('/userItems', userItems);
+router.put('/userFollow',userFollow);
 
 // router.post("/reg", SignUp)
 
