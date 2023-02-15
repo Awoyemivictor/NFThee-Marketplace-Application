@@ -3,11 +3,7 @@
   "contractName": "Market",
   "sourceName": "contracts/Market.sol",
   "abi": [
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
+    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
     {
       "anonymous": false,
       "inputs": [
@@ -24,12 +20,7 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
+        { "indexed": false, "internalType": "bool", "name": "", "type": "bool" }
       ],
       "name": "AuctionStartSuspended",
       "type": "event"
@@ -108,12 +99,7 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
+        { "indexed": false, "internalType": "bool", "name": "", "type": "bool" }
       ],
       "name": "DutchAuctionStartSuspended",
       "type": "event"
@@ -166,12 +152,7 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
+        { "indexed": false, "internalType": "bool", "name": "", "type": "bool" }
       ],
       "name": "OfferStartSuspended",
       "type": "event"
@@ -242,23 +223,14 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
+        { "indexed": false, "internalType": "bool", "name": "", "type": "bool" }
       ],
       "name": "SaleStartSuspended",
       "type": "event"
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "offerId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "offerId", "type": "uint256" }
       ],
       "name": "acceptOffer",
       "outputs": [],
@@ -268,13 +240,7 @@
     {
       "inputs": [],
       "name": "auction",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -285,21 +251,13 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
         {
           "internalType": "uint256",
           "name": "startingPrice",
           "type": "uint256"
         },
-        {
-          "internalType": "uint256",
-          "name": "period",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "period", "type": "uint256" }
       ],
       "name": "auction",
       "outputs": [],
@@ -309,28 +267,14 @@
     {
       "inputs": [],
       "name": "auctionStartSuspended",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" },
+        { "internalType": "uint256", "name": "price", "type": "uint256" }
       ],
       "name": "bid",
       "outputs": [],
@@ -339,11 +283,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "saleId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "saleId", "type": "uint256" }
       ],
       "name": "buy",
       "outputs": [],
@@ -352,11 +292,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" }
       ],
       "name": "cancelAuction",
       "outputs": [],
@@ -365,11 +301,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" }
       ],
       "name": "cancelDutchAuction",
       "outputs": [],
@@ -378,11 +310,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "offerId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "offerId", "type": "uint256" }
       ],
       "name": "cancelOffer",
       "outputs": [],
@@ -391,11 +319,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "saleId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "saleId", "type": "uint256" }
       ],
       "name": "cancelSale",
       "outputs": [],
@@ -405,26 +329,14 @@
     {
       "inputs": [],
       "name": "defaultFeeRateForCollection",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "defaultFeeRateForMarket",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -435,36 +347,16 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
         {
           "internalType": "uint256",
           "name": "startingPrice",
           "type": "uint256"
         },
-        {
-          "internalType": "uint256",
-          "name": "endingPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "period",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "startMargin",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "endMargin",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "endingPrice", "type": "uint256" },
+        { "internalType": "uint256", "name": "period", "type": "uint256" },
+        { "internalType": "uint256", "name": "startMargin", "type": "uint256" },
+        { "internalType": "uint256", "name": "endMargin", "type": "uint256" }
       ],
       "name": "dutchAuction",
       "outputs": [],
@@ -474,23 +366,13 @@
     {
       "inputs": [],
       "name": "dutchAuction",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" }
       ],
       "name": "dutchAuctionBuy",
       "outputs": [],
@@ -500,13 +382,7 @@
     {
       "inputs": [],
       "name": "dutchAuctionStartSuspended",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -519,13 +395,7 @@
         }
       ],
       "name": "feeRateForCollection",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -538,23 +408,13 @@
         }
       ],
       "name": "feeRateForMarket",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" }
       ],
       "name": "finishAuction",
       "outputs": [],
@@ -570,13 +430,7 @@
         }
       ],
       "name": "fixedFeeRateForCollection",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -589,26 +443,14 @@
         }
       ],
       "name": "fixedFeeRateForMarket",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "offer",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -619,21 +461,9 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "period",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+        { "internalType": "uint256", "name": "price", "type": "uint256" },
+        { "internalType": "uint256", "name": "period", "type": "uint256" }
       ],
       "name": "offer",
       "outputs": [],
@@ -643,26 +473,14 @@
     {
       "inputs": [],
       "name": "offerStartSuspended",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -673,16 +491,8 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        }
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+        { "internalType": "address", "name": "to", "type": "address" }
       ],
       "name": "present",
       "outputs": [],
@@ -725,26 +535,14 @@
     {
       "inputs": [],
       "name": "sale",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "saleStartSuspended",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -755,21 +553,9 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "period",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+        { "internalType": "uint256", "name": "price", "type": "uint256" },
+        { "internalType": "uint256", "name": "period", "type": "uint256" }
       ],
       "name": "sell",
       "outputs": [],
@@ -790,13 +576,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "flag",
-          "type": "bool"
-        }
-      ],
+      "inputs": [{ "internalType": "bool", "name": "flag", "type": "bool" }],
       "name": "setAuctionStartSuspended",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -804,11 +584,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "rate",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "rate", "type": "uint256" }
       ],
       "name": "setDefaultFeeRateForCollection",
       "outputs": [],
@@ -817,11 +593,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "rate",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "rate", "type": "uint256" }
       ],
       "name": "setDefaultFeeRateForMarket",
       "outputs": [],
@@ -842,13 +614,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "flag",
-          "type": "bool"
-        }
-      ],
+      "inputs": [{ "internalType": "bool", "name": "flag", "type": "bool" }],
       "name": "setDutchAuctionStartSuspended",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -861,11 +627,7 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "rate",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "rate", "type": "uint256" }
       ],
       "name": "setFixedFeeRateForCollection",
       "outputs": [],
@@ -879,11 +641,7 @@
           "name": "contractAddress",
           "type": "address"
         },
-        {
-          "internalType": "uint256",
-          "name": "rate",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "rate", "type": "uint256" }
       ],
       "name": "setFixedFeeRateForMarket",
       "outputs": [],
@@ -904,13 +662,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "flag",
-          "type": "bool"
-        }
-      ],
+      "inputs": [{ "internalType": "bool", "name": "flag", "type": "bool" }],
       "name": "setOfferStartSuspended",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -930,13 +682,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "flag",
-          "type": "bool"
-        }
-      ],
+      "inputs": [{ "internalType": "bool", "name": "flag", "type": "bool" }],
       "name": "setSaleStartSuspended",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -944,11 +690,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "newOwner", "type": "address" }
       ],
       "name": "transferOwnership",
       "outputs": [],
@@ -957,11 +699,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "auctionId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "auctionId", "type": "uint256" }
       ],
       "name": "withdrawFromAuction",
       "outputs": [],
@@ -970,11 +708,7 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "offerId",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "offerId", "type": "uint256" }
       ],
       "name": "withdrawFromOffer",
       "outputs": [],

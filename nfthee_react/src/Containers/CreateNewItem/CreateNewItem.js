@@ -6,7 +6,13 @@ import { swal } from 'sweetalert';
 import Select, { components } from 'react-select';
 import { useAppSelector } from '../../hooks/useRedux';
 import Swal from 'sweetalert2';
-import { handleCollectionCreation, handleListNFTSale, handleNFTCreation } from '../../Config/sendFunctions';
+import {
+  handleCollectionCreation,
+  handleListNFTSale,
+  handleNFTAuction,
+  handleNFTCreation,
+  handleNFTOffer,
+} from '../../Config/sendFunctions';
 import { bscTest, ethTest, polyTest } from '../../Config/chains';
 import axios from 'axios';
 
@@ -173,10 +179,9 @@ const CreateNewItem = () => {
       //$('.btn-select').attr('value', 'en');
     }
   };
-  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'));
-  console.log(_id,"id on the create ")
+  const { _id } = JSON.parse(localStorage.getItem('userLoggedIn'));
+  console.log(_id, 'id on the create ');
   const [collectionData, setCollectionData] = useState({
-   
     name: '',
     symbol: '',
     description: '',
@@ -192,7 +197,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by:_id,
+    created_by: _id,
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -200,7 +205,6 @@ const CreateNewItem = () => {
   });
 
   const initialDataState = {
-   
     name: '',
     symbol: '',
     chooseType: '',
@@ -231,7 +235,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by:_id,
+    created_by: _id,
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -240,18 +244,20 @@ const CreateNewItem = () => {
   useEffect(async () => {
     const fetchBlockchains = async () => {
       const arr = [];
-      await instance.get('/api/getBlockchain').then((response) => {
-        let res = response.data.data;
-        res.map((blockchain) => {
-          arr.push({
-            value: blockchain.name,
-            label: blockchain.name,
-            image: blockchain.icon,
+      await axios
+        .get('http://192.168.1.48:8004/api/getBlockchain')
+        .then((response) => {
+          let res = response.data.data;
+          res.map((blockchain) => {
+            arr.push({
+              value: blockchain.name,
+              label: blockchain.name,
+              image: blockchain.icon,
+            });
           });
+          // console.info(arr)
+          setBlockchains(arr);
         });
-        // console.info(arr)
-        setBlockchains(arr);
-      });
     };
 
     const fetchCategories = async () => {
@@ -298,18 +304,20 @@ const CreateNewItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       const arr = [];
-      await axios.get('http://192.168.1.4:8002/api/createCollection/all').then((response) => {
-        let result = response.data.data;
-        result.map((collection) => {
-          // console.info(collection)
-          arr.push({
-            value: collection.name,
-            label: collection.name,
-            category: collection.category,
+      await axios
+        .get('http://192.168.1.4:8002/api/createCollection/all')
+        .then((response) => {
+          let result = response.data.data;
+          result.map((collection) => {
+            // console.info(collection)
+            arr.push({
+              value: collection.name,
+              label: collection.name,
+              category: collection.category,
+            });
           });
+          setCollections(arr);
         });
-        setCollections(arr);
-      });
     };
     fetchData();
   }, []);
@@ -343,47 +351,76 @@ const CreateNewItem = () => {
       collectionData.blockchain
     );
 
-    // const contractAddress = await handleCollectionCreation(
-    //   collectionData.blockchain,
-    //   true,
-    //   collectionData.name,
-    //   collectionData.symbol,
-    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-    //   collectionData.creator_earnings
-    // );
-    // console.log(contractAddress);  
-    // await handleNFTCreation(contractAddress)
-    await instance
-      .post('/api/createCollection', collectionData)
+    const contractAddress = await handleCollectionCreation(
+      collectionData.blockchain,
+      true,
+      collectionData.name,
+      collectionData.symbol,
+      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+      collectionData.creator_earnings
+    );
+    console.log(contractAddress);
+    await handleNFTCreation(collectionData.blockchain, contractAddress);
+    // await instance
+    //   .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
-    
-    await 
-instance      .post(`/api/createCollection`, collectionData)
-      .then((response) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'Successful',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
+
+    // await
+    // axios
+    //   .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
+    //   .then((response) => {
+    //     Swal.fire({
+    //       position: 'top-center',
+    //       icon: 'success',
+    //       title: 'Successful',
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     Swal.fire({
+    //       position: 'top-center',
+    //       icon: 'error',
+    //       title: 'Try to create again',
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   });
   };
 
-  const handleNFTListing = async()=>{
-   const res =  await handleListNFTSale()
-   console.log(res)
-  }
+  const handleNFTListing = async () => {
+    const contractAddress = await handleCollectionCreation(
+      collectionData.blockchain,
+      true,
+      collectionData.name,
+      collectionData.symbol,
+      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+      collectionData.creator_earnings
+    );
+    console.log(contractAddress);
+    await handleNFTCreation(collectionData.blockchain, contractAddress);
+    const res = await handleListNFTSale(contractAddress, 1);
+    console.log(res);
+  };
+
+  const nftOffer = async () => {
+    // console.log(itemData);
+
+    // const contractAddress = await handleCollectionCreation(
+    //   itemData.chooseBlockchain,
+    //   true,
+    //   itemData.name,
+    //   'TEST',
+    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+    //   itemData.creator_earnings
+    // );
+    // console.log(contractAddress);
+    // await handleNFTCreation(collectionData.blockchain, contractAddress);
+    // const res = await handleNFTOffer("0x00", 1);
+    const res = await handleNFTAuction("0x00",1)
+    console.log(res);
+  };
 
   const [openForBids, setOpenForBids] = useState({});
   const [fixedPrice, setFixedPrice] = useState({
@@ -413,8 +450,8 @@ instance      .post(`/api/createCollection`, collectionData)
     const post = itemData;
     post.putOnMarketplace = data;
 
-    instance
-      .post('/api/store', post)
+    axios
+      .post('http://192.168.1.4:8002/api/store', post)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -575,7 +612,8 @@ instance      .post(`/api/createCollection`, collectionData)
     const formData = new FormData();
     formData.append('logo_image', e.target.files[0]);
     // instance
-     instance .post('/api/createCollection', formData)
+    axios
+      .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setLogoImage(URL.createObjectURL(e.target.files[0]));
@@ -590,7 +628,8 @@ instance      .post(`/api/createCollection`, collectionData)
     const formData = new FormData();
     formData.append('banner_image', e.target.files[0]);
     // instance
-     instance .post('/api/createCollection', formData)
+    axios
+      .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setBannerImage(URL.createObjectURL(e.target.files[0]));
@@ -606,7 +645,8 @@ instance      .post(`/api/createCollection`, collectionData)
     const formData = new FormData();
     formData.append('featured_image', e.target.files[0]);
     // instance
-    instance  .post('/api/createCollection', formData)
+    axios
+      .post('http://192.168.1.4:8002/api/createCollection', formData)
       .then((response) => response.data.data)
       .then((data) => {
         setFeaturedImage(URL.createObjectURL(e.target.files[0]));
@@ -865,7 +905,7 @@ instance      .post(`/api/createCollection`, collectionData)
                                   name='chooseType'
                                   value='item single'
                                   className='card-input-element'
-                              onChange={handleItemChange}
+                                  onChange={handleItemChange}
                                   defaultChecked
                                 />
                                 <div className='panel card-input m-0'>
@@ -894,8 +934,7 @@ instance      .post(`/api/createCollection`, collectionData)
                                   name='chooseType'
                                   value='item multiple'
                                   className='card-input-element'
-                              onChange={handleItemChange}
-
+                                  onChange={handleItemChange}
                                 />
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
@@ -1431,6 +1470,12 @@ instance      .post(`/api/createCollection`, collectionData)
                             </button>
                           </div>
                         </div>
+                        <button
+                          className='btn btn-violet w-100'
+                          onClick={nftOffer}
+                        >
+                          Test2
+                        </button>
 
                         <div className='create-item-content border-bottom pb-3 mb-3'></div>
                       </div>
@@ -1462,8 +1507,7 @@ instance      .post(`/api/createCollection`, collectionData)
                               name='chooseType'
                               value='collection single'
                               className='card-input-element'
-                            onChange={handleCollectionChange}
-
+                              onChange={handleCollectionChange}
                               defaultChecked
                             />
                             <div className='panel card-input m-0'>
@@ -1492,8 +1536,7 @@ instance      .post(`/api/createCollection`, collectionData)
                               name='chooseType'
                               value='collection multiple'
                               className='card-input-element'
-                            onChange={handleCollectionChange}
-
+                              onChange={handleCollectionChange}
                             />
                             <div className='panel card-input m-0'>
                               <div className='panel-body d-flex'>
@@ -1526,7 +1569,7 @@ instance      .post(`/api/createCollection`, collectionData)
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box1 overflow-hidden'>
-                            {logoImage? (
+                            {logoImage ? (
                               <img
                                 src={logoImage}
                                 alt=''
@@ -2147,7 +2190,7 @@ instance      .post(`/api/createCollection`, collectionData)
                         className='btn btn-violet w-100'
                         onClick={handleNFTListing}
                       >
-                       Test
+                        Test
                       </button>
                     </div>
                   </div>
