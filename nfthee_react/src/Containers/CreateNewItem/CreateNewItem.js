@@ -351,42 +351,42 @@ const CreateNewItem = () => {
       collectionData.blockchain
     );
 
-    const contractAddress = await handleCollectionCreation(
-      collectionData.blockchain,
-      true,
-      collectionData.name,
-      collectionData.symbol,
-      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-      collectionData.creator_earnings
-    );
-    console.log(contractAddress);
-    await handleNFTCreation(collectionData.blockchain, contractAddress);
+    // const contractAddress = await handleCollectionCreation(
+    //   collectionData.blockchain,
+    //   true,
+    //   collectionData.name,
+    //   collectionData.symbol,
+    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
+    //   collectionData.creator_earnings
+    // );
+    // console.log(contractAddress);
+    // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
     //   .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
 
-    // await
-    // axios
-    //   .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
-    //   .then((response) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'success',
-    //       title: 'Successful',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'error',
-    //       title: 'Try to create again',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   });
+    await
+    axios
+      .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
+      .then((response) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Successful',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Try to create again',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   };
 
   const handleNFTListing = async () => {

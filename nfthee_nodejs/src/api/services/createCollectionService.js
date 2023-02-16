@@ -21,30 +21,88 @@ exports.indexAll = async (req, res) => {
   }
 };
 
-exports.createCollectionInfo = async (req, res) => {
-  try {
-    // let user = req.body.user;
+// exports.createCollectionInfo = async (req, res) => {
+//   try {
+//     // let user = req.body.user;
 
-    // // console.log(userId);
-    // console.log('req.files', req.files);
-    let body = req.body;
-    // console.log(body)
+//     // // console.log(userId);
+//     // console.log('req.files', req.files);
+//     let body = req.body;
+//     // console.log(body)
 
     
-    console.log(body.logo_image,"kesfnlekf")
-if(body){
-    let addCreateItem = await createCollection.create(body);
-    console.log(addCreateItem)
-    return {
-      message: 'create item added successfully.',
-      status: true,
-      data: addCreateItem, 
-    };
-  }
-  } catch (error) {
-    throw error;
-  }
-};
+//     console.log(logo_image,"kesfnlekf")
+// if(body){
+//     let addCreateItem = await createCollection.create(body);
+//     console.log(addCreateItem)
+//     return {
+//       message: 'create item added successfully.',
+//       status: true,
+//       data: addCreateItem, 
+//     };
+//   }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+exports.createCollectionInfo = async (req, res) => {
+    try {
+      
+      const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
+      const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
+      const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+      
+      console.log(req.files)
+      
+      const upadate_data = {
+        logo_image:logo_image,
+        featured_image:featured_image,
+        banner_image:banner_image,
+         url: req.body.url, 
+         description:req.body.description,
+         contract_address:req.body.contract_address,
+         nextId:req.body.nextId,
+         royalty_percentage:req.body.royalty_percentage,
+         links:req.body.links,
+         creator_earnings:req.body.creator_earnings,
+         blockchain:req.body. blockchain,
+         payment_token:req.body.payment_token,
+         display_theme:req.body.display_theme,
+         explicit_sensitive_content:req.body.explicit_sensitive_content,
+         created_by:req.body.created_by
+        // website: req.body.website,
+        // facebook: req.body.facebook,
+        // linkedin: req.body.linkedin,
+        // youtube: req.body.youtube,
+      };
+      console.log('::::::>',upadate_data);
+      let result = await createCollection.create(upadate_data
+        // { $set: upadate_data }
+      );
+  
+  
+    //  if (req.files.logo_image) body.logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
+  
+      // if (req.files.featured_image) body.featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
+      // console.log(body.logo_image,"kesfnlekf")
+      // if (req.files.banner_image) body.banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+  if(result){
+  
+     
+      // let addCreateItem = await createCollection.create(result);
+      // console.log(addCreateItem)
+      return {
+  
+        message: 'create item added successfully.',
+        status: true,
+        data: result, 
+      };
+  
+    }
+    } catch (error) {
+   
+      throw error;
+    }}
 exports.getCollectionInfo = async (req, res) => {
   try {
     
