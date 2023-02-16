@@ -10,4 +10,3 @@ exports.blockchainService = require('./blockchainService');
 exports.searchServices = require('./searchService');
 exports.historyServices=require('./historyService')
 exports.likesServices=require('./likesService')
-exports.followService=require('./followService')

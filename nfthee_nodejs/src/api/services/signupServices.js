@@ -198,8 +198,8 @@ exports.updateAddress = async (req, res) => {
 exports.userCollections = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'}); 
-    const user = await createCollection.find({ created_by: userId });
+    const user = await createCollection.find({ created_by: userId , status:'verified'}); 
+    // const user = await createCollection.find({ created_by: userId });
     // console.log(user)
     if (user) {
       return {
@@ -241,30 +241,32 @@ exports.userItems = async (req, res) => {
     return error;
   }
 };
+
+
+// follow user
 exports.userFollow = async (req, res) => {
   try {
   console.log('njbadjajdjdajdbj',req.body)
     
     let userId = req.query.id;
     console.log("sjjndjknjkdnnnnnnnnnn",userId)
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'}); 
-
-    const user = await signup.findByIdAndUpdate(req.body.id,{
-        $push:{followers:userId}},{new:true})
-        console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>',user)
-      &&
-       signup.findByIdAndUpdate(req.body.id,{
-        $push:{following:userId}
-      },{new:true})
-    // }
+  
+    const data = {user: await signup.findByIdAndUpdate(req.body.id,{
+      $push:{followers:userId}},{new:true})
+   ||
+    console.log("<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UserId:",userId),
+   follow :await  signup.findByIdAndUpdate(userId,{
+      $push:{following:req.body.id}
+    },{new:true})
+   
+  }
+    console.log(data)
     
-    
-    
-    if (user) {
+    if (data) {
       return {
         message: 'follow Sucessfully',
         status: true,
-        data:user,}
+        data:data }
     } else {
       return {
         message: "User hasn't found",
@@ -276,3 +278,73 @@ exports.userFollow = async (req, res) => {
     return error;
   }
 };
+
+
+// // unfollow user
+exports.userUnFollow = async (req, res) => {
+  try {
+  console.log('njbadjajdjdajdbj',req.body)
+    
+    let userId = req.query.id;
+    console.log("sjjndjknjkdnnnnnnnnnn",userId)
+    
+    const data = {
+      user: await signup.findByIdAndUpdate(req.body.id,{
+      $pull:{followers:userId}},{new:true}) ||
+      console.log("<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>User:",user),
+      follow :await  signup.findByIdAndUpdate(userId,{
+      $pull:{following:req.body.id}
+      },{new:true})
+   
+       }
+    console.log(data)
+    
+    if (data) {
+      return {
+        message: 'unfollow Sucessfully',
+        status: true,
+        data:data }
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+// router.post('/follow', async (req, res, next) => {
+//   exports.userFollow = async (req, res) => {
+//   const { action } = req.body;
+//   try {
+//       switch(action) {
+//           case 'follow':
+//               await Promise.all([ 
+//                   signup.findByIdAndUpdate(req.body.follower, { $push: { following: req.query.id }}),
+//                   signup.findByIdAndUpdate(req.query.id, { $push: { follower: req.body.follower }})
+              
+//               ]);
+//           break;
+
+//           case 'unfollow':
+//               await Promise.all([ 
+//                   signup.findByIdAndUpdate(req.query.id, { $pull: { following: req.body.following }}),
+//                   signup.findByIdAndUpdate(req.body.following, { $pull: { follower: req.query.id }})
+              
+//               ]); 
+//           break;
+
+//           default:
+//               break;
+//       }
+
+//       // res.json({ done: true });
+      
+//   } catch(err) {
+//       // res.json({ done: false });
+//       console.log(err)
+//   }
+// };

@@ -9,7 +9,7 @@ const create_collection = new Schema(
     // },
     logo_image: {
       type: String,
-      require:true,
+       require:true,
 
     },
     featured_image: {

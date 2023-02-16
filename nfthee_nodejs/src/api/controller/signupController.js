@@ -89,3 +89,17 @@ exports.userFollow = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.userUnFollow = async (req, res, next) => {
+  try {
+    
+
+    const data = await signupServices.userUnFollow(req)
+    // console.log('<><><><S>S<S><S>S<S<>S<',data);
+    return successResponse(req, res, data.data, data.message)
+    
+    ;
+  } catch (error) {
+    next(error);
+  }
+};
