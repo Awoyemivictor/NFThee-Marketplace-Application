@@ -77,9 +77,10 @@ const Profile = () => {
   //   }, 1500);
   // }
   const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
-const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+const {_id,email}=JSON.parse(localStorage.getItem('userLoggedIn'))
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
+const[users,setuser]=useState([])
   useEffect(()=>{
 
     instance
@@ -92,6 +93,16 @@ const[itemData,setItemData]=useState([])
     instance
     .get(`/api/userItems?id=${_id}`)
     .then(res=>( setItemData(res.data.data)))
+
+
+  },[])
+
+
+  useEffect(()=>{
+
+    instance
+    .get(`/api/signUp/all`)
+    .then(res=>( setuser(res.data.data)))
 
   },[])
 
@@ -121,6 +132,20 @@ const[itemData,setItemData]=useState([])
       body: formData
     });
   };
+  const [User,setUser]=useState()
+useEffect(()=>{
+ axios.get(`http://192.168.1.4:8002/api/login/email?email_address=momo@waterisgone.com`)
+.then(res=>setUser(res.data.data))
+},[])
+  const action =  User?.following?.includes(_id) ? 'unfollow' : 'follow';
+  const buttonText = action === 'follow' ? 'Follow' : 'Unfollow';
+  const handlleFollow=(id)=>{
+   const formData=new FormData()
+   formData.append("id", id);
+
+    axios.put(`http://192.168.1.4:8002/api/userFollow?id=${_id}`,formData)
+    .then(res=>console.log(res.data.data.follow,"?:LLL"))
+  }
   return (
     <>
       <main>
@@ -318,9 +343,9 @@ const[itemData,setItemData]=useState([])
                     </button>
                     <button
                       className="nav-link"
-                      id="profile-tab"
+                      id="following-tab"
                       data-bs-toggle="tab"
-                      data-bs-target="#profile"
+                      data-bs-target="#following"
                       aria-selected="false"
                     >
                       <img src="assets/images/icons/followdark.png" alt="" />
@@ -683,7 +708,50 @@ const[itemData,setItemData]=useState([])
                     </div>
                   </div>
                   <div className="tab-pane fade" id="following">
-                    2
+                    
+                    2{users.filter(res=>res.user_name).map((data)=>( <table className="table" >
+                                    <thead>
+                                      <tr>
+
+                                        <th scope="col">userName</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Floor Difference</th>
+                                        <th scope="col">Expiration Date</th>
+                                        <th scope="col"> </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center">
+                                            <img src="/assets/images/icons/activeimg.png" alt="" class="user-img" />
+                                            <span class="ms-2">{data.user_name}</span>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div class="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> 2.59</h5>
+                                            <h6>$52547.30</h6>
+                                          </div>
+                                        </td>
+                                        <td >   At Floor   </td>
+                                        <td>  May 16, 2022</td>
+                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Follow</a>
+                                       <button
+                                      value={data._id}
+                                 
+                                       onClick={(e)=>handlleFollow(data._id,e)}
+                                       >
+                                        {buttonText}
+                                       </button>
+
+
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>
+                                  ))}
                   </div>
                   <div className="tab-pane fade" id="created">
                    3 
