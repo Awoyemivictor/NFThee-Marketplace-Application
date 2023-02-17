@@ -728,6 +728,28 @@ console.log(marketplace)
       logo_image: e.target.files[0],
     });
   };
+  // const [bannerImage, setBannerImage] = useState(null);
+  // const handleBannerImage = (e) => {
+  //   const formData = new FormData();
+  //   formData.append('banner_image', e.target.files[0]);
+  //   // instance
+  //   axios
+  //     .post('http://192.168.1.4:8002/api/createCollection', formData)
+  //     .then((response) => response.data.data)
+  //     .then((data) => {
+  //       setBannerImage(URL.createObjectURL(e.target.files[0]));
+  //       setCollectionData({
+  //         ...collectionData,
+  //         banner_image: data.banner_image,
+  //       });
+  //     });
+  //       setLogoImage(URL.createObjectURL(e.target.files[0]));
+  //       setCollectionData({
+  //         ...collectionData,
+  //         logo_image:e.target.files[0],
+  //       });
+  
+  // };
   const [bannerImage, setBannerImage] = useState(null);
   const handleBannerImage = (e) => {
     setBannerImage(URL.createObjectURL(e.target.files[0]));
@@ -1706,7 +1728,7 @@ console.log(marketplace)
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box1 overflow-hidden'>
-                            {logoImage ? (
+                            {logoImage? (
                               <img
                                 src={logoImage}
                                 alt=''

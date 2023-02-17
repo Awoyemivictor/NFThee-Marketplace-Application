@@ -23,6 +23,15 @@ exports.signupDataAll = async (req, res, next) => {
     next(error);
   }
 };
+exports.signupData = async (req, res, next) => {
+  try {
+    const data = await signupServices.signupData(req);
+
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};
 exports.login = async (req, res, next) => {
   try {
     const data = await signupServices.login(req);

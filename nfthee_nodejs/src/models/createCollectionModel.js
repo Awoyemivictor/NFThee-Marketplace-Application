@@ -7,10 +7,13 @@ const create_collection = new Schema(
     //   require:true,
 
     // },
+    name: {
+      type: String,
+       require:true,
+    },
     logo_image: {
       type: String,
        require:true,
-
     },
     featured_image: {
       type: String,

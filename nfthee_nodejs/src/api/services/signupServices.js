@@ -57,7 +57,19 @@ exports.signupDataAll = async (req) => {
     return error;
   }
 };
-
+exports.signupData = async (req) => {
+  try {
+    let userId = req.query.id;
+    let result = await signup.findOne({_id:userId});
+    return {
+      message: 'Registration single Save Data..........',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    return error;
+  }
+};
 exports.loginOne = async (req) => {
   try {
     const email = req.query.email_address;
@@ -198,8 +210,10 @@ exports.updateAddress = async (req, res) => {
 exports.userCollections = async (req, res) => {
   try {
     let userId = req.query.id;
-    const user = await createCollection.find({ created_by: userId , status:'verified'}); 
+    // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
     // const user = await createCollection.find({ created_by: userId });
+    // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
+    const user = await createCollection.find({ created_by: userId });
     // console.log(user)
     if (user) {
       return {
