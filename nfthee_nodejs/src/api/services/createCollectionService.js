@@ -30,7 +30,6 @@ exports.indexAll = async (req, res) => {
 //     let body = req.body;
 //     // console.log(body)
 
-    
 //     console.log(logo_image,"kesfnlekf")
 // if(body){
 //     let addCreateItem = await createCollection.create(body);
@@ -38,7 +37,7 @@ exports.indexAll = async (req, res) => {
 //     return {
 //       message: 'create item added successfully.',
 //       status: true,
-//       data: addCreateItem, 
+//       data: addCreateItem,
 //     };
 //   }
 //   } catch (error) {
@@ -46,73 +45,66 @@ exports.indexAll = async (req, res) => {
 //   }
 // };
 exports.createCollectionInfo = async (req, res) => {
-    try {
-      
-      const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
-      const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
-      const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
-      
-      console.log(req.files)
-      
-      const upadate_data = {
-        logo_image:logo_image,
-        featured_image:featured_image,
-        banner_image:banner_image,
-         url: req.body.url, 
-         description:req.body.description,
-         contract_address:req.body.contract_address,
-         nextId:req.body.nextId,
-         royalty_percentage:req.body.royalty_percentage,
-         links:req.body.links,
-         creator_earnings:req.body.creator_earnings,
-         blockchain:req.body. blockchain,
-         payment_token:req.body.payment_token,
-         display_theme:req.body.display_theme,
-         explicit_sensitive_content:req.body.explicit_sensitive_content,
-         created_by:req.body.created_by
-        // website: req.body.website,
-        // facebook: req.body.facebook,
-        // linkedin: req.body.linkedin,
-        // youtube: req.body.youtube,
-      };
-      console.log('::::::>',upadate_data);
-      let result = await createCollection.create(upadate_data
-        // { $set: upadate_data }
-      );
-  
-  
+  try {
+    const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
+    const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
+    const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+
+    console.log(req.files);
+
+    const upadate_data = {
+      logo_image: logo_image,
+      featured_image: featured_image,
+      banner_image: banner_image,
+      url: req.body.url,
+      description: req.body.description,
+      contract_address: req.body.contract_address,
+      nextId: req.body.nextId,
+      royalty_percentage: req.body.royalty_percentage,
+      links: req.body.links,
+      creator_earnings: req.body.creator_earnings,
+      blockchain: req.body.blockchain,
+      payment_token: req.body.payment_token,
+      display_theme: req.body.display_theme,
+      explicit_sensitive_content: req.body.explicit_sensitive_content,
+      created_by: req.body.created_by,
+      // website: req.body.website,
+      // facebook: req.body.facebook,
+      // linkedin: req.body.linkedin,
+      // youtube: req.body.youtube,
+    };
+    console.log('::::::>', upadate_data);
+    let result = await createCollection.create(
+      upadate_data
+      // { $set: upadate_data }
+    );
+
     //  if (req.files.logo_image) body.logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
-  
-      // if (req.files.featured_image) body.featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
-      // console.log(body.logo_image,"kesfnlekf")
-      // if (req.files.banner_image) body.banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
-  if(result){
-  
-     
+
+    // if (req.files.featured_image) body.featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
+    // console.log(body.logo_image,"kesfnlekf")
+    // if (req.files.banner_image) body.banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+    if (result) {
       // let addCreateItem = await createCollection.create(result);
       // console.log(addCreateItem)
       return {
-  
         message: 'create item added successfully.',
         status: true,
-        data: result, 
+        data: result,
       };
-  
     }
-    } catch (error) {
-   
-      throw error;
-    }}
+  } catch (error) {
+    throw error;
+  }
+};
 exports.getCollectionInfo = async (req, res) => {
   try {
-    
     let result = await createCollection.find({ status: 'verified' });
-    
+
     return {
       message: 'data find successfully.',
       status: true,
       data: result,
-      
     };
   } catch (error) {
     throw error;
@@ -120,14 +112,12 @@ exports.getCollectionInfo = async (req, res) => {
 };
 exports.getAllInfo = async (req, res) => {
   try {
-    
     let result = await createCollection.find({});
-    
+
     return {
       message: 'data find successfully.',
       status: true,
       data: result,
-      
     };
   } catch (error) {
     throw error;
@@ -136,12 +126,11 @@ exports.getAllInfo = async (req, res) => {
 exports.read_getCollectionInfo = async (req, res) => {
   try {
     let userId = req.query.id;
-    let result = await createCollection.findOne({_id:userId});
+    let result = await createCollection.findOne({ _id: userId });
     return {
       message: 'data find successfully.',
       status: true,
       data: result,
-      
     };
   } catch (error) {
     throw error;
@@ -150,12 +139,14 @@ exports.read_getCollectionInfo = async (req, res) => {
 exports.update_getCollectionInfo = async (req, res) => {
   try {
     let userId = req.query.id;
-    let result = await createCollection.findOneAndUpdate({_id:userId}, {$set: {status:"verified"}});  
+    let result = await createCollection.findOneAndUpdate(
+      { _id: userId },
+      { $set: { status: 'verified' } }
+    );
     return {
       message: 'status updated successfully.',
       status: true,
       data: result,
-      
     };
   } catch (error) {
     throw error;
@@ -165,7 +156,9 @@ exports.read_createCollectionInfo = async (req, res) => {
   try {
     let userId = req.query.id;
     // console.log(userId);
-    let result = await createCollection.findOne({ _id:userId}).populate("created_by");
+    let result = await createCollection
+      .findOne({ _id: userId })
+      .populate('created_by');
 
     // console.log(result)
     return {
@@ -258,7 +251,7 @@ exports.delete_createCollectionInfo = async (req, res) => {
       };
     }
   } catch (error) {
-    return error; 
+    return error;
   }
 };
 
@@ -273,5 +266,25 @@ exports.upload_image = async (req) => {
     }
   } catch (error) {
     return error;
+  }
+};
+
+exports.getCollectionByAddress = async (req) => {
+  try {
+    console.log(req.body.contractAddress);
+    let result = await createCollection.findOne({
+      contract_address: req.body.contractAddress,
+    });
+    let nextId = result.getNextId();
+    createCollection.nextId = nextId;
+
+    // createCollection.save({ nextId: nextId });
+    return {
+      message: 'Collection  Found successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
   }
 };

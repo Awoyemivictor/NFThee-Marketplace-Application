@@ -1,6 +1,8 @@
 // const BASE_URL = 'https://theemarketplace.onrender.com/api/';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL+'/api';
+import instance from '../axios';
+
+const BASE_URL = process.env.REACT_APP_BASE_URL + '/api';
 
 export const getBlogData = async () => {
   const requestOptions = {
@@ -57,3 +59,7 @@ export const getSearchCollection = async () => {
     return error;
   }
 };
+
+// export const getCollectionData = async () => {
+//   instance.get('/createCollection/read',);
+// };
