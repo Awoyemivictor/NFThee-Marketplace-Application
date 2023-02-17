@@ -1,0 +1,9 @@
+@import 'assets/scss/app.scss';
+@font-face {
+	font-family: 'FontsFree-Net-SFProDisplay-Semibold';
+	src: local('FontsFree-Net-SFProDisplay-Semibold'), url('./assets/fonts/FontsFree-Net-SFProDisplay-Semibold.ttf') format('truetype');
+	font-weight: 900;
+}
+.font {
+	font-family: 'FontsFree-Net-SFProDisplay-Semibold';
+}

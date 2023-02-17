@@ -1,0 +1,1 @@
+exports.ErrorHandlerMiddleware = require('./error-handler');

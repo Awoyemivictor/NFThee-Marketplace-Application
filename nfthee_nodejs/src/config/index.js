@@ -1,0 +1,1 @@
+exports.constantCredentials = require('./constantCredentials');

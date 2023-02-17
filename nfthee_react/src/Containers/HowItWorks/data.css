@@ -1,0 +1,15 @@
+li {
+  color: rgb(0, 0, 255);
+}
+p {
+    font-size: medium;
+  color: black;
+}
+ul {
+    font-size: larger;
+  list-style-image: dot ;
+  margin: 0;
+  padding: 0;
+}
+li {font-size:omgHuge;}
+li span {font-size:mehNormal;}

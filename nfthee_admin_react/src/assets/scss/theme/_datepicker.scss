@@ -1,0 +1,128 @@
+/**=====================
+    52. Datepicker CSS Start
+==========================**/
+//colors
+.datepicker--day-name {
+  color: $black;
+  font-weight: bold;
+}
+.datepicker--cell {
+  &.-current- {
+    color: $black;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid $primary-color;
+  }
+  &.-focus- {
+    background: $primary-color;
+    color: $white;
+  }
+  &.-selected- {
+    background: $primary-color;
+  }
+}
+// timepicker 
+
+.classic_theme_container {
+  height: 144px !important;
+}
+.react_times_button {
+  .wrapper {
+      width: 100%;
+  }
+}
+.time_picker_wrapper2 {
+  display: flex;
+  width: auto !important;
+  .time_picker_container {
+      width: 300px;
+  }
+  .time_picker_modal_container {
+      top: unset !important;
+      bottom: 82px !important;
+  }
+}
+.time_picker_wrapper, .time_picker_wrapper2 {
+  width: 300px;
+  .time_picker_container {
+      .time_picker_modal_header, .time_picker_modal_footer, .timezone_picker_modal_header {
+          background-color: $primary-color ;
+      }
+      .picker_pointer {
+          background-color: $primary-color ;
+          .pointer_drag {
+              background-color: $primary-color ;
+          }
+      }
+      .picker_center {
+          background-color: $primary-color ;
+      }
+      .classic_theme_container {
+          .classic_time {
+              &.light {
+                  &.active, &:hover {
+                      background-color: $primary-color ;
+                  }
+              }
+          }
+      }
+  }
+  .gap {
+      padding: 10px;
+  }
+}
+.time_picker_modal_container {
+  width: unset !important;
+}
+// responsive
+@media only screen and (max-width: 1660px) {
+  .date-range {
+      display: flex;
+  }
+}
+@media only screen and (max-width: 1107px) {
+.date-range {
+  display: unset;
+    .react-datepicker-wrapper {
+        &:last-child {
+            margin-top: 15px; 
+        }
+    }
+}
+}
+@media only screen and (max-width: 575px) {
+.react-datepicker {
+    .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+        width: 25px !important;
+        line-height: 25px !important;
+    }
+}
+.date-picker {
+    .theme-form {
+        .form-row {
+            .form-row {
+                .col-form-label {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}
+}
+@media only screen and (max-width: 475px) {
+.date-range {
+    .react-datepicker-wrapper {
+        &:last-child {
+            margin-top: 15px;
+        }
+    }
+}
+}
+/**=====================
+   52. Datepicker CSS End
+==========================**/
+
+
+
+
