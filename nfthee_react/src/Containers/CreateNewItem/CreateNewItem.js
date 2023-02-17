@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import instance from '../../axios';
@@ -61,7 +61,7 @@ const CreateNewItem = () => {
   ];
 
   const IconSingleValue = (props) => (
-    <SingleValue {...props}>
+    <SingleValue  {...props}>
       <img
         src={props.data.image}
         style={{
@@ -77,8 +77,8 @@ const CreateNewItem = () => {
     </SingleValue>
   );
 
-  const IconOption = (props) => (
-    <Option {...props}>
+  const IconOption = ({props}) => (
+    <Option  {...props}>
       <img
         src={props.data.image}
         style={{
@@ -181,6 +181,7 @@ const CreateNewItem = () => {
   };
   const { _id } = JSON.parse(localStorage.getItem('userLoggedIn'));
   console.log(_id, 'id on the create ');
+  const collectionRef=useRef()
   const [collectionData, setCollectionData] = useState({
     name: '',
     symbol: '',
@@ -299,13 +300,14 @@ const CreateNewItem = () => {
   };
 
   const [collections, setCollections] = useState([]);
+  const [marketplace,setMarketPlace]=useState(true)
   const [activeTab, setActiveTab] = useState('Fixed price');
-
+console.log(marketplace)
   useEffect(() => {
     const fetchData = async () => {
       const arr = [];
       await axios
-        .get('http://192.168.1.4:8002/api/createCollection/all')
+        .get(`http://192.168.1.4:8002/api/userCollections?id=${_id}`)
         .then((response) => {
           let result = response.data.data;
           result.map((collection) => {
@@ -339,6 +341,7 @@ const CreateNewItem = () => {
         });
       });
   };
+  const mySelectRef = useRef(null);
 
   console.log(':::::<><><><><>>>', { newData }, uploadedFile);
   const handleSubmitNewCollection = async () => {
@@ -386,28 +389,10 @@ const CreateNewItem = () => {
     formData.append("payment_token", collectionData.payment_token);
     formData.append("display_theme", collectionData.display_theme);
     formData.append("explicit_sensitive_content", collectionData.explicit_sensitive_content);
-    // symbol: '',
-    // description: '',
-    // chooseType: '',
-    // logo_image: '',
-    // featured_image: '',
-    // banner_image: '',
-    // url: '',
-    // category: '',
-    // website: '',
-    // discord: '',
-    // instagram: '',
-    // medium: '',
-    // telegram: '',
-    // creator_earnings: '',
-    // created_by: _id,
-    // blockchain: '',
-    // payment_token: '',
-    // display_theme: '',
-    // explicit_sensitive_content: true,
+    
     await
-    axios
-      .post(`http://192.168.1.4:8002/api/createCollection`, formData)
+    instance
+      .post(`/api/createCollection`, formData)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -415,7 +400,34 @@ const CreateNewItem = () => {
           title: 'Successful',
           showConfirmButton: false,
           timer: 1500,
-        });
+        },
+         setCollectionData({
+          name: '',
+          symbol: '',
+          description: '',
+          chooseType: '',
+          logo_image: '',
+          featured_image: '',
+          banner_image: '',
+          url: '',
+          category: '',
+          website: '',
+          discord: '',
+          instagram: '',
+          medium: '',
+          telegram: '',
+          creator_earnings: '',
+          created_by: _id,
+          blockchain: '',
+          payment_token: '',
+          display_theme: '',
+          explicit_sensitive_content: true,
+        }),
+        setLogoImage(null),
+        setBannerImage(null),
+        setFeaturedImage(null),
+        // mySelectRef.current.select=""
+        );
       })
       .catch((err) => {
         Swal.fire({
@@ -461,13 +473,15 @@ const CreateNewItem = () => {
     console.log(res);
   };
 
-  const [openForBids, setOpenForBids] = useState({});
+  const [openForBids, setOpenForBids] = useState({
+   Bid_price: '',
+  });
+
   const [fixedPrice, setFixedPrice] = useState({
     price: '',
   });
   const [timedAuction, setTimedAuction] = useState({
     minimumBid: 0,
-    startDate: 0,
     finishDate: 0,
   });
 
@@ -617,6 +631,12 @@ const CreateNewItem = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const handleBidPriceChange = (e) => {
+    setOpenForBids({
+      ...openForBids,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleTimedAuctionChange = (e) => {
     setTimedAuction({
@@ -632,18 +652,19 @@ const CreateNewItem = () => {
     });
   };
 
-  const handleStartDate = (e) => {
-    setTimedAuction({
-      ...timedAuction,
-      startDate: e.target.value,
-    });
-  };
+  // const handleStartDate = (e) => {
+  //   setTimedAuction({
+  //     ...timedAuction,
+  //     startDate: e.target.value,
+  //   });
+  // };
 
   const handleFinishDate = (e) => {
-    setTimedAuction({
+   if(e.target.name&&e.target.value){ setTimedAuction({
       ...timedAuction,
-      finishDate: e.target.value,
-    });
+      [e.target.name]: e.target.value,
+    });}
+    console.log(timedAuction,e.target.value)
   };
 
   const [logoImage, setLogoImage] = useState(null);
@@ -1132,7 +1153,9 @@ const CreateNewItem = () => {
                               <input
                                 type='checkbox'
                                 required
-                                defaultChecked
+                                defaultChecked={marketplace}
+                                
+                                onClick={(e) =>   setMarketPlace(prevState => !prevState)}
                                 // onChange={(e) => setFormData({
                                 //     ...formData,
                                 //     agree: !formData.agree
@@ -1143,7 +1166,7 @@ const CreateNewItem = () => {
 
                               <span className='slider round' />
                             </label>
-                          </div>
+                          </div>{marketplace?
                           <div className='row'>
                             <div className='create-item-tab'>
                               <div className='col-md-12 col-lg-12'>
@@ -1267,7 +1290,46 @@ const CreateNewItem = () => {
                                   id='open-bid'
                                   role='tabpanel'
                                 >
-                                  {/* .. */}
+                                
+                                  <div className='create-item-content border-bottom mb-3 pb-3'>
+                                    <h4 className='create-item-title mb-3'>
+                                     Bid Price
+                                    </h4>
+                                    <div className='input-group mb-2'>
+                                      <input
+                                        type='text'
+                                        className='form-control'
+                                        name='Bid_price'
+                                        onChange={handleBidPriceChange}
+                                        value={openForBids.Bid_price}
+                                        placeholder='Enter Price For Bid Piece'
+                                      />
+                                      <div className='input-group-append'>
+                                        <select
+                                          className='form-select'
+                                          id='basic-addon2'
+                                        >
+                                          <option selected>ETH</option>
+                                          <option value={1}>ETH</option>
+                                          <option value={2}>ETH</option>
+                                          <option value={3}>ETH</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div className='d-flex align-items-center price-detail'>
+                                      <a href='#' className='me-3'>
+                                        <h6 className='mb-0'>
+                                          Service Fee <span>2%</span>
+                                        </h6>
+                                      </a>
+                                      <a href='#'>
+                                        <h6 className='mb-0'>
+                                          You Will Receive <span>0 ETH</span>
+                                        </h6>
+                                      </a>
+                                    </div>
+                                  </div>
+                                
                                 </div>
                                 <div
                                   className='tab-pane fade'
@@ -1299,7 +1361,7 @@ const CreateNewItem = () => {
                                   </div>
                                   <div className='create-item-content border-bottom mb-3 pb-3'>
                                     <div className='row'>
-                                      <div className='col-lg-6 col-md-6'>
+                                      {/* <div className='col-lg-6 col-md-6'>
                                         <h4 className='create-item-title mb-3'>
                                           Start Date
                                         </h4>
@@ -1317,16 +1379,22 @@ const CreateNewItem = () => {
                                           <option value='Two'>Two</option>
                                           <option value='Three'>Three</option>
                                         </select>
-                                      </div>
+                                      </div> */}
                                       <div className='col-lg-6 col-md-6'>
                                         <h4 className='create-item-title mb-3'>
                                           End Date
                                         </h4>
-                                        <select
-                                          onChange={handleFinishDate}
+                                        <input 
+                                        type="date"
+                                        name='finishDate'
+                                          onChange={e=>setTimedAuction({
+                                            ...timedAuction,
+                                            [e.target.name]: e.target.value,
+                                          })}
                                           className='form-select form-control d-block'
-                                        >
-                                          <option
+                                          min="2023-02-17" max="2023-02-28"
+                                        />
+                                          {/* <option
                                             value='Right after listing'
                                             selected
                                           >
@@ -1334,15 +1402,15 @@ const CreateNewItem = () => {
                                           </option>
                                           <option value='One'>One</option>
                                           <option value='Two'>Two</option>
-                                          <option value='Three'>Three</option>
-                                        </select>
+                                          <option value='Three'>Three</option> */}
+                                        {/* </input> */}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div>:null}
                           <div className='create-item-content border-bottom pb-3 mb-3'>
                             <div className='d-flex justify-content-between align-items-center'>
                               <div>
@@ -1506,6 +1574,7 @@ const CreateNewItem = () => {
 
               <div
                 className='tab-pane fade'
+              
                 id='create-collection'
                 role='tabpanel'
               >
@@ -1762,6 +1831,7 @@ const CreateNewItem = () => {
                       <div className='row'>
                         <div className='col-lg-9 col-md-9'>
                           <Select
+                           
                             value={categories.value}
                             onChange={handleCategorySelect}
                             options={categories}
