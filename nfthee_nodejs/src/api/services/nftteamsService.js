@@ -211,3 +211,45 @@ exports.upload_image = async (req) => {
     return error;
   }
 };
+
+exports.insert_likes = async (req) => {
+  try {
+    let id=req.query.id;
+    console.log(":::::::>",id)
+    let liked= await nftIteams.findByIdAndUpdate(req.body.postId,{
+      $push:{likes:id}
+    },{
+      new :true
+    })
+    return {
+      message: 'Your Like is added',
+      status: true,
+      data:liked
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+
+exports.remove_likes = async (req) => {
+  try {
+    let id=req.query.id;
+    console.log(":::::::>",id)
+   let disliked= await nftIteams.findByIdAndUpdate(req.body.postId,{
+      $pull:{likes:id}
+    },{
+      new :true
+    })
+    return {
+      message: 'unlike successfully',
+      status: true,
+      data:disliked
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+
+

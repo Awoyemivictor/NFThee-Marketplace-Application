@@ -16,6 +16,8 @@ const {
     getItemInfo,
     read_getItemInfo,
     update_getItemInfo,
+    insert_likes,
+    remove_likes
 
 } = require('../controller').nftteamsController
 
@@ -29,4 +31,7 @@ router.get('/admin/getAllItem', getAllItemInfo);
 router.get('/getItem', getItemInfo);
 router.get('/getItem/read', read_getItemInfo);
 router.get('/getItem/update', update_getItemInfo);
+router.post('/like',insert_likes);
+router.post('/unlike',remove_likes)
+
 module.exports = router;
