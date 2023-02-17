@@ -5,6 +5,7 @@ import { TopSeller_select,TopSeller_select_Sortby } from "../../Components/NiceS
 import $ from "jquery"; 
 import Select from 'react-select';
 import { components } from 'react-select'; 
+import instance from '../../axios';
 window.jQuery = window.$ = $;
 require("jquery-nice-select");
 
@@ -102,6 +103,17 @@ function TopSeller() {
        setSelectedValue(e.value); 
        console.log(e.value)
      }
+
+const[users,setuser]=useState([])
+
+     useEffect(()=>{
+
+      instance
+      .get(`/api/signUp/all`)
+      .then(res=>( setuser(res.data.data)))
+  
+    },[])
+  
   return (
     <>
       <main>
@@ -359,7 +371,7 @@ function TopSeller() {
                   className="row justify-content-center"
                   style={{ bsGutterX: "2.5rem" }}
                 >
-                  {slice.map((item, index) => (
+                  {users.filter(res=>res.user_name).map((item, index) => (
                     <TopSellerCard {...item} index={index} className={'col-1'} />
                   ))}
                 </div>

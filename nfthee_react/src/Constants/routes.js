@@ -6,6 +6,7 @@ import Activity from "../Containers/Activity";
 import HowItWorks from "../Containers/HowItWorks";
 import CreateNewItem from "../Containers/CreateNewItem";
 import Profile from "../Containers/Profile/Profile";
+import OtherUser from "../Containers/OtherUser/OtherUser";
 import TermsCondition from "../Containers/TermsCondition";
 import Privacy from "../Containers/Privacy";
 import Partners from "../Containers/Partners";
@@ -74,6 +75,10 @@ export const routes = [
   {
     path: RoutePath.PROFILE,
     component: Profile,
+  },
+  {
+    path: RoutePath.OtherUser,
+    component: OtherUser,
   },
   {
     path: RoutePath.TERMSCONDITION,

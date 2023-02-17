@@ -147,4 +147,31 @@ exports.delete_createCollectionInfo = async (req, res, next) => {
         next(error);
     }
 }
+exports.insert_likes= async (req, res, next) => {
+    try {
+        const data = await nftteamsService.insert_likes(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+    
+}
+exports.insert_likes= async (req, res, next) => {
+    try {
+        const data = await nftteamsService.insert_likes(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+    
+}
+exports.remove_likes= async (req, res, next) => {
+    try {
+        const data = await nftteamsService.remove_likes(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+    
+}
 
