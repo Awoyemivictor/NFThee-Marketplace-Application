@@ -32,10 +32,10 @@ const create_collection = new Schema(
       //   require: true,
       lowercase: true,
     },
-    erc_standard: {
-      type: Boolean,
+    collection_standard: {
+      type: String,
       //   require: true,
-      default: true, // by Default erc721 is true
+      default: "Single", // by Default erc721 is true
     },
     nextId: {
       type: Number,

@@ -100,9 +100,8 @@ export const handleCollectionCreation = async (
   }
   console.log(creator);
 
-  if (nftType) {
+  if (nftType === 'single') {
     try {
-      console.log('inside try');
       res1 = await creator.deployERC721(
         name,
         symbol,
@@ -163,47 +162,125 @@ export const handleNFTCreation = async (
   let contractAddress;
   let creator;
 
-  let eth = 'Ethereum Testnet';
-  let poly = 'Polygon Testnet';
-  let bsc = 'Binance Smart Chain';
-  let harmony = 'Harmony Testnet';
-  if (eth === chooseBlockchain) {
-    console.log('eth');
-    creator = await exportInstance(
-      contracts.ethereumContracts.CREATOR,
-      Creator.abi
-    );
-  } else if (poly === chooseBlockchain) {
-    console.log('poly');
+  console.log(
+    chooseBlockchain,
+    collectionAddress,
+    nftType,
+    name,
+    symbol,
+    minterAddress,
+    royaltyPercentage
+  );
 
-    creator = await exportInstance(
-      contracts.polygonContracts.CREATOR,
-      Creator.abi
-    );
-  } else if (bsc === chooseBlockchain) {
-    console.log('bsc');
+  // let eth = 'Ethereum Testnet';
+  // let poly = 'Polygon Testnet';
+  // let bsc = 'Binance Smart Chain';
+  // let harmony = 'Harmony Testnet';
+  // if (eth === chooseBlockchain) {
+  //   console.log('eth');
+  //   creator = await exportInstance(
+  //     contracts.ethereumContracts.CREATOR,
+  //     Creator.abi
+  //   );
+  // } else if (poly === chooseBlockchain) {
+  //   console.log('poly');
 
-    creator = await exportInstance(contracts.bscContracts.CREATOR, Creator.abi);
-  } else if (harmony === chooseBlockchain) {
-    console.log('harmony');
+  //   creator = await exportInstance(
+  //     contracts.polygonContracts.CREATOR,
+  //     Creator.abi
+  //   );
+  // } else if (bsc === chooseBlockchain) {
+  //   console.log('bsc');
 
-    creator = await exportInstance(
-      contracts.harmonyContracts.CREATOR,
-      Creator.abi
-    );
-  }
-  console.log(creator);
+  //   creator = await exportInstance(contracts.bscContracts.CREATOR, Creator.abi);
+  // } else if (harmony === chooseBlockchain) {
+  //   console.log('harmony');
 
-  //create API to get Collection Address
+  //   creator = await exportInstance(
+  //     contracts.harmonyContracts.CREATOR,
+  //     Creator.abi
+  //   );
+  // }
+  // console.log(creator);
 
-  console.log(contractAddress);
+  //! create API to get Collection Address
+
+  console.log(collectionAddress);
   let mintNFT = await exportInstance(collectionAddress, theeERC721ABI.abi);
-  let res = await mintNFT.mint(1, '0x00');
+
+  const options = {
+    gasPrice: 10000000000,
+    gasLimit: 9000000,
+  };
+
+  let res = await mintNFT.mint(6, '0x00', options);
   res = await res.wait();
   if (res.status === 0) {
     console.log('Transaction Failed');
   }
   console.log(res);
+
+  return res;
+
+  // if (nftType === 'single') {
+  //   try {
+  //     res1 = await creator.deployERC721(
+  //       name,
+  //       symbol,
+  //       '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106'
+  //     );
+  //     console.log('after res');
+  //     let hash = res1;
+
+  //     res1 = await res1.wait();
+
+  //     if (res1.status === 0) {
+  //       console.log('Transaction Failed');
+  //     }
+  //     contractAddress = await readReceipt(hash);
+  //     return contractAddress;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return error;
+  //   }
+  // } else {
+  //   try {
+  //     res1 = await creator.deployERC1155('');
+  //     let hash = res1;
+
+  //     res1 = await res1.wait();
+
+  //     if (res1.status === 0) {
+  //       console.log('Transaction Failed');
+  //     }
+  //     contractAddress = await readReceipt(hash);
+  //     return contractAddress;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return error;
+  //   }
+  // }
+
+  // try {
+  //   res1 = await creator.deployERC721(
+  //     name,
+  //     symbol,
+  //     '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106'
+  //   );
+  //   console.log('after res');
+  //   let hash = res1;
+
+  //   res1 = await res1.wait();
+
+  //   if (res1.status === 0) {
+  //     console.log('Transaction Failed');
+  //   }
+  //   contractAddress = await readReceipt(hash);
+  //   return contractAddress;
+  // } catch (error) {
+  //   console.log(error);
+  //   return error;
+  // }
 };
 
 export const handleListNFTSale = async (contractAddress, tokenIds) => {

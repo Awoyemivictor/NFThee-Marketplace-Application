@@ -341,51 +341,78 @@ const CreateNewItem = () => {
   };
 
   console.log(':::::<><><><><>>>', { newData }, uploadedFile);
+
+  const getNextId = async (contractAddress) => {
+    let address = contractAddress;
+    await instance
+      .post(`/api/getCollectionByAddress`, { contractAddress: address })
+      .then((response) => {
+        console.log(response.data.data.nextId);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const increment = (id) => id + 1;
+
   const handleSubmitNewCollection = async () => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
 
+    const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
+    // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
+
     console.log(
       collectionData.name,
       collectionData.symbol,
-      collectionData.blockchain
+      collectionData.blockchain,
+      collectionData.chooseType,
+      creatorAddress[0]
     );
 
-    // const contractAddress = await handleCollectionCreation(
-    //   collectionData.blockchain,
-    //   true,
-    //   collectionData.name,
-    //   collectionData.symbol,
-    //   '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-    //   collectionData.creator_earnings
-    // );
-    // console.log(contractAddress);
+    const contractAddress = await handleCollectionCreation(
+      collectionData.blockchain,
+      collectionData.chooseType,
+      collectionData.name,
+      collectionData.symbol,
+      creatorAddress[0],
+      collectionData.creator_earnings
+    );
+    console.log(contractAddress);
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
-      // .post('/api/createCollection', collectionData)
+    // .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
+
     const formData = new FormData();
-    formData.append("name", collectionData.name);
-    formData.append("symbol", collectionData.symbol);
-    formData.append("description", collectionData.description);
-    formData.append("chooseType", collectionData.chooseType);
-    formData.append("logo_image", collectionData.logo_image);
-    formData.append("featured_image", collectionData.featured_image);
-    formData.append("banner_image", collectionData.banner_image);
-    formData.append("url", collectionData.url);
-    formData.append("category", collectionData.category);
-    formData.append("website", collectionData.website);
-    formData.append("discord", collectionData.discord);
-    formData.append("instagram", collectionData.instagram);
-    formData.append("medium", collectionData.medium);
-    formData.append("telegram", collectionData.telegram);
-    formData.append("creator_earnings", collectionData.creator_earnings);
-    formData.append("created_by", collectionData.created_by);
-    formData.append("blockchain", collectionData.blockchain);
-    formData.append("payment_token", collectionData.payment_token);
-    formData.append("display_theme", collectionData.display_theme);
-    formData.append("explicit_sensitive_content", collectionData.explicit_sensitive_content);
+    formData.append('name', collectionData.name);
+    formData.append('symbol', collectionData.symbol);
+    formData.append('description', collectionData.description);
+    formData.append('collection_standard', collectionData.chooseType);
+    formData.append('logo_image', collectionData.logo_image);
+    formData.append('featured_image', collectionData.featured_image);
+    formData.append('banner_image', collectionData.banner_image);
+    formData.append('url', collectionData.url);
+    formData.append('category', collectionData.category);
+    formData.append('website', collectionData.website);
+    formData.append('discord', collectionData.discord);
+    formData.append('instagram', collectionData.instagram);
+    formData.append('medium', collectionData.medium);
+    formData.append('telegram', collectionData.telegram);
+    formData.append('creator_earnings', collectionData.creator_earnings);
+    formData.append('created_by', collectionData.created_by);
+    formData.append('blockchain', collectionData.blockchain);
+    formData.append('payment_token', collectionData.payment_token);
+    formData.append('display_theme', collectionData.display_theme);
+    formData.append(
+      'explicit_sensitive_content',
+      collectionData.explicit_sensitive_content
+    );
+    formData.append('contract_address', contractAddress);
+
     // symbol: '',
     // description: '',
     // chooseType: '',
@@ -405,9 +432,8 @@ const CreateNewItem = () => {
     // payment_token: '',
     // display_theme: '',
     // explicit_sensitive_content: true,
-    await
-    axios
-      .post(`http://192.168.1.4:8002/api/createCollection`, formData)
+    await instance
+      .post(`/api/createCollection`, formData)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -457,7 +483,7 @@ const CreateNewItem = () => {
     // console.log(contractAddress);
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // const res = await handleNFTOffer("0x00", 1);
-    const res = await handleNFTAuction("0x00",1)
+    const res = await handleNFTAuction('0x00', 1);
     console.log(res);
   };
 
@@ -470,6 +496,8 @@ const CreateNewItem = () => {
     startDate: 0,
     finishDate: 0,
   });
+
+  const [nftAddress, setNFTAddress] = useState('');
 
   const handleSubmitNewItem = async () => {
     let data = {};
@@ -489,7 +517,14 @@ const CreateNewItem = () => {
     const post = itemData;
     post.putOnMarketplace = data;
 
-    axios
+    const res = await handleNFTCreation(
+      itemData.chooseBlockchain,
+      '0x25dd60be36f80a435347f0a5e420d11b513e6f1e'
+    );
+    console.log(res);
+    // setNFTAddress(...itemData, res);
+
+    instance
       .post('http://192.168.1.4:8002/api/store', post)
       .then((response) => {
         Swal.fire({
@@ -648,32 +683,28 @@ const CreateNewItem = () => {
 
   const [logoImage, setLogoImage] = useState(null);
   const handleLogoImage = (e) => {
-        setLogoImage(URL.createObjectURL(e.target.files[0]));
-        setCollectionData({
-          ...collectionData,
-          logo_image:e.target.files[0],
-        });
-  
+    setLogoImage(URL.createObjectURL(e.target.files[0]));
+    setCollectionData({
+      ...collectionData,
+      logo_image: e.target.files[0],
+    });
   };
   const [bannerImage, setBannerImage] = useState(null);
   const handleBannerImage = (e) => {
-  
-        setBannerImage(URL.createObjectURL(e.target.files[0]));
-        setCollectionData({
-          ...collectionData,
-          banner_image: e.target.files[0],
-        });
-  
+    setBannerImage(URL.createObjectURL(e.target.files[0]));
+    setCollectionData({
+      ...collectionData,
+      banner_image: e.target.files[0],
+    });
   };
 
   const [featuredImage, setFeaturedImage] = useState(null);
   const handleFeaturedImage = (e) => {
-        setFeaturedImage(URL.createObjectURL(e.target.files[0]));
-        setCollectionData({
-          ...collectionData,
-          featured_image: e.target.files[0],
-        });
-  
+    setFeaturedImage(URL.createObjectURL(e.target.files[0]));
+    setCollectionData({
+      ...collectionData,
+      featured_image: e.target.files[0],
+    });
   };
 
   //levels
@@ -922,7 +953,7 @@ const CreateNewItem = () => {
                                 <input
                                   type='radio'
                                   name='chooseType'
-                                  value='item single'
+                                  value='single'
                                   className='card-input-element'
                                   onChange={handleItemChange}
                                   defaultChecked
@@ -951,7 +982,7 @@ const CreateNewItem = () => {
                                   // onChange={handleRadioChange}
                                   type='radio'
                                   name='chooseType'
-                                  value='item multiple'
+                                  value=' multiple'
                                   className='card-input-element'
                                   onChange={handleItemChange}
                                 />
@@ -1524,7 +1555,7 @@ const CreateNewItem = () => {
                             <input
                               type='radio'
                               name='chooseType'
-                              value='collection single'
+                              value='single'
                               className='card-input-element'
                               onChange={handleCollectionChange}
                               defaultChecked
@@ -1553,7 +1584,7 @@ const CreateNewItem = () => {
                               // onChange={handleRadioChange}
                               type='radio'
                               name='chooseType'
-                              value='collection multiple'
+                              value=' multiple'
                               className='card-input-element'
                               onChange={handleCollectionChange}
                             />
@@ -1588,7 +1619,7 @@ const CreateNewItem = () => {
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box1 overflow-hidden'>
-                            {logoImage? (
+                            {logoImage ? (
                               <img
                                 src={logoImage}
                                 alt=''
@@ -1897,65 +1928,63 @@ const CreateNewItem = () => {
                       </h5>
                       <div className='col-lg-4 col-md-4 p-0 mt-lg-3'>
                         <div className='row'>
-                              <label className='w-100 mb-0'>
-  <input
-                                  type='radio'
-                                  name='payment_token'
-                                  value='eth'
-                                  className='card-input-element'
-                                  onChange={handleCollectionChange}
-                                  defaultChecked
-                                />
-                          <div className='col-lg-6 col-md-6'>
-                            <div className='token-card mb-3 mb-lg-0'>
-                              <div className='token-body d-flex'>
-                                <div className='icon'>
-                                  <span>
-                                    <img
-                                      src='/assets/images/icons/ethereum-pink.png'
-                                      alt=''
-                                      className='img-fluid eth-icon'
-                                    />
-                                  </span>
-                                </div>
-                                <div className='token-body-content'>
-                                  <h3>ETH</h3>
-                                  <p>Ethereum</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                              </label >
-      <label className='w-100 mb-0'>
-  <input
-                                  type='radio'
-                                  name='payment_token'
-                                  value='solona/ethreum'
-                                  className='card-input-element'
-                                  onChange={handleCollectionChange}
-                                  
-                                />
-                          <div className='col-lg-6 col-md-6'>
-                            <div className='token-card mb-3 mb-lg-0'>
-                              <div className='token-body d-flex'>
-                                <div className='icon'>
-                                  <span>
-                                    <img
-                                      src='/assets/images/icons/solona.png'
-                                      alt=''
-                                      className='img-fluid'
-                                    />
-                                  </span>
-                                </div>
-                                <div className='token-body-content'>
-                                  <h3>Solana</h3>
-                                  <p>Ethereum</p>
+                          <label className='w-100 mb-0'>
+                            <input
+                              type='radio'
+                              name='payment_token'
+                              value='eth'
+                              className='card-input-element'
+                              onChange={handleCollectionChange}
+                              defaultChecked
+                            />
+                            <div className='col-lg-6 col-md-6'>
+                              <div className='token-card mb-3 mb-lg-0'>
+                                <div className='token-body d-flex'>
+                                  <div className='icon'>
+                                    <span>
+                                      <img
+                                        src='/assets/images/icons/ethereum-pink.png'
+                                        alt=''
+                                        className='img-fluid eth-icon'
+                                      />
+                                    </span>
+                                  </div>
+                                  <div className='token-body-content'>
+                                    <h3>ETH</h3>
+                                    <p>Ethereum</p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          </label >
-        
+                          </label>
+                          <label className='w-100 mb-0'>
+                            <input
+                              type='radio'
+                              name='payment_token'
+                              value='solona/ethreum'
+                              className='card-input-element'
+                              onChange={handleCollectionChange}
+                            />
+                            <div className='col-lg-6 col-md-6'>
+                              <div className='token-card mb-3 mb-lg-0'>
+                                <div className='token-body d-flex'>
+                                  <div className='icon'>
+                                    <span>
+                                      <img
+                                        src='/assets/images/icons/solona.png'
+                                        alt=''
+                                        className='img-fluid'
+                                      />
+                                    </span>
+                                  </div>
+                                  <div className='token-body-content'>
+                                    <h3>Solana</h3>
+                                    <p>Ethereum</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </label>
                         </div>
                       </div>
                       <div className='row mt-4'>
