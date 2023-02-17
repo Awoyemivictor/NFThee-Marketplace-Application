@@ -142,7 +142,7 @@ const[users,setuser]=useState([])
 console.log(id)
    const { data } =  axios({
     method: 'put',
-    url: `http://192.168.1.4:8002/api/userFollow?id=${_id}`,
+    url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
     data: {
         id: id,
     }
@@ -154,7 +154,7 @@ console.log(id)
 console.log(id)
  const { data } =  axios({
   method: 'put',
-  url: `http://192.168.1.4:8002/api/userUnFollow?id=${_id}`,
+  url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
   data: {
       id: id,
   }

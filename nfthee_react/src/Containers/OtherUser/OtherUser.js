@@ -82,7 +82,7 @@ export default function OtherUser() {
 
 
  useEffect(async()=>{
-   axios.get(`http://192.168.1.4:8002/api/signup/read?id=${id}`)
+   instance.get(`/api/signup/read?id=${id}`)
     .then(res=>setuser(res.data.data))
     
  },[changes])
@@ -126,7 +126,7 @@ export default function OtherUser() {
 //   console.log(id)
      const { data } =  axios({
       method: 'put',
-      url: `http://192.168.1.4:8002/api/userFollow?id=${_id}`,
+      url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
       data: {
           id: e.target.name,
       }
@@ -138,7 +138,7 @@ export default function OtherUser() {
 //   console.log(id)
    const { data } =  axios({
     method: 'put',
-    url: `http://192.168.1.4:8002/api/userUnFollow?id=${_id}`,
+    url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
     data: {
         id: e.target.name,
     }

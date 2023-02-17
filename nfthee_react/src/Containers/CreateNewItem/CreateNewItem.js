@@ -306,8 +306,8 @@ console.log(marketplace)
   useEffect(() => {
     const fetchData = async () => {
       const arr = [];
-      await axios
-        .get(`http://192.168.1.4:8002/api/userCollections?id=${_id}`)
+      await instance
+        .get(`/api/userCollections?id=${_id}`)
         .then((response) => {
           let result = response.data.data;
           result.map((collection) => {
