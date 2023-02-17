@@ -73,6 +73,10 @@ const nftSchema = new Schema(
       ref: 'user',
       // type:String
     },
+    likes:[{
+        type:mongoose.Schema.ObjectId,
+        ref:"user"} 
+    ],
     explicitAndSensitiveContent: {
       type: Boolean,
       default: true,
