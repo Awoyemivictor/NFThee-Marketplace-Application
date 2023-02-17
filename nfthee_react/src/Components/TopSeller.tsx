@@ -1,17 +1,21 @@
+import { profile } from "console";
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 interface TopSellerProps {
-  name: string;
+  _id:string,
+  user_name: string;
   price: string;
-  img: string;
+  profile_image: string;
   index: number;
   number?: string;
   className?: string
 }
 
 export const TopSeller = ({
-  name,
-  img,
+  _id,
+  user_name,
+  profile_image,
   price,
   index,
   number,
@@ -21,9 +25,9 @@ export const TopSeller = ({
     <div className={`col ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
-          <img src={img} alt="" className="" />
+          <Link to={`/users/${_id}`}><img src={profile_image?`${process.env.REACT_APP_BASE_URL}/fileUpload/${profile_image}`:"/images/avt-2.jpg"} alt="" className="" /></Link>
           <div className="badge">
-            <img src="images/icons/star-check.png" alt="" />
+            <img src="/images/icons/star-check.png" alt="" />
           </div>
         </div>
         <div className="author-information">
@@ -32,7 +36,7 @@ export const TopSeller = ({
               <span>#{number}</span>
             </h6>
           )}
-          <h5>{name}</h5>
+          <h5>{user_name}</h5>
           <div className="price">{price}</div>
         </div>
       </div>

@@ -97,6 +97,7 @@ const[users,setuser]=useState([])
 
   },[])
 
+  const [changes,setChanges]=useState()
 
   useEffect(()=>{
 
@@ -104,7 +105,7 @@ const[users,setuser]=useState([])
     .get(`/api/signUp/all`)
     .then(res=>( setuser(res.data.data)))
 
-  },[])
+  },[changes])
 
   const handleChange = e => {
     if (e.target.files.length) {
@@ -132,19 +133,36 @@ const[users,setuser]=useState([])
       body: formData
     });
   };
-  const [User,setUser]=useState()
-useEffect(()=>{
- axios.get(`http://192.168.1.4:8002/api/login/email?email_address=momo@waterisgone.com`)
-.then(res=>setUser(res.data.data))
-},[])
-  const action =  User?.following?.includes(_id) ? 'unfollow' : 'follow';
-  const buttonText = action === 'follow' ? 'Follow' : 'Unfollow';
-  const handlleFollow=(id)=>{
+  
+  const handlleFollow=(id,e)=>{
+    // setChanges(true)
+    if(e.target.value==="follow"){
    const formData=new FormData()
    formData.append("id", id);
+console.log(id)
+   const { data } =  axios({
+    method: 'put',
+    url: `http://192.168.1.4:8002/api/userFollow?id=${_id}`,
+    data: {
+        id: id,
+    }
+  });}
+  if(e.target.value==="unfollow"){
 
-    axios.put(`http://192.168.1.4:8002/api/userFollow?id=${_id}`,formData)
-    .then(res=>console.log(res.data.data.follow,"?:LLL"))
+ const formData=new FormData()
+ formData.append("id", id);
+console.log(id)
+ const { data } =  axios({
+  method: 'put',
+  url: `http://192.168.1.4:8002/api/userUnFollow?id=${_id}`,
+  data: {
+      id: id,
+  }
+});
+}
+setChanges(Math.floor(Math.random() * 10))
+// console.log(data);
+   
   }
   return (
     <>
@@ -736,14 +754,22 @@ useEffect(()=>{
                                         </td>
                                         <td >   At Floor   </td>
                                         <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Follow</a>
-                                       <button
-                                      value={data._id}
+                                        <td>
+                                          {/* <a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Follow</a> */}
+                                     {data.followers.includes(_id)? <button
+                                     value="unfollow"
                                  
                                        onClick={(e)=>handlleFollow(data._id,e)}
                                        >
-                                        {buttonText}
-                                       </button>
+                                       unfollow
+                                       </button>:<button
+                                     value="follow"
+                                 
+                                       onClick={(e)=>handlleFollow(data._id,e)}
+                                       >
+                                       follow
+                                       </button>}
+                                      
 
 
                                         </td>
