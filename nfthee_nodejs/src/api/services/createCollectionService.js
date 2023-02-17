@@ -69,7 +69,8 @@ exports.createCollectionInfo = async (req, res) => {
          payment_token:req.body.payment_token,
          display_theme:req.body.display_theme,
          explicit_sensitive_content:req.body.explicit_sensitive_content,
-         created_by:req.body.created_by
+         created_by:req.body.created_by,
+         name:req.body.name
         // website: req.body.website,
         // facebook: req.body.facebook,
         // linkedin: req.body.linkedin,

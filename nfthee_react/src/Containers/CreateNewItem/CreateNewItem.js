@@ -362,13 +362,52 @@ const CreateNewItem = () => {
     // console.log(contractAddress);
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
-    //   .post('/api/createCollection', collectionData)
+      // .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
-
+    const formData = new FormData();
+    formData.append("name", collectionData.name);
+    formData.append("symbol", collectionData.symbol);
+    formData.append("description", collectionData.description);
+    formData.append("chooseType", collectionData.chooseType);
+    formData.append("logo_image", collectionData.logo_image);
+    formData.append("featured_image", collectionData.featured_image);
+    formData.append("banner_image", collectionData.banner_image);
+    formData.append("url", collectionData.url);
+    formData.append("category", collectionData.category);
+    formData.append("website", collectionData.website);
+    formData.append("discord", collectionData.discord);
+    formData.append("instagram", collectionData.instagram);
+    formData.append("medium", collectionData.medium);
+    formData.append("telegram", collectionData.telegram);
+    formData.append("creator_earnings", collectionData.creator_earnings);
+    formData.append("created_by", collectionData.created_by);
+    formData.append("blockchain", collectionData.blockchain);
+    formData.append("payment_token", collectionData.payment_token);
+    formData.append("display_theme", collectionData.display_theme);
+    formData.append("explicit_sensitive_content", collectionData.explicit_sensitive_content);
+    // symbol: '',
+    // description: '',
+    // chooseType: '',
+    // logo_image: '',
+    // featured_image: '',
+    // banner_image: '',
+    // url: '',
+    // category: '',
+    // website: '',
+    // discord: '',
+    // instagram: '',
+    // medium: '',
+    // telegram: '',
+    // creator_earnings: '',
+    // created_by: _id,
+    // blockchain: '',
+    // payment_token: '',
+    // display_theme: '',
+    // explicit_sensitive_content: true,
     await
     axios
-      .post(`http://192.168.1.4:8002/api/createCollection`, collectionData)
+      .post(`http://192.168.1.4:8002/api/createCollection`, formData)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -623,21 +662,37 @@ const CreateNewItem = () => {
         });
       });
   };
+  // const [bannerImage, setBannerImage] = useState(null);
+  // const handleBannerImage = (e) => {
+  //   const formData = new FormData();
+  //   formData.append('banner_image', e.target.files[0]);
+  //   // instance
+  //   axios
+  //     .post('http://192.168.1.4:8002/api/createCollection', formData)
+  //     .then((response) => response.data.data)
+  //     .then((data) => {
+  //       setBannerImage(URL.createObjectURL(e.target.files[0]));
+  //       setCollectionData({
+  //         ...collectionData,
+  //         banner_image: data.banner_image,
+  //       });
+  //     });
+  //       setLogoImage(URL.createObjectURL(e.target.files[0]));
+  //       setCollectionData({
+  //         ...collectionData,
+  //         logo_image:e.target.files[0],
+  //       });
+  
+  // };
   const [bannerImage, setBannerImage] = useState(null);
   const handleBannerImage = (e) => {
-    const formData = new FormData();
-    formData.append('banner_image', e.target.files[0]);
-    // instance
-    axios
-      .post('http://192.168.1.4:8002/api/createCollection', formData)
-      .then((response) => response.data.data)
-      .then((data) => {
+  
         setBannerImage(URL.createObjectURL(e.target.files[0]));
         setCollectionData({
           ...collectionData,
-          banner_image: data.banner_image,
+          banner_image: e.target.files[0],
         });
-      });
+  
   };
 
   const [featuredImage, setFeaturedImage] = useState(null);
@@ -655,6 +710,12 @@ const CreateNewItem = () => {
           featured_image: data.featured_image,
         });
       });
+        setFeaturedImage(URL.createObjectURL(e.target.files[0]));
+        setCollectionData({
+          ...collectionData,
+          featured_image: e.target.files[0],
+        });
+  
   };
 
   //levels
@@ -1569,7 +1630,7 @@ const CreateNewItem = () => {
                       <div className='row mt-4'>
                         <div className='col-lg-12 col-md-12 mb-lg-0 mb-4'>
                           <label className='img-upload up-box1 overflow-hidden'>
-                            {logoImage ? (
+                            {logoImage? (
                               <img
                                 src={logoImage}
                                 alt=''
@@ -1878,13 +1939,22 @@ const CreateNewItem = () => {
                       </h5>
                       <div className='col-lg-4 col-md-4 p-0 mt-lg-3'>
                         <div className='row'>
+                              <label className='w-100 mb-0'>
+  <input
+                                  type='radio'
+                                  name='payment_token'
+                                  value='eth'
+                                  className='card-input-element'
+                                  onChange={handleCollectionChange}
+                                  defaultChecked
+                                />
                           <div className='col-lg-6 col-md-6'>
                             <div className='token-card mb-3 mb-lg-0'>
                               <div className='token-body d-flex'>
                                 <div className='icon'>
                                   <span>
                                     <img
-                                      src='assets/images/icons/ethereum-pink.png'
+                                      src='/assets/images/icons/ethereum-pink.png'
                                       alt=''
                                       className='img-fluid eth-icon'
                                     />
@@ -1897,13 +1967,23 @@ const CreateNewItem = () => {
                               </div>
                             </div>
                           </div>
+                              </label >
+      <label className='w-100 mb-0'>
+  <input
+                                  type='radio'
+                                  name='payment_token'
+                                  value='solona/ethreum'
+                                  className='card-input-element'
+                                  onChange={handleCollectionChange}
+                                  
+                                />
                           <div className='col-lg-6 col-md-6'>
                             <div className='token-card mb-3 mb-lg-0'>
                               <div className='token-body d-flex'>
                                 <div className='icon'>
                                   <span>
                                     <img
-                                      src='assets/images/icons/solona.png'
+                                      src='/assets/images/icons/solona.png'
                                       alt=''
                                       className='img-fluid'
                                     />
@@ -1916,9 +1996,10 @@ const CreateNewItem = () => {
                               </div>
                             </div>
                           </div>
+                          </label >
+        
                         </div>
                       </div>
-
                       <div className='row mt-4'>
                         <div className='col-lg-9 col-md-9'>
                           <select
