@@ -72,7 +72,7 @@ const [isLiked, setIsLiked] = useState(false);
                         {collection?.name ? collection?.name : 'undefined'}
                       </span>
                     </div>
-                    <div className="card-media">
+                 <div className="card-media">
               <Link to={`/exploredetail/${collection._id}`}>
 
                         <img

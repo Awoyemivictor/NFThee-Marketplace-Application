@@ -25,10 +25,7 @@ let uploadMultiple = upload.fields([
 
 router.post('/signup', register);
 router.get('/signup/all', signupDataAll);
-<<<<<<< HEAD
-=======
 router.get('/signup/read', signupData);
->>>>>>> origin/new
 router.get('/login/email', login);
 router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
