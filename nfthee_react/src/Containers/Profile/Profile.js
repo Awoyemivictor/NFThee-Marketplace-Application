@@ -5,6 +5,7 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
+import {io} from 'socket.io-client';
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -13,7 +14,12 @@ const Profile = () => {
     $('select').niceSelect();
   });
 
+  useEffect(() => { 
+    const socket=io('http://192.168.1.4:8002')
+    
+  },[])
   useEffect(() => {
+    
     $(document).ready(function () {
       //hides dropdown content
       $(".size_chart").hide();
@@ -29,6 +35,7 @@ const Profile = () => {
         $('#' + $(this).val()).show();
       });
     });
+   
   })
 
   const history = useHistory();

@@ -5,6 +5,7 @@ import i18next from 'i18next';
 import cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import { FaBell } from 'react-icons/fa';
 
 // Redux
 import { useAppSelector } from '../../hooks/useRedux';
@@ -19,8 +20,22 @@ import { languages, link_menu_profile, link_main_menu } from './Data';
 
 export const Navbar = () => {
   const [token, setToken] = useState('');
+  const [noti,setNoti]=useState(false)
+  const [notifications, setNotifications] = useState([
+    {id: 1, title: "New message", message: "You have a new message from Raju."},
+    {id: 2, title: "Payment received", message: "You have received a payment of $100 from Raju."},
+    {id: 3, title: "Order shipped", message: "Your order #12345 has been shipped and will be delivered by March 1st."},
+    {id: 4, title: "New follower", message: "You have a new follower, Raju."},
+    {id: 5, title: "Order shipped", message: "Your order #12345 has been shipped and will be delivered by March 1st."},
+    {id: 6, title: "New follower", message: "You have a new follower,  Raju."}
+  ]);
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem('TokenData'));
+    const tokenData = JSON.parse(localStorage.getItem('TokenData'))
+    if(tokenData){
+      // setNoti(true);
+    }
+    
+    ;
     setToken(tokenData);
   }, []);
 
@@ -78,7 +93,8 @@ export const Navbar = () => {
       }
     });
   }, []);
-  // dark mode save
+  // dark mode save￼
+
   // const [isDmode,setisDmode]=useState(false)
   // const DarkM=()=>{
   //   isDmode === true ? setisDmode(false) : setisDmode(true);
@@ -305,8 +321,46 @@ export const Navbar = () => {
                       ))}
                     </ul>
                   </div>
+
+                  {token ? <>
+                          <div>
+                          <FaBell data-bs-toggle="dropdown" data-bs-target="#notification-dropdown"/>
+                            
+                          <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification-dropdown"  style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                          {/* <ul>
+                            <li>Here my notifications will display</li>
+                            <li>This user likes my post</li>
+                          </ul> */}
+                          {notifications.slice(0,4).map((notification,index)=>(
+                            <div key={index} className='dropdown-item'>
+                                <h6>{notification.title}</h6>
+                                 <p>{notification.message}</p>
+                            </div>
+                          ))}
+                           {notifications.length > 4 &&
+                          notifications.slice(4).map((notification, index) => (
+                    <div key={index} className="dropdown-item">
+                                 <h6>{notification.title}</h6>
+                                 <p>{notification.message}</p>
+                  
+                </div>
+              ))
+            }
+                        </div>
+
+                      
+                        
+                  
+                          </div>
+                         
+                         </> : null}
+                  
                   {token ? (
-                    <div className="user-icon-box d-none d-md-block dropdown">
+                    
+
+                     <div className="user-icon-box d-none d-md-block dropdown">
+                      
+                      
                       <a
                         type="button"
                         data-bs-toggle="dropdown"
@@ -395,7 +449,9 @@ export const Navbar = () => {
                         </Link>
                       </div>
                     </div>
+                    
                   ) : (
+                    
                     <div className="dropdown login-dropdown d-none d-md-block">
                       <a
                         href="#"
@@ -425,7 +481,13 @@ export const Navbar = () => {
                         </li>
                       </ul>
                     </div>
+                    
+                    
                   )}
+                  
+                  {/* <FaBell  className="bell-icon" size={24}/> */}
+
+                 
                   <div className="switch-mode">
                     <span className="dark-mode mode-control">
                       <img src="images/icons/sun.png" alt="" />
