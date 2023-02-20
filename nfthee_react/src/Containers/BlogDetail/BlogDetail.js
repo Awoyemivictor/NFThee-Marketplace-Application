@@ -76,7 +76,7 @@ export default function BlogDetail() {
                         <div className="blog-detail-header text-center mb-4">
                           <h5 className>{blog.title}</h5>
                           <img
-                            src={`http://192.168.1.48:8004/fileUpload/${blog.uploadFile}`}
+                            src={`${blog.uploadFile}`}
                             alt=""
                             className="img-fluid"
                           />

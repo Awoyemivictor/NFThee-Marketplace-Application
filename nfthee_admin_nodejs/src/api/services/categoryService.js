@@ -4,12 +4,7 @@ const fs = require('fs');
 
 const { categoryModel, suggestionModel } = require('../../models');
 const { credentials } = require('../../config').constantCredentials;
-/**
- * @function addCategory
- * @description using this function to generate refercode for user
- * @param {mobile}
- * @author Rinku sain
- */
+
 
 // exports.addCategory = async (req, res) => {
 //     try {
@@ -82,12 +77,7 @@ exports.getCategory = async (req,res) => {
     }
 }
 
-/**
- * @function updateCategory
- * @description using this function to generate refercode for user
- * @param {mobile}
- * @author Rinku sain
- */
+
 exports.updateCategory = async (req, res) => {
     try {
         // console.log('req.files', req.files);

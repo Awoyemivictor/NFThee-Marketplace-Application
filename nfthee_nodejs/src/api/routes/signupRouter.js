@@ -14,11 +14,11 @@ const {
   userFollow,
   userUnFollow,
 } = require('../controller').signupController;
-const {  
-  Multer: { upload },
+const {
+  Multer: { upload, uploadS3 },
 } = require('../../utils');
 
-let uploadMultiple = upload.fields([
+let uploadMultiple = uploadS3.fields([
   { name: 'profile_image', maxCount: 1 },
   { name: 'banner_image', maxCount: 1 },
 ]);
@@ -31,8 +31,8 @@ router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
 router.get('/userCollections', userCollections);
 router.get('/userItems', userItems);
-router.put('/userFollow',userFollow);
-router.put('/userUnFollow',userUnFollow);
+router.put('/userFollow', userFollow);
+router.put('/userUnFollow', userUnFollow);
 
 // router.post("/reg", SignUp)
 

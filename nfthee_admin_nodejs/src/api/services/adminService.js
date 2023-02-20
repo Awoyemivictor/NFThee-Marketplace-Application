@@ -42,7 +42,7 @@ exports.single_blog = async (req) => {
 exports.adminBlog = async (req) => {
   try {
     console.log(`req.file`, req.file);
-    const img_blog_path = `${credentials.BASE_URL}fileUpload/${req.file.filename}`;
+    const img_blog_path = req.file.location;
     let blogInfo = {
       title: req.body.title,
       author_name: req.body.author_name,
@@ -74,7 +74,7 @@ exports.adminUpdate = async (req) => {
     let blogId = req.body.blogId;
     console.log(`req.file`, req.file);
     if (req.file) {
-      req.body.uploadFile = `${credentials.BASE_URL}fileUpload/${req.file.filename}`;
+      req.body.uploadFile = req.file.location;
     } else {
       req.body.uploadFile = undefined;
     }

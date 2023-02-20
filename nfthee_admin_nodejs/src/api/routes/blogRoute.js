@@ -1,5 +1,5 @@
 const express = require('express');
-const { Multer: { upload }, ApiAuth: { auth } } = require('../../utils');
+const { Multer: { uploadS3 }, ApiAuth: { auth } } = require('../../utils');
 
 const router = express.Router();
 const {
@@ -14,9 +14,9 @@ const {
 
 
 
-router.post("/blog",auth,  upload.single('uploadFile'), adminBlog);
+router.post("/blog",auth,  uploadS3.single('uploadFile'), adminBlog);
 router.get("/blog/all",auth,  all_blog)
-router.post("/blog/modify",auth,  upload.single('uploadFile'), adminUpdate)
+router.post("/blog/modify",auth,  uploadS3.single('uploadFile'), adminUpdate)
 router.post("/blog/delete",auth,  blog_delete)
 router.get("/singleBlog",auth,  single_blog)
 
