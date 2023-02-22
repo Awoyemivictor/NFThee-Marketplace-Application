@@ -19,7 +19,7 @@ const ItemDetail = () => {
     const [data, setdata] = useState([]);
     useEffect(() => {
      
-        axios.get("http://192.168.1.4:8002/api/admin/getAllItem")
+        axios.get("http://192.168.1.48:8002/api/admin/getAllItem")
 
             .then(response => setdata(response.data.data))
             .finally(() => setLoading(false))

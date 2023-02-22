@@ -56,6 +56,7 @@ exports.createCollectionInfo = async (req, res) => {
     console.log(req.files);
 
     const upadate_data = {
+      name: req.body.name,
       logo_image: logo_image,
       featured_image: featured_image,
       banner_image: banner_image,
