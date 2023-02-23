@@ -174,7 +174,7 @@ const CollectionSingle = () => {
 														Uploaded File:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
-														<img alt="" src={collection.uploadFile} height="100px" width="100px"/>
+														<img alt="" src={collection.logo_image} height="100px" width="100px"/>
 													</div>
 												</FormGroup>
 											</Form>

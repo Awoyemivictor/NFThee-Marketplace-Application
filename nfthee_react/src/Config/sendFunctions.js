@@ -11,6 +11,7 @@ import ERC20 from './abis/polygon/TestERC20.json';
 import contracts from './contracts';
 import { generateRandomNumbers, getUnixTimeAfterDays } from './helpers';
 import { getFullYearTime } from './constants';
+import { getCollection } from '../services/apiServices';
 
 const exportInstance = async (SCAddress, ABI) => {
   let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -148,35 +149,27 @@ export const handleCollectionCreation = async (
 
 export const handleNFTCreation = async (
   chooseBlockchain,
-  collectionAddress,
-  nftType,
+  chooseCollection,
   name,
   symbol,
-  minterAddress,
-  royaltyPercentage
+  chooseType,
+  minterAddress
 ) => {
   console.log(
     chooseBlockchain,
-    collectionAddress,
-    nftType,
+    chooseCollection,
     name,
     symbol,
-    minterAddress,
-    royaltyPercentage
+    chooseType,
+    minterAddress
   );
   let res1;
+  let res;
   let contractAddress;
   let creator;
+  const tokenId = generateRandomNumbers();
 
-  console.log(
-    chooseBlockchain,
-    collectionAddress,
-    nftType,
-    name,
-    symbol,
-    minterAddress,
-    royaltyPercentage
-  );
+  let collectionAddress = await getCollection({ name: chooseCollection });
 
   // let eth = 'Ethereum Testnet';
   // let poly = 'Polygon Testnet';
@@ -209,108 +202,67 @@ export const handleNFTCreation = async (
   // }
   // console.log(creator);
 
-  //! create API to get Collection Address
+  if (chooseType === 'single') {
+    try {
+      console.log(collectionAddress);
+      let mintNFT = await exportInstance(collectionAddress, theeERC721ABI.abi);
 
-  console.log(collectionAddress);
-  let mintNFT = await exportInstance(collectionAddress, theeERC721ABI.abi);
+      // const options = {
+      //   gasPrice: 10000000000,
+      //   gasLimit: 9000000,
+      // };
 
-  const options = {
-    gasPrice: 10000000000,
-    gasLimit: 9000000,
-  };
+      res = await mintNFT.mint(tokenId, '0x00');
+      res = await res.wait();
+      if (res.status === 0) {
+        console.log('Transaction Failed');
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+    return { tokenId, collectionAddress, res };
+  } else {
+    try {
+      let mintNFT = await exportInstance(collectionAddress, theeERC1155ABI.abi);
 
-  let res = await mintNFT.mint(6, '0x00', options);
-  res = await res.wait();
-  if (res.status === 0) {
-    console.log('Transaction Failed');
+      res1 = await mintNFT.mint(tokenId, 10, '', '0x00');
+      let hash = res1;
+
+      res1 = await res1.wait();
+
+      if (res1.status === 0) {
+        console.log('Transaction Failed');
+      }
+      contractAddress = await readReceipt(hash);
+      return contractAddress;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
-  console.log(res);
-
-  return res;
-
-  // if (nftType === 'single') {
-  //   try {
-  //     res1 = await creator.deployERC721(
-  //       name,
-  //       symbol,
-  //       '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106'
-  //     );
-  //     console.log('after res');
-  //     let hash = res1;
-
-  //     res1 = await res1.wait();
-
-  //     if (res1.status === 0) {
-  //       console.log('Transaction Failed');
-  //     }
-  //     contractAddress = await readReceipt(hash);
-  //     return contractAddress;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return error;
-  //   }
-  // } else {
-  //   try {
-  //     res1 = await creator.deployERC1155('');
-  //     let hash = res1;
-
-  //     res1 = await res1.wait();
-
-  //     if (res1.status === 0) {
-  //       console.log('Transaction Failed');
-  //     }
-  //     contractAddress = await readReceipt(hash);
-  //     return contractAddress;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return error;
-  //   }
-  // }
-
-  // try {
-  //   res1 = await creator.deployERC721(
-  //     name,
-  //     symbol,
-  //     '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106'
-  //   );
-  //   console.log('after res');
-  //   let hash = res1;
-
-  //   res1 = await res1.wait();
-
-  //   if (res1.status === 0) {
-  //     console.log('Transaction Failed');
-  //   }
-  //   contractAddress = await readReceipt(hash);
-  //   return contractAddress;
-  // } catch (error) {
-  //   console.log(error);
-  //   return error;
-  // }
 };
 
 //* List NFTon Marketplace To Buy with Wrapped token/ native Token
 
-export const handleListNFTSale = async () => {
-  const price = ethers.utils.parseEther('1');
+export const handleListNFTSale = async (
+  tokenId,
+  fixedPrice,
+  collectionAddress
+) => {
+  console.log(tokenId, fixedPrice, collectionAddress);
+  let res;
+  const price = ethers.utils.parseEther(fixedPrice);
   const time = getFullYearTime();
-  const tokenId = generateRandomNumbers();
+  // const tokenId = generateRandomNumbers();
   const options = {
     gasPrice: 10000000000,
     gasLimit: 9000000,
   };
 
-  let nftInstance = await exportInstance(
-    contracts.polygonContracts.NFT,
-    ERC721.abi
-  );
-  let res = await nftInstance.mint(tokenId);
-  console.log(tokenId);
-  res = await res.wait();
-  if (res.status === 0) {
-    console.log('Transaction Failed');
-  }
-  console.log(res);
+  let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);
+
   let checkApproval = await nftInstance.isApprovedForAll(
     '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9',
     contracts.polygonContracts.MARKETPLACE
@@ -331,7 +283,7 @@ export const handleListNFTSale = async () => {
   console.log(tokenId, time);
   console.info(marketplaceInstance);
   res = await marketplaceInstance.listToken(
-    contracts.polygonContracts.NFT,
+    collectionAddress,
     tokenId,
     price,
     time,
@@ -400,7 +352,7 @@ export const handleNFTListingAuction = async () => {
   if (res.status === 0) {
     console.log('Transaction Failed');
   }
-  console.log(res);
+  return res;
 };
 
 export const handleNFTBuy = async () => {

@@ -292,3 +292,20 @@ exports.getCollectionByAddress = async (req) => {
     throw error;
   }
 };
+
+exports.getSingleCollectionByName = async (req) => {
+  try {
+    console.log(req.body.collectionName);
+    let result = await createCollection.findOne({
+      name: req.body.name,
+    });
+
+    return {
+      message: 'Collection  Found successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};

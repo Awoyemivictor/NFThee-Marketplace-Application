@@ -68,7 +68,26 @@ exports.index = async (req) => {
 exports.nftStore = async (req) => {
   try {
     console.info(req.body);
-    let result = await nftIteams.create(req.body);
+    // const uploadFile = req.file.location;
+
+    let create_user = {
+      userId: req.body.userId,
+      chooseType: req.body.chooseType,
+      uploadFile: req.body.uploadFile,
+      name: req.body.name,
+      designation: req.body.designation,
+      about: req.body.about,
+      chooseCollection: req.body.chooseCollection,
+      chooseBlockchain: req.body.chooseBlockchain,
+      putOnMarketplace: req.body.putOnMarketplace,
+      unlockOncePurchased: req.body.unlockOncePurchased,
+      attribute: req.body.attribute,
+      levels: req.body.levels,
+      stats: req.body.stats,
+      explicitAndSensitiveContent: req.body.explicitAndSensitiveContent,
+    };
+
+    let result = await nftIteams.create(create_user);
     console.log(result);
     return {
       message: 'Create Item Data Save..........',

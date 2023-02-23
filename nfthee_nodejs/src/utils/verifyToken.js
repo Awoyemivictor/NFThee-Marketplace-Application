@@ -43,7 +43,7 @@ exports.verifyToken = async (req, res, next) => {
   } catch (error) {
     const err = new Error(error);
     return errorResponseUnauth(res, err, 'Token required');
-  }
+  }uploadFile
 };
 
 exports.verifyWithoutToken = (req, res, next) => {

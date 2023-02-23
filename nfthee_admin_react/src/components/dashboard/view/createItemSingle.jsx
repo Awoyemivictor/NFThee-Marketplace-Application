@@ -143,7 +143,7 @@ const ItemSingle = () => {
     // };
     useEffect(() => {
         // if (loading) {
-        axios.get(`http://192.168.1.4:8002/api/getItem/read?id=${_ID}`).then((res) => {
+        axios.get(`http://192.168.1.48:8002/api/getItem/read?id=${_ID}`).then((res) => {
             if (res.data) {
                 setdata(res.data.data);
                 console.log("hsvbadjhvsdjhbahiuegdibsdjkb",res.data);
@@ -186,7 +186,7 @@ const ItemSingle = () => {
                                                     Uploaded File:
                                                 </h6>
                                                 <div className="col-xl-5 col-sm-9 col-form-label text-left">
-                                                    <img alt="" src="" height="100px" width="100px"/>
+                                                    <img alt="" src={data.uploadFile} height="100px" width="100px"/>
                                                 </div>
                                             </FormGroup>
                                             <FormGroup className="form-row">

@@ -6,7 +6,18 @@ const nftSchema = new Schema(
     user: {
       type: Object,
     },
-
+    token_type: {
+      type: Number,
+      require: true,
+      //1 - ERC721
+      //2 - ERC1155
+      enum: [1, 2],
+    },
+    tokenId: {
+      type: Number,
+      // require: true,
+    },
+    nft_quantity: Number,
     nft_orders: [{ type: mongoose.Schema.ObjectId, ref: 'order' }],
 
     owned_by: [
@@ -25,7 +36,7 @@ const nftSchema = new Schema(
       type: String,
     },
     uploadFile: {
-      type: Object,
+      type: String,
     },
     status: {
       type: String,
@@ -47,10 +58,6 @@ const nftSchema = new Schema(
     chooseCategory: {
       type: String,
       require: true,
-    },
-    chooseType: {
-      type: String,
-      required: true,
     },
     chooseBlockchain: {
       type: String,

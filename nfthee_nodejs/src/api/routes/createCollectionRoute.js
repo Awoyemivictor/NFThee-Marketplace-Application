@@ -14,7 +14,7 @@ const {
     getCollectionInfo,
     read_getCollectionInfo,
     update_getCollectionInfo,
-    getAllInfo,getCollectionByAddress
+    getAllInfo,getCollectionByAddress,getSingleCollectionByName
 } = require('../controller').createCollectionController;
 
 
@@ -35,6 +35,7 @@ router.get('/getCollection', getCollectionInfo);
 router.get('/getCollection/read', read_getCollectionInfo);
 router.get('/getCollection/update', update_getCollectionInfo);
 router.post("/getCollectionByAddress",getCollectionByAddress)
+router.post('/getSingleCollectionByName',getSingleCollectionByName)
 
 
 

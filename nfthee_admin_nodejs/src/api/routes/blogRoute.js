@@ -17,7 +17,7 @@ const {
 router.post("/blog",auth,  uploadS3.single('uploadFile'), adminBlog);
 router.get("/blog/all",auth,  all_blog)
 router.post("/blog/modify",auth,  uploadS3.single('uploadFile'), adminUpdate)
-router.post("/blog/delete",auth,  blog_delete)
+router.delete("/blog/delete",auth,  blog_delete)
 router.get("/singleBlog",auth,  single_blog)
 
 //login api

@@ -77,7 +77,6 @@ export const getSearchCollection = async () => {
 //   created_ts: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 // };
 
-
 export const insertHistory = async () => {
   const headers = {
     Authorization: 'Bearer my-token',
@@ -90,4 +89,22 @@ export const insertHistory = async () => {
     .catch((error) => {
       return console.log(error);
     });
+};
+
+// export const listNFT
+
+export const getCollection = async (result) => {
+  let requestOptions = { name: result.name };
+
+  let datas = await instance
+    .post(BASE_URL + '/getSingleCollectionByName', requestOptions)
+    .then((response) => {
+      let data = response.data.data.contract_address;
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return datas;
 };

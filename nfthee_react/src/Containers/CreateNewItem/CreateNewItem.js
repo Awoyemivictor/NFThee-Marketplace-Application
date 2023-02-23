@@ -327,20 +327,19 @@ const CreateNewItem = () => {
 
   const [uploadedFile, setUploadedFile] = useState([]);
   const [newData, setNewData] = useState();
-  const handleImageChange = (e) => {
+  const handleImageChange = async(e) => {
     const formData = new FormData();
     formData.append('fileName', e.target.files[0]);
-    instance
-      .post('/api/image', formData)
-      .then((response) => response.data.data)
-      .then((data) => {
-        setUploadedFile(URL.createObjectURL(e.target.files[0]));
+    const result = await instance.post('/api/image', formData).then((response) => {
+      return response.data.data;
+    });
+    console.log("image Data===>>",result)
+    setUploadedFile(result);
 
-        setItemData({
-          ...itemData,
-          uploadFile: data.filename,
-        });
-      });
+    setItemData({
+      ...itemData,
+      uploadFile: result,
+    });
   };
   const mySelectRef = useRef(null);
 
@@ -500,33 +499,6 @@ const CreateNewItem = () => {
     console.log(res);
   };
 
-  const nftOffer = async () => {
-    // await handleListNFTSale();
-    // await handleNFTListingAuction()
-    console.log(activeTab, fixedPrice.price);
-
-    let _deadline;
-    let _price;
-    let _auctionEndDate;
-    // console.log(chosenType, GENERAL_TIMESTAMP, GENERAL_DATE);
-
-    // if (chosenType === 0) {
-    //   console.log('insde )');
-    //   _deadline = GENERAL_TIMESTAMP;
-    //   _auctionEndDate = GENERAL_DATE;
-    //   _price = ethers.utils.parseEther(price.toString()).toString();
-    // } else if (chosenType === 1) {
-    //   let _endTime = new Date(endTime).valueOf() / 1000;
-    //   _auctionEndDate = endTime;
-    //   _deadline = _endTime;
-    //   _price = ethers.utils.parseEther(minimumBid.toString()).toString();
-    // } else if (chosenType === 2) {
-    //   _deadline = GENERAL_TIMESTAMP;
-    //   _auctionEndDate = GENERAL_DATE;
-    //   _price = ethers.utils.parseEther(minimumBid.toString()).toString();
-    // }
-  };
-
   const [openForBids, setOpenForBids] = useState({
     Bid_price: '',
   });
@@ -558,16 +530,57 @@ const CreateNewItem = () => {
     }
     const post = itemData;
     post.putOnMarketplace = data;
+    console.log(activeTab);
+    console.log(post);
 
-    const res = await handleNFTCreation(
+    const { tokenId, collectionAddress, res } = await handleNFTCreation(
       itemData.chooseBlockchain,
-      '0x25dd60be36f80a435347f0a5e420d11b513e6f1e'
+      post.chooseCollection,
+      post.name,
+      post.symbol,
+      post.chooseType,
+      '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
-    console.log(res);
-    // setNFTAddress(...itemData, res);
+    console.log(tokenId, collectionAddress, res);
+
+    if (marketplace === true) {
+      if (activeTab === 'Fixed price') {
+        let data = await handleListNFTSale(
+          tokenId,
+          fixedPrice.price,
+          collectionAddress
+        );
+        //price ,contractAddress, userAddress,nftCount
+        console.log(data);
+      } else if (activeTab === 'Open for bids') {
+      } else if (activeTab === 'Timed auction') {
+      }
+    }
+
+    // let reqParams = {
+    //   nftId: res.result._id,
+    //   seller: currentUser.toLowerCase(),
+    //   tokenAddress:
+    //     saleType !== 0
+    //       ? selectedTokenAddress
+    //       : '0x0000000000000000000000000000000000000000',
+    //   collection: nftContractAddress,
+    //   price: _price,
+    //   quantity: quantity,
+    //   saleType: saleType,
+    //   validUpto: _deadline,
+    //   signature: signature,
+    //   tokenId: nextId,
+    //   auctionEndDate: _auctionEndDate,
+    //   salt: salt,
+    // };
+
+    // let data = '';
+    // try {
+    //   data = await createOrder(reqParams);
 
     instance
-      .post('http://192.168.1.4:8002/api/store', post)
+      .post('http://192.168.1.48:8002/api/store', post)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -963,11 +976,7 @@ const CreateNewItem = () => {
                             <div className='card-media'>
                               <a href='#'>
                                 <img
-                                  src={
-                                    itemData.uploadFile
-                                      ? `${process.env.REACT_APP_BASE_URL}/${itemData.uploadFile.filename}`
-                                      : 'assets/images/artboard.png'
-                                  }
+                                  src={itemData.uploadFile}
                                   alt=''
                                   className='img-fluid'
                                 />
@@ -1358,10 +1367,8 @@ const CreateNewItem = () => {
                                             className='form-select'
                                             id='basic-addon2'
                                           >
-                                            <option selected>ETH</option>
-                                            <option value={1}>ETH</option>
-                                            <option value={2}>ETH</option>
-                                            <option value={3}>ETH</option>
+                                            <option selected>MATIC</option>
+                                            <option value={1}>WBNB</option>
                                           </select>
                                         </div>
                                       </div>
@@ -1653,12 +1660,6 @@ const CreateNewItem = () => {
                             </button>
                           </div>
                         </div>
-                        <button
-                          className='btn btn-violet w-100'
-                          onClick={nftOffer}
-                        >
-                          Test2
-                        </button>
 
                         <div className='create-item-content border-bottom pb-3 mb-3'></div>
                       </div>

@@ -49,7 +49,7 @@ const ExploreNftListColumn = ({data}) => {
                                                     <div
                                                         className="card-media">
                                                         <img
-                                                            src={collection.uploadFile ? `${process.env.REACT_APP_BASE_URL}/${collection.uploadFile.filename}` : "assets/images/featured-img7.jpg"}
+                                                            src={collection.uploadFile }
                                                             alt=""
                                                             className="img-fluid"/>
                                                     </div>
