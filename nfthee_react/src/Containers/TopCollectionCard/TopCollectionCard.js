@@ -42,14 +42,14 @@ function TopCollectionCard() {
   const [blockchains, setBlockchains] = useState([]);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    instance
-      .get('/api/getCollection')
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getCollection`)
       .then((response) => setCollections(response.data.data));
-    instance
-      .get('/api/getBlockchain')
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getBlockchain`)
       .then((response) => setBlockchains(response.data.data));
-    instance
-      .get('/api/getCategory')
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getCategory`)
       .then((response) => setCategories(response.data.data));
   }, []);
 

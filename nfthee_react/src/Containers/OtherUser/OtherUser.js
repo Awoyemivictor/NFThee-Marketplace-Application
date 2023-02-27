@@ -117,14 +117,14 @@ export default function OtherUser() {
     
    
     
-    const handlleFollow=(e)=>{
+    const handlleFollow=async(e)=>{
       // setChanges(true)
       console.log(e.target.name)
       if(e.target.value==="follow"){
     //  const formData=new FormData()
     //  formData.append("id", id);
 //   console.log(id)
-     const { data } =  axios({
+     const { data } =  await axios({
       method: 'put',
       url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
       data: {
@@ -136,7 +136,7 @@ export default function OtherUser() {
 //    const formData=new FormData()
 //    formData.append("id", id);
 //   console.log(id)
-   const { data } =  axios({
+   const { data } = await axios({
     method: 'put',
     url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
     data: {

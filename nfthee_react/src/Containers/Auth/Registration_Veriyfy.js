@@ -22,9 +22,53 @@ function Registration_Veriyfy() {
   const [registerData, setRegisterData] = useState(location.state);
   const [userMeta, setUserMeta] = useState();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const handleVerify = async (e) => {
+        e.preventDefault()
+
+        if (registerData.email_address) {
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Check Your email",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            await axios.post('http://192.168.1.147:8002/api/signup', registerData).then(response => {
+            localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+        })
+        } else {
+            Swal.fire({
+                position: "top-center",
+                icon: "error",
+                title: "please provide valid email",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+
+        const didToken = await magic.auth.loginWithMagicLink({
+            email: registerData.email_address,
+            redirectURI: new URL('/walletlogin', window.location.origin).href
+        })
+        const res = await axios.post('http://192.168.1.147:8002/api/signup', registerData, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + didToken,
+            }
+        })
+        .catch(err => {
+            Swal.fire({
+                position: "top-center",
+                icon: "error",
+                title: "User exists",
+                showConfirmButton: false,
+                timer: 1500,
+            })
+        })
 
   const handleVerify = async (e) => {
     e.preventDefault();

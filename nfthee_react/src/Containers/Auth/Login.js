@@ -19,6 +19,11 @@ function Login() {
     // console.warn(useAppSelector(state => state));
     // console.warn(user)
     const {params} = useParams();
+        const data = JSON.parse(localStorage.getItem('userLoggedIn'));
+    const tok = JSON.parse(localStorage.getItem('TokenData'));
+if(data&&tok!=null){
+    history.push('/')
+}
     // console.log(params);
 
     // let name, value;
@@ -117,7 +122,7 @@ function Login() {
                 showConfirmButton: false,
                 timer: 1500,
             });
-            await instance.get(`/api/login/email?email_address=${email}`).then(response => {
+             instance.get(`/api/login/email?email_address=${email}`).then(response => {
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
         })
         } else {

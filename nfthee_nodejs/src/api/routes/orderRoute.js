@@ -7,7 +7,7 @@ const { createOrder, updateOrder, deleteOrder, getOrder, getOrdersByNftId } =
 
 router.post('/createOrder', createOrder);
 
-router.post('/getOrder', getOrder);
+router.get('/getOrder', getOrder);
 
 router.put('/updateOrder', updateOrder);
 

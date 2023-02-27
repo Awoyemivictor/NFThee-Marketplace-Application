@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {useAppDispatch} from "../../../hooks/useRedux";
 import {ModalBuynft} from "../../../Components/Layout/Modal";
 import {setFavorite} from "../../../redux/favoriteSlice";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const ExploreItemRow = ({data}) => {
     const {t} = useTranslation();
@@ -48,11 +49,11 @@ const ExploreItemRow = ({data}) => {
                                         </span>
                                     </div>
                                     <div className="card-media">
-                                        <a href="#"><img
-                                            src={collection?.uploadFile ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection.uploadFile.filename}` : "/assets/images/featured-img7.jpg"}
+                                        <Link to={`/exploredetail/${collection._id}`}><img
+                                            src={collection?.uploadFile ?collection.uploadFile : "/assets/images/featured-img7.jpg"}
                                             alt=""
                                             className="img-fluid"/>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="card-title mb-2 pb-2 border-bottom-0">
                                         <div className="c-card-detail">

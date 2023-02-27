@@ -13,6 +13,7 @@ const orderSchema = new Schema({
     //2 - Auction
 
     enum: [0, 1, 2],
+    // required:true,
   },
   order_payment_token: String, //the payment token address ERC20
   token_price: mongoose.Types.Decimal128,
