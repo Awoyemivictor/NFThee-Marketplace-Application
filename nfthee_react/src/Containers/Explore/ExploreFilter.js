@@ -145,7 +145,7 @@ useEffect(async() => {
   <section className="explore-filter-section bg-section pt-0" >
    <div className="explore-banner-area">
    <div className="banner-image">
-          <img src={`${process.env.REACT_APP_BASE_URL}/fileUpload/${collections.banner_image?.filename}`||"/assets/images/explore-bg.png"} alt="" className="img-fluid" />
+          <img src={collections.banner_image||"/assets/images/explore-bg.png"} alt="" className="img-fluid" />
           <div className="d-lg-none d-block">
             <div className="col-lg-12 col-md-12 mobile-dropdown">
               <div className="d-flex justify-content-between align-items-center mt-3">
@@ -182,7 +182,7 @@ useEffect(async() => {
               <div className="user-profile-wrapper">
                 <div className="user-profile-icon">
                   <div className="user-box">
-                    <img src={collections.logo_image?`${process.env.REACT_APP_BASE_URL}/images/${collections.logo_image?.filename}`:"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
+                    <img src={collections.logo_image||"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
                     <span className="star-check-icon"><img src="/assets/images/icons/star-check.png" alt="" /></span>
                   </div>
                 </div>

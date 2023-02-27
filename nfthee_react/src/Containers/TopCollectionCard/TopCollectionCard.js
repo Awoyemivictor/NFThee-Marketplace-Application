@@ -42,13 +42,13 @@ function TopCollectionCard() {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
-      .get("http://192.168.1.48:8002/api/getCollection")
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getCollection`)
       .then((response) => setCollections(response.data.data));
     axios
-      .get("http://192.168.1.4:8002/api/getBlockchain")
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getBlockchain`)
       .then((response) => setBlockchains(response.data.data));
     axios
-      .get("http://192.168.1.4:8002/api/getCategory")
+      .get(`${process.env.REACT_APP_BASE_URL}/api/getCategory`)
       .then((response) => setCategories(response.data.data));
   }, []);
 

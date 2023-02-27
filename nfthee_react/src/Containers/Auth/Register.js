@@ -11,6 +11,11 @@ function Register() {
     let magic = new Magic("pk_live_A57B8D59D07E9901");
 
     const history = useHistory();
+    const data = JSON.parse(localStorage.getItem('userLoggedIn'));
+    const tok = JSON.parse(localStorage.getItem('TokenData'));
+if(data&&tok!=null){
+    history.push('/')
+}
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])

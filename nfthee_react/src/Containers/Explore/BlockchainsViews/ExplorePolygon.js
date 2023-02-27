@@ -14,7 +14,7 @@ const ExplorePolygon = () => {
     const [sortedData, setSortedData] = useState([]);
 
     useEffect(() => {
-        instance.get('/api/all')
+        instance.get('/api/all?blockChain=Polygon%20Testnet')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
     }, [])
@@ -22,7 +22,7 @@ const ExplorePolygon = () => {
     useEffect(() => {
         let arr = []
         data.filter((nft) => {
-            if (nft.chooseBlockchain === "Polygon")
+            if (nft.chooseBlockchain === "Polygon Testnet")
                 return arr.push(nft)
         })
         setSortedData(arr)
