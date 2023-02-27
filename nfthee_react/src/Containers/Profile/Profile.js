@@ -5,7 +5,8 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
-import {io} from 'socket.io-client';
+// import {io} from 'socket.io-client';
+import {Navbar} from '../../Components/Layout/Navbar';
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -14,10 +15,16 @@ const Profile = () => {
     $('select').niceSelect();
   });
 
-  useEffect(() => { 
-    const socket=io('http://192.168.1.4:8002')
+  // useEffect(() => { 
+  //   const socket=io('http://192.168.1.4:8002')
     
-  },[])
+  //   setSocket(socket);
+  //   console.log(">>>>>>>>>>",socket)
+  //   // socket.on("hello", (arg) => {
+  //   //   console.log("HNJI KI HAAL CHAAL",arg); // world
+  //   // });
+    
+  // },[])
   useEffect(() => {
     
     $(document).ready(function () {
@@ -48,6 +55,7 @@ const Profile = () => {
   var result = result1.slice(0, 8) + ".." + result1.slice(38, 48);
   console.log(result);
   const [tokenid, setTokenId] = useState(result);
+  const [socket,setSocket]=useState(null);
 
   // if(tokenid === "undefined" ){
   //    window.location.href = "/walletlogin"
@@ -142,30 +150,128 @@ const[users,setuser]=useState([])
   };
   
   const handlleFollow=(id,e)=>{
+    // const socket=io('http://192.168.1.4:8002')
+    // console.log("><><><<><><><><><><><><",socket)
+    // const local= JSON.parse(localStorage.getItem("userLoggedIn"))
+    // const username=local.user_name
+    // const email=local.email_address
+    // console.log("event ---",e.target.value);
     // setChanges(true)
     if(e.target.value==="follow"){
-   const formData=new FormData()
-   formData.append("id", id);
-console.log(id)
-   const { data } =  axios({
-    method: 'put',
-    url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
-    data: {
-        id: id,
-    }
-  });}
-  if(e.target.value==="unfollow"){
+      const formData=new FormData()
+      formData.append("id", id);
+      // formData.append("user_name", user_name);
+      console.log(id)
+      // console.log(username)
+      const { data } =  axios({
+        method: 'put',
+        // url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
+        url:`http://192.168.1.4:8002/api/userFollow?id=${_id}`,
+        data: {
+            id: id,
+            // user_name:user_name,
+        }
+      })
+      ;
+      // const req={
+      //   sender:_id,
+      //   reciever:id,
+      //   username:`${username} follow you`,
+      //   date:new Date(new Date().toUTCString())
+      // }
+      // socket.on("hello", (arg) => {
+      //   console.log(arg); // world
+      // });
+      // socket.on('join:room',(res)=>{
+      //   console.log('Joining Room',res)
+      // })
+      // socket.on('dummy_data',(arg)=>{
+      //   console.log('Dummy Data',arg)
+      // })
+      // socket.emit('follow', (req))
+    
 
- const formData=new FormData()
- formData.append("id", id);
-console.log(id)
- const { data } =  axios({
-  method: 'put',
-  url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
-  data: {
-      id: id,
+      // socket.on("messages", (data) => {
+      //   //decypt the message
+        
+      //   console.log('message ',data);
+        
+      // });
+      // socket.on("message", (data) => {
+      //   //decypt the message
+        
+      //   console.log('message response',data);
+        
+      // });
+      // socket.on("incomingChat", (data) => {
+      //   //decypt the message
+        
+      //   console.log('new response',data);
+        
+      // });
+      // socket.on("new_event", (data) => {
+      //   //decypt the message
+        
+      //   console.log('newevent ',data);
+        
+      // });
+      // socket.on("lastattempt", (data) => {
+      //   //decypt the message
+        
+      //   console.log('last attempt',data);
+        
+      // });
+      // socket.on("new_msg", (data) => {
+      //   //decypt the message
+      //   if(data.msg==email){
+      //     alert(data);
+      //     console.log('new_msg>>>>>>>>>>>>>>',data);
+      //   }
+      //   else{
+      //     console.log('new msg else event',data,email)
+      //   }
+        
+       
+        
+      // });
+      
+      // socket.on('user joined',(user)=>{
+      //   console.log('user Joined:',user)
+      // })
+      // socket.on("followed", (arg) => {
+      //   console.log("MY NEW RESPONSE>>>>>>>>>>>>>>",arg);
+        
+
+      //    // world
+      // });
+      
   }
-});
+  if(e.target.value==="unfollow"){
+     const formData=new FormData()
+    formData.append("id", id);
+    console.log(id)
+    const { data } =  axios({
+      method: 'put',
+      // url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
+      url:`http://192.168.1.4:8002/api/userUnFollow?id=${_id}`,
+      data: {
+          id: id,
+      }
+    });
+  
+
+    // const req={
+    //   sender:_id,
+    //   reciever:id,
+    //   username:`${username} follow you`,
+    //   date:new Date(new Date().toUTCString())
+    // }
+
+    // socket.emit('Unfollow', (req)=>{
+    //   console.log('new msg else event',email)
+    // })
+
+
 }
 setChanges(Math.floor(Math.random() * 10))
 // console.log(data);
@@ -173,6 +279,7 @@ setChanges(Math.floor(Math.random() * 10))
   }
   return (
     <>
+    <Navbar socket={socket}/>
       <main>
         <section className="bg-section profile-bg-section">
           <section className="profile-banner-section">
@@ -766,13 +873,13 @@ setChanges(Math.floor(Math.random() * 10))
                                      {data.followers.includes(_id)? <button
                                      value="unfollow"
                                  
-                                       onClick={(e)=>handlleFollow(data._id,e)}
+                                       onClick={(e)=>handlleFollow(data._id,e,alert('unfollow'))}
                                        >
                                        unfollow
                                        </button>:<button
                                      value="follow"
                                  
-                                       onClick={(e)=>handlleFollow(data._id,e)}
+                                       onClick={(e)=>handlleFollow(data._id,e,alert('follow'))}
                                        >
                                        follow
                                        </button>}

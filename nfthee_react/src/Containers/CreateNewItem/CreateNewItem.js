@@ -78,6 +78,7 @@ const CreateNewItem = () => {
   );
 
   const IconOption = ({props}) => (
+
     <Option  {...props}>
       <img
         src={props.data.image}
@@ -615,7 +616,8 @@ console.log(marketplace)
   }, [itemData.blockchain]);
 
   const handleItemBlockchain = (option) => {
-    console.info(option);
+    // console.info(option);
+    // console.log("ncdnnclnsdlnclsndclncnsdnclnd",option)
     getChains(option.value);
 
     setItemData({
@@ -1161,10 +1163,10 @@ console.log(marketplace)
                           <Select
                             value={collections.value}
                             onChange={handleItemCollection}
-                            components={{
-                              SingleValue: IconSingleValue,
-                              Option: IconOption,
-                            }}
+                            // components={{
+                            //   SingleValue: IconSingleValue,
+                            //   Option: IconOption,
+                            // }}
                             options={collections}
                             name='collection'
                             styles={customStyles}
@@ -1190,10 +1192,10 @@ console.log(marketplace)
                           <Select
                             value={blockchains.value}
                             onChange={handleItemBlockchain}
-                            components={{
-                              SingleValue: IconSingleValue,
-                              Option: IconOption,
-                            }}
+                            // components={{
+                            //   SingleValue: IconSingleValue,
+                            //   Option: IconOption,
+                            // }}
                             options={blockchains}
                             name='blockchain'
                             styles={customStyles}
@@ -2011,10 +2013,10 @@ console.log(marketplace)
                           <Select
                             value={blockchains.value}
                             onChange={handleCollectionBlockchain}
-                            components={{
-                              SingleValue: IconSingleValue,
-                              Option: IconOption,
-                            }}
+                            // components={{
+                            //   SingleValue: IconSingleValue,
+                            //   Option: IconOption,
+                            // }}
                             options={blockchains}
                             name='blockchain'
                             styles={customStyles}

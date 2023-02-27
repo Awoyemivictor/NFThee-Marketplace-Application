@@ -324,13 +324,10 @@ export const Navbar = () => {
 
                   {token ? <>
                           <div>
-                          <FaBell data-bs-toggle="dropdown" data-bs-target="#notification-dropdown"/>
+                          <FaBell size={24}  data-bs-toggle="dropdown" data-bs-target="#notification-dropdown"/>
                             
                           <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification-dropdown"  style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                          {/* <ul>
-                            <li>Here my notifications will display</li>
-                            <li>This user likes my post</li>
-                          </ul> */}
+                         
                           {notifications.slice(0,4).map((notification,index)=>(
                             <div key={index} className='dropdown-item'>
                                 <h6>{notification.title}</h6>
