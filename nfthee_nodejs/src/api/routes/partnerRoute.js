@@ -1,11 +1,11 @@
 const express = require('express');
-const { Multer: { upload },ApiAuth: { auth } } = require('../../utils');
+const { Multer: { upload,uploadS3 },ApiAuth: { auth } } = require('../../utils');
 
 const router = express.Router();
 const {addPartner,getPartner,createPageToken} = require('../controller').partnerController;
 
 
-let uploadMultiple = upload.fields([
+let uploadMultiple = uploadS3.fields([
     {name:'nft_artwork',maxCount:1},
     {name:'banner_image',maxCount:1},
     {name:'icon_image',maxCount:1},

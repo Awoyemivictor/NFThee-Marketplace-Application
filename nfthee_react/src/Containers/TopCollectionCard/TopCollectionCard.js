@@ -42,7 +42,7 @@ function TopCollectionCard() {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
-      .get("http://192.168.1.4:8002/api/getCollection")
+      .get("http://192.168.1.48:8002/api/getCollection")
       .then((response) => setCollections(response.data.data));
     axios
       .get("http://192.168.1.4:8002/api/getBlockchain")

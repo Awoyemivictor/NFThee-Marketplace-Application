@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  Multer: { upload },
+  Multer: { upload,uploadS3 },
   ApiAuth: { auth },
 } = require('../../utils');
 

@@ -32,7 +32,7 @@ const CollectionSingle = () => {
 
     useEffect(() => {
         
-        axios.get(`http://192.168.1.4:8002/api/getCollection/read?id=${_ID}`)
+        axios.get(`http://192.168.1.48:8002/api/getCollection/read?id=${_ID}`)
             .then(response => setCollection(response.data.data))
     }, [])        
     return (
@@ -174,7 +174,7 @@ const CollectionSingle = () => {
 														Uploaded File:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
-														<img alt="" src={collection.uploadFile} height="100px" width="100px"/>
+														<img alt="" src={collection.logo_image} height="100px" width="100px"/>
 													</div>
 												</FormGroup>
 											</Form>

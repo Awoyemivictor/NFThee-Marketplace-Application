@@ -1,5 +1,5 @@
 const express = require('express');
-const { Multer: { upload },ApiAuth: { auth } } = require('../../utils');
+const { Multer: { uploadS3 },ApiAuth: { auth } } = require('../../utils');
 
 const router = express.Router();
 const {getPartner, deletePartner} = require('../controller').partnerController;

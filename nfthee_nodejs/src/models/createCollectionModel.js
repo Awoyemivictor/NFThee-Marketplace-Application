@@ -9,20 +9,17 @@ const create_collection = new Schema(
     // },
     name: {
       type: String,
-       require:true,
     },
     logo_image: {
       type: String,
-       require:true,
+      require: true,
     },
     featured_image: {
       type: String,
-      require:true,
-
+      require: true,
     },
     banner_image: {
       type: String,
-     
     },
     url: {
       type: String,
@@ -38,7 +35,7 @@ const create_collection = new Schema(
     collection_standard: {
       type: String,
       //   require: true,
-      default: "Single", // by Default erc721 is true
+      default: 'Single', // by Default erc721 is true
     },
     nextId: {
       type: Number,
@@ -67,14 +64,13 @@ const create_collection = new Schema(
       type: Boolean,
     },
     created_by: {
-      type: mongoose.Schema.ObjectId,  
+      type: mongoose.Schema.ObjectId,
       ref: 'user',
     },
     status: {
-      type:String,  
-      default:"pending",
+      type: String,
+      default: 'pending',
     },
-
   },
 
   { timestamps: true }

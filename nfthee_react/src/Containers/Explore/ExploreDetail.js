@@ -132,7 +132,7 @@ function ExploreDetail() {
               <div className="row">
                 <div className="col-lg-6 col-md-6">
                   <div className="item-image">
-                    <img src={collections?.uploadFile?.filename?`${process.env.REACT_APP_BASE_URL}/fileUpload/${collections?.uploadFile?.filename}`:"/assets/images/featured-img3.png"} alt="" className="img-fluid" />
+                    <img src={collections?.uploadFile} alt="" className="img-fluid" />
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6">

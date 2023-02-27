@@ -139,7 +139,7 @@ function Blog() {
                                 <div className="blog-card">
                                   <Link onClick={() => Blogdetail(blog._id)}>
                                     <img
-                                      src={`http://192.168.1.48:8004/fileUpload/${blog.uploadFile}`}
+                                      src={blog.uploadFile}
                                       className="card-img-top"
                                     />
                                   </Link>

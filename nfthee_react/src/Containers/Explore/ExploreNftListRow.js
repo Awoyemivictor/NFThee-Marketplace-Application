@@ -79,8 +79,7 @@ const [isLiked, setIsLiked] = useState(false);
                           // src={'/assets/images/featured-img7.jpg'}
                           src={
                             collection?.uploadFile
-                              ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection?.uploadFile?.filename}`
-                              : '/assets/images/featured-img7.jpg'
+                             
                           }
                           alt=""
                           className="img-fluid"

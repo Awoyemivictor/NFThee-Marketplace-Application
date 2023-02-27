@@ -46,13 +46,17 @@ exports.indexAll = async (req, res) => {
 // };
 exports.createCollectionInfo = async (req, res) => {
   try {
-    const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
-    const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
-    const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+    // const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
+    // const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
+    // const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
+    const logo_image = req.files.logo_image[0].location;
+    const featured_image = req.files.featured_image[0].location;
+    const banner_image = req.files.banner_image[0].location;
 
     console.log(req.files);
 
     const upadate_data = {
+      name: req.body.name,
       logo_image: logo_image,
       featured_image: featured_image,
       banner_image: banner_image,
@@ -175,10 +179,10 @@ exports.update_createCollectionInfo = async (req, res) => {
   try {
     let userId = req.body.userId;
     //console.log(userId)
-    console.log(`req.files`, req.files);
-    const uploadFileLogo = `${credentials.BASE_URL}fileUpload/${req.files.logo_image[0].filename}`;
-    const uploadFileFeatured = `${credentials.BASE_URL}fileUpload/${req.files.featured_image[0].filename}`;
-    const uploadFileBanner = `${credentials.BASE_URL}fileUpload/${req.files.banner_image[0].filename}`;
+    // console.log(`req.files`, req.files);
+    const uploadFileLogo = req.files.logo_image[0].location;
+    const uploadFileFeatured = req.files.featured_image[0].location;
+    const uploadFileBanner = req.files.banner_image[0].location;
     //console.log(req.files.logo_image[0].filename);
     const upadte_data = {
       userId: req.body.userId,
@@ -279,6 +283,23 @@ exports.getCollectionByAddress = async (req) => {
     createCollection.nextId = nextId;
 
     // createCollection.save({ nextId: nextId });
+    return {
+      message: 'Collection  Found successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getSingleCollectionByName = async (req) => {
+  try {
+    console.log(req.body.collectionName);
+    let result = await createCollection.findOne({
+      name: req.body.name,
+    });
+
     return {
       message: 'Collection  Found successfully.',
       status: true,

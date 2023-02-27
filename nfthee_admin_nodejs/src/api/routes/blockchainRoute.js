@@ -1,17 +1,21 @@
 const express = require('express');
-const { Multer: { upload }, ApiAuth: { auth } } = require('../../utils');
+const {
+  Multer: { uploadS3 },
+  ApiAuth: { auth },
+} = require('../../utils');
 
 const router = express.Router();
-const {
-    addBlockchain,
-    getBlockchain,
-    editBlockchain,
-    deleteBlockchain
-} = require('../controller').blockchainController;
+const { addBlockchain, getBlockchain, editBlockchain, deleteBlockchain } =
+  require('../controller').blockchainController;
 
-router.post("/addBlockchain",  upload.single('icon'), addBlockchain)
-router.get("/getBlockchain", getBlockchain)
-router.post("/editBlockchain", auth, upload.single('icon'), editBlockchain)
-router.get("/deleteBlockchain", auth, upload.single('icon'), deleteBlockchain)
+router.post('/addBlockchain', uploadS3.single('icon'), addBlockchain);
+router.get('/getBlockchain', getBlockchain);
+router.post('/editBlockchain', auth, uploadS3.single('icon'), editBlockchain);
+router.get(
+  '/deleteBlockchain',
+  auth,
+  uploadS3.single('icon'),
+  deleteBlockchain
+);
 
 module.exports = router;
