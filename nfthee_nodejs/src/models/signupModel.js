@@ -8,6 +8,10 @@ const signupInfo = new Schema(
         unique: true,
       },
     },
+    token: {
+      type: String,
+      
+    },
     first_name: {
       type: String,
       required: true,
@@ -50,6 +54,7 @@ const signupInfo = new Schema(
     youtube: {
       type: String,
     },
+    
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }]
   },

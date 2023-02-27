@@ -44,6 +44,9 @@ exports.credentials = {
   SECRET_TOKEN:
     process.env.SECRET_TOKEN ||
     '6229d687MYNASIF4dc56229dHSDFFFBAbfdc543ca821de5b6543BDFSUDca821de5b52',
+  SIGNUP_TOKEN:
+    process.env.SIGNUP_TOKEN ||
+    '6229d687MYNASIF4dc56229dHSDFFFBAbfdc543ca821de5b6543BDFSUDca821de2223',
   AWS_ID: process.env.AWS_ID || '',
   AWS_SECRET: process.env.AWS_SECRET || '',
   AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME || '',
