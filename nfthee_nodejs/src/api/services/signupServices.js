@@ -13,12 +13,15 @@ const { credentials } = require('../../config').constantCredentials;
 
 exports.signupData = async (req, res) => {
   try {
+   
+    const token =  jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    // let checkUser = await signup.findOne({user_name:req.body.user_name});
+    console.log('tokennnn',token)
     let signupDetails = {
       user_name: req.body.user_name,
-      first_name: req.body.first_name,getCollection
+      first_name: req.body.first_name,
+      token:token
     };
-
-    // let checkUser = await signup.findOne({user_name:req.body.user_name});
     const isSigned = await signup.findOne({ email: req.query });
     if (isSigned) {
       return {
@@ -46,7 +49,7 @@ exports.signupData = async (req, res) => {
 };
 
 exports.signupDataAll = async (req) => {
-  try {
+  try { 
     let result = await signup.find();
     return {
       message: 'Registration All Save Data..........',
@@ -102,8 +105,22 @@ exports.loginOne = async (req) => {
 
 exports.register = async (req, res) => {
   try {
-    const { email_address } = req.body;
+    const { email_address} = req.body;
+    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    //  token=signuptoken;
+    console.log('token',token)
+    const upadate_data = {
+      user_name: req.body.user_name,
+      token: token,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email_address: req.body.email_address,
+      country: req.body.country,
+      account_address: req.body.account_address,
+     }
+    // const {token}=req.body
     console.log(req.body);
+    
     const isSigned = await signup.findOne({ email_address });
     const userMail = new Mail(req.body.email_address);
     // console.log(isSigned)
@@ -113,13 +130,16 @@ exports.register = async (req, res) => {
         `<p> Thank you for submitting request, We will review your request.</p>`,
         `Thank you for submitting request`
       );
-
-      const result = await signup.create(req.body);
+     
+      // console.log('tokennnnn',token)
+      const result = await signup.create(upadate_data) 
+      console.log('result',result)
       return {
         message: 'Registration Data Save..........',
         status: true,
         // data: isSigned,
-        data:result
+        data:result,
+        
       };
     } else {
       return {
@@ -362,3 +382,15 @@ exports.userUnFollow = async (req, res) => {
 //       console.log(err)
 //   }
 // };
+// exports.createPageToken = async (req,res) => {
+//   try {
+//       const token = jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+//       return {
+//           message: "Getting token.",
+//           status: true,
+//           data: token,
+//       };
+//   } catch (error) {
+//       throw error;
+//   }
+// }
