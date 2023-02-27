@@ -61,15 +61,15 @@ function TopCategories() {
                           <a>
                             <div className="media-images-collection mb-3">
                               <div className="box-left">
-                                <img src={`${process.env.REACT_APP_BASE_URL}/${collection.banner_image?.filename}`} alt="" />
+                                <img src={collection.banner_image} alt="" />
                               </div>
                               <div className="box-right">
                                 <div className="top-img">
-                                    <img src={`${process.env.REACT_APP_BASE_URL}/${collection.logo_image?.filename}`} alt="" />
-                                    <img src={`${process.env.REACT_APP_BASE_URL}/${collection.featured_image?.filename}`} alt="" />
+                                    <img src={collection.logo_image} alt="" />
+                                    <img src={collection.featured_image} alt="" />
                                 </div>
                                 <div className="bottom-img">
-                                  <img src="images/img-collection4.png" alt="" />
+                                  <img src="/images/img-collection4.png" alt="" />
                                 </div>
                               </div>
                             </div>

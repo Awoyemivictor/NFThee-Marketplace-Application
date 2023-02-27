@@ -17,10 +17,17 @@ import {
 } from '../../Config/sendFunctions';
 import { bscTest, ethTest, polyTest } from '../../Config/chains';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
+  const history=useHistory()
+  const data = JSON.parse(localStorage.getItem('userLoggedIn'));
+
+  if(data===null){
+    history.push("/")
+   }
 
   const Blockchains = [
     {
@@ -181,8 +188,7 @@ const CreateNewItem = () => {
       //$('.btn-select').attr('value', 'en');
     }
   };
-  const { _id } = JSON.parse(localStorage.getItem('userLoggedIn'));
-  console.log(_id, 'id on the create ');
+  // console.log(data?._id, 'id on the create ');
   const collectionRef = useRef();
   const [collectionData, setCollectionData] = useState({
     name: '',
@@ -193,6 +199,7 @@ const CreateNewItem = () => {
     featured_image: '',
     banner_image: '',
     url: '',
+    amount:'',
     category: '',
     website: '',
     discord: '',
@@ -200,7 +207,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: _id,
+    created_by: data?._id||"",
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -209,6 +216,7 @@ const CreateNewItem = () => {
 
   const initialDataState = {
     name: '',
+    amount:'',
     symbol: '',
     chooseType: '',
     uploadFile: {},
@@ -238,7 +246,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: _id,
+    created_by: data?._id||"",
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -248,7 +256,7 @@ const CreateNewItem = () => {
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get('http://192.168.1.48:8004/api/getBlockchain')
+        .get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getBlockchain`)
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {
@@ -292,6 +300,14 @@ const CreateNewItem = () => {
       ...collectionData,
       [e.target.name]: e.target.value,
     });
+    if(e.target.value==="single"){
+   setCollectionData( current => {
+    // 👇️ remove the salary key from an object
+    const {amount, ...rest} = current;
+
+    return rest;
+  })
+    }
   };
 
   const handleItemChange = (e) => {
@@ -299,16 +315,27 @@ const CreateNewItem = () => {
       ...itemData,
       [e.target.name]: e.target.value,
     });
+    if(e.target.value==="single"){
+      setItemData( current => {
+       // 👇️ remove the salary key from an object
+       const {amount, ...rest} = current;
+   
+       return rest;
+     })
+       }
+
   };
 
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
-  const [activeTab, setActiveTab] = useState('Fixed price');
+  const [activeTab, setActiveTab] = useState(0);
   console.log(marketplace);
+  
   useEffect(() => {
+   
     const fetchData = async () => {
       const arr = [];
-      await instance.get(`/api/userCollections?id=${_id}`).then((response) => {
+      await instance.get(`/api/userCollections?id=${data.data._id||""}`).then((response) => {
         let result = response.data.data;
         result.map((collection) => {
           // console.info(collection)
@@ -341,7 +368,7 @@ const CreateNewItem = () => {
       uploadFile: result,
     });
   };
-  const mySelectRef = useRef(null);
+  // const mySelectRef = useRef(null);
 
   console.log(':::::<><><><><>>>', { newData }, uploadedFile);
 
@@ -429,7 +456,7 @@ const CreateNewItem = () => {
     // medium: '',
     // telegram: '',
     // creator_earnings: '',
-    // created_by: _id,
+    // created_by: data._id||"",
     // blockchain: '',
     // payment_token: '',
     // display_theme: '',
@@ -461,7 +488,7 @@ const CreateNewItem = () => {
             medium: '',
             telegram: '',
             creator_earnings: '',
-            created_by: _id,
+            created_by: data._id||"",
             blockchain: '',
             payment_token: '',
             display_theme: '',
@@ -516,15 +543,15 @@ const CreateNewItem = () => {
   const handleSubmitNewItem = async () => {
     let data = {};
     switch (activeTab) {
-      case 'Fixed price':
+      case '0':
         data = fixedPrice;
         break;
 
-      case 'Open for bids':
+      case '1':
         data = openForBids;
         break;
 
-      case 'Timed auction':
+      case '2':
         data = timedAuction;
         break;
     }
@@ -580,7 +607,7 @@ const CreateNewItem = () => {
     //   data = await createOrder(reqParams);
 
     instance
-      .post('http://192.168.1.48:8002/api/store', post)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/store`, post)
       .then((response) => {
         Swal.fire({
           position: 'top-center',
@@ -1064,7 +1091,7 @@ const CreateNewItem = () => {
                                   // onChange={handleRadioChange}
                                   type='radio'
                                   name='chooseType'
-                                  value=' multiple'
+                                  value='multiple'
                                   className='card-input-element'
                                   onChange={handleItemChange}
                                 />
@@ -1088,7 +1115,20 @@ const CreateNewItem = () => {
                             </div>
                           </div>
                         </div>
-
+                        {itemData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
+                      <h4 className='create-item-title'>Amount</h4>
+                      <div className='row'>
+                        <div className='col-lg-9 col-md-9'>
+                          <input
+                            name='amount'
+                            value={itemData.amount}
+                            onChange={handleItemChange}
+                            type='number'
+                            className='form-control'
+                          />
+                        </div>
+                      </div>
+                    </div>:''}
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>
                             Upload File ( Image, Audio, Video, 3D Model)
@@ -1275,7 +1315,7 @@ const CreateNewItem = () => {
                                     >
                                       <a
                                         className='nav-link active mb-4 mb-lg-0'
-                                        id='Fixed price'
+                                        id='0'
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
@@ -1301,7 +1341,7 @@ const CreateNewItem = () => {
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
-                                        id='Open for bids'
+                                        id='1'
                                         data-bs-toggle='pill'
                                         data-bs-target='#open-bid'
                                         role='tab'
@@ -1324,7 +1364,7 @@ const CreateNewItem = () => {
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
-                                        id='Timed auction'
+                                        id='2'
                                         data-bs-toggle='pill'
                                         data-bs-target='#timed-auction'
                                         role='tab'
@@ -1718,7 +1758,7 @@ const CreateNewItem = () => {
                               // onChange={handleRadioChange}
                               type='radio'
                               name='chooseType'
-                              value=' multiple'
+                              value='multiple'
                               className='card-input-element'
                               onChange={handleCollectionChange}
                             />
@@ -1742,6 +1782,21 @@ const CreateNewItem = () => {
                         </div>
                       </div>
                     </div>
+                    {collectionData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
+                      <h4 className='create-item-title'>Amount</h4>
+                      <div className='row'>
+                        <div className='col-lg-9 col-md-9'>
+                          <input
+                            name='amount'
+                            value={collectionData.amount}
+                            onChange={handleCollectionChange}
+                            type='number'
+                            className='form-control'
+                            
+                          />
+                        </div>
+                      </div>
+                    </div>:''}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>
                         Logo Image <span className='text-red'>*</span>

@@ -210,7 +210,7 @@ setChanges(Math.floor(Math.random() * 10))
                             <div className="icon">
                               <a href="#">
                                 <img
-                                  src="assets/images/icons/etherscan-logo.png"
+                                  src="/assets/images/icons/etherscan-logo.png"
                                   alt=""
                                 />
                               </a>
@@ -224,7 +224,7 @@ setChanges(Math.floor(Math.random() * 10))
                             <div className="icon">
                               <a href="#">
                                 <img
-                                  src="assets/images/icons/rotate.png"
+                                  src="/assets/images/icons/rotate.png"
                                   alt=""
                                 />
                               </a>
@@ -242,7 +242,7 @@ setChanges(Math.floor(Math.random() * 10))
                                 aria-expanded="false"
                               >
                                 <img
-                                  src="assets/images/icons/three-dots.png"
+                                  src="/assets/images/icons/three-dots.png"
                                   alt=""
                                 />
                               </a>
