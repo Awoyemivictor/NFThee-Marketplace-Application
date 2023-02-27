@@ -1,21 +1,18 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: MIT
 
-pragma solidity =0.8.16;
-pragma abicoder v2;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Common/IRoyalty.sol";
+import "./interface/IRoyalty.sol";
 
-contract Royalty is RoyaltyInterface, Ownable {
+contract Royalty is IRoyalty, Ownable {
     uint256 public defaultRoyaltyFraction = 20; // By the factor of 1000, 2%
     uint256 public royaltyUpperLimit = 80; // By the factor of 1000, 8%
 
-    mapping(address => ERC721CollectionRoyalty) private _collectionRoyalty;
+    mapping(address => CollectionRoyalty) private _collectionRoyalty;
 
-    function _erc721Owner(
-        address erc721Address
-    ) private view returns (address) {
-        try Ownable(erc721Address).owner() returns (address _contractOwner) {
+    function _nftOwner(address contractAddress) private view returns (address) {
+        try Ownable(contractAddress).owner() returns (address _contractOwner) {
             return _contractOwner;
         } catch {
             return address(0);
@@ -23,16 +20,16 @@ contract Royalty is RoyaltyInterface, Ownable {
     }
 
     function royalty(
-        address erc721Address
-    ) public view override returns (ERC721CollectionRoyalty memory) {
-        if (_collectionRoyalty[erc721Address].setBy != address(0)) {
-            return _collectionRoyalty[erc721Address];
+        address contractAddress
+    ) public view override returns (CollectionRoyalty memory) {
+        if (_collectionRoyalty[contractAddress].setBy != address(0)) {
+            return _collectionRoyalty[contractAddress];
         }
 
-        address erc721Owner = _erc721Owner(erc721Address);
+        address erc721Owner = _nftOwner(contractAddress);
         if (erc721Owner != address(0)) {
             return
-                ERC721CollectionRoyalty({
+                CollectionRoyalty({
                     recipient: erc721Owner,
                     feeFraction: defaultRoyaltyFraction,
                     setBy: address(0)
@@ -40,7 +37,7 @@ contract Royalty is RoyaltyInterface, Ownable {
         }
 
         return
-            ERC721CollectionRoyalty({
+            CollectionRoyalty({
                 recipient: address(0),
                 feeFraction: 0,
                 setBy: address(0)
@@ -48,7 +45,7 @@ contract Royalty is RoyaltyInterface, Ownable {
     }
 
     function setRoyalty(
-        address erc721Address,
+        address contractAddress,
         address newRecipient,
         uint256 feeFraction
     ) external override {
@@ -58,25 +55,25 @@ contract Royalty is RoyaltyInterface, Ownable {
         );
 
         require(
-            msg.sender == royalty(erc721Address).recipient,
+            msg.sender == royalty(contractAddress).recipient,
             "Only ERC721 royalty recipient is allowed to set Royalty"
         );
 
-        _collectionRoyalty[erc721Address] = ERC721CollectionRoyalty({
+        _collectionRoyalty[contractAddress] = CollectionRoyalty({
             recipient: newRecipient,
             feeFraction: feeFraction,
             setBy: msg.sender
         });
 
         emit SetRoyalty({
-            erc721Address: erc721Address,
+            contractAddress: contractAddress,
             recipient: newRecipient,
             feeFraction: feeFraction
         });
     }
 
     function setRoyaltyForCollection(
-        address erc721Address,
+        address contractAddress,
         address newRecipient,
         uint256 feeFraction
     ) external onlyOwner {
@@ -86,18 +83,18 @@ contract Royalty is RoyaltyInterface, Ownable {
         );
 
         require(
-            royalty(erc721Address).setBy == address(0),
+            royalty(contractAddress).setBy == address(0),
             "Collection royalty recipient already set"
         );
 
-        _collectionRoyalty[erc721Address] = ERC721CollectionRoyalty({
+        _collectionRoyalty[contractAddress] = CollectionRoyalty({
             recipient: newRecipient,
             feeFraction: feeFraction,
             setBy: msg.sender
         });
 
         emit SetRoyalty({
-            erc721Address: erc721Address,
+            contractAddress: contractAddress,
             recipient: newRecipient,
             feeFraction: feeFraction
         });

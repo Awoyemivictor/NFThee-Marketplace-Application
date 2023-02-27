@@ -73,8 +73,6 @@ export async function ethChain() {
   }
 }
 
-
-
 export async function bscTest() {
   try {
     await ethereum.request({
@@ -140,6 +138,39 @@ export async function polyTest() {
               },
               rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
               blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+            },
+          ],
+        });
+      } catch (addError) {
+        console.log('Error adding Chain');
+      }
+    }
+  }
+}
+
+export async function harmonyTest() {
+  try {
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x1666600000' }],
+    });
+  } catch (switchError) {
+    if (switchError.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: '0x1666600000',
+              chainName: 'Harmony One',
+              nativeCurrency: {
+                name: 'ONE',
+                symbol: 'ONE',
+                decimals: 18,
+              },
+              rpcUrls: ['https://api.harmony.one'],
+
+              blockExplorerUrls: ['https://explorer.harmony.one/'],
             },
           ],
         });

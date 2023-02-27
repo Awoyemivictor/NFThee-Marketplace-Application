@@ -43,14 +43,14 @@ function LiveAuction() {
   const [blockchains, setBlockchains] = useState([]);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://192.168.1.4:8002/api/getCollection")
+    instance
+      .get("/api/getCollection")
       .then((response) => setCollections(response.data.data));
-    axios
-      .get("http://192.168.1.4:8002/api/getBlockchain")
+    instance
+      .get("/api/getBlockchain")
       .then((response) => setBlockchains(response.data.data));
-    axios
-      .get("http://192.168.1.4:8002/api/getCategory")
+    instance
+      .get("/api/getCategory")
       .then((response) => setCategories(response.data.data));
   }, []);
 

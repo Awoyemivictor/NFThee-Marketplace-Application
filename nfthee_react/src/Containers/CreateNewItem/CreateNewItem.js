@@ -15,7 +15,7 @@ import {
   handleNFTListingAuction,
   handleNFTOffer,
 } from '../../Config/sendFunctions';
-import { bscTest, ethTest, polyTest } from '../../Config/chains';
+import { bscTest, ethTest, polyTest ,harmonyTest} from '../../Config/chains';
 import axios from 'axios';
 
 const CreateNewItem = () => {
@@ -248,7 +248,7 @@ const CreateNewItem = () => {
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get('http://192.168.1.48:8004/api/getBlockchain')
+        .get('http://192.168.1.147:8004/api/getBlockchain')
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {
@@ -327,13 +327,15 @@ const CreateNewItem = () => {
 
   const [uploadedFile, setUploadedFile] = useState([]);
   const [newData, setNewData] = useState();
-  const handleImageChange = async(e) => {
+  const handleImageChange = async (e) => {
     const formData = new FormData();
     formData.append('fileName', e.target.files[0]);
-    const result = await instance.post('/api/image', formData).then((response) => {
-      return response.data.data;
-    });
-    console.log("image Data===>>",result)
+    const result = await instance
+      .post('/api/image', formData)
+      .then((response) => {
+        return response.data.data;
+      });
+    console.log('image Data===>>', result);
     setUploadedFile(result);
 
     setItemData({
@@ -533,7 +535,7 @@ const CreateNewItem = () => {
     console.log(activeTab);
     console.log(post);
 
-    const { tokenId, collectionAddress, res } = await handleNFTCreation(
+    let { tokenId, collectionAddress, res } = await handleNFTCreation(
       itemData.chooseBlockchain,
       post.chooseCollection,
       post.name,
@@ -543,6 +545,31 @@ const CreateNewItem = () => {
     );
     console.log(tokenId, collectionAddress, res);
 
+    post.tokenId = tokenId;
+    post.nft_quantity = 1;
+
+    const result = instance
+      .post(`/api/store`, post)
+      .then((response) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'NFT Created Successfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Try to create again',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+    data = {};
+
     if (marketplace === true) {
       if (activeTab === 'Fixed price') {
         let data = await handleListNFTSale(
@@ -551,6 +578,7 @@ const CreateNewItem = () => {
           collectionAddress
         );
         //price ,contractAddress, userAddress,nftCount
+
         console.log(data);
       } else if (activeTab === 'Open for bids') {
       } else if (activeTab === 'Timed auction') {
@@ -569,37 +597,14 @@ const CreateNewItem = () => {
     //   quantity: quantity,
     //   saleType: saleType,
     //   validUpto: _deadline,
-    //   signature: signature,
+
     //   tokenId: nextId,
-    //   auctionEndDate: _auctionEndDate,
-    //   salt: salt,
+ 
     // };
 
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
-
-    instance
-      .post('http://192.168.1.48:8002/api/store', post)
-      .then((response) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'Successful',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-    data = {};
   };
 
   const handleClearClick = () => {
@@ -661,6 +666,7 @@ const CreateNewItem = () => {
     } else if (bsc === getChainValues) {
       bscTest();
     } else if (harmony === getChainValues) {
+      harmonyTest()
     }
   };
 
@@ -759,7 +765,7 @@ const CreateNewItem = () => {
   //   formData.append('banner_image', e.target.files[0]);
   //   // instance
   //   axios
-  //     .post('http://192.168.1.4:8002/api/createCollection', formData)
+  //     .post('http://192.168.1.147:8002/api/createCollection', formData)
   //     .then((response) => response.data.data)
   //     .then((data) => {
   //       setBannerImage(URL.createObjectURL(e.target.files[0]));
@@ -2386,13 +2392,6 @@ const CreateNewItem = () => {
                         onClick={handleSubmitNewCollection}
                       >
                         Submit
-                      </button>
-
-                      <button
-                        className='btn btn-violet w-100'
-                        onClick={handleNFTListing}
-                      >
-                        Test
                       </button>
                     </div>
                   </div>

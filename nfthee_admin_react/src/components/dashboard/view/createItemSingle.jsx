@@ -143,7 +143,7 @@ const ItemSingle = () => {
     // };
     useEffect(() => {
         // if (loading) {
-        axios.get(`http://192.168.1.48:8002/api/getItem/read?id=${_ID}`).then((res) => {
+        axios.get(`http://192.168.1.147:8002/api/getItem/read?id=${_ID}`).then((res) => {
             if (res.data) {
                 setdata(res.data.data);
                 console.log("hsvbadjhvsdjhbahiuegdibsdjkb",res.data);
