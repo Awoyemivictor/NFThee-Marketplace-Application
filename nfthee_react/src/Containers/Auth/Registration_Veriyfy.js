@@ -177,4 +177,6 @@ function Registration_Veriyfy() {
   );
 }
 
+}
+
 export default Registration_Veriyfy;
