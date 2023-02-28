@@ -256,7 +256,7 @@ const CreateNewItem = () => {
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getBlockchain`)
+        .get(`https://lnfthee-admin-backend.onrender.com/api/getBlockchain`)
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {

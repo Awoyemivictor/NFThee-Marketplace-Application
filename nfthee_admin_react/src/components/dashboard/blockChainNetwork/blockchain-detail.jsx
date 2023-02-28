@@ -200,7 +200,7 @@ const blockchainDetails = () => {
 		console.log('onViewBlog=>', e);
 		console.log('onViewBlogId=>', e._id);
 		history.push(
-			`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/dashboard/viewBlockChain?blockchainId=${e._id}`
+			`/dashboard/viewBlockChain?blockchainId=${e._id}`
 		);
 	};
 

@@ -98,7 +98,7 @@ const ItemDetail = () => {
         setLoading(true)
      
     console.log(collections._id)
-    axios.get(`http://192.168.1.147:8002/api/getItem/update?id=${collections._id}`)
+    axios.get(`https://lnfthee-backend.onrender.com/api/getItem/update?id=${collections._id}`)
     .then(response => console.log(response.data.data))
     .finally(() => setLoading(false))
     }

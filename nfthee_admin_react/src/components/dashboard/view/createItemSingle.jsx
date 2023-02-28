@@ -234,7 +234,7 @@ const ItemSingle = () => {
                                                     Created At:
                                                 </h6>
                                                 <div className="col-xl-5 col-sm-9 col-form-label text-left">
-                                                    <p>{moment(data.createdAt).format('DD/MM/YYYY')}</p>
+                                                B                 <p>{moment(data.createdAt).format('DD/MM/YYYY')}</p>
                                                 </div>
                                             </FormGroup>
                                             <FormGroup className="form-row">

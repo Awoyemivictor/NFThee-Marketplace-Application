@@ -191,7 +191,7 @@ const BlogDetail = () => {
 
   const onViewBlog = (e) => {
     console.log('onViewBlog=>', e);
-    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogSingle?blogId=${e._id}`);
+    history.push(`/blog/blogSingle?blogId=${e._id}`);
   };
   const handleAddNewBlog = (e) => {
     history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogPost`);
