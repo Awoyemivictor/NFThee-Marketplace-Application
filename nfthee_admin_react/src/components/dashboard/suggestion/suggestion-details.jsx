@@ -141,7 +141,7 @@ const suggestionDetails = () => {
 
   useEffect(() => {
     // if (loading) {
-    authAxios.get("http://localhost:8004/api/getSuggestion").then((res) => {
+    authAxios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getSuggestion`).then((res) => {
       if (res.data) {
         const newData = res.data.data.map((item) => {
           return {

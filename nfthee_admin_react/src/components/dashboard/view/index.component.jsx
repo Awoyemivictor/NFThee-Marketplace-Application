@@ -19,7 +19,7 @@ const ItemDetail = () => {
     const [data, setdata] = useState([]);
     useEffect(() => {
      
-        axios.get("http://192.168.1.147:8002/api/admin/getAllItem")
+        axios.get(`${process.env.REACT_APP_RENDER_BASE_URL}/api/admin/getAllItem`)
 
             .then(response => setdata(response.data.data))
             .finally(() => setLoading(false))

@@ -38,7 +38,7 @@ const BlogSingle = () => {
 	});
 	React.useEffect(() => {
 		authAxios
-			.get(`http://localhost:8004/api/singleBlog?id=${blog_id}`)
+			.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}api/singleBlog?id=${blog_id}`)
 			.then((ress) => {
 				console.log(ress.data);
 				if (ress.data) {

@@ -18,7 +18,7 @@ const CollectionDetail = () => {
 
     const [data, setdata] = useState([]);
     useEffect(() => {
-        axios.get(`http://192.168.1.147:8002/api/getAll`)
+        axios.get(`${process.env.REACT_APP_RENDER_BASE_URL}/api/getAll`)
              .then(response => setdata(response.data.data))
              .finally(() => setLoading(false))
      
@@ -204,14 +204,14 @@ const completeTask=(collections)=>{
     setLoading(true)
  
 console.log(collections._id)
-axios.get(`http://192.168.1.147:8002/api/getCollection/update?id=${collections._id}`)
+axios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCollection/update?id=${collections._id}`)
 .then(response => console.log(response.data.data))
 .finally(() => setLoading(false))
 }
 
 
     const handleViewCollection = collections => {
-        history.push(`${process.env.PUBLIC_URL}/dashboard/view/collectionSingle?id=${collections._id}`, {
+        history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/dashboard/view/collectionSingle?id=${collections._id}`, {
             state: {
                 _id: collections._id
             }

@@ -40,7 +40,7 @@ const viewSuggestion = () => {
   React.useEffect(() => {
     console.log(process.env.REACT_APP_BASE_URL)
     authAxios
-      .get(`http://localhost:8004/api/getSuggestion?id=${suggestion_id}`)
+      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getSuggestion?id=${suggestion_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

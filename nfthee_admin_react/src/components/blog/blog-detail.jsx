@@ -149,13 +149,13 @@ const BlogDetail = () => {
 
   const onUpdate = (e) => {
     console.log('onUpdate=>', e);
-    history.push(`${process.env.PUBLIC_URL}/blog/blogEdit?blogId=${e._id}`);
+    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogEdit?blogId=${e._id}`);
     console.log();
   };
 
   useEffect(() => {
     // if (loading) {
-    authAxios.get('http://localhost:8004/api/blog/all').then((res) => {
+    authAxios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/blog/all`).then((res) => {
       if (res.data) {
         const newData = res.data.data.map((item) => {
           return {
@@ -182,7 +182,7 @@ const BlogDetail = () => {
     const removedItems = next.splice(next.indexOf(e), 1);
     // your axios function formatted for /delete/:id
     const deleteCarModel = axios.delete(
-      `http://localhost:8004/api/admin/blog/delete`,
+      `${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/admin/blog/delete`,
       blogId
     );
     // update react state with the new array
@@ -191,10 +191,10 @@ const BlogDetail = () => {
 
   const onViewBlog = (e) => {
     console.log('onViewBlog=>', e);
-    history.push(`${process.env.PUBLIC_URL}/blog/blogSingle?blogId=${e._id}`);
+    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogSingle?blogId=${e._id}`);
   };
   const handleAddNewBlog = (e) => {
-    history.push(`${process.env.PUBLIC_URL}/blog/blogPost`);
+    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogPost`);
   };
   // const onUpdateBlog = (e) => {
   //   console.log("onUpdateBlog=>", e);
