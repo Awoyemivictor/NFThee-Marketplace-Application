@@ -334,8 +334,9 @@ const CreateNewItem = () => {
   useEffect(() => {
    
     const fetchData = async () => {
+      console.log(data._id)
       const arr = [];
-      await instance.get(`/api/userCollections?id=${data.data._id||""}`).then((response) => {
+      await instance.get(`/api/userCollections?id=${data._id||""}`).then((response) => {
         let result = response.data.data;
         result.map((collection) => {
           // console.info(collection)
@@ -394,6 +395,7 @@ const CreateNewItem = () => {
     //! pass  collectionName Symbol and Creator Address and Royalty
 
     const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
+    console.log(creatorAddress[0])
     // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
 
     console.log(

@@ -148,7 +148,7 @@ exports.register = async (req, res) => {
         data: null,
       };
     }
-0  } catch (err) {
+  } catch (err) {
     return err;
   }
 };
@@ -232,8 +232,8 @@ exports.userCollections = async (req, res) => {
     let userId = req.query.id;
     // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
     // const user = await createCollection.find({ created_by: userId });
-    // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
-    const user = await createCollection.find({ created_by: userId });
+    const user = await createCollection.find({ created_by: userId , status:'verified'}); 
+    // const user = await createCollection.find({ created_by: userId });
     // console.log(user)
     if (user) {
       return {
