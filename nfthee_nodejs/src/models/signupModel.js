@@ -10,7 +10,6 @@ const signupInfo = new Schema(
     },
     token: {
       type: String,
-      
     },
     first_name: {
       type: String,

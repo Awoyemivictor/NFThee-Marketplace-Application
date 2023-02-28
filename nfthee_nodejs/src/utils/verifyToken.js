@@ -19,21 +19,29 @@ exports.auth = async (req, res, next) => {
   }
 };
 
-exports.signupAuth = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization.split('Bearer ')[1];
-    jwt.verify(token, credentials.SIGNUP_TOKEN, (err, encoded) => {
-      if (err) {
-        return errorResponseUnauth(res, err, 'Invalid Token');
-      } else {
-        req.user = encoded;
-        next();
-      }
+
+exports.signupAuth = (req, res, next) => {
+  
+      const token = req.headers.authorization.split('Bearer ')[1];
+
+  if (!token) {
+    return res.status(401).json({
+      message: 'Unauthorized',
+      status: false,
+      data: null,
     });
-  } catch (error) {
-    const err = new Error(error);
-    return errorResponseUnauth(res, err, 'Token required');
   }
+  jwt.verify(token, credentials.SIGNUP_TOKEN, (err, user) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        status: false,
+        data: null,
+      });
+    }
+    req.user = user;
+    next();
+  });
 };
 
 exports.verifyToken = async (req, res, next) => {

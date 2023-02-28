@@ -7,6 +7,7 @@ const { Mail } = require('../../utils');
 const jwt = require('jsonwebtoken');
 const { createCollection } = require('../../models');
 const {nftIteams} = require('../../models');
+const { signupAuth } = require('../../utils/verifyToken');
 // const {signup} = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
@@ -153,28 +154,65 @@ exports.register = async (req, res) => {
   }
 };
 
+// exports.login = async (req, res) => {
+//   try {
+//     const { email_address } = req.query;
+//     console.log(req.body, req.query);
+    
+//     const token=jwt.sign(email_address, credentials.SIGNUP_TOKEN, { expiresIn: "24h" });
+//     //  token=signuptoken;
+//     console.log('token',token)
+//     const user = await signup.findOne({ email_address });
+//     user.token=token;
+//     console.log(user.token)
+//     if (user) {
+//       return {
+//         message: 'Email Get............',
+//         status: true,
+//         data: user,
+//       };
+//     } else {
+//       return {
+//         message: "User hasn't found",
+//         status: false,
+//         data: null,
+//       };
+//     }
+//   } catch (err) {
+//     return err;
+//   }
+// };
 exports.login = async (req, res) => {
   try {
-    const { email_address } = req.query;
-    console.log(req.body, req.query);
-    const user = await signup.findOne({ email_address });
-    if (user) {
+    const { email_address } = req.body;
+    const user = await signup.findOne({ email_address } );
+    if(user){
+    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "24h" });
+    //  token=signuptoken;
+    console.log('token',token)
+    user.token=token;
+  //   const verifyResult = await signupAuth(token);
+  // console.log('verifyResult', verifyResult);
+    }
+    console.log(user)
+    if (!user) {
       return {
-        message: 'Email Get............',
-        status: true,
-        data: user,
-      };
-    } else {
-      return {
-        message: "User hasn't found",
+        message: 'User not found',
         status: false,
         data: null,
       };
     }
+    // const { token } = user;
+    return {
+      message: 'Login successful',
+      status: true,
+      data:user,
+    };
   } catch (err) {
     return err;
   }
 };
+
 exports.updateProfile = async (req, res) => {
   console.log(req.body, 'first');
   try {
@@ -229,12 +267,12 @@ exports.updateAddress = async (req, res) => {
 };
 exports.userCollections = async (req, res) => {
   try {
-    let userId = req.query.id;
+    let id = req.query.id;
     // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
     // const user = await createCollection.find({ created_by: userId });
     // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
-    const user = await createCollection.find({ created_by: userId });
-    // console.log(user)
+    const user = await createCollection.find({ created_by: id });
+    console.log(user)
     if (user) {
       return {
         message: 'data Updated Sucessfully',
