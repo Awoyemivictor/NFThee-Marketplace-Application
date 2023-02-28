@@ -133,6 +133,7 @@ const ItemDetail = () => {
                 <DataTable
                     columns={columns}
                     data={data}
+                    progressPending={loading} 
                     noHeader
                     defaultSortField="id"
                     defaultSortAsc={false}

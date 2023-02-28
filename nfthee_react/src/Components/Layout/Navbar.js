@@ -186,6 +186,10 @@ export const Navbar = () => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+  const text=localStorage.getItem('search')
+  const [serachTextNav,setSerachTextNav]=useState(text||'')
+  console.log({serachTextNav})
+ 
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -245,6 +249,8 @@ export const Navbar = () => {
                   <input
                     type="text"
                     name="str"
+                    value={serachTextNav}
+                    onChange={e=>setSerachTextNav( localStorage.setItem('search',e.target.value))}
                     placeholder={t('navbar.Search')}
                     className="form-control"
                   />

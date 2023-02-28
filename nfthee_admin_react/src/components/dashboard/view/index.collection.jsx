@@ -243,6 +243,7 @@ axios.get(`http://192.168.1.147:8002/api/getCollection/update?id=${collections._
                    	columns={columns}
                        data={data}
                        noHeader
+                       progressPending={loading} 
                        defaultSortField="id"
                        defaultSortAsc={false}
                        highlightOnHover

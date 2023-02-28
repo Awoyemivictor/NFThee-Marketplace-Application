@@ -14,6 +14,7 @@ function ExploreNft() {
   const location = useLocation();
   const [nftData, setNftData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingFilter, setLoadingFilter] = useState(true);
 
   const [isOpen, setIsopen] = useState(true);
   const [filter, setfilter] = useState("filterClose");
@@ -49,18 +50,28 @@ console.log(checked,j,e.target.name,name,"expolorenft")
     //for checkbox checked or unchecked
     if (checked) {
       setFilterSearch((state) => [...state, { [e.target.name]: name }]);
+      setLoadingFilter(true)
+
     }
     if (checked == false && j === "blockChain") {
       setFilterSearch((state) => state.filter((el) => el.blockChain != name));
+      setLoadingFilter(true)
+
     }
     if (checked == false && j === "collection") {
       setFilterSearch((state) => state.filter((el) => el.collection != name));
+      setLoadingFilter(true)
+
     }
     if (checked == false && j === "singleItem") {
       setFilterSearch((state) => state.filter((el) => el.singleItem != name));
+      setLoadingFilter(true)
+
     }
     if (checked == false && j === "categories") {
       setFilterSearch((state) => state.filter((el) => el.categories != name));
+      setLoadingFilter(true)
+
     }
   };
 
@@ -130,6 +141,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
 
     if (searchText) {
       url += `str=${searchText.replace(" ", "+")}&`;
+      localStorage.removeItem("search");
+      window.dispatchEvent(new Event('storage'))
     }
     if (serachButton || performance.navigation.type === 1||queryParamChanged) {
       history.push(url.slice(0, -1));
@@ -142,7 +155,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
     instance
       .get("api/all" + window.location.search)
       .then((response) => setNftData(response.data.data))
-      .finally(() => setIsLoading(false));
+      .finally(() => {setIsLoading(false)
+      setLoadingFilter(false)});
   }, [filterSearch, searchText, serachButton]);
   const handleSearchText = (e) => {
     e.preventDefault();
@@ -413,6 +427,9 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                       </div>
                     </div>
                   </div>
+                  {loadingFilter ? (
+        <Loader />
+      ) : 
                   <div className="tab-content">
                     <div
                       className="tab-pane fade show active"
@@ -436,7 +453,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>

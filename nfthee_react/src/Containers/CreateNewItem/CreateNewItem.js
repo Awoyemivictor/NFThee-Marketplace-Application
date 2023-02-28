@@ -18,7 +18,7 @@ import {
 import { bscTest, ethTest, polyTest ,harmonyTest} from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import {getUnixTimeAfterDays} from '../../Config/helpers'
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
@@ -299,15 +299,9 @@ const CreateNewItem = () => {
     setCollectionData({
       ...collectionData,
       [e.target.name]: e.target.value,
+      amount:collectionData.chooseType===1 ? 1 : e.target.value,
     });
-    if(e.target.value==="single"){
-   setCollectionData( current => {
-    // 👇️ remove the salary key from an object
-    const {amount, ...rest} = current;
-
-    return rest;
-  })
-    }
+    
   };
 
   const handleItemChange = (e) => {
@@ -335,7 +329,9 @@ const CreateNewItem = () => {
    
     const fetchData = async () => {
       const arr = [];
-      await instance.get(`/api/userCollections?id=${data.data._id||""}`).then((response) => {
+      await 
+      instance
+      .get(`/api/userCollections?id=${data._id||""}`).then((response) => {
         let result = response.data.data;
         result.map((collection) => {
           // console.info(collection)
@@ -388,11 +384,12 @@ const CreateNewItem = () => {
   };
 
   const increment = (id) => id + 1;
-
-  const handleSubmitNewCollection = async () => {
+  const timeAfterDays=getUnixTimeAfterDays(12)
+  // console.log(a,'a>ASKADAD:>')
+  const handleSubmitNewCollection = async (e) => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
-
+e.preventDefault()
     const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
     // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
 
@@ -411,7 +408,7 @@ const CreateNewItem = () => {
       collectionData.symbol,
       creatorAddress[0]
     );
-    console.log(contractAddress);
+    console.log({contractAddress});
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
     // .post('/api/createCollection', collectionData)
@@ -431,6 +428,7 @@ const CreateNewItem = () => {
     formData.append('website', collectionData.website);
     formData.append('discord', collectionData.discord);
     formData.append('instagram', collectionData.instagram);
+    formData.append('amount', collectionData?.amount);
     formData.append('medium', collectionData.medium);
     formData.append('telegram', collectionData.telegram);
     formData.append('creator_earnings', collectionData.creator_earnings);
@@ -542,40 +540,45 @@ const CreateNewItem = () => {
 
   const [nftAddress, setNFTAddress] = useState('');
 
-  const handleSubmitNewItem = async () => {
+  const handleSubmitNewItem = async (e) => {
+    e.preventDefault()
     let data = {};
     switch (activeTab) {
-      case '0':
+      case 0:
         data = fixedPrice;
         break;
 
-      case '1':
+      case 1:
         data = openForBids;
         break;
 
-      case '2':
+      case 2:
         data = timedAuction;
         break;
     }
     const post = itemData;
     post.putOnMarketplace = data;
+    if(post.chooseType==="single"){
+      post.amount=1;
+    }
     console.log(activeTab);
     console.log(post);
 
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
-      itemData.chooseBlockchain,
+      post.chooseBlockchain,
       post.chooseCollection,
       post.name,
       post.symbol,
       post.chooseType,
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
-    console.log(tokenId, collectionAddress, res);
+    console.log({tokenId}, {collectionAddress}, {res});
+if( tokenId&& collectionAddress&& res){
 
     post.tokenId = tokenId;
     post.nft_quantity = 1;
 
-    const result = instance
+    const resultssss = instance
       .post(`/api/store`, post)
       .then((response) => {
         Swal.fire({
@@ -595,10 +598,11 @@ const CreateNewItem = () => {
           timer: 1500,
         });
       });
-    data = {};
+      console.log({resultssss},'result')
+      data = {};
 
     if (marketplace === true) {
-      if (activeTab === 'Fixed price') {
+      if (activeTab === 0) {
         let data = await handleListNFTSale(
           tokenId,
           fixedPrice.price,
@@ -607,27 +611,28 @@ const CreateNewItem = () => {
         //price ,contractAddress, userAddress,nftCount
 
         console.log(data);
-      } else if (activeTab === 'Open for bids') {
-      } else if (activeTab === 'Timed auction') {
+      } else if (activeTab === 1) {
+      } else if (activeTab === 2) {
       }
     }
-
-    // let reqParams = {
-    //   nftId: res.result._id,
-    //   seller: currentUser.toLowerCase(),
-    //   tokenAddress:
+    let reqParams = {
+      nftId: resultssss?.result._id,
+      seller: data._id,
+      tokenAddress:
     //     saleType !== 0
     //       ? selectedTokenAddress
-    //       : '0x0000000000000000000000000000000000000000',
-    //   collection: nftContractAddress,
-    //   price: _price,
-    //   quantity: quantity,
-    //   saleType: saleType,
-    //   validUpto: _deadline,
+    //       : 
+    '0x0000000000000000000000000000000000000000',
+      collection: collectionAddress,
+      price: post.price,
+      quantity: 1,
+      saleType: activeTab,
+      validUpto: timeAfterDays,
 
-    //   tokenId: nextId,
+      tokenId: tokenId,
  
-    // };
+    };
+  }
 
     // let data = '';
     // try {
@@ -966,7 +971,7 @@ const CreateNewItem = () => {
               </ul>
             </div>
 
-            <div className='tab-content nav-tabs'>
+            <form className='tab-content nav-tabs'>
               <div
                 className='tab-pane fade show active'
                 id='create-item'
@@ -1022,9 +1027,9 @@ const CreateNewItem = () => {
                                   : 'Not For Sale'}
                               </h3>
                               <span>
-                                {activeTab === 'Fixed price' ? (
+                                {activeTab === 0 ? (
                                   <span>{fixedPrice.price}</span>
-                                ) : activeTab === 'Open for bids' ? (
+                                ) : activeTab === 1 ? (
                                   ''
                                 ) : (
                                   <span>{timedAuction.minimumBid}</span>
@@ -1037,9 +1042,9 @@ const CreateNewItem = () => {
                               </span>
                             </div>
                             <a className='btn btn-violet' href='#'>
-                              {activeTab === 'Fixed price'
+                              {activeTab === 0
                                 ? 'Post'
-                                : activeTab === 'Open for bids'
+                                : activeTab === 1
                                 ? 'Make a bid'
                                 : 'Make bid'}
                             </a>
@@ -1069,6 +1074,7 @@ const CreateNewItem = () => {
                                   type='radio'
                                   name='chooseType'
                                   value='single'
+                                  required
                                   className='card-input-element'
                                   onChange={handleItemChange}
                                   defaultChecked
@@ -1100,6 +1106,7 @@ const CreateNewItem = () => {
                                   value='multiple'
                                   className='card-input-element'
                                   onChange={handleItemChange}
+                                  required
                                 />
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
@@ -1131,6 +1138,7 @@ const CreateNewItem = () => {
                             onChange={handleItemChange}
                             type='number'
                             className='form-control'
+                            required
                           />
                         </div>
                       </div>
@@ -1210,6 +1218,7 @@ const CreateNewItem = () => {
                               value={itemData.about}
                               name='about'
                               type='text'
+                              required
                               className='form-control'
                               placeholder='E.g.Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.'
                             />
@@ -1226,6 +1235,7 @@ const CreateNewItem = () => {
                             Choose Collection
                           </h4>
                           <Select
+                          required
                             value={collections.value}
                             onChange={handleItemCollection}
                             // components={{
@@ -1404,6 +1414,7 @@ const CreateNewItem = () => {
                                           type='text'
                                           className='form-control'
                                           name='price'
+                                          required
                                           onChange={handleFixedPriceChange}
                                           value={fixedPrice.price}
                                           placeholder='Enter Price For One Piece'
@@ -1446,6 +1457,7 @@ const CreateNewItem = () => {
                                           type='text'
                                           className='form-control'
                                           name='Bid_price'
+                                          
                                           onChange={handleBidPriceChange}
                                           value={openForBids.Bid_price}
                                           placeholder='Enter Price For Bid Piece'
@@ -1532,6 +1544,7 @@ const CreateNewItem = () => {
                                           <input
                                             type='date'
                                             name='finishDate'
+                                            
                                             onChange={(e) =>
                                               setTimedAuction({
                                                 ...timedAuction,
@@ -1735,7 +1748,7 @@ const CreateNewItem = () => {
                             <input
                               type='radio'
                               name='chooseType'
-                              value='single'
+                              value={1}
                               className='card-input-element'
                               onChange={handleCollectionChange}
                               defaultChecked
@@ -2453,7 +2466,7 @@ const CreateNewItem = () => {
                 </div>
                 {/*</form>*/}
               </div>
-            </div>
+            </form>
           </div>
         </section>
 
@@ -2500,6 +2513,7 @@ const CreateNewItem = () => {
                             <input
                               name='attrType'
                               value={attri.attrType}
+                              required
                               // onChange={handleChangeToggle}
                               onChange={(e) =>
                                 handleAttributeChange(
@@ -2525,6 +2539,7 @@ const CreateNewItem = () => {
                           <input
                             name='attrName'
                             value={attri.attrName}
+                            required
                             onChange={(e) =>
                               handleAttributeChange(
                                 attrIndex,
@@ -2618,6 +2633,7 @@ const CreateNewItem = () => {
                             name='levelSpeed'
                             type='text'
                             value={lev.levelSpeed}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2639,6 +2655,7 @@ const CreateNewItem = () => {
                             name='levelUsername'
                             type='number'
                             value={lev.levelUsername}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2656,6 +2673,7 @@ const CreateNewItem = () => {
                             name='levelServer'
                             type='number'
                             value={lev.levelServer}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2752,6 +2770,7 @@ const CreateNewItem = () => {
                             name='statsSpeed'
                             type='text'
                             value={stat.statsSpeed}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
@@ -2773,6 +2792,7 @@ const CreateNewItem = () => {
                             name='statsUsername'
                             type='number'
                             value={stat.statsUsername}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
@@ -2791,6 +2811,7 @@ const CreateNewItem = () => {
                             name='statsServer'
                             type='number'
                             value={stat.statsServer}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
