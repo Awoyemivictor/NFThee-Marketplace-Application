@@ -1,0 +1,291 @@
+
+{
+    "banner": {
+    "banner_text1":"希少なデジタルア",
+    "banner_text2":"ートを発見し、",
+    "banner_text3":"NFT",
+    "banner_text4":"コレクション"
+    }, 
+    "navbar": { 
+    "Search":"検索",
+    "Explore":"探索",     
+    "Activities":"アクティビティ",     
+    "How_It_Works":"仕組み",     
+    "Community":"コミュニティ",     
+    "Create":"作成",  
+    "All_NFTs":"すべてのNFT",    
+    "Ethereum":"イーサリアム",    
+    "Tezoz":"テゾズ",    
+    "Flow":"フロー",
+    "Rewards":"報酬"
+    },     
+  
+    "CreativeArtCollection": { 
+    "Creative Art Collection":"クリエイティブアートコレクション",
+    "Created By":"作成者： ",
+    "Current Bid":"現在の入札",
+    "New Drops": "新着作品",
+    "Hope": "希望",
+    "Hoping": "願い",
+    "Box": "ボックス",
+    "Boxhead": "ボックスヘッド",
+    "Constsub": "コンストサブ",
+    "Subjective Consistency": "主観的一貫性",
+    "LIQ": "LIQ",
+    "Liquidities": "流動性",
+    "Give me Hope": "希望を下さい",
+    "Top Categories": "トップカテゴリー",
+     "Unit": "単位",
+    "Abstract Painting": "抽象画",
+    "Modern Art": "モダンアート",
+    "Top Collections Over Last": "過去数日間のトップコレクション", 
+    "Days": "日々",
+    "See All":"すべて表示", 
+    "top_sellers":"トップセラー",
+    "Live Auctions": "ライブオークション",
+    "Explore More": "もっと見る",
+    "Walking on the Air":"とても幸せな気分"
+    }, 
+     
+    
+    
+    "Createandsell":{
+    "Create and sell your NFTs":"NFTの作成と販売",
+    "Set up your wallet title":"ウォレットを設定",
+    "Set up your wallet":"任意のウォレットを設定したら、右上のウォレットアイコンをクリックして、NFTheeに接続してください。対応しているウォレットについてはコチラからご確認ください。",
+    "Create Your Collection title":"コレクションを作成",
+    "Create Your Collection":" マイコレクションをクリックし、コレクションを設定します。ソーシャルリンク、説明文、プロフィール＆バナー画像を追加し、二次販売手数料を設定します。",
+    "Add Your Nfts title":"NFTを追加",
+    "Add Your Nfts":"作品（画像、ビデオ、オーディオ、3Dアート）をアップロードし、タイトルと説明を追加し、プロパティ、統計、アンロック可能なコンテンツでNFTをカスタマイズします。",
+    "List Them For Sale title":"販売",
+    "List Them For Sale":"オークション方式、固定価格方式、購入者が現れるまで価格が下がっていく販売方法から選択できます。NFTの販売方法はお客様が選択し、弊社が販売をサポートします。"
+    },
+     
+    "footer":{
+    "Never Miss A Drop":"新着をお見逃しなく",
+    "Enter your email address":"メールアドレスを入力",
+    "Subscribe":"登録",
+    "Join The Community":"コミュニティに参加",
+    "MarketPlace":"マーケットプレイス",
+    "My Account": "マイアカウント",
+    "Community1": "コミュニティ",
+    "Company": "会社情報",
+    "NFThee Apps": "NHTheeアプリ",
+    "footer_content": "“「Theeはオランダ語でお茶のことを意味します」ぜひ、ゆっくりくつろいってください。",
+    "copy rights" :"NFThee、Inc.無断複写・転載を禁じます.", 
+    "Terms & Conditions": "利用規約",
+    "Privacy Policy": "プライバシーポリシー", 
+    
+                        
+
+    "Art":"    アート",
+    "Collectibles":"コレクターズアイテム",
+    "Domain Names":"ドメイン名",
+    "Music":"音楽",
+    "Photography":"写真",
+    "Sports":"スポーツ",
+    "Trading Cards":"トレーディングカード",
+    "Utility":"ユーティリティ",
+    "Virtual Words":"バーチャルワード",
+    "Profile":"プロフィール",
+    "Favorite":"お気に入り",
+    "My Collection":"マイコレクション",
+    "Settings":"設定",
+    "Notifications":"通知",
+    "Help Desk":"ヘルプデスク",
+    "Blog":"ブログ",
+    "News Letter":"ニュースレター",
+    "Become A Partner":"パートナーになる",
+    "Suggestions":"提案",
+    "About":"概要",
+    "Careers":"採用情報",
+    "Download the NFThee app. and discover special NFTs anytime, anywhere":"NFTheeアプリをダウンロードして、いつでもどこでもスペシャルなNFTを発見してください。"
+    },
+    
+    "explore":{
+        "Explore Collections" : "コレクションを探索",
+        "Metroverse" : "メトロバース",
+        "By Metroverse" : "Par メトロバース作",
+        "Metroverse cardtext" : "メトロバースは、イーサリアム上に構築された土地取引NFT戦略ゲームです。都市ブロックを集め、取引やステーキングをして、$MET ユーティリティトークンを獲得します。 ",
+        
+        "Back":"戻る",
+        "items ":"アイテム ",
+        "owners":"オーナー",
+        "floor price":"フロアプライス",
+        "Volume Traded":"取引量",
+        "Metroverse_title":"メトロバースは、イーサリアム上に構築された土地取引NFT戦略ゲームです。都市ブロックを集め、取引やステーキングをして、$MET を獲得します。",
+        "Utility Token":"ユーティリティトークン",
+        "Like":"いいね",
+        "Follow":"フォロー",
+        "item":"アイテム ",
+        "Activity":"アクティビティ",
+        "Showing":"表示中",
+        "of ":"の ",
+        "result":"結果",
+        "sort by":"並び替え",
+        "Place Bid":"入札",
+        
+
+        "Filter":"フィルタ",
+        "Trending":"トレンド ",
+        "top":"トップ",
+        "Art":"アート",
+        "Domain Name":"ドメイン名",
+        "Music":"音楽",
+        "Photography":"写真",
+        "Sports":"スポーツ",
+
+        "Single Items":"シングルアイテム",
+        "All items":"すべてのアイテム",
+        "Bundles":"バンドル",
+        "Price":"価格",
+        "From ":"から ",
+        "to":"まで",
+        "Chains":"チェーン",
+        "On Sale IN":"発売まで：",
+        "Load More":"もっと読む",
+
+        "Quantity":"数量",
+        "from":"から",
+        "to":"まで",
+        "time":"時間",
+        "sale":"セール",
+        "Event type":"イベントタイプ",
+        "listing":"リスティング",
+        "bids":"入札",
+        "sales":"売上",
+        "traders":"トレーダー",
+        "Categories":"カテゴリー",
+        "seconds ago":"秒前",
+        "series":"シリーズ",
+        "Day":"日",
+        "Avg Price":"平均価格",
+        "last":"最終"
+  
+    },
+    "product":{
+        "Back":"Back",
+        "The Fantasy Flower Illustration":"“The Fantasy Flower Illustration”",
+        "Token id":"Token id",
+        "Token standard":"Token standard",
+        "Blockchain":"Blockchain",
+        "Description":"Description",
+        "about project":"about project",
+        "Details":"Details",
+        "Attributes":"Attributes",
+        "detail_description":"This Painting Is Complete Made With Oil Paint Showcasing A Man With Grey Hat, You Complete Made With Oil Paint Showcasing A And This Aithing One Of It's Kind.",
+        "Minted By":"Minted By",
+        "Highest Bid By":"Highest Bid By",
+        "Buy now":"Buy now",
+        "Make an offer":"Make an offer",
+        "Buy Card":"Buy Card",
+        "Listing":"Listing",
+        "Offering":"Offering",
+        "Price":"Price",
+        "USD Price":"USD Price",
+        "Expiration":"Expiration",
+        "from":"from",
+        "Floor Difference":"Floor Difference",
+        "Item Activity":"Item Activity",
+        "Lowest Listing":"Lowest Listing",
+        "Suggested Price":"Suggested Price",
+        "Highest Sale":"Highest Sale",
+        "Total Sales":"Total Sales",
+        "Filter By":"Filter By",
+        "Select":"Select",
+        "More from this collection":"More from this collection",
+        "Balance":"Balance",
+        "Offer Expiration":"Offer Expiration",
+        "By Checking This Box, I Agree To NFTHEE Terms Of Service":"By Checking This Box, I Agree To NFTHEE Terms Of Service",
+        "Make Offer":"Make Offer",
+        "Convert ETH":"Convert ETH",
+        "Balance":"Balance",
+        "share":"share",
+        "report":"report",
+        "website":"website",
+        "amount":"amount"
+        },
+        "about":{
+            "about_content":"NFTheeチームは、発起人であり元々友人同士でもあるRonald、Rick、Jeroenと、暗号通貨愛好家6人の開発者とデザイナーからなる情熱的なメンバーで構成されています。NFTを支える技術を発見したとき、私たちは大きな感銘を受け、即座に新たな機会で溢れる世界を思い描きました。私たちの目標は、NFTコミュニティ向けに低料金のマーケットプレイスを作ることです。独自の革新的なアプローチにより、ネイティブコインであるのTheeコインを開発し、最先端かつ刺激的なパートナーとの実りある協力関係と共にNFTheeをNFTコミュニティ界隈で名を轟かせ、素晴らしい未来を実現いたします。この目標を実現するために、決心を固め、すべての力を結集させて尽力いたしますので、どうぞよろしくお願いいたします <br/><br/> ご質問やご興味のある方は、お気軽 <strong>support@nfthee.com </strong> までお問い合わせくださいませ。  "
+        },
+        "launching":{
+            "To all NFT Artists, collectors, enthusiasts":"NFT アーティスト、コレクター、愛好家の皆様へ。",
+            "NFThee is set to become the most user friendly":"NFTheeは、世界的なコミュニティを持つ、最も使いやすいマーケットプレイスになることを目指しています。",  
+            "First 1000 verified": "最初の1000の検証済みコレクション/プロジェクトには、ボーナス、500のTheeトークン、当社のWebサイトでの無料のプレミアム露出、および世界中のプレミアムロケーションが提供されます。",  
+            "And the  first 10.000":"そして、最初の10,000のサインアップは、100のティートークンからボーナスを獲得します", 
+            "Stay Tuned":"乞うご期待",
+            "Most important notices":"重要なお知らせ",
+
+            "Only 2% fee":"わずか2％の手数料 ", 
+            "that same fee will go back":"同じ料金の0.5％がステーキング <br/> コミュニティトークンに戻されます",
+            "Our own Thee token" : "私たち自身のティートークン",
+            "All languages available":"すべての言語で利用可能",
+            "Multi wallets supported":"複数のウォレットをサポート",
+            "Multi chains (ETH, SOL, BNB, Polygon, Harmony)":"マルチチェーン(ETH, SOL, <br/> BNB, Polygon, Harmony)",
+            "Gas-Free":"ガス代無料",
+           "Android and Apple app":"Android、iOS対応アプリ",
+            "Active support team to delete scams and answer questions":"詐欺を撲滅し、<br/> 質問に答えるためのアクティブサポートチーム",
+            "Easy collection upload":"簡単なコレクションアップロード ", 
+            "Pay with card":"カード支払い", 
+            "Rewards system":"報酬システム",
+            "Multi listing":"マルチリスティング",
+            "2 layer":"2レイヤー",
+            "Minting? No problem":"ミント？問題なし",
+          
+
+            "Count down with us on www.nfthee.com":"で一緒にカウントダウンしませんか？",
+            "And make sure you will be among the first 1000 to take":"この特典を獲得する最初の1000人の1人になりましょう！", 
+            "Interested? Follow us on":"ご興味はありますか？フォローはこちら",
+            
+            "Days":"日々",
+            "Min":"分",
+            "Hours":"時間",
+            "Sec":"2番",
+            "Early access":"早期アクセス",
+            "Enter Your Email Address":"メールアドレスを入力してください",
+            "send":"送信",
+
+            "email_requird":"メールが必要です",
+            "invalid_email":"無効なメールアドレス"
+          } 
+
+
+} 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
