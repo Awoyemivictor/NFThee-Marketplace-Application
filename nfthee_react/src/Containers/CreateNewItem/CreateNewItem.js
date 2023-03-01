@@ -15,19 +15,19 @@ import {
   handleNFTListingAuction,
   handleNFTOffer,
 } from '../../Config/sendFunctions';
-import { bscTest, ethTest, polyTest ,harmonyTest} from '../../Config/chains';
+import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
-  const history=useHistory()
+  const history = useHistory();
   const data = JSON.parse(localStorage.getItem('userLoggedIn'));
 
-  if(data===null){
-    history.push("/")
-   }
+  if (data === null) {
+    history.push('/');
+  }
 
   const Blockchains = [
     {
@@ -199,7 +199,7 @@ const CreateNewItem = () => {
     featured_image: '',
     banner_image: '',
     url: '',
-    amount:'',
+    amount: '',
     category: '',
     website: '',
     discord: '',
@@ -207,7 +207,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: data?._id||"",
+    created_by: data?._id || '',
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -216,7 +216,7 @@ const CreateNewItem = () => {
 
   const initialDataState = {
     name: '',
-    amount:'',
+    amount: '',
     symbol: '',
     chooseType: '',
     uploadFile: {},
@@ -246,7 +246,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: data?._id||"",
+    created_by: data?._id || '',
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -300,13 +300,13 @@ const CreateNewItem = () => {
       ...collectionData,
       [e.target.name]: e.target.value,
     });
-    if(e.target.value==="single"){
-   setCollectionData( current => {
-    // 👇️ remove the salary key from an object
-    const {amount, ...rest} = current;
+    if (e.target.value === 'single') {
+      setCollectionData((current) => {
+        // 👇️ remove the salary key from an object
+        const { amount, ...rest } = current;
 
-    return rest;
-  })
+        return rest;
+      });
     }
   };
 
@@ -315,40 +315,40 @@ const CreateNewItem = () => {
       ...itemData,
       [e.target.name]: e.target.value,
     });
-    if(e.target.value==="single"){
-      setItemData( current => {
-       // 👇️ remove the salary key from an object
-       const {amount, ...rest} = current;
-   
-       return rest;
-     })
-       }
+    if (e.target.value === 'single') {
+      setItemData((current) => {
+        // 👇️ remove the salary key from an object
+        const { amount, ...rest } = current;
 
+        return rest;
+      });
+    }
   };
 
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   console.log(marketplace);
-  
+
   useEffect(() => {
-   
     const fetchData = async () => {
-      console.log(data._id)
+      console.log(data._id);
       const arr = [];
-      await instance.get(`/api/userCollections?id=${data._id||""}`).then((response) => {
-        let result = response.data.data;
-        result.map((collection) => {
-          // console.info(collection)
-          arr.push({
-            value: collection.name,
-            label: collection.name,
-            category: collection.category,
+      await instance
+        .get(`/api/userCollections?id=${data._id || ''}`)
+        .then((response) => {
+          let result = response.data.data;
+          result.map((collection) => {
+            // console.info(collection)
+            arr.push({
+              value: collection.name,
+              label: collection.name,
+              category: collection.category,
+            });
           });
+          console.log(arr);
+          setCollections(arr);
         });
-        console.log(arr);
-        setCollections(arr);
-      });
     };
     fetchData();
   }, []);
@@ -395,7 +395,7 @@ const CreateNewItem = () => {
     //! pass  collectionName Symbol and Creator Address and Royalty
 
     const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
-    console.log(creatorAddress[0])
+    console.log(creatorAddress[0]);
     // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
 
     console.log(
@@ -492,7 +492,7 @@ const CreateNewItem = () => {
             medium: '',
             telegram: '',
             creator_earnings: '',
-            created_by: data._id||"",
+            created_by: data._id || '',
             blockchain: '',
             payment_token: '',
             display_theme: '',
@@ -577,7 +577,7 @@ const CreateNewItem = () => {
     post.tokenId = tokenId;
     post.nft_quantity = 1;
 
-    const result = instance
+    instance
       .post(`/api/store`, post)
       .then((response) => {
         Swal.fire({
@@ -598,9 +598,10 @@ const CreateNewItem = () => {
         });
       });
     data = {};
+    console.log(marketplace, activeTab);
 
     if (marketplace === true) {
-      if (activeTab === 'Fixed price') {
+      if (activeTab === '0') {
         let data = await handleListNFTSale(
           tokenId,
           fixedPrice.price,
@@ -609,8 +610,18 @@ const CreateNewItem = () => {
         //price ,contractAddress, userAddress,nftCount
 
         console.log(data);
-      } else if (activeTab === 'Open for bids') {
-      } else if (activeTab === 'Timed auction') {
+      } else if (activeTab === '1') {
+        console.log('In AC2');
+        // tokenId ,price ,collectionName ,nftCount ,tokenType
+
+        console.log(tokenId, fixedPrice.price, collectionAddress);
+        let data = await handleNFTListingAuction(
+          tokenId,
+          fixedPrice.price,
+          collectionAddress
+        );
+        console.log(data);
+      } else if (activeTab === '2') {
       }
     }
 
@@ -628,7 +639,7 @@ const CreateNewItem = () => {
     //   validUpto: _deadline,
 
     //   tokenId: nextId,
- 
+
     // };
 
     // let data = '';
@@ -695,7 +706,7 @@ const CreateNewItem = () => {
     } else if (bsc === getChainValues) {
       bscTest();
     } else if (harmony === getChainValues) {
-      harmonyTest()
+      harmonyTest();
     }
   };
 
@@ -1123,20 +1134,24 @@ const CreateNewItem = () => {
                             </div>
                           </div>
                         </div>
-                        {itemData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
-                      <h4 className='create-item-title'>Amount</h4>
-                      <div className='row'>
-                        <div className='col-lg-9 col-md-9'>
-                          <input
-                            name='amount'
-                            value={itemData.amount}
-                            onChange={handleItemChange}
-                            type='number'
-                            className='form-control'
-                          />
-                        </div>
-                      </div>
-                    </div>:''}
+                        {itemData.chooseType === 'multiple' ? (
+                          <div className='create-item-content border-bottom pb-3 mb-3'>
+                            <h4 className='create-item-title'>Amount</h4>
+                            <div className='row'>
+                              <div className='col-lg-9 col-md-9'>
+                                <input
+                                  name='amount'
+                                  value={itemData.amount}
+                                  onChange={handleItemChange}
+                                  type='number'
+                                  className='form-control'
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ''
+                        )}
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>
                             Upload File ( Image, Audio, Video, 3D Model)
@@ -1790,21 +1805,24 @@ const CreateNewItem = () => {
                         </div>
                       </div>
                     </div>
-                    {collectionData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
-                      <h4 className='create-item-title'>Amount</h4>
-                      <div className='row'>
-                        <div className='col-lg-9 col-md-9'>
-                          <input
-                            name='amount'
-                            value={collectionData.amount}
-                            onChange={handleCollectionChange}
-                            type='number'
-                            className='form-control'
-                            
-                          />
+                    {collectionData.chooseType === 'multiple' ? (
+                      <div className='create-item-content border-bottom pb-3 mb-3'>
+                        <h4 className='create-item-title'>Amount</h4>
+                        <div className='row'>
+                          <div className='col-lg-9 col-md-9'>
+                            <input
+                              name='amount'
+                              value={collectionData.amount}
+                              onChange={handleCollectionChange}
+                              type='number'
+                              className='form-control'
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>:''}
+                    ) : (
+                      ''
+                    )}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>
                         Logo Image <span className='text-red'>*</span>
