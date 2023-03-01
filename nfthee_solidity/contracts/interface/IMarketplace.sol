@@ -123,7 +123,7 @@ interface IMarketplace {
         uint256 expireTimestamp,
         uint256 nftCount,
         uint256 tokenType
-    ) external;
+    ) external payable;
 
     /**
      * @dev Withdraw bid for token
@@ -161,6 +161,47 @@ interface IMarketplace {
         uint256 paymentTokenType,
         uint256 value
     ) external payable;
+
+    /**
+     * @dev get highest bid of a token
+     * @param tokenId erc721 token Id
+     * @return Valid highest bid or empty bid
+     */
+    function getTokenHighestBid(
+        address contractAddress,
+        uint256 tokenId
+    ) external view returns (Bid memory);
+
+    /**
+     * @dev get current highest bids
+     * @param from index to start
+     * @param size size to query
+     * @return current highest bids
+     * This to help batch query when list gets big
+     */
+    function getTokenHighestBids(
+        address contractAddress,
+        uint256 from,
+        uint256 size
+    ) external view returns (Bid[] memory);
+
+    /**
+     * @dev get all bids of a bidder address
+     * @return All valid bids of a bidder
+     */
+    function getBidderBids(
+        address contractAddress,
+        address bidder,
+        uint256 from,
+        uint256 size
+    ) external view returns (Bid[] memory);
+
+    /**
+     * @dev get count of tokens with bid(s)
+     */
+    function numTokenWithBids(
+        address contractAddress
+    ) external view returns (uint256);
 
     /**
      * @dev get all valid bids of a token
