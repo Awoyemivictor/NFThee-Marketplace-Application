@@ -556,16 +556,16 @@ const images = [
     );
   };
 
-  export const SingleSlider = ({ title, bidInfo, price, img}) => {
+  export const SingleSlider = ({ _id,name,uploadFile,title, bidInfo, putOnMarketplace}) => {
     const { t } = useTranslation();
     return (
   <div className="single-slide">
      <div className="live-auction-area">
-            <Link to="/exploredetail">
+            <Link to={`/exploredetail/${_id}`}>
             <div className="auction-card-two mb-4 ">
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} @Lorihart</span> </div>
-                    <div className="card-media"> <img src={img} alt="" className="img-fluid" /> </div>
+                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {name}</span> </div>
+                    <div className="card-media"> <img src={uploadFile} alt="" className="img-fluid" /> </div>
                     <div className="card-title mb-2 pb-2">
                         <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5>
                         {/* <h5>{t(`CreativeArtCollection.title`)}</h5> */}
@@ -574,7 +574,7 @@ const images = [
                         <div className="meta-info-wrapper">
                             <div className="bid-title mb-1"> <span>{bidInfo}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src={img} alt="" className="me-1" /> {price} </h6>
+                                <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace.price} </h6>
                             </div>
                         </div> <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
                     </div>

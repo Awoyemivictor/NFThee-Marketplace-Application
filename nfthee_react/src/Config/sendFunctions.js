@@ -50,7 +50,7 @@ export const handleCollectionCreation = async (
   let creator;
   console.log(
     chooseBlockchain,
-    {nftType},
+     nftType,
     name,
     symbol,
     minterAddress,
@@ -160,7 +160,7 @@ export const handleNFTCreation = async (
     chooseCollection,
     name,
     symbol,
-    chooseType,
+    {chooseType},
     minterAddress
   );
   let res1;

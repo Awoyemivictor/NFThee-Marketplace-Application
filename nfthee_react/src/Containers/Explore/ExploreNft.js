@@ -156,7 +156,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
       .get("api/all" + window.location.search)
       .then((response) => setNftData(response.data.data))
       .finally(() => {setIsLoading(false)
-      setLoadingFilter(false)});
+        setTimeout(()=> setLoadingFilter(false), 3000);
+     });
   }, [filterSearch, searchText, serachButton]);
   const handleSearchText = (e) => {
     e.preventDefault();

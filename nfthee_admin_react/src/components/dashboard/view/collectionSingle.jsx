@@ -3,7 +3,6 @@ import instance from "../../../axios";
 import {useLocation,useHistory} from "react-router-dom";
 import Breadcrumb from '../../common/breadcrumb.component'            
 // common/breadcrumb.component';
-import Loadessr from '../../Loader/Loader'
 
 import axios from "axios";
 import moment from 'moment';
@@ -37,14 +36,14 @@ const CollectionSingle = () => {
         
         axios.get(`http://192.168.1.147:8002/api/getCollection/read?id=${_ID}`)
             .then(response => {setCollection(response.data.data)
-				// setLoading()
+				setLoading(false)
 			}
 			
 			)
     }, [])        
     return (
         <>
-            
+     
 
             <Fragment>
 			<Breadcrumb title="Collection Detail" parent="Base" />
@@ -55,7 +54,11 @@ const CollectionSingle = () => {
 							<CardHeader>
 								<h5>Collection View</h5>
 							</CardHeader>
-							{loading ===true?(<Loadessr/>):
+						{loading?   <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>:
 								<CardBody>
 									<Row>
 										<Col md="12">

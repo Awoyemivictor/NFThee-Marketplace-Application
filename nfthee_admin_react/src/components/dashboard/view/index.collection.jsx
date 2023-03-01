@@ -236,6 +236,7 @@ axios.get(`http://192.168.1.147:8002/api/getCollection/update?id=${collections._
     
     return (
         <Fragment>
+                
             <Breadcrumb title="Collection Details" parent="view"/>
             <Container fluid={true} >
             <DataTableExtensions {...tableData}>

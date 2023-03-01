@@ -15,19 +15,20 @@ import {
   handleNFTListingAuction,
   handleNFTOffer,
 } from '../../Config/sendFunctions';
-import { bscTest, ethTest, polyTest ,harmonyTest} from '../../Config/chains';
+import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import {getUnixTimeAfterDays} from '../../Config/helpers'
+import { getUnixTimeAfterDays } from '../../Config/helpers'
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
-  const history=useHistory()
-  const data = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const history = useHistory()
+  const [reset, setReset] = useState(false)
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
-  if(data===null){
+  if (userId === null) {
     history.push("/")
-   }
+  }
 
   const Blockchains = [
     {
@@ -194,12 +195,12 @@ const CreateNewItem = () => {
     name: '',
     symbol: '',
     description: '',
-    chooseType: '',
+    chooseType: 1,
     logo_image: '',
     featured_image: '',
     banner_image: '',
     url: '',
-    amount:'',
+    amount: '',
     category: '',
     website: '',
     discord: '',
@@ -207,7 +208,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: data?._id||"",
+    created_by: userId?._id || "",
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -216,9 +217,9 @@ const CreateNewItem = () => {
 
   const initialDataState = {
     name: '',
-    amount:'',
+    amount: '',
     symbol: '',
-    chooseType: '',
+    chooseType: 'single',
     uploadFile: {},
     designation: '',
     about: '',
@@ -246,7 +247,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: data?._id||"",
+    created_by: userId?._id || "",
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -256,7 +257,7 @@ const CreateNewItem = () => {
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getBlockchain`)
+        .get(`${process.env.REACT_APP_BASE_URL}/api/getBlockchain`)
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {
@@ -268,6 +269,7 @@ const CreateNewItem = () => {
           });
           console.info(arr);
           setBlockchains(arr);
+          setReset(false)
         });
     };
 
@@ -284,13 +286,15 @@ const CreateNewItem = () => {
         });
         console.info(arr);
         setCategories(arr);
+        setReset(false)
+
       });
     };
 
     fetchBlockchains();
     fetchCategories();
     console.info(categories);
-  }, []);
+  }, [reset]);
 
   const [itemData, setItemData] = useState(initialDataState);
   console.log('::::::::>', { itemData }, { collectionData });
@@ -299,9 +303,9 @@ const CreateNewItem = () => {
     setCollectionData({
       ...collectionData,
       [e.target.name]: e.target.value,
-      amount:collectionData.chooseType===1 ? 1 : e.target.value,
+      amount: collectionData.chooseType === 1 ? 1 : e.target.value,
     });
-    
+
   };
 
   const handleItemChange = (e) => {
@@ -309,14 +313,14 @@ const CreateNewItem = () => {
       ...itemData,
       [e.target.name]: e.target.value,
     });
-    if(e.target.value==="single"){
-      setItemData( current => {
-       // 👇️ remove the salary key from an object
-       const {amount, ...rest} = current;
-   
-       return rest;
-     })
-       }
+    if (e.target.value === "single") {
+      setItemData(current => {
+        // 👇️ remove the salary key from an object
+        const { amount, ...rest } = current;
+
+        return rest;
+      })
+    }
 
   };
 
@@ -324,26 +328,26 @@ const CreateNewItem = () => {
   const [marketplace, setMarketPlace] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   console.log(marketplace);
-  
+
   useEffect(() => {
-   
+
     const fetchData = async () => {
       const arr = [];
-      await 
-      instance
-      .get(`/api/userCollections?id=${data._id||""}`).then((response) => {
-        let result = response.data.data;
-        result.map((collection) => {
-          // console.info(collection)
-          arr.push({
-            value: collection.name,
-            label: collection.name,
-            category: collection.category,
+      await
+        instance
+          .get(`/api/userCollections?id=${userId._id || ""}`).then((response) => {
+            let result = response.data.data;
+            result.map((collection) => {
+              // console.info(collection)
+              arr.push({
+                value: collection.name,
+                label: collection.name,
+                category: collection.category,
+              });
+            });
+            console.log(arr);
+            setCollections(arr);
           });
-        });
-        console.log(arr);
-        setCollections(arr);
-      });
     };
     fetchData();
   }, []);
@@ -384,12 +388,12 @@ const CreateNewItem = () => {
   };
 
   const increment = (id) => id + 1;
-  const timeAfterDays=getUnixTimeAfterDays(12)
-  // console.log(a,'a>ASKADAD:>')
+  const timeAfterDays = getUnixTimeAfterDays(12)
+
   const handleSubmitNewCollection = async (e) => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
-e.preventDefault()
+    e.preventDefault()
     const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
     // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
 
@@ -400,115 +404,125 @@ e.preventDefault()
       collectionData.chooseType,
       creatorAddress[0]
     );
-
+    let chooseType;
+    if (typeof collectionData.chooseType === "string") {
+      chooseType = parseInt(collectionData.chooseType);
+    } else chooseType = collectionData.chooseType
+    console.log({ chooseType })
     const contractAddress = await handleCollectionCreation(
       collectionData.blockchain,
-      collectionData.chooseType,
+      chooseType,
       collectionData.name,
       collectionData.symbol,
       creatorAddress[0]
     );
-    console.log({contractAddress});
+    console.log({ contractAddress });
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
     // .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
+    if (contractAddress.lenght === 42) {
 
-    const formData = new FormData();
-    formData.append('name', collectionData.name);
-    formData.append('symbol', collectionData.symbol);
-    formData.append('description', collectionData.description);
-    formData.append('collection_standard', collectionData.chooseType);
-    formData.append('logo_image', collectionData.logo_image);
-    formData.append('featured_image', collectionData.featured_image);
-    formData.append('banner_image', collectionData.banner_image);
-    formData.append('url', collectionData.url);
-    formData.append('category', collectionData.category);
-    formData.append('website', collectionData.website);
-    formData.append('discord', collectionData.discord);
-    formData.append('instagram', collectionData.instagram);
-    formData.append('amount', collectionData?.amount);
-    formData.append('medium', collectionData.medium);
-    formData.append('telegram', collectionData.telegram);
-    formData.append('creator_earnings', collectionData.creator_earnings);
-    formData.append('created_by', collectionData.created_by);
-    formData.append('blockchain', collectionData.blockchain);
-    formData.append('payment_token', collectionData.payment_token);
-    formData.append('display_theme', collectionData.display_theme);
-    formData.append(
-      'explicit_sensitive_content',
-      collectionData.explicit_sensitive_content
-    );
-    formData.append('contract_address', contractAddress);
+      const formData = new FormData();
+      formData.append('name', collectionData.name);
+      formData.append('symbol', collectionData.symbol);
+      formData.append('description', collectionData.description);
+      formData.append('collection_standard', collectionData.chooseType);
+      formData.append('logo_image', collectionData.logo_image);
+      formData.append('featured_image', collectionData.featured_image);
+      formData.append('banner_image', collectionData.banner_image);
+      formData.append('url', collectionData.url);
+      formData.append('category', collectionData.category);
+      formData.append('website', collectionData.website);
+      formData.append('discord', collectionData.discord);
+      formData.append('instagram', collectionData.instagram);
+      formData.append('amount', collectionData?.amount);
+      formData.append('medium', collectionData.medium);
+      formData.append('telegram', collectionData.telegram);
+      formData.append('creator_earnings', collectionData.creator_earnings);
+      formData.append('created_by', collectionData.created_by);
+      formData.append('blockchain', collectionData.blockchain);
+      formData.append('payment_token', collectionData.payment_token);
+      formData.append('display_theme', collectionData.display_theme);
+      formData.append(
+        'explicit_sensitive_content',
+        collectionData.explicit_sensitive_content
+      );
+      formData.append('contract_address', contractAddress);
 
-    // symbol: '',
-    // description: '',
-    // chooseType: '',
-    // logo_image: '',
-    // featured_image: '',
-    // banner_image: '',
-    // url: '',
-    // category: '',
-    // website: '',
-    // discord: '',
-    // instagram: '',
-    // medium: '',
-    // telegram: '',
-    // creator_earnings: '',
-    // created_by: data._id||"",
-    // blockchain: '',
-    // payment_token: '',
-    // display_theme: '',
-    // explicit_sensitive_content: true,
-    await instance
-      .post(`/api/createCollection`, formData)
-      .then((response) => {
-        Swal.fire(
-          {
+      // symbol: '',
+      // description: '',
+      // chooseType: '',
+      // logo_image: '',
+      // featured_image: '',
+      // banner_image: '',
+      // url: '',
+      // category: '',
+      // website: '',
+      // discord: '',
+      // instagram: '',
+      // medium: '',
+      // telegram: '',
+      // creator_earnings: '',
+      // created_by: userId._id||"",
+      // blockchain: '',
+      // payment_token: '',
+      // display_theme: '',
+      // explicit_sensitive_content: true,
+      await instance
+        .post(`/api/createCollection`, formData)
+        .then((response) => {
+          Swal.fire(
+            {
+              position: 'top-center',
+              icon: 'success',
+              title: 'Successful',
+              showConfirmButton: false,
+              timer: 1500,
+            },
+            setCollectionData({
+              name: '',
+              symbol: '',
+              description: '',
+              chooseType: 1,
+              logo_image: '',
+              featured_image: '',
+              banner_image: '',
+              url: '',
+              category: '',
+              website: '',
+              discord: '',
+              instagram: '',
+              medium: '',
+              telegram: '',
+              creator_earnings: '',
+              created_by: userId._id || "",
+              blockchain: '',
+              payment_token: '',
+              display_theme: '',
+              explicit_sensitive_content: true,
+            }),
+            setLogoImage(null),
+            setBannerImage(null),
+            setFeaturedImage(null),
+
+            // mySelectRef.current.select=""
+          );
+          setBlockchains([])
+          setCategories([])
+          setReset(true)
+        })
+        .catch((err) => {
+          Swal.fire({
             position: 'top-center',
-            icon: 'success',
-            title: 'Successful',
+            icon: 'error',
+            title: 'Try to create again',
             showConfirmButton: false,
             timer: 1500,
-          },
-          setCollectionData({
-            name: '',
-            symbol: '',
-            description: '',
-            chooseType: '',
-            logo_image: '',
-            featured_image: '',
-            banner_image: '',
-            url: '',
-            category: '',
-            website: '',
-            discord: '',
-            instagram: '',
-            medium: '',
-            telegram: '',
-            creator_earnings: '',
-            created_by: data._id||"",
-            blockchain: '',
-            payment_token: '',
-            display_theme: '',
-            explicit_sensitive_content: true,
-          }),
-          setLogoImage(null),
-          setBannerImage(null),
-          setFeaturedImage(null)
-          // mySelectRef.current.select=""
-        );
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
+          });
         });
-      });
+    }
   };
 
   const handleNFTListing = async () => {
@@ -542,6 +556,7 @@ e.preventDefault()
 
   const handleSubmitNewItem = async (e) => {
     e.preventDefault()
+    // if(itemData.name){
     let data = {};
     switch (activeTab) {
       case 0:
@@ -558,82 +573,88 @@ e.preventDefault()
     }
     const post = itemData;
     post.putOnMarketplace = data;
-    if(post.chooseType==="single"){
-      post.amount=1;
+    if (post.chooseType === "single") {
+      post.amount = 1;
     }
     console.log(activeTab);
-    console.log(post);
+    console.log(itemData.chooseType, 'postchosos');
 
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
       post.chooseBlockchain,
       post.chooseCollection,
       post.name,
       post.symbol,
-      post.chooseType,
+      itemData.chooseType,
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
-    console.log({tokenId}, {collectionAddress}, {res});
-if( tokenId&& collectionAddress&& res){
+    console.log({ tokenId }, { collectionAddress }, { res });
+    if (tokenId && collectionAddress && res) {
 
-    post.tokenId = tokenId;
-    post.nft_quantity = 1;
-
-    const resultssss = instance
-      .post(`/api/store`, post)
-      .then((response) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'NFT Created Successfully',
-          showConfirmButton: false,
-          timer: 1500,
+      post.tokenId = tokenId;
+      post.nft_quantity = 1;
+      let result;
+      const resultssss = await instance
+        .post(`/api/store`, post)
+        .then((response) => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'NFT Created Successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          result = response
+        })
+        .catch((err) => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'error',
+            title: 'Try to create again',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-      console.log({resultssss},'result')
+      console.log({ result }, 'result')
       data = {};
 
-    if (marketplace === true) {
-      if (activeTab === 0) {
-        let data = await handleListNFTSale(
-          tokenId,
-          fixedPrice.price,
-          collectionAddress
-        );
-        //price ,contractAddress, userAddress,nftCount
+      if (marketplace === true) {
+        if (activeTab === 0) {
+          let data = await handleListNFTSale(
+            tokenId,
+            fixedPrice.price,
+            collectionAddress
+          );
+          //price ,contractAddress, userAddress,nftCount
 
-        console.log(data);
-      } else if (activeTab === 1) {
-      } else if (activeTab === 2) {
+          console.log(data);
+        } else if (activeTab === 1) {
+        } else if (activeTab === 2) {
+        }
       }
+      console.log({ result })
+      let reqParams = {
+        nftId: result?.data?.data?._id,
+        seller: userId._id,
+        tokenAddress:
+          //     saleType !== 0
+          //       ? selectedTokenAddress
+          //       : 
+          '0x0000000000000000000000000000000000000000',
+        collection: collectionAddress,
+        price: post.price,
+        quantity: 1,
+        saleType: activeTab,
+        validUpto: timeAfterDays,
+
+        tokenId: tokenId,
+
+      };
+
+      //  const nftOrder= 
+      await axios.post('http://192.168.1.143:8003/api/createOrder', reqParams)
+        .then(res => console.log('sucess', [res.data.data]))
     }
-    let reqParams = {
-      nftId: resultssss?.result._id,
-      seller: data._id,
-      tokenAddress:
-    //     saleType !== 0
-    //       ? selectedTokenAddress
-    //       : 
-    '0x0000000000000000000000000000000000000000',
-      collection: collectionAddress,
-      price: post.price,
-      quantity: 1,
-      saleType: activeTab,
-      validUpto: timeAfterDays,
-
-      tokenId: tokenId,
- 
-    };
-  }
-
+  // }
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -971,7 +992,7 @@ if( tokenId&& collectionAddress&& res){
               </ul>
             </div>
 
-            <form className='tab-content nav-tabs'>
+            <div className='tab-content nav-tabs'>
               <div
                 className='tab-pane fade show active'
                 id='create-item'
@@ -1045,8 +1066,8 @@ if( tokenId&& collectionAddress&& res){
                               {activeTab === 0
                                 ? 'Post'
                                 : activeTab === 1
-                                ? 'Make a bid'
-                                : 'Make bid'}
+                                  ? 'Make a bid'
+                                  : 'Make bid'}
                             </a>
                             <div
                               className='clear-all mt-2 d-flex align-items-center'
@@ -1060,7 +1081,9 @@ if( tokenId&& collectionAddress&& res){
                       </div>
                     </div>
                     <div className='col-md-8 col-lg-9'>
-                      <div className='create-item-section'>
+
+                      <form className='create-item-section' onSubmit={handleSubmitNewItem} >
+                        
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>Choose Type</h4>
                           <h5 className='create-item-subtitle'>
@@ -1074,10 +1097,12 @@ if( tokenId&& collectionAddress&& res){
                                   type='radio'
                                   name='chooseType'
                                   value='single'
-                                  required
                                   className='card-input-element'
                                   onChange={handleItemChange}
+                                  required
                                   defaultChecked
+                                  onInvalid={(e) => e.target.setCustomValidity('Please choose a type')}
+                                  onInput={(e) => e.target.setCustomValidity('')}
                                 />
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
@@ -1128,21 +1153,21 @@ if( tokenId&& collectionAddress&& res){
                             </div>
                           </div>
                         </div>
-                        {itemData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
-                      <h4 className='create-item-title'>Amount</h4>
-                      <div className='row'>
-                        <div className='col-lg-9 col-md-9'>
-                          <input
-                            name='amount'
-                            value={itemData.amount}
-                            onChange={handleItemChange}
-                            type='number'
-                            className='form-control'
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>:''}
+                        {itemData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
+                          <h4 className='create-item-title'>Amount</h4>
+                          <div className='row'>
+                            <div className='col-lg-9 col-md-9'>
+                              <input
+                                name='amount'
+                                value={itemData.amount}
+                                onChange={handleItemChange}
+                                type='number'
+                                required
+                                className='form-control'
+                              />
+                            </div>
+                          </div>
+                        </div> : ''}
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>
                             Upload File ( Image, Audio, Video, 3D Model)
@@ -1165,12 +1190,12 @@ if( tokenId&& collectionAddress&& res){
                                   )}
 
                                   <input
+                                    required
                                     onChange={handleImageChange}
                                     type='file'
                                     // filename="uploadFile"
                                     className='inputfile form-control position-absolute'
                                     name='uploadFile'
-                                    required
                                   />
                                 </label>
                               </div>
@@ -1186,9 +1211,10 @@ if( tokenId&& collectionAddress&& res){
                               value={itemData.name}
                               type='text'
                               className='form-control'
-                              placeholder='E.g.Redeemable T-Shirt With Logo'
                               pattern='.{3,}'
                               required
+                              onInvalid={(e) => e.target.setCustomValidity('Please enter Name')}
+                              onInput={(e) => e.target.setCustomValidity('')}
                             />
                           </div>
                         </div>
@@ -1235,7 +1261,7 @@ if( tokenId&& collectionAddress&& res){
                             Choose Collection
                           </h4>
                           <Select
-                          required
+                            required
                             value={collections.value}
                             onChange={handleItemCollection}
                             // components={{
@@ -1305,12 +1331,12 @@ if( tokenId&& collectionAddress&& res){
                                 onClick={(e) =>
                                   setMarketPlace((prevState) => !prevState)
                                 }
-                                // onChange={(e) => setFormData({
-                                //     ...formData,
-                                //     agree: !formData.agree
-                                // })}/>
+                              // onChange={(e) => setFormData({
+                              //     ...formData,
+                              //     agree: !formData.agree
+                              // })}/>
 
-                                // onChange={handleMarketplaceChange}
+                              // onChange={handleMarketplaceChange}
                               />
 
                               <span className='slider round' />
@@ -1457,7 +1483,7 @@ if( tokenId&& collectionAddress&& res){
                                           type='text'
                                           className='form-control'
                                           name='Bid_price'
-                                          
+
                                           onChange={handleBidPriceChange}
                                           value={openForBids.Bid_price}
                                           placeholder='Enter Price For Bid Piece'
@@ -1544,7 +1570,7 @@ if( tokenId&& collectionAddress&& res){
                                           <input
                                             type='date'
                                             name='finishDate'
-                                            
+
                                             onChange={(e) =>
                                               setTimedAuction({
                                                 ...timedAuction,
@@ -1712,8 +1738,9 @@ if( tokenId&& collectionAddress&& res){
                               Create Item
                             </a> */}
                             <button
+                              type='submit'
                               className='btn btn-violet w-100'
-                              onClick={handleSubmitNewItem}
+                              // onClick={handleSubmitNewItem}
                             >
                               Submit
                             </button>
@@ -1721,14 +1748,14 @@ if( tokenId&& collectionAddress&& res){
                         </div>
 
                         <div className='create-item-content border-bottom pb-3 mb-3'></div>
-                      </div>
+                      </form>
                       {/*</form>*/}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div
+              <form
                 className='tab-pane fade'
                 id='create-collection'
                 role='tabpanel'
@@ -1801,7 +1828,7 @@ if( tokenId&& collectionAddress&& res){
                         </div>
                       </div>
                     </div>
-                    {collectionData.chooseType ==="multiple"? <div className='create-item-content border-bottom pb-3 mb-3'>
+                    {collectionData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>Amount</h4>
                       <div className='row'>
                         <div className='col-lg-9 col-md-9'>
@@ -1811,11 +1838,11 @@ if( tokenId&& collectionAddress&& res){
                             onChange={handleCollectionChange}
                             type='number'
                             className='form-control'
-                            
+
                           />
                         </div>
                       </div>
-                    </div>:''}
+                    </div> : ''}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>
                         Logo Image <span className='text-red'>*</span>
@@ -2465,8 +2492,8 @@ if( tokenId&& collectionAddress&& res){
                   </div>
                 </div>
                 {/*</form>*/}
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </section>
 
@@ -2685,7 +2712,7 @@ if( tokenId&& collectionAddress&& res){
                             placeholder='Server'
                             // aria-label="Server"
                             style={{ borderRadius: '0.25rem' }}
-                            // defaultValue="5"
+                          // defaultValue="5"
                           />
                           {itemData.levels.length === 1 ? (
                             ''

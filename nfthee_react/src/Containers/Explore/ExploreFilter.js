@@ -384,7 +384,7 @@ useEffect(async() => {
                                <div className="collection-wrapper">
                                    <div className="collection-content">
                                        <div className="top-wrapper">
-                                           <h3 className="search-count">{t('explore.Showing')} 01-09 {t("explore.of")} 17 {t("explore.result")}</h3>
+                                           <h3 className="search-count">{t('explore.Showing')} 01-09 {t("explore.of")} {shownList.length} {t("explore.result")}</h3>
                                            <div className="d-flex justify-content-between align-items-center">
                                                <div className="sort-by-filter"> <span>{t("explore.sort by")}: </span> {/* <select className="form-select" aria-label="Default select example" style={{display: 'none'}}>
                                                        <option selected>Most Popular</option>

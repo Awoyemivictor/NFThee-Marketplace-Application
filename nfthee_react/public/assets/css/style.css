@@ -436,9 +436,9 @@ a:hover {
 }
 
 .form-control:focus {
-  background-color: #fff !important;
-  box-shadow: none !important;
-  border-color: #ced4da !important;
+  /* background-color: #c05b5b !important; */
+  /* box-shadow: none !important; */
+  /* border-color: red !important; */
 }
 
 .search-form-wrapper .search-icon {

@@ -3,7 +3,7 @@ import { FilterCard, filter_card, AccordionCards, cardData ,SingleSlider } from 
 import {NavLink, Link,useParams, useHistory } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import Apexcharts from '../../Components/Apexcharts'
-
+import Loader from '../../Components/Loader/Loader';
 import $ from "jquery"
 import { MultiSelect } from "react-multi-select-component";
  import "../../index.css"
@@ -37,26 +37,37 @@ function ExploreDetail() {
   console.log("id of /ExploreDetails",id)
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(()=>{
     collectionSlider();
   })
   const [collections, setCollections] = useState([]);
+  const [shownList,setShownList]=useState([])
 
   useEffect(async () => {
-    
-    await instance
+    setIsLoading(true)
+      await instance
       .get(`/api/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
         console.log(response.data,"<><><>><>><><><><><><><");
         setCollections(response.data.data);
-        // setLoading(false);
+        setIsLoading(false);
+        let name=response.data.data.chooseCollection
+        console.log({name})
+         instance
+         .get(`/api/all?collection=${name}`)
+         .then((response) => {   setShownList(response.data.data)})
       })
       .catch((e) => {
         // setLoading(true);
       });
-  }, []);
-  console.log("exploreDetail",collections)
+
+     
+  }, [id]);
+  
+  // console.log("exploreDetail",collections)
   const collectionSlider =()=>{  
   $(document).ready(function() {
     $('.explore-collection-slider').slick({
@@ -114,10 +125,13 @@ function ExploreDetail() {
     $(this).toggleClass("btnColor-pink");
    });
   },[])
-  
+  // console.log([])
+
   return (
     <> 
- 
+  {isLoading ? (
+        <Loader />
+      ) : 
       <main>
         <section className="explore-detail-bg-section">
           <div className="container-fluid px-lg-5">
@@ -800,7 +814,7 @@ function ExploreDetail() {
                   </div>
                 </div> */}
  
-              {cardData.map((item, index) => {
+              {shownList.filter(item=>item._id!=id).map((item, index) => {
                           return(
                             <SingleSlider key={index} {...item}/>
                           )
@@ -810,7 +824,7 @@ function ExploreDetail() {
           </div>
         </section> 
       </main> 
-    
+}
 
     </>
   )
