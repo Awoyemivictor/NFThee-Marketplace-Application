@@ -9,7 +9,14 @@ exports.index = async (req, res, next) => {
         next(error);
     }
 }
-
+exports.getPrice = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.getPrice(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.getItemInfo = async (req, res, next) => {
     try {
         const data = await nftteamsService.getItemInfo(req);

@@ -11,6 +11,11 @@ exports.index = async (req) => {
     let str = req.query.str
       ? { name: { $regex: new RegExp(req.query.str, 'i') } }
       : {};
+      // let prices = req.query.price
+      // ? {putOnMarketplace:{ $regex: new RegExp(req.query.price) }}
+      // : {};
+      // console.log('price',price)
+      
     let blockChain = req.query.blockChain
       ? {
           chooseBlockchain: {
@@ -35,15 +40,21 @@ exports.index = async (req) => {
     //search by category
 
     let result = await nftIteams
-      .find({
+      .find(
+        {
         ...str,
         ...blockChain,
         ...collection,
         ...categories,
+        // ...putOnMarketplace,
+        // putOnMarketplace: { $gte: "0", $lte: "1" },
         status: 'verified',
-      })
+      },
+      
+      
+    )
       .sort({ id: -1 });
-    console.log(result);
+    // console.log(result);
     if (result) {
       return {
         message: 'All Create Item Data Fetch.....',
@@ -96,6 +107,67 @@ exports.nftStore = async (req) => {
     };
   } catch (error) {
     return error;
+  }
+};
+// exports.getPrice = async (req, res) => {
+//   try {
+//     // router.post('/filterByPrice', async (req, res) => {
+//       let prices = req.query.price
+//       // ? {putOnMarketplace:{ $regex: new RegExp(req.query.price) }}
+//       // : {};
+//       // console.log('price',price)
+//       let data = await nftIteams.aggregate([
+//         {
+//           $unwind: '$putOnMarketplace',
+//         },
+//         {
+//           $match: {
+//             'putOnMarketplace.price': prices || prices ,
+//           },
+//         },
+//       ]);
+    
+   
+
+//     return {
+//       message: 'price find successfully.',
+//       status: true,
+//       data: data,
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+exports.getPrice = async (req, res) => {
+  try {
+    let priceRange = req.query.priceRange;
+    let priceMin = priceRange.split('-')[0]; 
+    let priceMax = priceRange.split('-')[1]; 
+    let data = await nftIteams.aggregate([
+      {
+        $unwind: '$putOnMarketplace',
+      },
+      {
+        $match: {
+          // $and: [
+          //   {
+              'putOnMarketplace.price': {
+                $gte: priceMin,
+                $lte: priceMax
+              }
+          //   }
+          // ]
+        },
+      },
+    ]);
+
+    return {
+      message: 'Price range found successfully.',
+      status: true,
+      data: data,
+    };
+  } catch (error) {
+    throw error;
   }
 };
 

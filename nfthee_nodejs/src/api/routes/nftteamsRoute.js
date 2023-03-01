@@ -20,6 +20,7 @@ const {
   update_getItemInfo,
   insert_likes,
   remove_likes,
+  getPrice
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
@@ -36,6 +37,7 @@ router.post('/update', uploadS3.single('uploadFile'), upadte_nftStore);
 router.post('/delete', delete_nftStore);
 router.get('/admin/getAllItem', getAllItemInfo);
 router.get('/getItem', getItemInfo);
+router.get('/getPrice', getPrice);
 router.get('/getItem/read', read_getItemInfo);
 router.get('/getItem/update', update_getItemInfo);
 router.post('/like', insert_likes);

@@ -56,7 +56,8 @@ const Filters = ({
           />
         ))}
       </AccordionCard>
-
+          
+      
       <AccordionCard title={"Collection"}>
         {collections.map((collection) => (
           <CheckBox

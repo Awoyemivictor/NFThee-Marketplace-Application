@@ -5,6 +5,7 @@ const nftSchema = new Schema(
   {
     user: {
       type: Object,
+      required: [true, 'user required'],
     },
     token_type: {
       type: Number,
@@ -15,6 +16,7 @@ const nftSchema = new Schema(
     },
     tokenId: {
       type: Number,
+      required: [true, 'token required'],
       // require: true,
     },
     nft_quantity: Number,
@@ -34,9 +36,11 @@ const nftSchema = new Schema(
     royalty_percentage: Number,
     chooseType: {
       type: String,
+      required: [true, 'select chooseType'],
     },
     uploadFile: {
       type: String,
+      required: [true, 'please uploadFile'],
     },
     status: {
       type: String,
@@ -44,23 +48,30 @@ const nftSchema = new Schema(
     },
     name: {
       type: String,
-      require: true,
+      required: [true, 'name required'],
+        minlength:[3,'minimum 3 letters'],
+        maxlength:[12,'maximum 12 letters'],
+        unique:[true,'name already exist']
     },
     designation: {
       type: String,
+      required: [true, 'designation required'],
     },
     about: {
       type: String,
+      required: [true, 'about required'],
     },
     chooseCollection: {
       type: String,
+      required: [true, 'please select Collection'],
     },
     chooseCategory: {
       type: String,
-      require: true,
+      required: [true, 'please select Category'],
     },
     chooseBlockchain: {
       type: String,
+      required: [true, 'please select blockchain'],
     },
     putOnMarketplace: {
       type: Object,

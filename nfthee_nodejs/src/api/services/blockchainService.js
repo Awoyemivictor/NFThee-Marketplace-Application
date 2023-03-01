@@ -3,11 +3,11 @@ const { credentials } = require('../../config').constantCredentials;
 
 exports.getBlockchain = async (req,res) => {
     try {
-        console.log(req.query)
-        let query={};
-        if(req.query?.id){
-            query={ _id:req.query.id }
-        }
+        // console.log(req.query)
+        // let query={};
+        // if(req.query?.id){
+        //     query={ _id:req.query.id }
+        // }
         // let findData = await blockchainModel.find(query).sort({'createdAt':-1});
         let findData = await blockchainModel.find({}).sort({'createdAt':-1});
         return {

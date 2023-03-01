@@ -4,19 +4,22 @@ const Schema = mongoose.Schema;
 const categorySchema = new Schema({
     name: {
         type: String,
-        required:true
+        required: [true, 'name required'],
+        minlength:[3,'minimum 3 letters'],
+        maxlength:[12,'maximum 12 letters'],
+        unique:[true,'name already exist']
     },
     icon: {
         type: String,
-        default:''
+        required: [true, 'icon required'],
     },
     description: {
         type: String,
-        default:''
+        required: [true, 'description required'],
     },
     status: {
         type: Number,
-        default: 0
+        required: [true, 'status required'],
     },
   
 }, { timestamps: true ,versionKey:false});

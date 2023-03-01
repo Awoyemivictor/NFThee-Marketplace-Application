@@ -14,12 +14,12 @@ exports.createOrder = async (req, res) => {
     const order = {
       seller_address: req.body.seller_address, //walletADDRESS OF Seller
       tokenId: req.body.tokenId, //TokenID
-      token_address: req.body.token_address, // Collection contract address
-      token_quantity: req.body.token_quantity,
-      order_type: req.body.order_type,
-      order_payment_token: req.body.order_payment_token, //the payment token address ERC20
+      token_address: req.body.collection, // Collection contract address
+      token_quantity: req.body.quantity,
+      order_type: req.body.saleType,
+      order_payment_token: req.body.tokenAddress, //the payment token address ERC20
       token_price: req.body.token_price,
-      validity_upto: req.body.validity_upto,
+      validity_upto: req.body.validUpto,
       oSalt: req.body.oSalt,
       nftId: req.body.nftId,
       date_created: req.body.date_created,
@@ -46,8 +46,8 @@ exports.getOrder = async (req) => {
   try {
     let orderId = req.body.orderId;
 
-    const result = await orderModel.findOne({
-      _id: orderId,
+    const result = await orderModel.find({
+      // _id: orderId,
     });
     return {
       message: 'Order Details',

@@ -9,6 +9,6 @@ const { getBlockchain, setBlockchain } =
   require('../controller').blockchainController;
 
 router.get('/getBlockchain', getBlockchain);
-router.post('/setBlockchain',auth, setBlockchain);
+router.post('/setBlockchain', setBlockchain);
 
 module.exports = router;

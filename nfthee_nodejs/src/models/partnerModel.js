@@ -4,31 +4,32 @@ const Schema = mongoose.Schema;
 const partnerSchema = new Schema({
     project_name: {
         type: String,
-        required:true
+        required: [true, 'project_name required'],
+        unique:[true,'project_name already exist']
     },
     project_desc: {
         type: String,
-        required:true
+        required: [true, 'project_desc required'],
     },
     project_website: {
         type: String,
-        required:true
+        required: [true, 'project_website required'],
     },
     project_status: {
         type: String,
-        required:true
+        required: [true, 'project_status required'],
     },
     project_status_desc: {
         type: String,
-        required:true
+        required: [true, 'project_status_desc required'],
     },
     nft_artwork: {
         type: String,
-        default:''
+        required: [true, 'nft_artwork required'],
     },
     minted_item_count: {
         type: String,
-        required:true
+        required: [true, 'minted_item_count required'],
     },
     blockchain_mint: {
         type: String,
@@ -52,15 +53,15 @@ const partnerSchema = new Schema({
     },
     banner_image: {
         type: String,
-        default:''
+        required: [true, 'banner_image required'],
     },
     icon_image: {
         type: String,
-        default:''
+        required: [true, 'icon_image required'],
     },
     send_email_to: {
         type: String,
-        default:''
+        required: [true, 'send_email required'],
     }
 }, { timestamps: true ,versionKey:false});
 

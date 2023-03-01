@@ -9,33 +9,40 @@ const create_collection = new Schema(
     // },
     name: {
       type: String,
+      required: [true, 'name required'],
+      minlength:[3,'minimum 3 letters'],
+      maxlength:[12,'maximum 12 letters'],
+      unique:[true,'name already exist']
     },
     logo_image: {
       type: String,
-      require: true,
+      required: [true, 'logo_image required'],
     },
     featured_image: {
       type: String,
-      require: true,
+      required: [true, 'featured_image required'],
     },
     banner_image: {
       type: String,
+      required: [true, 'banner_image required'],
     },
     url: {
       type: String,
+      required: [true, 'url required'],
     },
     description: {
       type: String,
+      required: [true, 'description required'],
     },
     contract_address: {
       type: String,
-      //   require: true,
-      lowercase: true,
+      required: [true, 'description required'],
+      lowercase: [true,'only lowercase ']
     },
     collection_standard: {
       type: String,
-      //   require: true,
-      default: 'Single', // by Default erc721 is true
+      required: [true, 'collection_standard  required'],
+      // default: 'Single', // by Default erc721 is true
     },
     nextId: {
       type: Number,
@@ -47,18 +54,23 @@ const create_collection = new Schema(
     },
     links: {
       type: String,
+      required: [true, 'links  required'],
     },
     creator_earnings: {
       type: String,
+      required: [true, 'creator_earnings  required'],
     },
     blockchain: {
       type: String,
+      required: [true, 'select blockchain'],
     },
     payment_token: {
       type: String,
+      required: [true, 'payment_token required'],
     },
     display_theme: {
       type: String,
+      required: [true, ' display_theme required'],
     },
     explicit_sensitive_content: {
       type: Boolean,
