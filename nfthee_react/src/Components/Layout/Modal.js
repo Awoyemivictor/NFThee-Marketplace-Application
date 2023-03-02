@@ -96,7 +96,7 @@ export const ModalBuynft = ({ onRequestClose, data }) => {
   const buyNFT = async () => {
     //*
     console.log(data.putOnMarketplace.price, data.chooseCollection);
-    const price = JSON.stringify(data.putOnMarketplace.price);
+    const price = data.putOnMarketplace.price;
     const collectionName = data.chooseCollection;
     console.log(price)
 

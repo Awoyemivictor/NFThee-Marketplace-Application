@@ -10,7 +10,7 @@ import ERC721 from './abis/polygon/TestERC721.json';
 import ERC20 from './abis/polygon/TestERC20.json';
 import contracts from './contracts';
 import { generateRandomNumbers, getUnixTimeAfterDays } from './helpers';
-import { getFullYearTime, convertToEth } from './constants';
+import { getFullYearTime, convertToEth, getUserAddress } from './constants';
 import { getCollection } from '../services/apiServices';
 
 const exportInstance = async (SCAddress, ABI) => {
@@ -33,6 +33,13 @@ const readReceipt = async (hash) => {
   } catch (e) {
     console.log('error in api', e);
   }
+};
+
+const marketpalceInstance = async () => {
+  return await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
 };
 
 /**
@@ -59,6 +66,14 @@ export const handleCollectionCreation = async (
     minterAddress,
     royaltyPercentage
   );
+
+  const userAddress = await getUserAddress();
+  const options = {
+    gasPrice: 10000000000,
+    gasLimit: 9000000,
+  };
+
+  console.log(userAddress);
   let eth = 'Ethereum Testnet';
   let poly = 'Polygon Testnet';
   let bsc = 'Binance Smart Chain';
@@ -89,7 +104,6 @@ export const handleCollectionCreation = async (
       Creator.abi
     );
   }
-  console.log(creator);
 
   if (nftType === 'single') {
     try {
@@ -107,6 +121,24 @@ export const handleCollectionCreation = async (
         console.log('Transaction Failed');
       }
       contractAddress = await readReceipt(hash);
+
+      // let marketplaceInstance = await exportInstance(
+      //   contracts.polygonContracts.MARKETPLACE,
+      //   Market.abi
+      // );
+
+      let marketplaceInstance = await exportInstance(
+        contracts.polygonContracts.MARKETPLACE,
+        Market.abi
+      );
+      console.log(contractAddress, userAddress, royaltyPercentage, options);
+
+      res1 = await marketplaceInstance.setRoyalty(
+        contractAddress,
+        userAddress,
+        royaltyPercentage,
+        options
+      );
       return contractAddress;
     } catch (error) {
       console.log(error);
@@ -215,7 +247,7 @@ export const handleListNFTSale = async (
   console.log(tokenId, fixedPrice, collectionAddress);
   let res;
   const price = ethers.utils.parseEther(fixedPrice).toString();
-  const time = getFullYearTime();
+  const time = getUnixTimeAfterDays(20);
   const options = {
     gasPrice: 10000000000,
     gasLimit: 9000000,
@@ -240,8 +272,7 @@ export const handleListNFTSale = async (
     Market.abi
   );
 
-  console.log(tokenId, time, price);
-  console.info(marketplaceInstance);
+  console.info(collectionAddress, tokenId, price, time, 1, 2, options);
   res = await marketplaceInstance.listToken(
     collectionAddress,
     tokenId,
@@ -260,8 +291,12 @@ export const handleListNFTSale = async (
 };
 
 export const handleNFTBuy = async (tokenPrice, collectionName) => {
-  console.log(tokenPrice);
+  console.info(tokenPrice, collectionName);
+
   let res;
+  const userAddress = getUserAddress();
+  console.log(userAddress);
+
   const price = ethers.utils.parseEther(tokenPrice);
   console.log(price);
 
@@ -276,7 +311,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName) => {
   let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);
 
   let checkApproval = await nftInstance.isApprovedForAll(
-    '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9',
+    userAddress,
     contracts.polygonContracts.MARKETPLACE
   );
   console.log(checkApproval);
@@ -292,11 +327,10 @@ export const handleNFTBuy = async (tokenPrice, collectionName) => {
     Market.abi
   );
 
-  console.log(price, test);
-  console.info(marketplaceInstance);
+  console.info(collectionAddress, 846, 1, 1, 2, options);
   res = await marketplaceInstance.buyToken(
     collectionAddress,
-    267,
+    846,
     1,
     1,
     2,
@@ -320,8 +354,9 @@ export const handleNFTListingAuction = async (
   tokenPrice,
   collectionAddress
 ) => {
+  console.log(tokenId, tokenPrice, collectionAddress);
   let res;
-  const price = ethers.utils.parseEther(tokenPrice)
+  const price = ethers.utils.parseEther('0.01');
   const time = getUnixTimeAfterDays(100);
   const options = {
     gasPrice: 10000000000,
@@ -347,8 +382,7 @@ export const handleNFTListingAuction = async (
     Market.abi
   );
 
-  console.log(tokenId, time,price);
-  console.info(marketplaceInstance);
+  console.info(collectionAddress, tokenId, price, time, 1, 2, options);
   res = await marketplaceInstance.enterBidForToken(
     collectionAddress,
     tokenId,
@@ -366,6 +400,8 @@ export const handleNFTListingAuction = async (
   return res;
 };
 
-export const handleNFTCancelOffer = async () => {};
-export const handleNFTAcceptOffer = async () => {};
-export const handleNFTBid = async () => {};
+export const handleDeListToken = async () => {};
+
+export const handleAcceptBid = async () => {};
+
+export const handleWithdrawBidForToken = async () => {};

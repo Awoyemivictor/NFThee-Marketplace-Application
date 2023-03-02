@@ -423,13 +423,17 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
             tokenType,
             expireTimestamp
         );
-        require(_isBidValid(contractAddress, bid), "Bid is not valid");
+        if (tokenType == 2) {} else {
+            require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-        _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
-        _erc721Market[contractAddress].bids[tokenId].bidders.add(msg.sender);
-        _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
+            _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
+            _erc721Market[contractAddress].bids[tokenId].bidders.add(
+                msg.sender
+            );
+            _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
 
-        emit TokenBidEntered(contractAddress, tokenId, bid);
+            emit TokenBidEntered(contractAddress, tokenId, bid);
+        }
     }
 
     /**

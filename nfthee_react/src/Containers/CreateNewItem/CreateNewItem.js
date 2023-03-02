@@ -18,6 +18,7 @@ import {
 import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { getUserAddress } from '../../Config/constants';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -394,7 +395,7 @@ const CreateNewItem = () => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
 
-    const creatorAddress = JSON.parse(localStorage.getItem('TokenData'));
+    const creatorAddress = await getUserAddress();
     console.log(creatorAddress[0]);
     // getNextId('0x2cd37c36317498e2aa969ec46532ae7a506d6739');
 
@@ -403,7 +404,7 @@ const CreateNewItem = () => {
       collectionData.symbol,
       collectionData.blockchain,
       collectionData.chooseType,
-      creatorAddress[0]
+      collectionData.creator_earnings
     );
 
     const contractAddress = await handleCollectionCreation(
@@ -411,7 +412,8 @@ const CreateNewItem = () => {
       collectionData.chooseType,
       collectionData.name,
       collectionData.symbol,
-      creatorAddress[0]
+      creatorAddress,
+      collectionData.creator_earnings
     );
     console.log(contractAddress);
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
@@ -465,54 +467,54 @@ const CreateNewItem = () => {
     // payment_token: '',
     // display_theme: '',
     // explicit_sensitive_content: true,
-    await instance
-      .post(`/api/createCollection`, formData)
-      .then((response) => {
-        Swal.fire(
-          {
-            position: 'top-center',
-            icon: 'success',
-            title: 'Successful',
-            showConfirmButton: false,
-            timer: 1500,
-          },
-          setCollectionData({
-            name: '',
-            symbol: '',
-            description: '',
-            chooseType: '',
-            logo_image: '',
-            featured_image: '',
-            banner_image: '',
-            url: '',
-            category: '',
-            website: '',
-            discord: '',
-            instagram: '',
-            medium: '',
-            telegram: '',
-            creator_earnings: '',
-            created_by: data._id || '',
-            blockchain: '',
-            payment_token: '',
-            display_theme: '',
-            explicit_sensitive_content: true,
-          }),
-          setLogoImage(null),
-          setBannerImage(null),
-          setFeaturedImage(null)
-          // mySelectRef.current.select=""
-        );
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
+    // await instance
+    //   .post(`/api/createCollection`, formData)
+    //   .then((response) => {
+    //     Swal.fire(
+    //       {
+    //         position: 'top-center',
+    //         icon: 'success',
+    //         title: 'Successful',
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       },
+    //       setCollectionData({
+    //         name: '',
+    //         symbol: '',
+    //         description: '',
+    //         chooseType: '',
+    //         logo_image: '',
+    //         featured_image: '',
+    //         banner_image: '',
+    //         url: '',
+    //         category: '',
+    //         website: '',
+    //         discord: '',
+    //         instagram: '',
+    //         medium: '',
+    //         telegram: '',
+    //         creator_earnings: '',
+    //         created_by: data._id || '',
+    //         blockchain: '',
+    //         payment_token: '',
+    //         display_theme: '',
+    //         explicit_sensitive_content: true,
+    //       }),
+    //       setLogoImage(null),
+    //       setBannerImage(null),
+    //       setFeaturedImage(null)
+    //       // mySelectRef.current.select=""
+    //     );
+    //   })
+    //   .catch((err) => {
+    //     Swal.fire({
+    //       position: 'top-center',
+    //       icon: 'error',
+    //       title: 'Try to create again',
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   });
   };
 
   const handleNFTListing = async () => {
@@ -598,7 +600,7 @@ const CreateNewItem = () => {
         });
       });
     data = {};
-    console.log(marketplace, activeTab);
+    console.log(marketplace, activeTab, openForBids.Bid_price);
 
     if (marketplace === true) {
       if (activeTab === '0') {
@@ -614,14 +616,24 @@ const CreateNewItem = () => {
         console.log('In AC2');
         // tokenId ,price ,collectionName ,nftCount ,tokenType
 
-        console.log(tokenId, fixedPrice.price, collectionAddress);
+        console.log(tokenId, openForBids.Bid_price, collectionAddress);
         let data = await handleNFTListingAuction(
           tokenId,
-          fixedPrice.price,
+          openForBids.Bid_price,
           collectionAddress
         );
         console.log(data);
       } else if (activeTab === '2') {
+        console.log('In AC3');
+        // tokenId ,price ,collectionName ,nftCount ,tokenType
+
+        console.log(tokenId, openForBids.Bid_price, collectionAddress);
+        let data = await handleNFTListingAuction(
+          tokenId,
+          openForBids.Bid_price,
+          collectionAddress
+        );
+        console.log(data);
       }
     }
 
@@ -813,7 +825,7 @@ const CreateNewItem = () => {
   //         ...collectionData,
   //         banner_image: data.banner_image,
   //       });
-  //     });
+  //     });0xd0470ea874b3c6b3c009c5d19b023df85c7261b9
   //       setLogoImage(URL.createObjectURL(e.target.files[0]));
   //       setCollectionData({
   //         ...collectionData,
