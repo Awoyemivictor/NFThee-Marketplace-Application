@@ -6,7 +6,7 @@ import { ModalBuynft } from '../../Components/Layout/Modal';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setFavorite } from '../../redux/favoriteSlice';
 
-const ExploreNftListRow = ({ data }) => {
+const ExploreNftListRow = ({ data ,loadingFilter}) => {
   console.log("<><><><><><><><><>><>><><><><><><><><><><><><><><><><><><><><><>",data)
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -51,8 +51,17 @@ const [isLiked, setIsLiked] = useState(false);
   };
 
 
-  return (
+  return (<>
+
+{loadingFilter&&slice ? (
+                     <div class="d-flex justify-content-center">
+                     <div class="spinner-border" role="status">
+                       <span class="sr-only">Loading...</span>
+                     </div>
+                   </div>
+                    ) :
     <div className="row">
+      
       {isModalOpen && <ModalBuynft onRequestClose={toggleModal} />}
       {slice.map((collection, index) => {
         return (
@@ -137,6 +146,7 @@ const [isLiked, setIsLiked] = useState(false);
             </div>
         );
       })}
+      
       <div className="row mb-4">
         <div className="col-lg-6 col-md-6 mx-auto">
           {data.length > 6 && (
@@ -147,6 +157,8 @@ const [isLiked, setIsLiked] = useState(false);
         </div>
       </div>
     </div>
+    }
+    </>
   );
 };
 

@@ -73,7 +73,7 @@ export const Modal = ({onRequestClose}) => {
     );
 };
 
-export const ModalBuynft = ({onRequestClose}) => {
+export const ModalBuynft = ({onRequestClose,collectionData}) => {
     // Use useEffect to add an event listener to the document
     useEffect(() => {
 
@@ -101,7 +101,7 @@ export const ModalBuynft = ({onRequestClose}) => {
                     </div>
                     <div class="col-1">
                         <Link onClick={onRequestClose}>
-                            <img src="assets/images/icons/close.png" alt=""/></Link>
+                            <img src="/assets/images/icons/close.png" alt=""/></Link>
                     </div>
                 </div>
 
@@ -121,15 +121,15 @@ export const ModalBuynft = ({onRequestClose}) => {
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="assets/images/icons/activeimg.png" alt="" class="user-img"
+                                            <img src={collectionData.uploadFile||"/assets/images/icons/activeimg.png"} alt="" class="user-img"
                                                  style={{height: "100px", width: "100px"}}/>
-                                            <span class="ms-2" style={{fontSize: "18px"}}>Money Poly</span>
+                                            <span class="ms-2" style={{fontSize: "18px"}}>{collectionData.name}</span>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="price-detail">
-                                            <h5><img src="assets/images/icons/ethereum.png" alt="" class="me-1"
-                                                     style={{fontSize: "18px"}}/> 2.59</h5>
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1"
+                                                     style={{fontSize: "18px"}}/>{collectionData?.putOnMarketplace?.price}</h5>
                                             <h6>$52547.30</h6>
                                         </div>
                                     </td>

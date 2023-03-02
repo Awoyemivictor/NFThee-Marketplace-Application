@@ -156,7 +156,9 @@ console.log(checked,j,e.target.name,name,"expolorenft")
       .get("api/all" + window.location.search)
       .then((response) => setNftData(response.data.data))
       .finally(() => {setIsLoading(false)
-        setTimeout(()=> setLoadingFilter(false), 3000);
+   
+        setTimeout(()=> setLoadingFilter(false), 2000);
+        
      });
   }, [filterSearch, searchText, serachButton]);
   const handleSearchText = (e) => {
@@ -428,18 +430,18 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                       </div>
                     </div>
                   </div>
-                  {loadingFilter ? (
-        <Loader />
-      ) : 
+               
                   <div className="tab-content">
                     <div
                       className="tab-pane fade show active"
                       id="pills-grid-view"
                       role="tabpanel"
                       aria-labelledby="pills-grid-view-tab"
-                    >
+                    >  
                       <div className="bottom-wrapper">
-                        <ExploreNftListRow data={filteredData} />
+                     
+                        <ExploreNftListRow data={filteredData} loadingFilter={loadingFilter} />
+                      
                       </div>
                     </div>
                     <div
@@ -454,7 +456,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                         </div>
                       </div>
                     </div>
-                  </div>}
+                  </div>
                 </div>
               </div>
             </div>

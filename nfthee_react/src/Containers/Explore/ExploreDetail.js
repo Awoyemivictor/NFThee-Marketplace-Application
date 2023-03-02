@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from 'react'
 import { FilterCard, filter_card, AccordionCards, cardData ,SingleSlider } from "./ExploreFilterData" 
 import {NavLink, Link,useParams, useHistory } from 'react-router-dom'
+import { ModalBuynft } from '../../Components/Layout/Modal';
+
 import { useTranslation } from "react-i18next";
 import Apexcharts from '../../Components/Apexcharts'
 import Loader from '../../Components/Loader/Loader';
@@ -38,6 +40,11 @@ function ExploreDetail() {
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setModalIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalIsOpen(!isModalOpen);
+  };
 
   useEffect(()=>{
     collectionSlider();
@@ -144,6 +151,7 @@ function ExploreDetail() {
             </div>
             <div className="explore-item-detail mb-lg-5 mb-3">
               <div className="row">
+              {isModalOpen && <ModalBuynft onRequestClose={toggleModal} collectionData={collections}/>}
                 <div className="col-lg-6 col-md-6">
                   <div className="item-image">
                     <img src={collections?.uploadFile} alt="" className="img-fluid" />
@@ -400,12 +408,24 @@ function ExploreDetail() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-lg-4 mb-4 mb-lg-0">
-                        <button className="btn btn-violet btn-shadow w-100"><i className="bx bxs-basket me-2" />{t("product.Buy now")}</button>
+                      {collections?.created_by===id?<>
+                        <div className="col-lg-4 mb-4 mb-lg-0">
+                        <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" />Delisting</button>
                       </div>
+                      <div className="col-lg-4 mb-4 mb-lg-0">
+                        <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" /> Remove From Auction</button>
+                      </div>
+                      </>:(<>
+                    {collections?.putOnMarketplace?.Bid_price? null:
+                     <div className="col-lg-4 mb-4 mb-lg-0">
+                        <button className="btn btn-violet btn-shadow w-100" onClick={toggleModal}><i className="bx bxs-basket me-2" />{t("product.Buy now")}</button>
+                      </div>}
+                      
+                      {collections?.putOnMarketplace?.price? null:
                       <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" /> Make An Offer</button>
-                      </div>
+                      </div>}</>)
+}
                       <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-outline-white1 w-100"><i className="bx bx-credit-card me-2" /> {t("product.Buy Card")}</button>
                       </div>
