@@ -49,17 +49,17 @@ exports.createCollectionInfo = async (req, res) => {
     // const logo_image = `fileUpload/${req.files.logo_image[0].filename}`;
     // const featured_image = `fileUpload/${req.files.featured_image[0].filename}`;
     // const banner_image = `fileUpload/${req.files.banner_image[0].filename}`;
-    const logo_image = req.files.logo_image[0].location;
-    const featured_image = req.files.featured_image[0].location;
-    const banner_image = req.files.banner_image[0].location;
+    // const logo_image = req.files.logo_image[0].location;
+    // const featured_image = req.files.featured_image[0].location;
+    // const banner_image = req.files.banner_image[0].location;
 
     console.log(req.files);
 
     const upadate_data = {
       name: req.body.name,
-      logo_image: logo_image,
-      featured_image: featured_image,
-      banner_image: banner_image,
+      // logo_image: logo_image,
+      // featured_image: featured_image,
+      // banner_image: banner_image,
       url: req.body.url,
       description: req.body.description,
       contract_address: req.body.contract_address,

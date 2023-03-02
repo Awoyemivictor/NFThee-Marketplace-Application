@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../hooks/useRedux";
 import {setUser} from "../../redux/userSlice";
 import {setMeta} from "../../redux/metaSlice";
+// import axios from './axios'
 
 
 function Login() {
@@ -123,6 +124,8 @@ if(data&&tok!=null){
                 timer: 1500,
             });
              instance.get(`/api/login/email?email_address=${email}`).then(response => {
+           
+
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
         })
         } else {

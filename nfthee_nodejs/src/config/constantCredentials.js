@@ -34,7 +34,7 @@ exports.credentials = {
   BASE_URL: process.env.BASE_URL || '',
   BASE_URL_LOCAL: process.env.BASE_URL_LOCAL || 'http://localhost:2022/',
   PORT: process.env.PORT || 2022,
-  EXPIRE_TIME: process.env.EXPIRE_TIME || '30d',
+  EXPIRE_TIME: process.env.EXPIRE_TIME || '2m',
   APP_SHORT_NAME: process.env.APP_SHORT_NAME || 'NFTH',
   API_ROUTE_PREFIX: process.env.API_ROUTE_PREFIX || '/api',
   SMTP_HOST: process.env.SMTP_HOST,

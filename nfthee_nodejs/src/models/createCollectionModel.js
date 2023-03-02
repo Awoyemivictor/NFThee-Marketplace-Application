@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+// var AutoIncrement = require('mongoose-sequence')(mongoose);
 const create_collection = new Schema(
   {
     // user: {
@@ -16,15 +17,15 @@ const create_collection = new Schema(
     },
     logo_image: {
       type: String,
-      required: [true, 'logo_image required'],
+      // required: [true, 'logo_image required'],
     },
     featured_image: {
       type: String,
-      required: [true, 'featured_image required'],
+      // required: [true, 'featured_image required'],
     },
     banner_image: {
       type: String,
-      required: [true, 'banner_image required'],
+      // required: [true, 'banner_image required'],
     },
     url: {
       type: String,
@@ -41,13 +42,20 @@ const create_collection = new Schema(
     },
     collection_standard: {
       type: String,
-      required: [true, 'collection_standard  required'],
+      // required: [true, 'collection_standard  required'],
       // default: 'Single', // by Default erc721 is true
     },
     nextId: {
       type: Number,
+      // default: function () {
+      //   return getNextId()
+      //   // return nextId;
+      // }
+      // default: function () {
+      //   return this.create_collection.methods.getNextId();
+      // },
       //   require: true,
-      default: 0,
+      // default: 0,
     },
     royalty_percentage: {
       type: Number,
@@ -87,10 +95,13 @@ const create_collection = new Schema(
 
   { timestamps: true }
 );
-
-create_collection.methods.getNextId = function () {
+// create_collection.methods.getNextId = function () {
+//   return this.nextId + 1;
+// };
+create_collection.methods.setnextId = function () {
   let nextId = this.nextId + 1;
   return nextId;
 };
-
+// console.log('nextId',create_collection.methods.getNextId)
+// create_collection.plugin(AutoIncrement, {id:'order_seq',inc_field: 'nextId'});
 module.exports = mongoose.model('createCollection', create_collection);

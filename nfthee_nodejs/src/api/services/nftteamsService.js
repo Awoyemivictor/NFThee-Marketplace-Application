@@ -90,9 +90,13 @@ exports.nftStore = async (req) => {
       about: req.body.about,
       chooseCollection: req.body.chooseCollection,
       chooseBlockchain: req.body.chooseBlockchain,
+      chooseCategory:req.body.chooseCategory,
+      user:req.body.user,
+      uploadFile:req.body.uploadFile,
       putOnMarketplace: req.body.putOnMarketplace,
       unlockOncePurchased: req.body.unlockOncePurchased,
       attribute: req.body.attribute,
+      tokenId:req.body.tokenId,
       levels: req.body.levels,
       stats: req.body.stats,
       explicitAndSensitiveContent: req.body.explicitAndSensitiveContent,
@@ -141,22 +145,25 @@ exports.nftStore = async (req) => {
 exports.getPrice = async (req, res) => {
   try {
     let priceRange = req.query.priceRange;
-    let priceMin = priceRange.split('-')[0]; 
-    let priceMax = priceRange.split('-')[1]; 
+    // let priceMin = priceRange.split('-')[0]; 
+    // let priceMax = priceRange.split('-')[1]; 
+    let priceMin = Number(priceRange.split('-')[0]); 
+    let priceMax = Number(priceRange.split('-')[1]); 
+    console.log('typeOf',typeof priceMin,priceMin,priceMax)
     let data = await nftIteams.aggregate([
       {
         $unwind: '$putOnMarketplace',
       },
       {
         $match: {
-          // $and: [
-          //   {
-              'putOnMarketplace.price': {
+          $and: [
+            {
+              'putOnMarketplace.price':({
                 $gte: priceMin,
                 $lte: priceMax
-              }
-          //   }
-          // ]
+              })
+            }
+          ]
         },
       },
     ]);

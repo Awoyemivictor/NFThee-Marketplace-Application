@@ -26,7 +26,7 @@ let uploadMultiple = uploadS3.fields([
 
 router.get('/createCollection/all', indexAll)
 router.post('/collectionImage', uploadS3.single('fileName'), upload_image);
-router.post('/createCollection', uploadMultiple, createCollectionInfo);
+router.post('/createCollection', createCollectionInfo);
 router.get('/createCollection/read', read_createCollectionInfo);
 router.post('/createCollection/update', uploadMultiple, update_createCollectionInfo);
 router.post('/createCollection/delete', delete_createCollectionInfo);

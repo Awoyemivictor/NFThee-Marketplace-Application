@@ -31,17 +31,25 @@ exports.signupAuth = (req, res, next) => {
       data: null,
     });
   }
-  jwt.verify(token, credentials.SIGNUP_TOKEN, (err, user) => {
+ jwt.verify(token, credentials.SIGNUP_TOKEN, (err, user) => {
     if (err) {
       return res.status(403).json({
         message: 'Forbidden',
         status: false,
-        data: null,
+        data: err,
       });
     }
+    
     req.user = user;
     next();
-  });
+  }
+  
+  )
+  // if (decodedToken.expiresIn < Date.now() / 1000) {
+  //   console.log('Token has expired');
+  // } else {
+  //   console.log('Token is still valid');
+  // };
 };
 
 exports.verifyToken = async (req, res, next) => {

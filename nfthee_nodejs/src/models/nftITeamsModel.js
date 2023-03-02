@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+var AutoIncrement = require('mongoose-sequence')(mongoose);
 const nftSchema = new Schema(
   {
     user: {
@@ -21,7 +21,11 @@ const nftSchema = new Schema(
     },
     nft_quantity: Number,
     nft_orders: [{ type: mongoose.Schema.ObjectId, ref: 'order' }],
-
+    nextId: {
+      type: Number,
+      //   require: true,
+      
+    },
     owned_by: [
       {
         address: {
@@ -76,7 +80,8 @@ const nftSchema = new Schema(
     putOnMarketplace: {
       type: Object,
       fixedPrice: {
-        price: String,
+        price: Number,
+        default:100
       },
       openForBides: String,
       timedAuction: {
@@ -119,5 +124,7 @@ const nftSchema = new Schema(
   },
   { timestamps: true }
 );
+
+nftSchema.plugin(AutoIncrement, {id:'order_seq',inc_field: 'nextId'});
 
 module.exports = mongoose.model('nft', nftSchema);

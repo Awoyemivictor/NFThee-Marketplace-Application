@@ -15,9 +15,9 @@ const { credentials } = require('../../config').constantCredentials;
 exports.signupData = async (req, res) => {
   try {
    
-    const token =  jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    // const token =  jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: 60 });
     // let checkUser = await signup.findOne({user_name:req.body.user_name});
-    console.log('tokennnn',token)
+    // console.log('tokennnn',token)
     let signupDetails = {
       user_name: req.body.user_name,
       first_name: req.body.first_name,
@@ -39,6 +39,7 @@ exports.signupData = async (req, res) => {
       `Thank you for submitting request`
     );
     let result = await signup.create(signupDetails);
+
     return {
       message: 'Registration Data Save..........',
       status: true,
@@ -107,9 +108,9 @@ exports.loginOne = async (req) => {
 exports.register = async (req, res) => {
   try {
     const { email_address} = req.body;
-    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    // const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "60" });
     //  token=signuptoken;
-    console.log('token',token)
+    // console.log('token',token)
     const upadate_data = {
       user_name: req.body.user_name,
       token: token,
@@ -187,7 +188,7 @@ exports.login = async (req, res) => {
     const { email_address } = req.body;
     const user = await signup.findOne({ email_address } );
     if(user){
-    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "24h" });
+    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "60" });
     //  token=signuptoken;
     console.log('token',token)
     user.token=token;
