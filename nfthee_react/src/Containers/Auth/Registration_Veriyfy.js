@@ -60,7 +60,9 @@ function Registration_Veriyfy() {
       redirectURI: new URL('/walletlogin', window.location.origin).href,
     });
     const res = await instance
+      
       .post('/api/signup', registerData, {
+
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + didToken,

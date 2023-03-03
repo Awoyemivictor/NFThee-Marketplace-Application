@@ -81,7 +81,6 @@ const nftSchema = new Schema(
       type: Object,
       fixedPrice: {
         price: Number,
-        default:100
       },
       openForBides: String,
       timedAuction: {

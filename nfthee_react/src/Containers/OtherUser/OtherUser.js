@@ -100,7 +100,9 @@ export default function OtherUser() {
   
       instance
       .get(`/api/userCollections?id=${id}`)
-      .then(res=>( setCollectionData(res.data.data)))
+      .then(res=>{
+        console.log(res,'res')
+        ( setCollectionData(res.data.data))})
   
     },[])
     useEffect(()=>{

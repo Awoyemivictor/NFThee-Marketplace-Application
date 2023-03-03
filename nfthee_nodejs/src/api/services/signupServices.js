@@ -113,7 +113,7 @@ exports.register = async (req, res) => {
     // console.log('token',token)
     const upadate_data = {
       user_name: req.body.user_name,
-      token: token,
+      // token: token,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email_address: req.body.email_address,
@@ -187,14 +187,13 @@ exports.login = async (req, res) => {
   try {
     const { email_address } = req.body;
     const user = await signup.findOne({ email_address } );
-    if(user){
-    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "60" });
-    //  token=signuptoken;
-    console.log('token',token)
-    user.token=token;
-  //   const verifyResult = await signupAuth(token);
-  // console.log('verifyResult', verifyResult);
-    }
+    // if(user){
+    // const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "15m" });
+    
+    // console.log('token',token)
+    // user.token=token;
+  
+    // }
     console.log(user)
     if (!user) {
       return {
@@ -271,8 +270,8 @@ exports.userCollections = async (req, res) => {
     let id = req.query.id;
     // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
     // const user = await createCollection.find({ created_by: userId });
-    // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
-    const user = await createCollection.find({ created_by: id });
+    const user = await createCollection.find({ created_by: id , status:'verified'}); 
+    // const user = await createCollection.find({ created_by: id });
     console.log(user)
     if (user) {
       return {

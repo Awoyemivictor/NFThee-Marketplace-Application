@@ -19,7 +19,7 @@ const {
 } = require('../controller').signupController;
 const {
   Multer: { upload, uploadS3 },
-  ApiAuth: { signupAuth },
+  // ApiAuth: { signupAuth },
 } = require('../../utils');
 
 let uploadMultiple = uploadS3.fields([
@@ -30,11 +30,10 @@ let uploadMultiple = uploadS3.fields([
 router.post('/signup', register);
 router.get('/signup/all', signupDataAll);
 router.get('/signup/read', signupData);
-router.post('/login/email',signupAuth, login);
-// router.post('/login/email', login);
+router.post('/login/email', login);
 router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
-router.get('/userCollections',signupAuth, userCollections);
+router.get('/userCollections', userCollections);
 router.get('/userItems', userItems);
 router.put('/userFollow', userFollow);
 router.put('/userUnFollow', userUnFollow);

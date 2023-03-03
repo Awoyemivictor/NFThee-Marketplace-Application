@@ -57,9 +57,9 @@ exports.createCollectionInfo = async (req, res) => {
 
     const upadate_data = {
       name: req.body.name,
-      // logo_image: logo_image,
-      // featured_image: featured_image,
-      // banner_image: banner_image,
+      logo_image: req.body.logo_image,
+      featured_image: req.body.featured_image,
+      banner_image: req.body.banner_image,
       url: req.body.url,
       description: req.body.description,
       contract_address: req.body.contract_address,
@@ -162,7 +162,7 @@ exports.read_createCollectionInfo = async (req, res) => {
     // console.log(userId);
     let result = await createCollection
       .findOne({ _id: userId })
-      .populate('created_by');
+      .populate(created_by);
 
     // console.log(result)
     return {

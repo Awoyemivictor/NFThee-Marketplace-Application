@@ -146,7 +146,8 @@ console.log(id)
     data: {
         id: id,
     }
-  });}
+  });
+    }
   if(e.target.value==="unfollow"){
 
  const formData=new FormData()

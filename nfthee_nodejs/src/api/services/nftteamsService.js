@@ -113,35 +113,7 @@ exports.nftStore = async (req) => {
     return error;
   }
 };
-// exports.getPrice = async (req, res) => {
-//   try {
-//     // router.post('/filterByPrice', async (req, res) => {
-//       let prices = req.query.price
-//       // ? {putOnMarketplace:{ $regex: new RegExp(req.query.price) }}
-//       // : {};
-//       // console.log('price',price)
-//       let data = await nftIteams.aggregate([
-//         {
-//           $unwind: '$putOnMarketplace',
-//         },
-//         {
-//           $match: {
-//             'putOnMarketplace.price': prices || prices ,
-//           },
-//         },
-//       ]);
-    
-   
 
-//     return {
-//       message: 'price find successfully.',
-//       status: true,
-//       data: data,
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 exports.getPrice = async (req, res) => {
   try {
     let priceRange = req.query.priceRange;
@@ -207,10 +179,10 @@ exports.getAllItemInfo = async (req, res) => {
 exports.read_getItemInfo = async (req, res) => {
   try {
     let userId = req.query.id;
-    let result = await nftIteams.findOne({ _id: userId });
+    let result = await nftIteams.findOne({ _id: userId }).populate(created_by);
 
     return {
-      message: 'create item added successfully.',
+      message: 'Data find successfully.',
       status: true,
       data: result,
     };
@@ -228,7 +200,7 @@ exports.update_getItemInfo = async (req, res) => {
     );
 
     return {
-      message: 'create item added successfully.',
+      message: 'data update successfully.',
       status: true,
       data: result,
     };
@@ -240,7 +212,7 @@ exports.update_getItemInfo = async (req, res) => {
 exports.read_nftStore = async (req) => {
   try {
     let userId = req.query.id;
-    let result = await nftIteams.findOne({ _id: userId });
+    let result = await nftIteams.findOne({ _id: userId }).populate(created_by);
     console.log(userId, result);
     return {
       message: 'Read Data Fetch.....',

@@ -17,15 +17,15 @@ const create_collection = new Schema(
     },
     logo_image: {
       type: String,
-      // required: [true, 'logo_image required'],
+      required: [true, 'logo_image required'],
     },
     featured_image: {
       type: String,
-      // required: [true, 'featured_image required'],
+      required: [true, 'featured_image required'],
     },
     banner_image: {
       type: String,
-      // required: [true, 'banner_image required'],
+      required: [true, 'banner_image required'],
     },
     url: {
       type: String,
@@ -42,20 +42,11 @@ const create_collection = new Schema(
     },
     collection_standard: {
       type: String,
-      // required: [true, 'collection_standard  required'],
+      required: [true, 'collection_standard  required'],
       // default: 'Single', // by Default erc721 is true
     },
     nextId: {
       type: Number,
-      // default: function () {
-      //   return getNextId()
-      //   // return nextId;
-      // }
-      // default: function () {
-      //   return this.create_collection.methods.getNextId();
-      // },
-      //   require: true,
-      // default: 0,
     },
     royalty_percentage: {
       type: Number,

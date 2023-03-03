@@ -3,6 +3,7 @@ import instance from "../../axios";
 import {useHistory, NavLink, Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import Swal from "sweetalert2";
+// import jsonwebtoken from 'jsonwebtoken';
 import {Magic} from "magic-sdk";
 import {useParams} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../hooks/useRedux";
@@ -123,7 +124,7 @@ if(data&&tok!=null){
                 showConfirmButton: false,
                 timer: 1500,
             });
-             instance.get(`/api/login/email?email_address=${email}`).then(response => {
+             instance.post(`/api/login/email?email_address=${email}`).then(response => {
            
 
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
@@ -143,7 +144,7 @@ if(data&&tok!=null){
             redirectURI: new URL('/walletlogin', window.location.origin).href
         })
 
-        const res = await instance.get(`/api/login/email?email_address=${email}`, {
+        const res = await instance.post(`/api/login/email?email_address=${email}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + didToken,
@@ -163,7 +164,7 @@ if(data&&tok!=null){
 
         if (res.status === 200) {
             const userMetaData = await magic.user.getMetadata()
-            await dispatch(setMeta(userMetaData))
+             dispatch(setMeta(userMetaData))
         }
         history.push('/walletlogin')
     }
@@ -171,7 +172,8 @@ if(data&&tok!=null){
 
     const [loading, setLoading] = useState(false);
     // const [registerData, setRegisterData] = useState(false);
-
+    
+    
     return (
         <>
             {loading && (
