@@ -9,11 +9,8 @@ import Swal from 'sweetalert2';
 import {
   handleCollectionCreation,
   handleListNFTSale,
-  handleNFTAuction,
-  handleNFTBuy,
   handleNFTCreation,
-  handleNFTListingAuction,
-  handleNFTOffer,
+  handleNFTBidListing,
 } from '../../Config/sendFunctions';
 import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
@@ -617,7 +614,7 @@ const CreateNewItem = () => {
         // tokenId ,price ,collectionName ,nftCount ,tokenType
 
         console.log(tokenId, openForBids.Bid_price, collectionAddress);
-        let data = await handleNFTListingAuction(
+        let data = await handleNFTBidListing(
           tokenId,
           openForBids.Bid_price,
           collectionAddress
@@ -628,7 +625,7 @@ const CreateNewItem = () => {
         // tokenId ,price ,collectionName ,nftCount ,tokenType
 
         console.log(tokenId, openForBids.Bid_price, collectionAddress);
-        let data = await handleNFTListingAuction(
+        let data = await handleNFTBidListing(
           tokenId,
           openForBids.Bid_price,
           collectionAddress

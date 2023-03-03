@@ -35,6 +35,40 @@ const readReceipt = async (hash) => {
   }
 };
 
+export const approveTokens = async (ownerAddress) => {
+  const tokens = ethers.utils.parseEther('1000000000');
+
+  let res1;
+  let hash;
+  let tokenInstance = await exportInstance(
+    contracts.polygonContracts.TESTERC20,
+    ERC20.abi
+  );
+  //  res1   = await tokenInsatnce.mint(amount,{from:ownerAddress})
+
+  hash = res1;
+
+  res1 = await res1.wait();
+
+  if (res1.status === 0) {
+    console.log('Transaction Failed');
+  }
+  let contractAddress = await readReceipt(hash);
+
+  res1 = await tokenInstance.approve(
+    contracts.polygonContracts.MARKETPLACE,
+    tokens
+  );
+
+  hash = res1;
+
+  res1 = await res1.wait();
+
+  if (res1.status === 0) {
+    console.log('Transaction Failed');
+  }
+};
+
 const marketpalceInstance = async () => {
   return await exportInstance(
     contracts.polygonContracts.MARKETPLACE,
@@ -346,10 +380,10 @@ export const handleNFTBuy = async (tokenPrice, collectionName) => {
 
 /**
  *
- * @returns NFT Auction Listing Function
+ * @returns NFT Bid Listing Function
  */
 
-export const handleNFTListingAuction = async (
+export const handleNFTBidListing = async (
   tokenId,
   tokenPrice,
   collectionAddress
@@ -400,8 +434,44 @@ export const handleNFTListingAuction = async (
   return res;
 };
 
-export const handleDeListToken = async () => {};
+export const handleDeListToken = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
 
-export const handleAcceptBid = async () => {};
+  // let res  = marketplaceInstance.delistToken(contractAddress,tokenId)
+};
 
-export const handleWithdrawBidForToken = async () => {};
+export const handleAcceptBid = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
+
+  // address contractAddress,
+  // uint256 tokenId,
+  // address bidder,
+  // uint256 tokenType,
+  // uint256 nftAmount,
+  // uint256 paymentTokenType,
+  // uint256 value)
+  // };
+  // let res = marketplaceInstance.acceptBidForToken(
+  //    contractAddress,
+  //    tokenId,
+  //    bidder,
+  //    1,
+  //    1,
+  //    1,
+  //    value)
+};
+
+export const handleWithdrawBidForToken = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
+
+  // let res  = marketplaceInstance.withdrawBidForToken(contractAddress, tokenId)
+};

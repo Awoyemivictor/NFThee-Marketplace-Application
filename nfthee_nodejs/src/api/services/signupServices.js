@@ -106,7 +106,7 @@ exports.loginOne = async (req) => {
 exports.register = async (req, res) => {
   try {
     const { email_address} = req.body;
-    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "60" });
     //  token=signuptoken;
     console.log('token',token)
     const upadate_data = {
