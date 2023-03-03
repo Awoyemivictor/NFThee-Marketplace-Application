@@ -15,7 +15,10 @@ const [like,setLike]=useState([])
 const [isLiked, setIsLiked] = useState(false);
 
   const [isModalOpen, setModalIsOpen] = useState(false);
-  const toggleModal = () => {
+  const [Buydata,setBuydata]=useState()
+  const toggleModal = (index) => {
+console.log(index)
+setBuydata(index)
     setModalIsOpen(!isModalOpen);
   };
 
@@ -23,6 +26,7 @@ const [isLiked, setIsLiked] = useState(false);
   const slice = data.slice(0, noOfElement);
 
   const handleAddFavorite = (collection) => {
+    console.log(collection)
      dispatch(setFavorite(collection));
      const requestBody={
       userId:"63e78caf2acaaee14ca0c8d9",
@@ -61,9 +65,9 @@ const [isLiked, setIsLiked] = useState(false);
                      </div>
                    </div>
                     ) :
-    <div className="row">
+                    <div className="row">
+              {isModalOpen && <ModalBuynft onRequestClose={toggleModal} collectionData={slice[Buydata]}/>}
       
-      {isModalOpen && <ModalBuynft onRequestClose={toggleModal} />}
       {slice.map((collection, index) => {
         return (
           <div className="col-12 col-sm-3 " key={index}>
@@ -93,7 +97,7 @@ const [isLiked, setIsLiked] = useState(false);
                           }
                           alt=""
                           className="img-fluid"
-                        />
+                          />
           </Link>
 
                     </div>
@@ -115,29 +119,23 @@ const [isLiked, setIsLiked] = useState(false);
                             src="assets/images/icons/ethereum.png"
                             alt=""
                             className="me-1"
-                          />
-                          {!collection?.putOnMarketplace ? (
-                            <small className="font-weight-light">Bids</small>
-                          ) : collection?.putOnMarketplace?.price ? (
-                            <span>{collection?.putOnMarketplace?.price}</span>
-                          ) : (
-                            <span>
-                              {collection?.putOnMarketplace?.minimumBid}
-                            </span>
-                          )}
+                            />
+                          {collection?.putOnMarketplace ? collection?.putOnMarketplace.price ||collection?.putOnMarketplace.Bid_price:'Bid'}
+                             
                         </h6>
                       </div>
                     </div>
                     <div className="meta-info">
-                      <button className="btn buy-now-btn" onClick={toggleModal}>
+                      <button className="btn buy-now-btn" onClick={e=>toggleModal(index)} >
                         Buy Now
                       </button>
                       <button className="wishlist-button ms-auto" tabIndex={0}>
                         <span
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
-                        >
-                          <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
+                          >
+                         <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
+
                         </span>
                       </button>
                     </div>

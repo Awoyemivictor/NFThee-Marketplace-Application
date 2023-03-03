@@ -394,13 +394,13 @@ console.log({bidAmount})
                             <div className="card-body">
                               <div className="d-flex align-items-center">
                                 <div className="media">
-                                  <a href="#"><img src="/assets/images/avatar3.png" alt="" /></a>
+                                  {/* <a href="#"><img src="/assets/images/avatar3.png" alt="" /></a> */}
                                 </div>
                                 <div className="pricing-detail">
-                                  <h4> {t("product.Highest Bid By")} Kohaku Tora</h4>
+                                  {/* <h4> {t("product.Highest Bid By")} Kohaku Tora</h4> */}
                                   <div className="d-flex align-items-center">
                                     <span className="d-flex">
-                                    <a href="#" className="value1"><img src="/assets/images/icons/ethereum-big.png" alt="" />{collections?.putOnMarketplace?.price} ETH</a>
+                                    <a href="#" className="value1"><img src="/assets/images/icons/ethereum-big.png" alt="" />{collections?.putOnMarketplace ?collections?.putOnMarketplace?.price||collections?.putOnMarketplace?.Bid_price:''} ETH</a>
                                     {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
                                     </span>
                                   </div>

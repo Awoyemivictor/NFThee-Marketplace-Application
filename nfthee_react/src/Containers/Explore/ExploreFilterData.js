@@ -574,7 +574,7 @@ const images = [
                         <div className="meta-info-wrapper">
                             <div className="bid-title mb-1"> <span>{bidInfo}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace.price} </h6>
+                                <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
                             </div>
                         </div> <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
                     </div>
