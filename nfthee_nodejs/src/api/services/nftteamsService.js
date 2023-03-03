@@ -73,6 +73,7 @@ exports.nftStore = async (req) => {
 
     let create_user = {
       userId: req.body.userId,
+      tokenId:req.body.tokenId,
       chooseType: req.body.chooseType,
       uploadFile: req.body.uploadFile,
       name: req.body.name,

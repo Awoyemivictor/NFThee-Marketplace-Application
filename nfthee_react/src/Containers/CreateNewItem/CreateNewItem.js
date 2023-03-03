@@ -405,7 +405,7 @@ const CreateNewItem = () => {
   };
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState("0");
   console.log(marketplace);
 
   useEffect(() => {
@@ -664,17 +664,18 @@ const CreateNewItem = () => {
   const handleSubmitNewItem = async (e) => {
     e.preventDefault();
     validateItemInputs();
+   
     let data = {};
     switch (activeTab) {
-      case 0:
+      case "0":
         data = fixedPrice;
         break;
 
-      case 1:
+      case '1':
         data = openForBids;
         break;
 
-      case 2:
+      case '2':
         data = timedAuction;
         break;
     }
@@ -913,6 +914,7 @@ const CreateNewItem = () => {
       [e.target.name]: e.target.value,
     });
   };
+  console.log('======>', openForBids);
 
   const handleTimedAuctionChange = (e) => {
     setTimedAuction({
