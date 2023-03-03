@@ -325,7 +325,7 @@ export const handleListNFTSale = async (
   console.log(res);
 };
 
-export const handleNFTBuy = async (tokenPrice, collectionName) => {
+export const handleNFTBuy = async (tokenPrice, collectionName,tokenId) => {
   console.info(tokenPrice, collectionName);
 
   let res;
@@ -362,10 +362,10 @@ export const handleNFTBuy = async (tokenPrice, collectionName) => {
     Market.abi
   );
 
-  console.info(collectionAddress, 846, 1, 1, 2, options);
+  console.info(collectionAddress, tokenId, 1, 1, 2, options);
   res = await marketplaceInstance.buyToken(
     collectionAddress,
-    846,
+    tokenId,
     1,
     1,
     2,
