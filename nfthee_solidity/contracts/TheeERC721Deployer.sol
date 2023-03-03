@@ -2,7 +2,7 @@
 pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "./Common/IDeployerInterface.sol";
+import "./interface/IDeployerInterface.sol";
 import "./TheeERC721.sol";
 import "hardhat/console.sol";
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import "./Common/IDeployerInterface.sol";
+import "./interface/IDeployerInterface.sol";
 import "hardhat/console.sol";
 
 contract Creator {
