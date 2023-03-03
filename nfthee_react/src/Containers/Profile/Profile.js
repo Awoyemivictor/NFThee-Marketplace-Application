@@ -133,20 +133,43 @@ const[users,setuser]=useState([])
       body: formData
     });
   };
-  
+  console.log("key pass",process.env.SERVICE_KEY);
   const handlleFollow=(id,e)=>{
     // setChanges(true)
     if(e.target.value==="follow"){
-   const formData=new FormData()
-   formData.append("id", id);
-console.log(id)
-   const { data } =  axios({
-    method: 'put',
-    url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
-    data: {
-        id: id,
-    }
-  });}
+      const formData=new FormData()
+      formData.append("id", id);
+      console.log(id)
+      const { data } =  axios({
+        method: 'put',
+        url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
+        data: {
+            id: id,
+        }
+      });
+
+      const server_key = "AAAAnGlm4-o:APA91bHRRIit_ku-IL-BJwammXTLkWoIsuikVw-z1Wod6G6zYJCnTfqPxB1zT449AQZZTXd8BAnC8hnc3lwHDjC9W-OCJT1LMaGRjeT7pdd9-3z6tw2j8ERnVaRVYsmiwCmk1Bu7Ua4i";
+
+      const headers = {
+          'Authorization' : 'key='+server_key,
+          'Content-Type'  : 'application/json',
+      };
+
+     
+      let payloads = {
+          to   : 'eAK4Y5bGVSTNL-Ti8JZ-hY:APA91bFXL1IyS5SpCpxw5JVv4E_vwsvin2Y7k9J_EizDlsGvqhM8pM22SP5ZBiTTlrROxLjwER5SlbeYn_aYAonTt6ZYjth2Lkm0sO6em7V0bHQvJm9mRs9XLMUomSdlVVnkjs6bp3v9',
+          data : {body:'mesaage send',title:'firebase'},
+      };
+      axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+        headers: headers
+      }).then((res)=>{
+          console.log("notification api send method receiver",res)
+        }).catch((e)=>{
+          console.log("notification api error receiver",e)
+        })
+
+
+  }
   if(e.target.value==="unfollow"){
 
  const formData=new FormData()

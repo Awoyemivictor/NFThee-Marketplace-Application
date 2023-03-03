@@ -54,7 +54,9 @@ const signupInfo = new Schema(
     youtube: {
       type: String,
     },
-    
+    token_id: {
+      type: String,
+    },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }]
   },

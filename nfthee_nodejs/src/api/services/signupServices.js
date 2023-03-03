@@ -350,6 +350,35 @@ exports.userUnFollow = async (req, res) => {
   }
 };
 
+// addLoginToken to gernerate token with firebase
+exports.addLoginToken = async (req,res) => {
+  console.log(req.body, 'firstsss');
+  const email_address =req.body.email_address;
+  let users = await signup.findOne({ email_address });
+  if(users){
+    const result = await signup.findOneAndUpdate(
+      { email_address: email_address },
+      { $set: {token_id : req.body.token_id } }
+    );
+    users = await signup.findOne({ email_address });
+  }
+  
+  if(users){
+    return {
+      message: "Token update ",
+      status: true,
+      data: users,
+    };
+
+  }else{
+    return {
+      message: "User hasn't found",
+      status: false,
+      data: null,
+    };
+  }
+};
+
 // router.post('/follow', async (req, res, next) => {
 //   exports.userFollow = async (req, res) => {
 //   const { action } = req.body;
