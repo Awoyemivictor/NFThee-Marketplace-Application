@@ -1,0 +1,287 @@
+
+{
+    "banner": {
+    "banner_text1":"发现稀",
+    "banner_text2":"缺的数字",
+    "banner_text3":"艺术并 ",
+    "banner_text4":"收集NFT"
+    },
+     
+    "navbar": { 
+    "Search":"搜索",
+    "Explore":"探索",     
+    "Activities":"活动",     
+    "How_It_Works":"如何运转",     
+    "Community":"社区",     
+    "Create":"创建",    
+    "All_NFTs":"所有NFT",    
+    "Ethereum":"以太坊",    
+    "Tezoz":"Tezoz",    
+    "Flow":"Flow",
+    "Rewards":"奖励"
+    },
+      
+    "CreativeArtCollection": { 
+    "Creative Art Collection":"创造性艺术收藏",
+    "Created By":"创建者 ",
+    "Current Bid":"当前报价",
+    "New Drops": "新发行",
+    "Hope": "希望",
+    "Hoping": "希望",
+    "Box": "盒子",
+    "Boxhead": "盒子头",
+    "Constsub": "Constsub",
+    "Subjective Consistency": "主观一致",
+    "LIQ": "流动性",
+    "Liquidities": "流动性",
+    "Give me Hope": "给我希望",
+    "Top Categories": "顶级类型",
+     "Unit": "单价",
+    "Abstract Painting": "抽象画",
+    "Modern Art": "现代艺术",
+    "Top Collections Over Last": "过去几天的热门收藏", 
+    "Days": "天",
+    "See All":"查看所有", 
+    "top_sellers":"头部卖家",
+    "Live Auctions": "现场拍卖",
+    "Explore More": "探索更多",
+    "Walking on the Air":"空中行走"
+    }, 
+
+
+    "Createandsell":{
+    "Create and sell your NFTs":"创建并销售您的NFT", 
+    "Set up your wallet title":"设置您的钱包",
+    "Set up your wallet":"设置好您选定的钱包后，点击右上角钱包图标，将其连接到NFThee。了解我们支持的钱包。",
+    "Create Your Collection title":"创建您的收藏",
+    "Create Your Collection":"点击“我的收藏”并设置您的收藏。添加社交链接、描述、个人资料和横幅图片，并设定二次销售费用。",
+    "Add Your Nfts title":"添加您的NFT",
+    "Add Your Nfts":"上传您的作品（图像、视频、音频或3D艺术），添加标题和描述，并使用属性、统计数据和可解锁内容定制您的NFT。",
+    "List Them For Sale title":"挂牌出售",
+    "List Them For Sale":"选择拍卖、固定价格列表或降价列表。选择如何销售您的NFT，我们会帮助您销售！"
+    },
+      
+    "footer":{
+    "Never Miss A Drop":"从不错过发行 ",
+    "Enter your email address":"输入邮件地址 ",
+    "Subscribe":"订阅 ",
+    "Join The Community":"加入社区 ",
+    "MarketPlace":"市场 ",
+    "My Account": "我的账户 ",
+    "Community1": "社区 ",
+    "Company": "公司 ",
+    "NFThee Apps": "NFThee应用 ",
+    "footer_content": "Thee是荷兰语‘茶’的意思，所以放松休息吧！NFThee由社区创建并为社区服务，这也是为什么我们努力实现低成本和高可用性",
+    "copy rights" :"NFThee, Inc.保留所有权利 ", 
+    "Terms & Conditions": "条款和条件 ",
+    "Privacy Policy": "隐私协议 ", 
+
+    "Art":"艺术",
+    "Collectibles":"收藏品",
+    "Domain Names":"域名",
+    "Music":"音乐",
+    "Photography":"摄影",
+    "Sports":"体育",
+    "Trading Cards":"交易卡",
+    "Utility":"效用",
+    "Virtual Words":"虚拟字",
+    "Profile":"简介",
+    "Favorite":"最爱",
+    "My Collection":"我的收藏",
+    "Settings":"设置",
+    "Notifications":"通知",
+    "Help Desk":"帮助",
+    "Blog":"博客",
+    "News Letter":"新闻",
+    "Become A Partner":"成为合伙人",
+    "Suggestions":"建议",
+    "About":"关于我们",
+    "Careers":"招聘信息",
+    "Download the NFThee app. and discover special NFTs anytime, anywhere":"下载NFThee，随时随地发现特别的NFT"
+    },
+
+    "explore":{
+        "Explore Collections" : "探索收藏",
+        "Metroverse" : "城市宇宙",
+        "By Metroverse" : "城市宇宙提供",
+        "Metroverse cardtext" : "城市宇宙是以太坊上的一款土地交易NFT策略游戏。收藏、交易和下注您的城市街区，赢取元宇宙效用代币。",
+        
+        "Back":"背面",
+        "items ":"项目 ",
+        "owners":"所有者",
+        "floor price":"底价",
+        "Volume Traded":"交易量 échangé",
+        "Metroverse_title":"城市宇宙是以太坊上的一款土地交易NFT策略游戏。收集、交易并质押您的城市街区来赚取元宇宙代币.",
+        "Utility Token":"效用代币",
+        "Like":"喜欢",
+        "Follow":"订阅",
+        "item":"项目",
+        "Activity":"活动",
+        "Showing":"显示",
+        "of ":"of",
+        "result":"结果",
+        "sort by":"排序方式",
+        "Place Bid":"出价",
+        
+
+        "Filter":"筛选",
+        "Trending":"趋势 ",
+        "top":"顶部",
+        "Art":"艺术",
+        "Domain Name":"域名",
+        "Music":"音乐",
+        "Photography":"摄影",
+        "Sports":"体育",
+
+        "Single Items":"单个项目",
+        "All items":"全部项目",
+        "Bundles":"组合",
+        "Price":"价格",
+        "From ":"从 ",
+        "to":"至",
+        "Chains":"链",
+        "On Sale IN":"抛售",
+        "Load More":"了解更多",
+
+        "Quantity":"数量",
+        "from":"从",
+        "to":"至",
+        "time":"时间",
+        "sale":"销售",
+        "Event type":"事件类型",
+        "listing":"列表",
+        "bids":"出价",
+        "sales":"销售",
+        "traders":"交易人",
+        "Categories":"类别",
+        "seconds ago":"秒前",
+        "series":"系列",
+        "Day":"天",
+        "Avg Price":"平均价格",
+        "last":"前" 
+    } ,
+    "product":{
+        "Back":"背面",
+        "The Fantasy Flower Illustration":"梦幻花朵图示",
+        "Token id":"代币id",
+        "Token standard":"代币标准",
+        "Blockchain":"区块链",
+        "Description":"描述",
+        "about project":"关于项目",
+        "Details":"详情",
+        "Attributes":"属性",
+        "detail_description":"这幅画完全是用油画创作的，展示了“戴着灰色帽子的男人”，而这幅画是用油画创作的，展示了 ",
+        "Minted By":"铸币人",
+        "Highest Bid By":"最高出价",
+        "Buy now":"现在购买",
+        "Make an offer":"进行报价",
+        "Buy Card":"买卡",
+        "Listing":"列表",
+        "Offering":"出售",
+        "Price":"价格",
+        "USD Price":"美元价格",
+        "Expiration":"到期",
+        "from":"从",
+        "Floor Difference":"地板差异",
+        "Item Activity":"项目活动",
+        "Lowest Listing":"最低列表",
+        "Suggested Price":"建议价格",
+        "Highest Sale":"最高销售",
+        "Total Sales":"总销售",
+        "Filter By":"筛选",
+        "Select":"选择",
+        "More from this collection":"更多此类收藏",
+        "Balance":"剩余",
+        "Offer Expiration":"报价期满",
+        "By Checking This Box, I Agree To NFTHEE Terms Of Service":"通过选中此框，我同意接受NFTHEE的服务条款",
+        "Make Offer":"出价",
+        "Convert ETH":"转换以太坊",
+        "Balance":"剩余",
+        "share":"共享",
+        "report":"报告",
+        "website":"网站",
+        "amount":"总额"
+        },
+        "about":{
+            "about_content":"NFThee由罗纳德、里克、耶鲁安三位好友发起，团队成员还包括六位开发人员和设计师，他们对加密货币情有独钟。我们在发现NFT的支撑技术时，内心产生了极大的兴趣，并很快想到了一个充满机会的世界。我们的目标是为NFT领域创建一个价格低廉的市场。我们的创新方法将创造未来，那时我们希望开发自己的Thee代币，并与卓越的合作伙伴互相鼓舞，一起进行富有成效的合作。我们的目标是让NFThee成为NFT领域家喻户晓的名字。<br/><br/> 为实现这一目标，我们已下定决心，集结了所有力量！如果您有什么问题，或您有兴趣加入我们，请随时联系. <strong> support@nfthee.com。</strong>"
+        },
+        "launching":{
+            "To all NFT Artists, collectors, enthusiasts":"致所有NFT艺术家、收藏家、爱好者。 ",
+            "NFThee is set to become the most user friendly":"NFThee将成为全球社区中对用户最友好的市场。",  
+            "First 1000 verified":"前 1000 个经过验证的收藏/项目将获得奖金、500 个我们的 Thee 代币、我们网站上的免费高级曝光和全球高级位置。",  
+            "And the  first 10.000":"前 10.000 名注册者将从我们的 100 个 Thee 代币中获得奖励e", 
+            "Stay Tuned":"敬请关注 ",
+            "Most important notices":"最重要的通知",
+
+            "Only 2% fee":"仅2%费用 ", 
+            "that same fee will go back":"相同费用的 0.5% 将返回到我们的质押社区代币中",
+            "Our own Thee token" : "我们自己的 Thee 令牌",
+            "All languages available":"·所有可用语言",
+            "Multi wallets supported":"·支持多钱包",
+            "Multi chains (ETH, SOL, BNB, Polygon, Harmony)":"·多链（ETH、SOL、BNB、 <br/> Polygon、Harmony）",
+            "Gas-Free":"·无手续费",
+           " Android and Apple app":"·安卓和苹果应用",
+            "Active support team to delete scams and answer questions":"·积极的支持团队，<br/> 铲除骗局并答疑解惑",
+            "Easy collection upload":"·轻松上传收藏  ",
+            "Pay with card":"·用卡支付",
+            "Rewards system":"奖励制度", 
+            "Multi listing":"·多重列表",
+            "2 layer":"·2层",
+            "Minting? No problem":"·铸币没有问题", 
+
+            "Count down with us on www.nfthee.com":"和我们一起倒数",
+            "And make sure you will be among the first 1000 to take":"并确保您将成为前 10.000 名享受免费福利的人之一。", 
+            "Interested? Follow us on":"想要体验？关注我们",
+
+            
+        "Days":"天",
+        "Min":"分钟",
+        "Hours":"小时",
+        "Sec":"第二",
+        "Early access":"抢先体验",
+        "Enter Your Email Address":"输入你的电子邮箱地址-",
+        "send":"发送",
+        
+        "email_requird":"电子邮件是必需的",
+        "invalid_email":"无效的邮件地址"
+          }  
+     
+} 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

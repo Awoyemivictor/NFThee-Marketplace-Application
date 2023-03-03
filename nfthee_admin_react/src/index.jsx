@@ -297,7 +297,7 @@ const Root = () => {
                 exact
                 path={`/`}
                 render={() => {
-                  return <Redirect to={`/dashboard/default`} />;
+                  return <Redirect to={`/login`} />;
                 }}
               />
 

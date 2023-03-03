@@ -410,6 +410,7 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         uint256 tokenType
     )
         external
+        payable
         override
         onlyTradingOpen
         onlyAllowedExpireTimestamp(expireTimestamp)
@@ -422,14 +423,17 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
             tokenType,
             expireTimestamp
         );
+        if (tokenType == 2) {} else {
+            require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-        require(_isBidValid(contractAddress, bid), "Bid is not valid");
+            _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
+            _erc721Market[contractAddress].bids[tokenId].bidders.add(
+                msg.sender
+            );
+            _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
 
-        _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
-        _erc721Market[contractAddress].bids[tokenId].bidders.add(msg.sender);
-        _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
-
-        emit TokenBidEntered(contractAddress, tokenId, bid);
+            emit TokenBidEntered(contractAddress, tokenId, bid);
+        }
     }
 
     /**
@@ -466,7 +470,13 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         Bid memory bid
     ) private view returns (bool isValid) {
         if (
-            // !_isTokenOwner(contractAddress, bid.tokenId, bid.bidder) &&
+            bid.tokenType == 2 &&
+            bid.value > 0 &&
+            bid.expireTimestamp > block.timestamp
+        ) {
+            isValid = true;
+        } else if (
+            bid.tokenType == 1 && // !_isTokenOwner(contractAddress, bid.tokenId, bid.bidder) &&
             _paymentToken.allowance(bid.bidder, address(this)) >= bid.value &&
             _paymentToken.balanceOf(bid.bidder) >= bid.value &&
             bid.value > 0 &&
@@ -639,6 +649,97 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
                 bids[i] = bid;
             }
         }
+    }
+
+    /**
+     * @dev See {TheeNFTMarketplace-getTokenHighestBid}.
+     */
+    function getTokenHighestBid(
+        address contractAddress,
+        uint256 tokenId
+    ) public view override returns (Bid memory highestBid) {
+        highestBid = Bid(tokenId, 0, address(0), 0, 0, 0);
+        uint256 bidderCount = _erc721Market[contractAddress]
+            .bids[tokenId]
+            .bidders
+            .length();
+        for (uint256 i; i < bidderCount; i++) {
+            address bidder = _erc721Market[contractAddress]
+                .bids[tokenId]
+                .bidders
+                .at(i);
+            Bid memory bid = _erc721Market[contractAddress].bids[tokenId].bids[
+                bidder
+            ];
+            if (
+                _isBidValid(contractAddress, bid) &&
+                bid.value > highestBid.value
+            ) {
+                highestBid = bid;
+            }
+        }
+    }
+
+    /**
+     * @dev See {TheeNFTMarketplace-getTokenHighestBids}.
+     */
+    function getTokenHighestBids(
+        address contractAddress,
+        uint256 from,
+        uint256 size
+    ) public view override returns (Bid[] memory highestBids) {
+        uint256 tokenCount = numTokenWithBids(contractAddress);
+
+        if (from < tokenCount && size > 0) {
+            uint256 querySize = size;
+            if ((from + size) > tokenCount) {
+                querySize = tokenCount - from;
+            }
+            highestBids = new Bid[](querySize);
+            for (uint256 i = 0; i < querySize; i++) {
+                highestBids[i] = getTokenHighestBid({
+                    contractAddress: contractAddress,
+                    tokenId: _erc721Market[contractAddress].tokenIdWithBid.at(
+                        i + from
+                    )
+                });
+            }
+        }
+    }
+
+    function getBidderBids(
+        address contractAddress,
+        address bidder,
+        uint256 from,
+        uint256 size
+    ) external view override returns (Bid[] memory bidderBids) {
+        uint256 tokenCount = numTokenWithBids(contractAddress);
+
+        if (from < tokenCount && size > 0) {
+            uint256 querySize = size;
+            if ((from + size) > tokenCount) {
+                querySize = tokenCount - from;
+            }
+            bidderBids = new Bid[](querySize);
+            for (uint256 i = 0; i < querySize; i++) {
+                bidderBids[i] = getBidderTokenBid({
+                    contractAddress: contractAddress,
+                    tokenId: _erc721Market[contractAddress].tokenIdWithBid.at(
+                        i + from
+                    ),
+                    bidder: bidder
+                });
+            }
+        }
+    }
+
+    /**
+     * @dev See {TheeNFTMarketplace-numTokenWithBids}.
+     */
+    function numTokenWithBids(
+        address contractAddress
+    ) public view override returns (uint256) {
+        return _erc721Market[contractAddress].tokenIdWithBid.length();
     }
 
     /**

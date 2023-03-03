@@ -148,7 +148,7 @@ exports.loginUser = async (req) => {
     const { email, password } = req.body;
     console.log(req.body);
     let query = {
-      email: 'test@test.com ',
+      email: 'test@gmail.com',
     };
     const user = await this.loginData(query);
     console.log(user);

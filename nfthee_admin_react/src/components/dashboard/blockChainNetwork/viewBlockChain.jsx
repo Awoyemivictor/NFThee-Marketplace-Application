@@ -3,6 +3,7 @@ import Breadcrumb from '../../common/breadcrumb.component';
 import { useLocation,useHistory } from 'react-router';
 import axios from 'axios';
 import moment from 'moment';
+import instance from '../../../axios';
 
 import {
 	Container,
@@ -39,8 +40,8 @@ const viewBlockChain = () => {
 
 	
 	React.useEffect(() => {
-		authAxios
-			.get(`http://localhost:8004/api/getBlockchain?id=${blockchain_id}`)
+		instance
+			.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getBlockchain?id=${blockchain_id}`)
 			.then((ress) => {
 				console.log(ress.data);
 				if (ress.data) {

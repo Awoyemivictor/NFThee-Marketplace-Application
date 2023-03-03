@@ -143,7 +143,7 @@ const ItemSingle = () => {
     // };
     useEffect(() => {
         // if (loading) {
-        axios.get(`http://192.168.1.147:8002/api/getItem/read?id=${_ID}`).then((res) => {
+        axios.get(`${process.env.REACT_APP_RENDER_BASE_URL}/api/getItem/read?id=${_ID}`).then((res) => {
             if (res.data) {
                 setdata(res.data.data);
                 console.log("hsvbadjhvsdjhbahiuegdibsdjkb",res.data);
@@ -234,7 +234,7 @@ const ItemSingle = () => {
                                                     Created At:
                                                 </h6>
                                                 <div className="col-xl-5 col-sm-9 col-form-label text-left">
-                                                    <p>{moment(data.createdAt).format('DD/MM/YYYY')}</p>
+                                                B                 <p>{moment(data.createdAt).format('DD/MM/YYYY')}</p>
                                                 </div>
                                             </FormGroup>
                                             <FormGroup className="form-row">

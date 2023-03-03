@@ -116,7 +116,7 @@ const Categories = () => {
 		const next = [...data];
 		const removedItems = next.splice(next.indexOf(e), 1);
 		const deleteCarModel = authAxios.get(
-			`http://44.198.133.66:8004/api/deleteCategory?catId=${e._id}`
+			`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/deleteCategory?catId=${e._id}`
 		);
 		setdata(next.filter((item) => item._id !== e._id));
 	};

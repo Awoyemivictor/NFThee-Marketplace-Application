@@ -32,6 +32,7 @@ exports.index = async (req) => {
           },
         }
       : {};
+      
     //search by category
 
     let result = await nftIteams

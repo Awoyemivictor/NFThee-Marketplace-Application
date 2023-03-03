@@ -82,7 +82,7 @@ export const insertHistory = async () => {
     Authorization: 'Bearer my-token',
   }; //*  pass this header along with post request
   await instance
-    .post(BASE_URL + '/insertHistory')
+    .post( '/api/insertHistory')
     .then((response) => {
       return console.log(response);
     })
@@ -94,10 +94,11 @@ export const insertHistory = async () => {
 // export const listNFT
 
 export const getCollection = async (result) => {
+  console.log(result.name)
   let requestOptions = { name: result.name };
 
   let datas = await instance
-    .post(BASE_URL + '/getSingleCollectionByName', requestOptions)
+    .post('/api/getSingleCollectionByName', requestOptions)
     .then((response) => {
       let data = response.data.data.contract_address;
       console.log(data);

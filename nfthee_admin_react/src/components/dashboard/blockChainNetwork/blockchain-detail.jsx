@@ -200,7 +200,7 @@ const blockchainDetails = () => {
 		console.log('onViewBlog=>', e);
 		console.log('onViewBlogId=>', e._id);
 		history.push(
-			`${process.env.PUBLIC_URL}/dashboard/viewBlockChain?blockchainId=${e._id}`
+			`/dashboard/viewBlockChain?blockchainId=${e._id}`
 		);
 	};
 
@@ -210,7 +210,7 @@ const blockchainDetails = () => {
 	// };
 
 	const openTaskWrapper = () => {
-		history.push(`${process.env.PUBLIC_URL}/dashboard/addBlockChain`);
+		history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/dashboard/addBlockChain`);
 	};
 
 	return (

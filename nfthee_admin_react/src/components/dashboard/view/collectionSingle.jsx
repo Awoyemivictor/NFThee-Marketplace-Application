@@ -32,7 +32,7 @@ const CollectionSingle = () => {
 
     useEffect(() => {
         
-        axios.get(`http://192.168.1.147:8002/api/getCollection/read?id=${_ID}`)
+        axios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCollection/read?id=${_ID}`)
             .then(response => setCollection(response.data.data))
     }, [])        
     return (

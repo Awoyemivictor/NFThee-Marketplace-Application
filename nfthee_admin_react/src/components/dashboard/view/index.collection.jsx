@@ -18,7 +18,7 @@ const CollectionDetail = () => {
 
     const [data, setdata] = useState([]);
     useEffect(() => {
-        axios.get(`http://192.168.1.147:8002/api/getAll`)
+        axios.get(`https://lnfthee-backend.onrender.com/api/getAll`)
              .then(response => setdata(response.data.data))
              .finally(() => setLoading(false))
      
@@ -204,14 +204,14 @@ const completeTask=(collections)=>{
     setLoading(true)
  
 console.log(collections._id)
-axios.get(`http://192.168.1.147:8002/api/getCollection/update?id=${collections._id}`)
+axios.get(`https://lnfthee-backend.onrender.com/api/getCollection/update?id=${collections._id}`)
 .then(response => console.log(response.data.data))
 .finally(() => setLoading(false))
 }
 
 
     const handleViewCollection = collections => {
-        history.push(`${process.env.PUBLIC_URL}/dashboard/view/collectionSingle?id=${collections._id}`, {
+        history.push(`/dashboard/view/collectionSingle?id=${collections._id}`, {
             state: {
                 _id: collections._id
             }
@@ -227,7 +227,7 @@ axios.get(`http://192.168.1.147:8002/api/getCollection/update?id=${collections._
             showCancelButton: true,
         }).then(function (result) {
             if (result.value) {
-                instance.post(`/api/deleteCollection/?id=${collections._id}`)
+                axios.post(`/api/deleteCollection/?id=${collections._id}`)
                     .then(response => console.info(response.data.data))
             }
         });

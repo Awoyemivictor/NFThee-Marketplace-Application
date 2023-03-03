@@ -93,7 +93,7 @@ const BlogEdit = (props) => {
 
   function getData() {
     authAxios
-      .get(` http://localhost:8004/api/singleBlog?id=${blog_id}`)
+      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/singleBlog?id=${blog_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {
@@ -133,7 +133,7 @@ const BlogEdit = (props) => {
 	formdata.append("blogId",blog_id)
 
     authAxios
-      .post("http://44.198.133.66:8004/api/blog/modify", formdata, {
+      .post(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/blog/modify`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
