@@ -129,7 +129,7 @@ export const ModalBuynft = ({onRequestClose,collectionData}) => {
                                     <td>
                                         <div class="price-detail">
                                             <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1"
-                                                     style={{fontSize: "18px"}}/>{collectionData?.putOnMarketplace?.price}</h5>
+                                                     style={{fontSize: "18px"}}/>{collectionData?.putOnMarketplace?.price||''}</h5>
                                             <h6>$52547.30</h6>
                                         </div>
                                     </td>
