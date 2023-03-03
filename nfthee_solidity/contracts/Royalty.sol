@@ -26,11 +26,11 @@ contract Royalty is IRoyalty, Ownable {
             return _collectionRoyalty[contractAddress];
         }
 
-        address erc721Owner = _nftOwner(contractAddress);
-        if (erc721Owner != address(0)) {
+        address nftOwner = _nftOwner(contractAddress);
+        if (nftOwner != address(0)) {
             return
                 CollectionRoyalty({
-                    recipient: erc721Owner,
+                    recipient: nftOwner,
                     feeFraction: defaultRoyaltyFraction,
                     setBy: address(0)
                 });

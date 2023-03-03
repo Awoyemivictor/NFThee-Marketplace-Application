@@ -1,0 +1,282 @@
+
+{
+    "banner": {
+    "banner_text1":"Entdecke",
+    "banner_text2":"Seltene Digitale",
+    "banner_text3":"Arts und ",
+    "banner_text4":"sammle NFTs"
+    },
+     
+    "navbar": { 
+    "Search":"Suchen",
+    "Explore":"Erkunden",     
+    "Activities":"Aktivitäten",     
+    "How_It_Works":"Wie funktioniert es",     
+    "Community":"Gemeinschaft",     
+    "Create":"Erstellen",    
+    "All_NFTs":"Alle NFTs",    
+    "Ethereum":"Ethereum",    
+    "Tezoz":"Tezos",    
+    "Flow":"Flow",
+    "Rewards":"Belohnung"
+    },
+    "CreativeArtCollection": { 
+    "Creative Art Collection":"Kreative Kunstsammlung",
+    "Created By":"Erstellt von ",
+    "Current Bid":"Aktuelles Angebot",
+    "New Drops": "Neue Drops",
+    "Hope": "Hope",
+    "Hoping": "Hoping",
+    "Box": "Box",
+    "Boxhead": "Boxhead",
+    "Constsub": "Constsub",
+    "Subjective Consistency": "Subjektive Konsistenz",
+    "LIQ": "LIQ",
+    "Liquidities": "Liquidität",
+    "Give me Hope": "Gib mir Hoffnung",
+    "Top Categories": "Spitzenkategorien",
+     "Unit": "Einheit",
+    "Abstract Painting": "Abstrakte Malerei",
+    "Modern Art": "Moderne Kunst",
+    "Top Collections Over Last": "Top-Sammlungen der letzten", 
+    "Days": "Tage",
+    "See All":"Alle sehen", 
+    "top_sellers":"Top-Verkäufer",
+    "Live Auctions": "Live-Auktionen",
+    "Explore More": "Mehr erforschen",
+    "Walking on the Air":"Auf der Luft wandeln"
+    },
+    "Createandsell":{
+    "Create and sell your NFTs":"Erstelle und verkaufe deine NFTs",
+    "Set up your wallet":"Sobald du die Wallet deiner Wahl eingerichtet hast, verbindest du sie mit NFThee, indem du auf das Wallet-Symbol in der oberen rechten Ecke klickst. Erfahre mehr über die Wallets, <strong> die wir unterstützen </strong> .",
+    "Set up your wallet title":"Erstelle dein Wallet",
+    "Create Your Collection title":"Erstelle deine Sammlung",
+    "Create Your Collection":"Klicke <strong> auf Meine Sammlungen </strong>  und richte deine Sammlung ein. Füge soziale Links, eine Beschreibung, Profil- und Banner-Bilder hinzu und lege eine Zweitverkaufsgebühr fest.",
+    "Add Your Nfts title":"Deine Nfts hinzufügen",
+    "Add Your Nfts":"Lade dein Werk (Bild, Video, Audio oder 3D-Kunst) hoch, füge einen Titel und eine Beschreibung hinzu und passe deine NFTs mit Eigenschaften, Statistiken und freischaltbaren Inhalten an.",
+    "List Them For Sale title":"Auflisten zum Verkauf",
+    "List Them For Sale":"Du hast die Wahl zwischen Auktionen, Festpreisangeboten und degressiven Preisangeboten. Du wählst aus, wie du deine NFTs verkaufen willst, und wir helfen dir, sie zu verkaufen!"
+    },
+    "footer":{
+    "Never Miss A Drop":"Nie mehr einen Drop verpassen",
+    "Enter your email address":"Gib deine E-Mail Adresse ein",
+    "Subscribe":"Abonnieren",
+    "Join The Community":"Tritt der Gemeinschaft bei",
+    "MarketPlace":"Marktplatz",
+    "My Account": "Mein Konto",
+    "Community1": "Gemeinschaft",
+    "Company": "Firma",
+    "NFThee Apps": "NFThee Apps",
+    "footer_content": "'Thee' ist niederländisch für 'Tee', also lehn dich zurück und entspann dich. NFThee wird von und für die Gemeinschaft geschaffen. Deshalb bemühen wir uns um niedrige Kosten und hohe Zugänglichkeit.",
+    "copy rights" :"NFThee, Inc. Alle Rechte vorbehalten.", 
+    "Terms & Conditions": "Allgemeine Geschäftsbedingungen",
+    "Privacy Policy": "Datenschutzrichtlinie", 
+
+    "Art":"Kunst",
+    "Collectibles":"Sammlerstücke",
+    "Domain Names":"Domänennamen",
+    "Music":"Musik",
+    "Photography":"Fotografie",
+    "Sports":"Sport",
+    "Trading Cards":"Sammelkarten",
+    "Utility":"Dienstprogramm",
+    "Virtual Words":"Virtuelle Worte",
+    "Profile":"Profil",
+    "Favorite":"Favorit",
+    "My Collection":"Meine Sammlung",
+    "Settings":"Einstellungen",
+    "Notifications":"Benachrichtigungen",
+    "Help Desk":"Help Desk",
+    "Blog":"Blog",
+    "News Letter":"Newsbrief",
+    "Become A Partner":"Partner werden",
+    "Suggestions":"Vorschläge",
+    "About":"Über",
+    "Careers":"Karriere",
+    "Download the NFThee app. and discover special NFTs anytime, anywhere":"Lade die NFThee-App herunter und entdecke jederzeit und überall besondere NFTs"
+    },
+    
+    "explore":{
+        "Explore Collections" : "Sammlungen erkunden",
+        "Metroverse" : "Metroverse",
+        "By Metroverse" : "Von Metroverse",
+        "Metroverse cardtext" : "Metroverse ist ein NFT-Strategiespiel mit Landhandel auf Ethereum. Sammle, tausche und setze deine Stadtblöcke ein, um den $MET Utility Token zu verdienen. ",
+        
+        "Back":"Zurück",
+        "items ":"Gegenstände ",
+        "owners":"Besitzer",
+        "floor price":"Mindestpreis",
+        "Volume Traded":"Gehandeltes Volumen",
+        "Metroverse_title":"Metroverse ist ein NFT-Strategiespiel auf Ethereum: Sammle, tausche und setze deine Stadtblöcke ein, um die $MET zu verdienen.  Colecciona, comercia y apuesta tus bloques de ciudad para ganar el token de utilidad $MET.",
+        "Utility Token":"Utility Token",
+        "Like":"Gefällt mir",
+        "Follow":"Folge",
+        "item":"Gegenstand",
+        "Activity":"Aktivität",
+        "Showing":"Zeigen",
+        "of ":"von ",
+        "result":"Ergebnis",
+        "sort by":"sortieren nach",
+        "Place Bid":"Gebot abgeben",
+        
+
+        "Filter":"filtern",
+        "Trending":"Trending ",
+        "top":"top",
+        "Art":"Kunst",
+        "Domain Name":"Domain Name",
+        "Music":"Musik",
+        "Photography":"Fotografie",
+        "Sports":"Sport",
+
+        "Single Items":"Einzelne Artikel",
+        "All items":"Alle Artikel",
+        "Bundles":"Bündel",
+        "Price":"Preis",
+        "From ":"Von ",
+        "to":"zu",
+        "Chains":"Ketten",
+        "On Sale IN":"Im Verkauf IN",
+        "Load More":"Mehr laden",
+
+        "Quantity":"Menge",
+        "from":"von",
+        "to":"zu",
+        "time":"Zeit",
+        "sale":"Verkauf",
+        "Event type":"Veranstaltungstyp",
+        "listing":"Angebot",
+        "bids":"Gebote",
+        "sales":"Verkäufe",
+        "traders":"Händler",
+        "Categories":"Kategorien",
+        "seconds ago":"vor Sekunden",
+        "series":"Serie",
+        "Day":"Tag",
+        "Avg Price":"Durchschnittspreis",
+        "last":"letzte"  
+    }, 
+    "product":{
+        "Back":"Zurück",
+        "The Fantasy Flower Illustration":"Die Fantasie Blumen Illustration",
+        "Token id":"Token ID",
+        "Token standard":"Token-Standard",
+        "Blockchain":"Blockchain",
+        "Description":"Beschreibung",
+        "about project":"über das Projekt",
+        "Details":"Details",
+        "Attributes":"Attribute",
+        "detail_description":"Dieses Gemälde ist komplett mit Ölfarbe gemalt und zeigt einen Mann mit grauem Hut, du bist komplett mit Ölfarbe gemalt und zeigst ein einzigartiges Bild. ",
+        "Minted By":"Gemalt von",
+        "Highest Bid By":"Höchstgebot von",
+        "Buy now":"Jetzt kaufen",
+        "Make an offer":"Ein Angebot machen",
+        "Buy Card":"Karte kaufen",
+        "Listing":"Auflistung",
+        "Offering":"Biete",
+        "Price":"Preis",
+        "USD Price":"USD Preis",
+        "Expiration":"Verfall",
+        "from":"von",
+        "Floor Difference":"Boden Differenz",
+        "Item Activity":"Artikel Aktivität",
+        "Lowest Listing":"Niedrigste Notierung",
+        "Suggested Price":"Empfohlener Preis",
+        "Highest Sale":"Höchster Verkauf",
+        "Total Sales":"Gesamtverkäufe",
+        "Filter By":"Filtern nach",
+        "Select":"Wähle",
+        "More from this collection":"Mehr aus dieser Kollektion",
+        "Balance":"Guthaben",
+        "Offer Expiration":"Ablauf des Angebots",
+        "By Checking This Box, I Agree To NFTHEE Terms Of Service":"Durch Ankreuzen dieses Kästchens stimme ich den NFTHEE-Nutzungsbedingungen zu Terms Of Service",
+        "Make Offer":"Angebot machen",
+        "Convert ETH":"ETH umwandeln",
+        "Balance":"Guthaben",
+        "share":"teilen",
+        "report":"melden",
+        "website":"Website",
+        "amount":"Betrag"
+        },
+        "about":{
+            "about_content":"Das NFThee-Team ist ein Team aus den Gründern und Freunden Ronald, Rick und Jeroen sowie sechs leidenschaftlichen Entwicklern und Designern mit Interesse an Kryptowährungen. Als wir die Technologie hinter den NFTs entdeckten, waren wir sehr beeindruckt und sahen sofort viele Möglichkeiten vor uns. Unser Ziel war es, einen kostengünstigen Marktplatz für die NFT-Community zu schaffen. Unser innovativer Ansatz führt uns in eine Zukunft, in der wir hoffen, unsere eigene Thee-Coin zu entwickeln und eine erfolgreiche Zusammenarbeit mit wegweisenden und inspirierenden Partnern zu haben. Unser Ziel ist es, NFThee zu einem festen Begriff in der NFT-Community zu machen. Wir sind fest entschlossen und bündeln unsere Kräfte, um dieses Ziel zu verwirklichen!<br/><br/> Hast du irgendwelche Fragen an uns oder bist du an einer Zusammenarbeit interessiert? Bitte zögere nicht, uns unter <strong>support@nfthee.com </strong>zu kontaktieren."
+        },
+        "launching":{
+            "To all NFT Artists, collectors, enthusiasts":"An alle NFT-Künstler, Sammler und Enthusiasten.",
+            "NFThee is set to become the most user friendly":"NFThee ist auf dem Weg, der benutzerfreundlichste Marktplatz mit einer weltweiten Community zu werden.",  
+            "First 1000 verified":"Die ersten 1000 verifizierten Sammlungen/Projekte erhalten einen Bonus (1% niedrigere Gebühr, zusätzliche kostenlose Premium-Präsenz auf der Website und Premium-Standorte usw.)",  
+            "And the  first 10.000":"Und die ersten 10.000 Anmeldungen erhalten einen Bonus von 100 unserer Thee -Token",            
+            "Stay Tuned":"Bleib auf dem Laufenden ",
+            "Most important notices":"Wichtigste Hinweise ",
+          
+            "Only 2% fee":"Nur 2% Gebühr  ", 
+            "that same fee will go back":"0,5 % derselben Gebühr fließen zurück <br/>  in unser  Staking-Community-Token",
+            "Our own Thee token" : "Unser eigener Thee token",
+            "All languages available":"Alle Sprachen <br/> verfügbar",
+            "Multi wallets supported":"Mehrere Wallets <br/> werden unterstützt",
+            "Multi chains (ETH, SOL, BNB, Polygon, Harmony)":"Mehrere Chains (ETH, SOL, <br/> BNB, Polygon, Harmony)",
+            "Gas-Free":"Gas-Frei",
+            "Android and Apple app":"Android- und Apple-App",
+            "Active support team to delete scams and answer questions":"Aktives Support-Team, um Scams zu <br/> löschen und  Fragen zu beantworten",
+            "Easy collection upload":"Einfaches Hochladen <br/> von Sammlungen ", 
+            "Pay with card":"Bezahlen mit Karte",  
+            "Rewards system":"Belohnungssystem",
+            "Multi listing":"Multi-Listing",
+            "2 layer":"2 Layer",
+            "Minting? No problem":"Münzen prägen? Kein Problem",
+           
+           
+            "Count down with us on www.nfthee.com":"Zähle mit uns auf ",
+            "And make sure you will be among the first 1000 to take":"Und sichere dir, dass du zu den ersten 1000 gehörst, die von den Extras profitieren. ", 
+            "Interested? Follow us on":"Interessiert? Dann folge uns auf",
+            
+          "Days":"Tage",
+          "Min":"Minute",
+          "Hours":"Std",
+          "Sec":"Zweite",
+          "Early access":"Früher Zugang",
+          "Enter Your Email Address":"Geben sie ihre E-Mailadresse ein",
+          "send":"Schicken",
+
+          "email_requird":"E-Mail ist erforderlich",
+          "invalid_email":"ungültige E-Mail-Adresse"
+          } 
+} 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

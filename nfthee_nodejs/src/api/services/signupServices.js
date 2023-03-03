@@ -106,7 +106,7 @@ exports.loginOne = async (req) => {
 exports.register = async (req, res) => {
   try {
     const { email_address} = req.body;
-    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "2h" });
+    const token=jwt.sign(req.body, credentials.SIGNUP_TOKEN, { expiresIn: "60" });
     //  token=signuptoken;
     console.log('token',token)
     const upadate_data = {
@@ -148,7 +148,7 @@ exports.register = async (req, res) => {
         data: null,
       };
     }
-0  } catch (err) {
+  } catch (err) {
     return err;
   }
 };
@@ -232,8 +232,8 @@ exports.userCollections = async (req, res) => {
     let userId = req.query.id;
     // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
     // const user = await createCollection.find({ created_by: userId });
-    // const user = await createCollection.find({ created_by: userId , status:'verified'}); 
-    const user = await createCollection.find({ created_by: userId });
+    const user = await createCollection.find({ created_by: userId , status:'verified'}); 
+    // const user = await createCollection.find({ created_by: userId });
     // console.log(user)
     if (user) {
       return {

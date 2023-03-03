@@ -57,7 +57,7 @@ const updateBlockchain = () => {
 
   function getData() {
     authAxios
-      .get(` http://44.198.133.66:8004/api/getBlockchain?id=${blockchain_id}`)
+      .get(` ${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getBlockchain?id=${blockchain_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {
@@ -90,7 +90,7 @@ const updateBlockchain = () => {
     console.log(body);
 
     authAxios
-      .post(`http://localhost:8004/api/editBlockchain`, body, {
+      .post(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/editBlockchain`, body, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

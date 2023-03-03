@@ -1,0 +1,246 @@
+
+{
+    "banner": {
+    "banner_text1":"اكتشف الفن ",
+    "banner_text2":"الرقمي النادر واجمع",
+    "banner_text3":"الرموز غير القابلة",
+    "banner_text4":"للاستبدال"
+    }, 
+     
+    "navbar": { 
+    "Search":"ابحث",
+    "Explore":"استكشف",     
+    "Activities":"الأنشطة",     
+    "How_It_Works":"كيف تعمل",     
+    "Community":"المجتمع",     
+    "Create":"إنشاء",    
+    "All_NFTs":"جميع الرموز غير القابلة للاستبدال",    
+    "Ethereum":"الإيثريوم",    
+    "Tezoz":"تيزوز",    
+    "Flow":"التدفق",
+    "Rewards":"المكافآت"
+    },
+     
+    "CreativeArtCollection": { 
+    "Creative Art Collection":"مجموعة الفن الإبداعي",
+    "Created By":" تم إنشاؤها بواسطة  ",
+    "Current Bid":"العرض الحالي",
+    "New Drops": "عمليات التداول جديدة",
+    "Hope": "الأمل",
+    "Hoping": "الأمل",
+    "Box": "صندوق",
+    "Boxhead": "بوكسهيد",
+    "Constsub": "كونستسوب",
+    "Subjective Consistency": "الاتساق الذاتي",
+    "LIQ": "السيولة",
+    "Liquidities": "السيولة",
+    "Give me Hope": "أعطني الأمل",
+    "Top Categories": "أعلى الفئات",
+     "Unit": " الوحدة",
+    "Abstract Painting": "لوحة تجريدية",
+    "Modern Art": "الفن الحديث",
+    "Top Collections Over Last": "أفضل المجموعات خلال الأيام الماضية ", 
+    "Days": "أيام", 
+    "See All": "مشاهدة الكل",
+    "top_sellers":"الأكثر مبيعا ", 
+    "Live Auctions":"المزادات الحية",
+    "Explore More": "اكتشف المزيد", 
+    "Walking on the Air":"المشي على الهواء"
+    }, 
+    
+    "Createandsell":{
+    "Create and sell your NFTs":"إنشاء وبيع رموزك غير القابلة للاستبدال",
+    "Set up your wallet title":"قم بإعداد محفظتك",
+    "Set up your wallet":"بمجرد إعدادك لمحفظتك التي تختارها، قم بربطها بتطبيق NFThee بالنقر فوق رمز المحفظة في الزاوية اليمنى العليا. تعرف على المحافظ التي ندعمها.",
+    "Create Your Collection title":"إنشاء مجموعتك",
+    "Create Your Collection":"انقر فوق مجموعاتي ثم قم بإعداد مجموعتك. إضافة روابط المواقع الاجتماعية والصور والبروفايل وتحديد رسوم المبيعات الثانوية.",
+    "Add Your Nfts title":"أضف رموزك غير القابلة للاستبدال",
+    "Add Your Nfts":"حمل عملك (الصورة والفيديو والصوت أو صورة ثلاثية الأبعاد)  ثم أضف العنوان والوصف وخصص الرموز غير القابلة للاستبدال مع الخصائص والإحصائيات والمحتوى غير القابل للقفل.",
+    "List Them For Sale title":"ضعهم في قائمة البيع ",
+    "List Them For Sale":"اختر بين المزادات وقوائم الأسعار الثابتة وقوائم الأسعار المتناقصة. اختر كيف تريد بيع رموزك غير القابلة للاستبدال الخاصة ونحن نساعدك على بيعها!"
+    },
+    
+    "footer":{
+    "Never Miss A Drop":"لا تفوت أي فرصة تداول ",
+    "Enter your email address":"أدخل عنوان بريدك الإلكتروني",
+    "Subscribe":"اشترك ",
+    "Join The Community":"انضم إلى المجتمع",
+    "MarketPlace":"السوق",
+    "My Account": "حسابي",
+    "Community1": "المجتمع",
+    "Company": "الشركة",
+    "NFThee Apps": "تطبيقات NFThee",
+    "footer_content": "'eehT باللغة الهولندية تعني الشاي' أي اجلس وابق مسترخيا.  تم إنشاء تطبيق NFThee من قبل المجتمع ولفائدة المجتمع. ولذلك نسعى جاهدين للحصول على تكاليف منخفضة وإمكانية وصول عالية.",
+    "copy rights" :"NFThee, Inc. جميع الحقوق محفوظة.", 
+    "Terms & Conditions": "الشروط والأحكام",
+    "Privacy Policy": "سياسة الخصوصية", 
+  
+    "Art":"الفن",
+    "Collectibles":"المقتنيات",
+    "Domain Names":" أسماء المجالات",
+    "Music":"الموسيقى",
+    "Photography":"التصوير الفوتوغرافي",
+    "Sports":"الرياضة",
+    "Trading Cards":"بطاقات التداول",
+    "Utility":"المرفق",
+    "Virtual Words":"كلمات افتراضية",
+    "Profile":"الملف الشخصي",
+    "Favorite":" المفضلة",
+    "My Collection":"مجموعتي",
+    "Settings":"الإعدادات",
+    "Notifications":"الإشعارات",
+    "Help Desk":"مكتب المساعدة",
+    "Blog":"المدونة",
+    "News Letter":"الرسالة الإخبارية",
+    "Become A Partner":"كن شريكا",
+    "Suggestions":" اقتراحات",
+    "About":"حول",
+    "Careers":"الوظائف",
+    "Download the NFThee app. and discover special NFTs anytime, anywhere":" حمل تطبيق NFThee واكتشف الرموز غير القابلة للاستبدال الخاصة في أي وقت ومن أي مكان"
+    },
+
+    "explore":{
+        "Explore Collections" : "استكشاف المجموعات",
+        "Metroverse" : "متروفيرس",
+        "By Metroverse" : "بواسطة متروفيرس",
+        "Metroverse cardtext" : "متروفيرس هي لعبة استراتيجية للتداول على إثيريوم. اجمع وتداول وارهن عمارات مدينتك لكسب عملة $MET الرمزية النفعية",
+        
+        "Back":"رجوع",
+        "items ":"العناصر ",
+        "owners":"المُلّاك",
+        "floor price":"سعر الطابق",
+        "Volume Traded":"حجم التداول",
+        "Metroverse_title":"متروفيرس هي لعبة استراتيجية للتداول على إثيريوم. اجمع وتداول وارهن عمارات مدينتك لكسب عملة $MET الرمزية النفعية",
+        "Utility Token":"العملة الرمزية المنفعية",
+        "Like":"إعجاب",
+        "Follow":"متابعة",
+        "item":"العنصر",
+        "Activity":"النشاط",
+        "Showing":"عرض",
+        "of ":"من ",
+        "result":"النتيجة",
+        "sort by":"الترتيب حسب",
+        "Place Bid":"وضع العرض",
+        
+
+        "Filter":"تصفية",
+        "Trending":"التوجه الشائع ",
+        "top":"الأعلى",
+        "Art":"الفن",
+        "Domain Name":"اسم المجال",
+        "Music":"الموسيقى",
+        "Photography":"التصوير الفوتوغرافي",
+        "Sports":"الرياضة",
+
+        "Single Items":"العناصر المنفردة",
+        "All items":"جميع العناصر",
+        "Bundles":"الباقات",
+        "Price":"السعر",
+        "From ":"من  ",
+        "to":"إلى",
+        "Chains":"السلاسل",
+        "On Sale IN":"للبيع في",
+        "Load More":"تحميل المزيد",
+
+        "Quantity":"الكمية",
+        "from":"من ",
+        "to":"إلى",
+        "time":"الوقت",
+        "sale":"البيع",
+        "Event type":"نوع الحدث",
+        "listing":"القائمة",
+        "bids":"العروض",
+        "sales":"المبيعات",
+        "traders":"المتداولون",
+        "Categories":"الفئات",
+        "seconds ago":"قبل ثوان",
+        "series":"المسلسلات",
+        "Day":"اليوم",
+        "Avg Price":"متوسط السعر",
+        "last":"الاخير"
+  
+    },
+    "about":{
+        "about_content":"The NFThee team consists of the initiators and friends Ronaldo, Rick, Jeroen and a passionate team of six developers and designers with an interest in cryptocurrency.When we discovered the technology behind NFTs, we were highly impressed and instantly envisioned a world of opportunities. Our goal was to create a low-fee marketplace for the NFT community. Our innovative approach moves us into a future where we hope to develop our very own Thee-coin and enjoy fruitful cooperation with leading-edge and inspiring partners. Our goal is to make NFThee a household name in the NFT community. We have our minds set and our forces bundled in order to make this goal a reality! <br/><br/> Do you have any questions for us or are you interested in working together? Please don't hesitate to contact us at support@nfthee.com"
+    },
+    "launching":{
+        "To all NFT Artists, collectors, enthusiasts":"إلى جميع فناني وجامعي ومحبي الرموز غير القابلة للاستبدال.",
+        "NFThee is set to become the most user friendly":"يستعد NTFhee ليصبح السوق الأكثر ملاءمة للمستخدمين في جميع أنحاء العالم.",  
+        "First 1000 verified":"ستحصل أول 1000 مجموعة / مشروع تم التحقق منه على مكافأة ، و 500 من الرموز المميزة لدينا ، والتعرض المجاني المتميز على موقعنا على الإنترنت والمواقع المتميزة في جميع أنحاء العالم.",  
+        "And the  first 10.000":"وسيحصل أول 10000 مشترك على مكافأة من 100 من رموز الشاي الخاصة بنا",  
+        "Stay Tuned":"ابقوا متابعين",
+        "Most important notices":"أهم المميزات",
+
+        "Only 2% fee":" 2 ٪ رسوم فقط ", 
+        "that same fee will go back":"سيتم إرجاع 0.5٪ من نفس <br/>الرسوم إلى رمز مجتمع <br/> Staking الخاص بنا",
+        "Our own Thee token" : "لدينا رمزنا الخاص بنا ",
+        "All languages available":" جميع اللغات <br /> المتاحة",
+        "Multi wallets supported":" دعم المحافظ المتعددة",
+        "Multi chains (ETH, SOL, BNB, Polygon, Harmony)":"متعدد الكتل (إيثيريوم ETH، سولانا SOL، <br/>  بينانس BNB، بوليجون ، هارموني)",
+        "Gas-Free":"بدون رسوم الغاز",
+        "Android and Apple app":" متوفر على تطبيقات <br/> أندرويد وآبل",
+        "Active support team to delete scams and answer questions":"فريق الدعم نشط لحذف محاولات الإحتيال <br/>  والإجابة عن الأسئلة",
+        "Easy collection upload": "من السهل تحميل المجموعات  ", 
+        "Pay with card":" الدفع بالبطاقة",   
+        "Rewards system":" نظام المكافآت",
+        "Multi listing":" متعدد القوائم",
+        "2 layer":" 2 طبقتان",
+        "Minting? No problem":" هل أنت مُعدن؟ لا مشكلة",     
+        
+        "Count down with us on www.nfthee.com":"ابدأ العد التنازلي معنا على ",
+        "And make sure you will be among the first 1000 to take":"واحرص أن تكون من بين أول 10.000 شخص للاستفادة من المزايا المجانية.", 
+        "Interested? Follow us on":"هل أنت مهتم؟ تابعنا على", 
+        "https://www.instagram.com/nfthee.io/":"https://www.instagram.com/nfthee.io/",
+        
+        "Days":"أيام",
+        "Min":"اللحظة",
+        "Hours":"ساعات",
+        "Sec":"ثانية",
+        "Early access":"الوصول المبكر",
+        "Enter Your Email Address":"أدخل عنوان بريدك الالكتروني ",
+        "send":"يرسل",
+
+        "email_requird":"البريد الالكتروني مطلوب",
+        "invalid_email":"عنوان البريد الإلكتروني غير صالح"
+      } 
+   
+
+} 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

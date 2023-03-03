@@ -38,7 +38,7 @@ const singleCategory = () => {
   });
   React.useEffect(() => {
     authAxios
-      .get(`http://44.198.133.66:8004/api/getCategory?id=${category_id}`)
+      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCategory?id=${category_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

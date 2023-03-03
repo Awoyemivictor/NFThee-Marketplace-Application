@@ -196,7 +196,7 @@ const singlePartner = () => {
   };
   useEffect(() => {
     // if (loading) {
-    authAxios.get(`http://localhost:8004/api/getPartner`).then((res) => {
+    authAxios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getPartner`).then((res) => {
       if (res.data) {
         setdata(res.data.data);
         console.log(res.data);

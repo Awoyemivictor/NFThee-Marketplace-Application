@@ -299,7 +299,7 @@ const ViewPartner = () => {
   });
   React.useEffect(() => {
     authAxios
-      .get(`http://localhost:8004/api/getPartner?id=${partner_id}`)
+      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}api/getPartner?id=${partner_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

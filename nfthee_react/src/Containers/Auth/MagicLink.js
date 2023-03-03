@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from "../../axios"
+import instance from "../../axios"
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
@@ -31,7 +31,7 @@ function MagicLink() {
     }
     else {
       setLoading(true)
-      axios.get('/api/customers/sendMagicLink/' + inputField.email + '')
+      instance.get('/api/customers/sendMagicLink/' + inputField.email + '')
         .then(response => {
           console.log(response);
           if (response) {
