@@ -16,19 +16,19 @@ import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { getUserAddress } from '../../Config/constants';
-import { getUnixTimeAfterDays } from '../../Config/helpers'
+import { getUnixTimeAfterDays } from '../../Config/helpers';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
-  const history = useHistory()
-  const [reset, setReset] = useState(false)
+  const history = useHistory();
+  const [reset, setReset] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   if (userId === null) {
-    history.push("/")
+    history.push('/');
   }
 
   const Blockchains = [
@@ -209,7 +209,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: userId?._id || "",
+    created_by: userId?._id || '',
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -248,7 +248,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: userId?._id || "",
+    created_by: userId?._id || '',
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -270,7 +270,7 @@ const CreateNewItem = () => {
           });
           console.info(arr);
           setBlockchains(arr);
-          setReset(false)
+          setReset(false);
         });
     };
 
@@ -287,8 +287,7 @@ const CreateNewItem = () => {
         });
         console.info(arr);
         setCategories(arr);
-        setReset(false)
-
+        setReset(false);
       });
     };
 
@@ -308,122 +307,102 @@ const CreateNewItem = () => {
     });
   };
 
-  const  handleItemChange = (e) => {
+  const handleItemChange = (e) => {
     setItemData({
       ...itemData,
       [e.target.name]: e.target.value,
     });
-    if (e.target.value === "single") {
-      setItemData(current => {
+    if (e.target.value === 'single') {
+      setItemData((current) => {
         // 👇️ remove the salary key from an object
         const { amount, ...rest } = current;
 
         return rest;
-      })
+      });
     }
 
-      // });
+    // });
+  };
+
+  const inputRef = useRef(null);
+  const bannerRef = useRef(null);
+
+  const validateItemInputs = () => {
+    if (itemData.name === '' || itemData.name.length > 3) {
+      setItemValidation('was-validated');
+      //  window.scrollTo(0, 0)
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (itemData.designation === '' || itemData.designation.length > 3) {
+      setItemValidation('was-validated');
+      // window.scrollTo(0, 0)
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (itemData.about === '') {
+      setItemValidation('was-validated');
+      // window.scrollTo(0, 0)
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (itemData.putOnMarketplace.price === '' || null) {
+      setItemValidation('was-validated');
+      // window.scrollTo(0, 0)
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (itemData.chooseBlockchain === '' || null) {
+      toast.error('select BlockChain');
     }
 
-  const inputRef = useRef(null)
-  const bannerRef=useRef(null)
+    if (itemData.chooseCollection === '' || null) {
+      toast.error('select Collection');
+    }
 
-const validateItemInputs=()=>{
-  if(itemData.name===""||itemData.name.length >3){
-   setItemValidation('was-validated')
-  //  window.scrollTo(0, 0)
-  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  if(itemData.designation===""||itemData.designation.length >3){
-    setItemValidation('was-validated')
-    // window.scrollTo(0, 0)
-  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(itemData.about===""){
-    setItemValidation('was-validated')
-    // window.scrollTo(0, 0)
-  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   } 
-   if(itemData.putOnMarketplace.price===""||null){
-    setItemValidation('was-validated')
-    // window.scrollTo(0, 0)
-  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if (itemData.chooseBlockchain===''||null){
-    toast.error('select BlockChain')
-   }
-  
-   if (itemData.chooseCollection===''||null){
-    toast.error('select Collection')
-
-   }
- 
     if (Object.keys(itemData.uploadFile).length === 0) {
-    toast.error('Please Upload Image')
-
-   }
-  
-
-}
-const validateCollectionInputs=()=>{
- 
-  if(collectionData.name===""||collectionData.name.length >3){
-    setCollectionValidation('was-validated')
-    window.scrollTo(0, 0)
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.symbol===""){
-    setCollectionValidation('was-validated')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.description===""){
-    setCollectionValidation('was-validated')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.creator_earnings===null||''){
-    setCollectionValidation('was-validated')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.payment_token===''|null){
-    setCollectionValidation('was-validated')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.logo_image===""){
-    toast.error('Please Upload Logo Image')
-    bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.banner_image===""){
-    toast.error('Please Upload Banner Image')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-
-   }
-   if(collectionData.featured_image===""){
-    toast.error('Please Upload Featured Image')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-
-   }
-   if(collectionData.category===""){
-    toast.error('Please Select Category')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-   if(collectionData.blockchain===""){
-    toast.error('Please Select Blockchain')
-  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-   }
-}
+      toast.error('Please Upload Image');
+    }
+  };
+  const validateCollectionInputs = () => {
+    if (collectionData.name === '' || collectionData.name.length > 3) {
+      setCollectionValidation('was-validated');
+      window.scrollTo(0, 0);
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.symbol === '') {
+      setCollectionValidation('was-validated');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.description === '') {
+      setCollectionValidation('was-validated');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.creator_earnings === null || '') {
+      setCollectionValidation('was-validated');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if ((collectionData.payment_token === '') | null) {
+      setCollectionValidation('was-validated');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.logo_image === '') {
+      toast.error('Please Upload Logo Image');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.banner_image === '') {
+      toast.error('Please Upload Banner Image');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.featured_image === '') {
+      toast.error('Please Upload Featured Image');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.category === '') {
+      toast.error('Please Select Category');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (collectionData.blockchain === '') {
+      toast.error('Please Select Blockchain');
+      bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
@@ -433,21 +412,21 @@ const validateCollectionInputs=()=>{
     const fetchData = async () => {
       // console.log(data._id);
       const arr = [];
-      await
-        instance
-          .get(`/api/userCollections?id=${userId._id || ""}`).then((response) => {
-            let result = response.data.data;
-            result.map((collection) => {
-              // console.info(collection)
-              arr.push({
-                value: collection.name,
-                label: collection.name,
-                category: collection.category,
-              });
+      await instance
+        .get(`/api/userCollections?id=${userId._id || ''}`)
+        .then((response) => {
+          let result = response.data.data;
+          result.map((collection) => {
+            // console.info(collection)
+            arr.push({
+              value: collection.name,
+              label: collection.name,
+              category: collection.category,
             });
-            console.log(arr);
-            setCollections(arr);
           });
+          console.log(arr);
+          setCollections(arr);
+        });
     };
     fetchData();
   }, []);
@@ -488,13 +467,13 @@ const validateCollectionInputs=()=>{
   };
 
   const increment = (id) => id + 1;
-  const timeAfterDays = getUnixTimeAfterDays(12)
+  const timeAfterDays = getUnixTimeAfterDays(12);
 
   const handleSubmitNewCollection = async (e) => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
-    e.preventDefault()
-    validateCollectionInputs()
+    e.preventDefault();
+    validateCollectionInputs();
 
     const creatorAddress = await getUserAddress();
     console.log(creatorAddress[0]);
@@ -508,10 +487,10 @@ const validateCollectionInputs=()=>{
       collectionData.creator_earnings
     );
     let chooseType;
-    if (typeof collectionData.chooseType === "string") {
+    if (typeof collectionData.chooseType === 'string') {
       chooseType = parseInt(collectionData.chooseType);
-    } else chooseType = collectionData.chooseType
-    console.log({ chooseType })
+    } else chooseType = collectionData.chooseType;
+    console.log({ chooseType });
     const contractAddress = await handleCollectionCreation(
       collectionData.blockchain,
       chooseType,
@@ -526,11 +505,13 @@ const validateCollectionInputs=()=>{
     // .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
-    if (contractAddress.length === 42  &&collectionData.name&&
-      collectionData.symbol&&
-      collectionData.blockchain&&
-      collectionData.chooseType) {
-
+    if (
+      contractAddress.length === 42 &&
+      collectionData.name &&
+      collectionData.symbol &&
+      collectionData.blockchain &&
+      collectionData.chooseType
+    ) {
       const formData = new FormData();
       formData.append('name', collectionData.name);
       formData.append('symbol', collectionData.symbol);
@@ -604,7 +585,7 @@ const validateCollectionInputs=()=>{
               medium: '',
               telegram: '',
               creator_earnings: '',
-              created_by: userId._id || "",
+              created_by: userId._id || '',
               blockchain: '',
               payment_token: '',
               display_theme: '',
@@ -612,13 +593,13 @@ const validateCollectionInputs=()=>{
             }),
             setLogoImage(null),
             setBannerImage(null),
-            setFeaturedImage(null),
+            setFeaturedImage(null)
 
             // mySelectRef.current.select=""
           );
-          setBlockchains([])
-          setCategories([])
-          setReset(true)
+          setBlockchains([]);
+          setCategories([]);
+          setReset(true);
         })
         .catch((err) => {
           Swal.fire({
@@ -677,11 +658,12 @@ const validateCollectionInputs=()=>{
   //     });
   //   }, false);
   // })();
-  const [validationItem,setItemValidation]=useState('needs-validated')
-  const [validationCollection,setCollectionValidation]=useState('needs-validated')
+  const [validationItem, setItemValidation] = useState('needs-validated');
+  const [validationCollection, setCollectionValidation] =
+    useState('needs-validated');
   const handleSubmitNewItem = async (e) => {
-    e.preventDefault()
-    validateItemInputs()
+    e.preventDefault();
+    validateItemInputs();
     let data = {};
     switch (activeTab) {
       case 0:
@@ -697,9 +679,9 @@ const validateCollectionInputs=()=>{
         break;
     }
     const post = itemData;
-   
+
     post.putOnMarketplace = data;
-    if (post.chooseType === "single") {
+    if (post.chooseType === 'single') {
       post.amount = 1;
     }
     console.log(activeTab);
@@ -713,9 +695,17 @@ const validateCollectionInputs=()=>{
       itemData.chooseType,
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
-    console.log({ tokenId }, { collectionAddress }, { res },{post});
-    if (tokenId && collectionAddress && res &&itemData.name&&itemData.about&&itemData.chooseCollection&&itemData.chooseBlockchain&&itemData.uploadFile) {
-
+    console.log({ tokenId }, { collectionAddress }, { res }, { post });
+    if (
+      tokenId &&
+      collectionAddress &&
+      res &&
+      itemData.name &&
+      itemData.about &&
+      itemData.chooseCollection &&
+      itemData.chooseBlockchain &&
+      itemData.uploadFile
+    ) {
       post.tokenId = tokenId;
       post.nft_quantity = 1;
       let result;
@@ -729,7 +719,7 @@ const validateCollectionInputs=()=>{
             showConfirmButton: false,
             timer: 1500,
           });
-          result = response
+          result = response;
         })
         .catch((err) => {
           Swal.fire({
@@ -740,12 +730,17 @@ const validateCollectionInputs=()=>{
             timer: 1500,
           });
         });
-      console.log({ result }, 'result')
+      console.log({ result }, 'result');
       data = {};
 
+      console.log('Marketplace Value', marketplace, typeof activeTab);
+
       if (marketplace === true) {
-        if (activeTab === 0) {
-          let data = await handleListNFTSale(
+        console.log('Inside Marketplace');
+
+        if (activeTab === '0') {
+          console.log('Inside Tab1');
+          data = await handleListNFTSale(
             tokenId,
             fixedPrice.price,
             collectionAddress
@@ -753,23 +748,23 @@ const validateCollectionInputs=()=>{
           //price ,contractAddress, userAddress,nftCount
 
           console.log(data);
-        } else if (activeTab === 1) {
+        } else if (activeTab === '1') {
           console.log('In AC2');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
-  
+
           console.log(tokenId, openForBids.Bid_price, collectionAddress);
-          let data = await handleNFTBidListing(
+          data = await handleNFTBidListing(
             tokenId,
             openForBids.Bid_price,
             collectionAddress
           );
           console.log(data);
-        } else if (activeTab === 2) {
+        } else if (activeTab === '2') {
           console.log('In AC3');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
-  
+
           console.log(tokenId, openForBids.Bid_price, collectionAddress);
-          let data = await handleNFTBidListing(
+          data = await handleNFTBidListing(
             tokenId,
             openForBids.Bid_price,
             collectionAddress
@@ -777,14 +772,14 @@ const validateCollectionInputs=()=>{
           console.log(data);
         }
       }
-      console.log({ result })
+      console.log({ result });
       let reqParams = {
         nftId: result?.data?.data?._id,
         seller: userId._id,
         tokenAddress:
           //     saleType !== 0
           //       ? selectedTokenAddress
-          //       : 
+          //       :
           '0x0000000000000000000000000000000000000000',
         collection: collectionAddress,
         price: post.price,
@@ -793,14 +788,14 @@ const validateCollectionInputs=()=>{
         validUpto: timeAfterDays,
 
         tokenId: tokenId,
-
       };
 
-      //  const nftOrder= 
-      await instance.post('/api/createOrder', reqParams)
-        .then(res => console.log('sucess', [res.data.data]))
+      //  const nftOrder=
+      await instance
+        .post('/api/createOrder', reqParams)
+        .then((res) => console.log('sucess', [res.data.data]));
     }
-  // }
+    // }
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -1101,7 +1096,7 @@ const validateCollectionInputs=()=>{
       <main>
         <section className='create-bg-section bg-section'>
           <div className='container-fluid p-0'>
-          <ToastContainer />
+            <ToastContainer />
             <div className='create-tab-container'>
               <ul
                 className='nav nav-pills mb-3 justify-content-center'
@@ -1228,14 +1223,12 @@ const validateCollectionInputs=()=>{
                       </div>
                     </div>
                     <div className='col-md-8 col-lg-9'>
+                      <form
+                        className={`create-item-section ${validationItem}`}
+                        // data-toggle="validator" role="form"
 
-                      <form className={`create-item-section ${validationItem}`}
-                      
-                      // data-toggle="validator" role="form"
-                     
-                      onSubmit={handleSubmitNewItem}
-                       >
-                        
+                        onSubmit={handleSubmitNewItem}
+                      >
                         <div className='create-item-content form-group border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>Choose Type</h4>
                           <h5 className='create-item-subtitle'>
@@ -1246,7 +1239,7 @@ const validateCollectionInputs=()=>{
                             <div className='col-lg-4 col-md-6 mb-lg-0 mb-4'>
                               <label className='w-100 mb-0'>
                                 <input
-                                required="true"
+                                  required='true'
                                   type='radio'
                                   name='chooseType'
                                   value='single'
@@ -1254,7 +1247,7 @@ const validateCollectionInputs=()=>{
                                   onChange={handleItemChange}
                                   defaultChecked
                                 />
-                               
+
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
                                     <div className='panel-body-content-two'>
@@ -1304,23 +1297,28 @@ const validateCollectionInputs=()=>{
                             </div>
                           </div>
                         </div>
-                        {itemData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
-                          <h4 className='create-item-title'>Amount</h4>
-                          <div className='row'>
-                            <div className='col-lg-9 col-md-9'>
-                              <input
-                                name='amount'
-                                value={itemData.amount}
-                                onChange={handleItemChange}
-                                type='number'
-                                required
-                                className='form-control'
-                              />
-                             <div class="invalid-feedback">Enter Amount </div>
-
+                        {itemData.chooseType === 'multiple' ? (
+                          <div className='create-item-content border-bottom pb-3 mb-3'>
+                            <h4 className='create-item-title'>Amount</h4>
+                            <div className='row'>
+                              <div className='col-lg-9 col-md-9'>
+                                <input
+                                  name='amount'
+                                  value={itemData.amount}
+                                  onChange={handleItemChange}
+                                  type='number'
+                                  required
+                                  className='form-control'
+                                />
+                                <div class='invalid-feedback'>
+                                  Enter Amount{' '}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div> : ''}
+                        ) : (
+                          ''
+                        )}
                         <div className='create-item-content border-bottom pb-3 mb-3 '>
                           <h4 className='create-item-title'>
                             Upload File ( Image, Audio, Video, 3D Model)
@@ -1335,13 +1333,13 @@ const validateCollectionInputs=()=>{
                                   </h4>
                                   {uploadedFile ? (
                                     <img
-                                    src={uploadedFile}
-                                    alt=''
-                                    className='bannerImage position-absolute'
+                                      src={uploadedFile}
+                                      alt=''
+                                      className='bannerImage position-absolute'
                                     />
-                                    ) : (
-                                      ''
-                                      )}
+                                  ) : (
+                                    ''
+                                  )}
 
                                   <input
                                     required
@@ -1350,31 +1348,34 @@ const validateCollectionInputs=()=>{
                                     // filename="uploadFile"
                                     className='inputfile form-control position-absolute'
                                     name='uploadFile'
-                              ref={inputRef} 
-
+                                    ref={inputRef}
                                   />
-                             
                                 </label>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
-                          
                           <div className='mb-2 form-group'>
-                          <h4 for="inputName" className='create-item-title mb-3 control-label'>Name</h4>
+                            <h4
+                              for='inputName'
+                              className='create-item-title mb-3 control-label'
+                            >
+                              Name
+                            </h4>
                             <input
                               onChange={handleItemChange}
                               name='name'
                               value={itemData.name}
                               type='text'
-                              id="inputName"
+                              id='inputName'
                               className='form-control'
                               pattern='.{3,}'
                               required='true'
-                            /> 
-                             <div class="invalid-feedback">Please enter Name (must be min 3 words) </div>
-
+                            />
+                            <div class='invalid-feedback'>
+                              Please enter Name (must be min 3 words){' '}
+                            </div>
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
@@ -1393,8 +1394,9 @@ const validateCollectionInputs=()=>{
                               title='3 characters minimum'
                               placeholder='E.g.Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.'
                             />
-                             <div class="invalid-feedback">Please enter Description (must have 3words min)</div>
-
+                            <div class='invalid-feedback'>
+                              Please enter Description (must have 3words min)
+                            </div>
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
@@ -1409,8 +1411,9 @@ const validateCollectionInputs=()=>{
                               className='form-control'
                               placeholder='E.g.Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.'
                             />
-                             <div class="invalid-feedback">Please enter About </div>
-
+                            <div class='invalid-feedback'>
+                              Please enter About{' '}
+                            </div>
                           </div>
                         </div>
                         {/* <div className="create-item-content mb-3">
@@ -1432,7 +1435,6 @@ const validateCollectionInputs=()=>{
                             // }}
                             options={collections}
                             name='collection'
-                          
                             styles={customStyles}
                             theme={(theme) => ({
                               ...theme,
@@ -1445,8 +1447,7 @@ const validateCollectionInputs=()=>{
                             })}
                             required
                           />
-                             <div class="invalid-feedback">Select Collection </div>
-
+                          <div class='invalid-feedback'>Select Collection </div>
                         </div>
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>
@@ -1497,12 +1498,12 @@ const validateCollectionInputs=()=>{
                                 onClick={(e) =>
                                   setMarketPlace((prevState) => !prevState)
                                 }
-                              // onChange={(e) => setFormData({
-                              //     ...formData,
-                              //     agree: !formData.agree
-                              // })}/>
+                                // onChange={(e) => setFormData({
+                                //     ...formData,
+                                //     agree: !formData.agree
+                                // })}/>
 
-                              // onChange={handleMarketplaceChange}
+                                // onChange={handleMarketplaceChange}
                               />
 
                               <span className='slider round' />
@@ -1591,8 +1592,7 @@ const validateCollectionInputs=()=>{
                                 <div
                                   className='tab-content'
                                   id='pills-tabContent'
-                                  >
-                               
+                                >
                                   <div
                                     className='tab-pane fade show active'
                                     id='fixed-price'
@@ -1612,7 +1612,9 @@ const validateCollectionInputs=()=>{
                                           value={fixedPrice.price}
                                           placeholder='Enter Price For One Piece'
                                         />
-                             <div class="invalid-feedback">Enter price </div>
+                                        <div class='invalid-feedback'>
+                                          Enter price{' '}
+                                        </div>
 
                                         <div className='input-group-append'>
                                           <select
@@ -1638,7 +1640,7 @@ const validateCollectionInputs=()=>{
                                       </div>
                                     </div>
                                   </div>
-                               
+
                                   <div
                                     className='tab-pane fade'
                                     id='open-bid'
@@ -1653,13 +1655,14 @@ const validateCollectionInputs=()=>{
                                           type='text'
                                           className='form-control'
                                           name='Bid_price'
-
                                           onChange={handleBidPriceChange}
                                           value={openForBids.Bid_price}
                                           placeholder='Enter Price For Bid Piece'
                                           required
                                         />
-                             <div class="invalid-feedback">Enter BID Price </div>
+                                        <div class='invalid-feedback'>
+                                          Enter BID Price{' '}
+                                        </div>
 
                                         <div className='input-group-append'>
                                           <select
@@ -1687,7 +1690,7 @@ const validateCollectionInputs=()=>{
                                       </div>
                                     </div>
                                   </div>
-                               
+
                                   <div
                                     className='tab-pane fade'
                                     id='timed-auction'
@@ -1707,8 +1710,9 @@ const validateCollectionInputs=()=>{
                                           placeholder='Enter minimum bid'
                                           required
                                         />
-                             <div class="invalid-feedback">Enter minimumBid Price </div>
-
+                                        <div class='invalid-feedback'>
+                                          Enter minimumBid Price{' '}
+                                        </div>
                                       </div>
                                       <div className='d-flex align-items-center price-detail'>
                                         <a href='#'>
@@ -1747,7 +1751,6 @@ const validateCollectionInputs=()=>{
                                           <input
                                             type='date'
                                             name='finishDate'
-
                                             onChange={(e) =>
                                               setTimedAuction({
                                                 ...timedAuction,
@@ -1759,7 +1762,9 @@ const validateCollectionInputs=()=>{
                                             max='2023-02-28'
                                             required
                                           />
-                             <div class="invalid-feedback">select Date </div>
+                                          <div class='invalid-feedback'>
+                                            select Date{' '}
+                                          </div>
 
                                           {/* <option
                                             value='Right after listing'
@@ -1926,18 +1931,16 @@ const validateCollectionInputs=()=>{
                             </button>
                           </div>
                         </div>
-                        
-                        <div className='create-item-content border-bottom pb-3 mb-3'>
-                          
-                        </div>
+
+                        <div className='create-item-content border-bottom pb-3 mb-3'></div>
                       </form>
-                      
+
                       {/*</form>*/}
                     </div>
                   </div>
                 </div>
               </div>
-                
+
               <div
                 className='tab-pane fade'
                 id='create-collection'
@@ -1945,9 +1948,10 @@ const validateCollectionInputs=()=>{
               >
                 {/*<form  onSubmit={handleSubmitNew}>*/}
                 <div className='col-md-12 col-lg-12'>
-                  <form className={`create-item-section ${validationCollection}`} onSubmit={handleSubmitNewCollection}>
-
-
+                  <form
+                    className={`create-item-section ${validationCollection}`}
+                    onSubmit={handleSubmitNewCollection}
+                  >
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>Choose Type</h4>
                       <h5 className='create-item-subtitle'>
@@ -2013,22 +2017,28 @@ const validateCollectionInputs=()=>{
                         </div>
                       </div>
                     </div>
-                    {collectionData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
-                      <h4 className='create-item-title'>Amount</h4>
-                      <div className='row'>
-                        <div className='col-lg-9 col-md-9'>
-                          <input
-                            name='amount'
-                            value={collectionData.amount}
-                            onChange={handleCollectionChange}
-                            type='number'
-                            className='form-control'
-                            required
-                          />
-                            <div class="invalid-feedback">Please fill Amount.</div>
+                    {collectionData.chooseType === 'multiple' ? (
+                      <div className='create-item-content border-bottom pb-3 mb-3'>
+                        <h4 className='create-item-title'>Amount</h4>
+                        <div className='row'>
+                          <div className='col-lg-9 col-md-9'>
+                            <input
+                              name='amount'
+                              value={collectionData.amount}
+                              onChange={handleCollectionChange}
+                              type='number'
+                              className='form-control'
+                              required
+                            />
+                            <div class='invalid-feedback'>
+                              Please fill Amount.
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div> : ''}
+                    ) : (
+                      ''
+                    )}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>
                         Logo Image <span className='text-red'>*</span>
@@ -2054,12 +2064,10 @@ const validateCollectionInputs=()=>{
                               />
                             )}
                             <input
-                                    required
-
-                                    type='file'
+                              required
+                              type='file'
                               onChange={handleLogoImage}
                               name='logo_image'
-                             
                             />
                           </label>
                         </div>
@@ -2122,11 +2130,11 @@ const validateCollectionInputs=()=>{
                               />
                             )}
                             <input
-                            required
+                              required
                               onChange={handleBannerImage}
                               name='banner_image'
                               type='file'
-                               ref={bannerRef} 
+                              ref={bannerRef}
                             />
                           </label>
                         </div>
@@ -2145,7 +2153,7 @@ const validateCollectionInputs=()=>{
                             placeholder='E.g. Treasures of the sea'
                             required
                           />
-                            <div class="invalid-feedback">Please Enter Name.</div>
+                          <div class='invalid-feedback'>Please Enter Name.</div>
                         </div>
                       </div>
                     </div>
@@ -2162,7 +2170,9 @@ const validateCollectionInputs=()=>{
                             placeholder='E.g. Treasures of the sea'
                             required
                           />
-                            <div class="invalid-feedback">Please fill out this field.</div>
+                          <div class='invalid-feedback'>
+                            Please fill out this field.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2202,7 +2212,9 @@ const validateCollectionInputs=()=>{
                             rows={4}
                             required
                           />
-                            <div class="invalid-feedback">Please fill out this field.</div>
+                          <div class='invalid-feedback'>
+                            Please fill out this field.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2320,7 +2332,9 @@ const validateCollectionInputs=()=>{
                             placeholder='e.g 25'
                             required
                           />
-                            <div class="invalid-feedback">Please fill out this field.</div>
+                          <div class='invalid-feedback'>
+                            Please fill out this field.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2435,7 +2449,9 @@ const validateCollectionInputs=()=>{
                             <option value='Solana'>Solana</option>
                             <option value='Binance'>Binance</option>
                           </select>
-                          <div class="invalid-feedback">Please select out this field.</div>
+                          <div class='invalid-feedback'>
+                            Please select out this field.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2913,7 +2929,7 @@ const validateCollectionInputs=()=>{
                             placeholder='Server'
                             // aria-label="Server"
                             style={{ borderRadius: '0.25rem' }}
-                          // defaultValue="5"
+                            // defaultValue="5"
                           />
                           {itemData.levels.length === 1 ? (
                             ''
@@ -3086,7 +3102,6 @@ const validateCollectionInputs=()=>{
                   Save
                 </button>
               </div>
-              
             </div>
           </div>
         </div>
