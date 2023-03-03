@@ -174,7 +174,11 @@ const ItemSingle = () => {
                         <CardHeader>
                             <h5>Collection View</h5>
                         </CardHeader>
-                        
+                        {loading?   <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>:
                             <CardBody>
                                 <Row>
                                     <Col md="12">
@@ -316,7 +320,7 @@ const ItemSingle = () => {
               >
                 Back
               </Button>
-                            </CardBody>
+                            </CardBody>}
                 
                     </Card>
                 </Col>

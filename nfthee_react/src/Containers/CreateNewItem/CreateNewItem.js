@@ -16,15 +16,19 @@ import { bscTest, ethTest, polyTest, harmonyTest } from '../../Config/chains';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { getUserAddress } from '../../Config/constants';
+import { getUnixTimeAfterDays } from '../../Config/helpers'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
-  const history = useHistory();
-  const data = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const history = useHistory()
+  const [reset, setReset] = useState(false)
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
-  if (data === null) {
-    history.push('/');
+  if (userId === null) {
+    history.push("/")
   }
 
   const Blockchains = [
@@ -192,7 +196,7 @@ const CreateNewItem = () => {
     name: '',
     symbol: '',
     description: '',
-    chooseType: '',
+    chooseType: 1,
     logo_image: '',
     featured_image: '',
     banner_image: '',
@@ -205,7 +209,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: data?._id || '',
+    created_by: userId?._id || "",
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -216,7 +220,7 @@ const CreateNewItem = () => {
     name: '',
     amount: '',
     symbol: '',
-    chooseType: '',
+    chooseType: 'single',
     uploadFile: {},
     designation: '',
     about: '',
@@ -244,7 +248,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: data?._id || '',
+    created_by: userId?._id || "",
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -266,6 +270,7 @@ const CreateNewItem = () => {
           });
           console.info(arr);
           setBlockchains(arr);
+          setReset(false)
         });
     };
 
@@ -282,13 +287,15 @@ const CreateNewItem = () => {
         });
         console.info(arr);
         setCategories(arr);
+        setReset(false)
+
       });
     };
 
     fetchBlockchains();
     fetchCategories();
     console.info(categories);
-  }, []);
+  }, [reset]);
 
   const [itemData, setItemData] = useState(initialDataState);
   console.log('::::::::>', { itemData }, { collectionData });
@@ -297,32 +304,126 @@ const CreateNewItem = () => {
     setCollectionData({
       ...collectionData,
       [e.target.name]: e.target.value,
+      amount: collectionData.chooseType === 1 ? 1 : e.target.value,
     });
-    if (e.target.value === 'single') {
-      setCollectionData((current) => {
-        // 👇️ remove the salary key from an object
-        const { amount, ...rest } = current;
-
-        return rest;
-      });
-    }
   };
 
-  const handleItemChange = (e) => {
+  const  handleItemChange = (e) => {
     setItemData({
       ...itemData,
       [e.target.name]: e.target.value,
     });
-    if (e.target.value === 'single') {
-      setItemData((current) => {
+    if (e.target.value === "single") {
+      setItemData(current => {
         // 👇️ remove the salary key from an object
         const { amount, ...rest } = current;
 
         return rest;
-      });
+      })
     }
-  };
 
+      // });
+    }
+
+  const inputRef = useRef(null)
+  const bannerRef=useRef(null)
+
+const validateItemInputs=()=>{
+  if(itemData.name===""||itemData.name.length >3){
+   setItemValidation('was-validated')
+  //  window.scrollTo(0, 0)
+  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  if(itemData.designation===""||itemData.designation.length >3){
+    setItemValidation('was-validated')
+    // window.scrollTo(0, 0)
+  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(itemData.about===""){
+    setItemValidation('was-validated')
+    // window.scrollTo(0, 0)
+  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   } 
+   if(itemData.putOnMarketplace.price===""||null){
+    setItemValidation('was-validated')
+    // window.scrollTo(0, 0)
+  inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if (itemData.chooseBlockchain===''||null){
+    toast.error('select BlockChain')
+   }
+  
+   if (itemData.chooseCollection===''||null){
+    toast.error('select Collection')
+
+   }
+ 
+    if (Object.keys(itemData.uploadFile).length === 0) {
+    toast.error('Please Upload Image')
+
+   }
+  
+
+}
+const validateCollectionInputs=()=>{
+ 
+  if(collectionData.name===""||collectionData.name.length >3){
+    setCollectionValidation('was-validated')
+    window.scrollTo(0, 0)
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.symbol===""){
+    setCollectionValidation('was-validated')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.description===""){
+    setCollectionValidation('was-validated')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.creator_earnings===null||''){
+    setCollectionValidation('was-validated')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.payment_token===''|null){
+    setCollectionValidation('was-validated')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.logo_image===""){
+    toast.error('Please Upload Logo Image')
+    bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.banner_image===""){
+    toast.error('Please Upload Banner Image')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+
+   }
+   if(collectionData.featured_image===""){
+    toast.error('Please Upload Featured Image')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+
+   }
+   if(collectionData.category===""){
+    toast.error('Please Select Category')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+   if(collectionData.blockchain===""){
+    toast.error('Please Select Blockchain')
+  bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+   }
+}
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
@@ -330,23 +431,23 @@ const CreateNewItem = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(data._id);
+      // console.log(data._id);
       const arr = [];
-      await instance
-        .get(`/api/userCollections?id=${data._id || ''}`)
-        .then((response) => {
-          let result = response.data.data;
-          result.map((collection) => {
-            // console.info(collection)
-            arr.push({
-              value: collection.name,
-              label: collection.name,
-              category: collection.category,
+      await
+        instance
+          .get(`/api/userCollections?id=${userId._id || ""}`).then((response) => {
+            let result = response.data.data;
+            result.map((collection) => {
+              // console.info(collection)
+              arr.push({
+                value: collection.name,
+                label: collection.name,
+                category: collection.category,
+              });
             });
+            console.log(arr);
+            setCollections(arr);
           });
-          console.log(arr);
-          setCollections(arr);
-        });
     };
     fetchData();
   }, []);
@@ -387,10 +488,13 @@ const CreateNewItem = () => {
   };
 
   const increment = (id) => id + 1;
+  const timeAfterDays = getUnixTimeAfterDays(12)
 
-  const handleSubmitNewCollection = async () => {
+  const handleSubmitNewCollection = async (e) => {
     //!check if collection is single or multiple
     //! pass  collectionName Symbol and Creator Address and Royalty
+    e.preventDefault()
+    validateCollectionInputs()
 
     const creatorAddress = await getUserAddress();
     console.log(creatorAddress[0]);
@@ -403,115 +507,129 @@ const CreateNewItem = () => {
       collectionData.chooseType,
       collectionData.creator_earnings
     );
-
+    let chooseType;
+    if (typeof collectionData.chooseType === "string") {
+      chooseType = parseInt(collectionData.chooseType);
+    } else chooseType = collectionData.chooseType
+    console.log({ chooseType })
     const contractAddress = await handleCollectionCreation(
       collectionData.blockchain,
-      collectionData.chooseType,
+      chooseType,
       collectionData.name,
       collectionData.symbol,
       creatorAddress,
       collectionData.creator_earnings
     );
-    console.log(contractAddress);
+    console.log({ contractAddress });
     // await handleNFTCreation(collectionData.blockchain, contractAddress);
     // await instance
     // .post('/api/createCollection', collectionData)
     // console.log(contractAddress);
     // await handleNFTCreation(contractAddress)
+    if (contractAddress.length === 42  &&collectionData.name&&
+      collectionData.symbol&&
+      collectionData.blockchain&&
+      collectionData.chooseType) {
 
-    const formData = new FormData();
-    formData.append('name', collectionData.name);
-    formData.append('symbol', collectionData.symbol);
-    formData.append('description', collectionData.description);
-    formData.append('collection_standard', collectionData.chooseType);
-    formData.append('logo_image', collectionData.logo_image);
-    formData.append('featured_image', collectionData.featured_image);
-    formData.append('banner_image', collectionData.banner_image);
-    formData.append('url', collectionData.url);
-    formData.append('category', collectionData.category);
-    formData.append('website', collectionData.website);
-    formData.append('discord', collectionData.discord);
-    formData.append('instagram', collectionData.instagram);
-    formData.append('medium', collectionData.medium);
-    formData.append('telegram', collectionData.telegram);
-    formData.append('creator_earnings', collectionData.creator_earnings);
-    formData.append('created_by', collectionData.created_by);
-    formData.append('blockchain', collectionData.blockchain);
-    formData.append('payment_token', collectionData.payment_token);
-    formData.append('display_theme', collectionData.display_theme);
-    formData.append(
-      'explicit_sensitive_content',
-      collectionData.explicit_sensitive_content
-    );
-    formData.append('contract_address', contractAddress);
+      const formData = new FormData();
+      formData.append('name', collectionData.name);
+      formData.append('symbol', collectionData.symbol);
+      formData.append('description', collectionData.description);
+      formData.append('collection_standard', collectionData.chooseType);
+      formData.append('logo_image', collectionData.logo_image);
+      formData.append('featured_image', collectionData.featured_image);
+      formData.append('banner_image', collectionData.banner_image);
+      formData.append('url', collectionData.url);
+      formData.append('category', collectionData.category);
+      formData.append('website', collectionData.website);
+      formData.append('discord', collectionData.discord);
+      formData.append('instagram', collectionData.instagram);
+      formData.append('amount', collectionData?.amount);
+      formData.append('medium', collectionData.medium);
+      formData.append('telegram', collectionData.telegram);
+      formData.append('creator_earnings', collectionData.creator_earnings);
+      formData.append('created_by', collectionData.created_by);
+      formData.append('blockchain', collectionData.blockchain);
+      formData.append('payment_token', collectionData.payment_token);
+      formData.append('display_theme', collectionData.display_theme);
+      formData.append(
+        'explicit_sensitive_content',
+        collectionData.explicit_sensitive_content
+      );
+      formData.append('contract_address', contractAddress);
 
-    // symbol: '',
-    // description: '',
-    // chooseType: '',
-    // logo_image: '',
-    // featured_image: '',
-    // banner_image: '',
-    // url: '',
-    // category: '',
-    // website: '',
-    // discord: '',
-    // instagram: '',
-    // medium: '',
-    // telegram: '',
-    // creator_earnings: '',
-    // created_by: data._id||"",
-    // blockchain: '',
-    // payment_token: '',
-    // display_theme: '',
-    // explicit_sensitive_content: true,
-    // await instance
-    //   .post(`/api/createCollection`, formData)
-    //   .then((response) => {
-    //     Swal.fire(
-    //       {
-    //         position: 'top-center',
-    //         icon: 'success',
-    //         title: 'Successful',
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       },
-    //       setCollectionData({
-    //         name: '',
-    //         symbol: '',
-    //         description: '',
-    //         chooseType: '',
-    //         logo_image: '',
-    //         featured_image: '',
-    //         banner_image: '',
-    //         url: '',
-    //         category: '',
-    //         website: '',
-    //         discord: '',
-    //         instagram: '',
-    //         medium: '',
-    //         telegram: '',
-    //         creator_earnings: '',
-    //         created_by: data._id || '',
-    //         blockchain: '',
-    //         payment_token: '',
-    //         display_theme: '',
-    //         explicit_sensitive_content: true,
-    //       }),
-    //       setLogoImage(null),
-    //       setBannerImage(null),
-    //       setFeaturedImage(null)
-    //       // mySelectRef.current.select=""
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     Swal.fire({
-    //       position: 'top-center',
-    //       icon: 'error',
-    //       title: 'Try to create again',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   });
+      // symbol: '',
+      // description: '',
+      // chooseType: '',
+      // logo_image: '',
+      // featured_image: '',
+      // banner_image: '',
+      // url: '',
+      // category: '',
+      // website: '',
+      // discord: '',
+      // instagram: '',
+      // medium: '',
+      // telegram: '',
+      // creator_earnings: '',
+      // created_by: userId._id||"",
+      // blockchain: '',
+      // payment_token: '',
+      // display_theme: '',
+      // explicit_sensitive_content: true,
+      await instance
+        .post(`/api/createCollection`, formData)
+        .then((response) => {
+          Swal.fire(
+            {
+              position: 'top-center',
+              icon: 'success',
+              title: 'Successful',
+              showConfirmButton: false,
+              timer: 1500,
+            },
+            setCollectionData({
+              name: '',
+              symbol: '',
+              description: '',
+              chooseType: 1,
+              logo_image: '',
+              featured_image: '',
+              banner_image: '',
+              url: '',
+              category: '',
+              website: '',
+              discord: '',
+              instagram: '',
+              medium: '',
+              telegram: '',
+              creator_earnings: '',
+              created_by: userId._id || "",
+              blockchain: '',
+              payment_token: '',
+              display_theme: '',
+              explicit_sensitive_content: true,
+            }),
+            setLogoImage(null),
+            setBannerImage(null),
+            setFeaturedImage(null),
+
+            // mySelectRef.current.select=""
+          );
+          setBlockchains([])
+          setCategories([])
+          setReset(true)
+        })
+        .catch((err) => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'error',
+            title: 'Try to create again',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
+    }
   };
 
   const handleNFTListing = async () => {
@@ -542,115 +660,147 @@ const CreateNewItem = () => {
   });
 
   const [nftAddress, setNFTAddress] = useState('');
-
-  const handleSubmitNewItem = async () => {
+  // (function() {
+  //   'use strict';
+  //   window.addEventListener('load', function() {
+  //     // Get the forms we want to add validation styles to
+  //     var forms = document.getElementsByClassName('needs-validation');
+  //     // Loop over them and prevent submission
+  //     var validation = Array.prototype.filter.call(forms, function(form) {
+  //       form.addEventListener('submit', function(event) {
+  //         if (form.checkValidity() === false) {
+  //           event.preventDefault();
+  //           event.stopPropagation();
+  //         }
+  //         form.classList.add('was-validated');
+  //       }, false);
+  //     });
+  //   }, false);
+  // })();
+  const [validationItem,setItemValidation]=useState('needs-validated')
+  const [validationCollection,setCollectionValidation]=useState('needs-validated')
+  const handleSubmitNewItem = async (e) => {
+    e.preventDefault()
+    validateItemInputs()
     let data = {};
     switch (activeTab) {
-      case '0':
+      case 0:
         data = fixedPrice;
         break;
 
-      case '1':
+      case 1:
         data = openForBids;
         break;
 
-      case '2':
+      case 2:
         data = timedAuction;
         break;
     }
     const post = itemData;
+   
     post.putOnMarketplace = data;
+    if (post.chooseType === "single") {
+      post.amount = 1;
+    }
     console.log(activeTab);
-    console.log(post);
+    console.log(itemData.chooseType, 'postchosos');
 
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
-      itemData.chooseBlockchain,
+      post.chooseBlockchain,
       post.chooseCollection,
       post.name,
       post.symbol,
-      post.chooseType,
+      itemData.chooseType,
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
-    console.log(tokenId, collectionAddress, res);
+    console.log({ tokenId }, { collectionAddress }, { res },{post});
+    if (tokenId && collectionAddress && res &&itemData.name&&itemData.about&&itemData.chooseCollection&&itemData.chooseBlockchain&&itemData.uploadFile) {
 
-    post.tokenId = tokenId;
-    post.nft_quantity = 1;
-
-    instance
-      .post(`/api/store`, post)
-      .then((response) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'NFT Created Successfully',
-          showConfirmButton: false,
-          timer: 1500,
+      post.tokenId = tokenId;
+      post.nft_quantity = 1;
+      let result;
+      const resultssss = await instance
+        .post(`/api/store`, post)
+        .then((response) => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'NFT Created Successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          result = response
+        })
+        .catch((err) => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'error',
+            title: 'Try to create again',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
-      })
-      .catch((err) => {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Try to create again',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-    data = {};
-    console.log(marketplace, activeTab, openForBids.Bid_price);
+      console.log({ result }, 'result')
+      data = {};
 
-    if (marketplace === true) {
-      if (activeTab === '0') {
-        let data = await handleListNFTSale(
-          tokenId,
-          fixedPrice.price,
-          collectionAddress
-        );
-        //price ,contractAddress, userAddress,nftCount
+      if (marketplace === true) {
+        if (activeTab === 0) {
+          let data = await handleListNFTSale(
+            tokenId,
+            fixedPrice.price,
+            collectionAddress
+          );
+          //price ,contractAddress, userAddress,nftCount
 
-        console.log(data);
-      } else if (activeTab === '1') {
-        console.log('In AC2');
-        // tokenId ,price ,collectionName ,nftCount ,tokenType
-
-        console.log(tokenId, openForBids.Bid_price, collectionAddress);
-        let data = await handleNFTBidListing(
-          tokenId,
-          openForBids.Bid_price,
-          collectionAddress
-        );
-        console.log(data);
-      } else if (activeTab === '2') {
-        console.log('In AC3');
-        // tokenId ,price ,collectionName ,nftCount ,tokenType
-
-        console.log(tokenId, openForBids.Bid_price, collectionAddress);
-        let data = await handleNFTBidListing(
-          tokenId,
-          openForBids.Bid_price,
-          collectionAddress
-        );
-        console.log(data);
+          console.log(data);
+        } else if (activeTab === 1) {
+          console.log('In AC2');
+          // tokenId ,price ,collectionName ,nftCount ,tokenType
+  
+          console.log(tokenId, openForBids.Bid_price, collectionAddress);
+          let data = await handleNFTBidListing(
+            tokenId,
+            openForBids.Bid_price,
+            collectionAddress
+          );
+          console.log(data);
+        } else if (activeTab === 2) {
+          console.log('In AC3');
+          // tokenId ,price ,collectionName ,nftCount ,tokenType
+  
+          console.log(tokenId, openForBids.Bid_price, collectionAddress);
+          let data = await handleNFTBidListing(
+            tokenId,
+            openForBids.Bid_price,
+            collectionAddress
+          );
+          console.log(data);
+        }
       }
+      console.log({ result })
+      let reqParams = {
+        nftId: result?.data?.data?._id,
+        seller: userId._id,
+        tokenAddress:
+          //     saleType !== 0
+          //       ? selectedTokenAddress
+          //       : 
+          '0x0000000000000000000000000000000000000000',
+        collection: collectionAddress,
+        price: post.price,
+        quantity: 1,
+        saleType: activeTab,
+        validUpto: timeAfterDays,
+
+        tokenId: tokenId,
+
+      };
+
+      //  const nftOrder= 
+      await instance.post('/api/createOrder', reqParams)
+        .then(res => console.log('sucess', [res.data.data]))
     }
-
-    // let reqParams = {
-    //   nftId: res.result._id,
-    //   seller: currentUser.toLowerCase(),
-    //   tokenAddress:
-    //     saleType !== 0
-    //       ? selectedTokenAddress
-    //       : '0x0000000000000000000000000000000000000000',
-    //   collection: nftContractAddress,
-    //   price: _price,
-    //   quantity: quantity,
-    //   saleType: saleType,
-    //   validUpto: _deadline,
-
-    //   tokenId: nextId,
-
-    // };
-
+  // }
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -951,6 +1101,7 @@ const CreateNewItem = () => {
       <main>
         <section className='create-bg-section bg-section'>
           <div className='container-fluid p-0'>
+          <ToastContainer />
             <div className='create-tab-container'>
               <ul
                 className='nav nav-pills mb-3 justify-content-center'
@@ -1011,7 +1162,7 @@ const CreateNewItem = () => {
                                 Owner{' '}
                                 <span>
                                   {user
-                                    ? `${user.first_name} ${user.last_name}`
+                                    ? `${userId.first_name} ${userId.last_name}`
                                     : 'Ralph Garraway'}
                                 </span>
                               </p>
@@ -1025,7 +1176,7 @@ const CreateNewItem = () => {
                                 />
                               </a>
                               <span href='#' className='creator-name'>
-                                Created by @{user.user_name}
+                                Created by @{userId.user_name}
                               </span>
                             </div>
                             <div className='card-media'>
@@ -1040,13 +1191,13 @@ const CreateNewItem = () => {
                             <div className='card-title'>
                               <h3>
                                 {itemData.putOnMarketplace
-                                  ? activeTab
+                                  ? itemData.putOnMarketplace?.price
                                   : 'Not For Sale'}
                               </h3>
                               <span>
-                                {activeTab === 'Fixed price' ? (
+                                {activeTab === 0 ? (
                                   <span>{fixedPrice.price}</span>
-                                ) : activeTab === 'Open for bids' ? (
+                                ) : activeTab === 1 ? (
                                   ''
                                 ) : (
                                   <span>{timedAuction.minimumBid}</span>
@@ -1058,27 +1209,34 @@ const CreateNewItem = () => {
                                 />
                               </span>
                             </div>
-                            <a className='btn btn-violet' href='#'>
-                              {activeTab === 'Fixed price'
+                            {/* <a className='btn btn-violet' href='#'>
+                              {activeTab === 0
                                 ? 'Post'
-                                : activeTab === 'Open for bids'
-                                ? 'Make a bid'
-                                : 'Make bid'}
-                            </a>
-                            <div
+                                : activeTab === 1
+                                  ? 'Make a bid'
+                                  : 'Make bid'}
+                            </a> */}
+                            {/* <div
                               className='clear-all mt-2 d-flex align-items-center'
                               onClick={handleClearClick}
                             >
                               <i className='ri-close-circle-line me-1' />
                               Clear All
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className='col-md-8 col-lg-9'>
-                      <div className='create-item-section'>
-                        <div className='create-item-content border-bottom pb-3 mb-3'>
+
+                      <form className={`create-item-section ${validationItem}`}
+                      
+                      // data-toggle="validator" role="form"
+                     
+                      onSubmit={handleSubmitNewItem}
+                       >
+                        
+                        <div className='create-item-content form-group border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>Choose Type</h4>
                           <h5 className='create-item-subtitle'>
                             Choose "Single" for one of a kind or "multiple" if
@@ -1088,6 +1246,7 @@ const CreateNewItem = () => {
                             <div className='col-lg-4 col-md-6 mb-lg-0 mb-4'>
                               <label className='w-100 mb-0'>
                                 <input
+                                required="true"
                                   type='radio'
                                   name='chooseType'
                                   value='single'
@@ -1095,6 +1254,7 @@ const CreateNewItem = () => {
                                   onChange={handleItemChange}
                                   defaultChecked
                                 />
+                               
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
                                     <div className='panel-body-content-two'>
@@ -1122,6 +1282,7 @@ const CreateNewItem = () => {
                                   value='multiple'
                                   className='card-input-element'
                                   onChange={handleItemChange}
+                                  required
                                 />
                                 <div className='panel card-input m-0'>
                                   <div className='panel-body d-flex'>
@@ -1143,28 +1304,28 @@ const CreateNewItem = () => {
                             </div>
                           </div>
                         </div>
-                        {itemData.chooseType === 'multiple' ? (
-                          <div className='create-item-content border-bottom pb-3 mb-3'>
-                            <h4 className='create-item-title'>Amount</h4>
-                            <div className='row'>
-                              <div className='col-lg-9 col-md-9'>
-                                <input
-                                  name='amount'
-                                  value={itemData.amount}
-                                  onChange={handleItemChange}
-                                  type='number'
-                                  className='form-control'
-                                />
-                              </div>
+                        {itemData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
+                          <h4 className='create-item-title'>Amount</h4>
+                          <div className='row'>
+                            <div className='col-lg-9 col-md-9'>
+                              <input
+                                name='amount'
+                                value={itemData.amount}
+                                onChange={handleItemChange}
+                                type='number'
+                                required
+                                className='form-control'
+                              />
+                             <div class="invalid-feedback">Enter Amount </div>
+
                             </div>
                           </div>
-                        ) : (
-                          ''
-                        )}
-                        <div className='create-item-content border-bottom pb-3 mb-3'>
+                        </div> : ''}
+                        <div className='create-item-content border-bottom pb-3 mb-3 '>
                           <h4 className='create-item-title'>
                             Upload File ( Image, Audio, Video, 3D Model)
                           </h4>
+
                           <div className='row mt-4'>
                             <div className='col-lg-12 col-md-12'>
                               <div>
@@ -1174,45 +1335,51 @@ const CreateNewItem = () => {
                                   </h4>
                                   {uploadedFile ? (
                                     <img
-                                      src={uploadedFile}
-                                      alt=''
-                                      className='bannerImage position-absolute'
+                                    src={uploadedFile}
+                                    alt=''
+                                    className='bannerImage position-absolute'
                                     />
-                                  ) : (
-                                    ''
-                                  )}
+                                    ) : (
+                                      ''
+                                      )}
 
                                   <input
+                                    required
                                     onChange={handleImageChange}
                                     type='file'
                                     // filename="uploadFile"
                                     className='inputfile form-control position-absolute'
                                     name='uploadFile'
-                                    required
+                              ref={inputRef} 
+
                                   />
+                             
                                 </label>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
-                          <h4 className='create-item-title mb-3'>Name</h4>
-                          <div className='mb-2'>
+                          
+                          <div className='mb-2 form-group'>
+                          <h4 for="inputName" className='create-item-title mb-3 control-label'>Name</h4>
                             <input
                               onChange={handleItemChange}
                               name='name'
                               value={itemData.name}
                               type='text'
+                              id="inputName"
                               className='form-control'
-                              placeholder='E.g.Redeemable T-Shirt With Logo'
                               pattern='.{3,}'
-                              required
-                            />
+                              required='true'
+                            /> 
+                             <div class="invalid-feedback">Please enter Name (must be min 3 words) </div>
+
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
                           <h4 className='create-item-title mb-3'>
-                            Description(Optional)
+                            Description
                           </h4>
                           <div className='mb-2'>
                             <input
@@ -1226,6 +1393,8 @@ const CreateNewItem = () => {
                               title='3 characters minimum'
                               placeholder='E.g.Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.'
                             />
+                             <div class="invalid-feedback">Please enter Description (must have 3words min)</div>
+
                           </div>
                         </div>
                         <div className='create-item-content border-bottom mb-3 pb-3'>
@@ -1236,9 +1405,12 @@ const CreateNewItem = () => {
                               value={itemData.about}
                               name='about'
                               type='text'
+                              required
                               className='form-control'
                               placeholder='E.g.Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.'
                             />
+                             <div class="invalid-feedback">Please enter About </div>
+
                           </div>
                         </div>
                         {/* <div className="create-item-content mb-3">
@@ -1247,7 +1419,7 @@ const CreateNewItem = () => {
                                                     <input type="text" className="form-control" placeholder="10%" />
                                                   </div>
                                                 </div> */}
-                        <div className='create-item-content border-bottom pb-3 mb-3'>
+                        <div className='create-item-content border-bottom pb-3 mb-3 form-group'>
                           <h4 className='create-item-title'>
                             Choose Collection
                           </h4>
@@ -1260,6 +1432,7 @@ const CreateNewItem = () => {
                             // }}
                             options={collections}
                             name='collection'
+                          
                             styles={customStyles}
                             theme={(theme) => ({
                               ...theme,
@@ -1270,7 +1443,10 @@ const CreateNewItem = () => {
                                 primary: '#fcf5fd',
                               },
                             })}
+                            required
                           />
+                             <div class="invalid-feedback">Select Collection </div>
+
                         </div>
                         <div className='create-item-content border-bottom pb-3 mb-3'>
                           <h4 className='create-item-title'>
@@ -1321,12 +1497,12 @@ const CreateNewItem = () => {
                                 onClick={(e) =>
                                   setMarketPlace((prevState) => !prevState)
                                 }
-                                // onChange={(e) => setFormData({
-                                //     ...formData,
-                                //     agree: !formData.agree
-                                // })}/>
+                              // onChange={(e) => setFormData({
+                              //     ...formData,
+                              //     agree: !formData.agree
+                              // })}/>
 
-                                // onChange={handleMarketplaceChange}
+                              // onChange={handleMarketplaceChange}
                               />
 
                               <span className='slider round' />
@@ -1347,7 +1523,7 @@ const CreateNewItem = () => {
                                     >
                                       <a
                                         className='nav-link active mb-4 mb-lg-0'
-                                        id='0'
+                                        id={0}
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
@@ -1373,7 +1549,7 @@ const CreateNewItem = () => {
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
-                                        id='1'
+                                        id={1}
                                         data-bs-toggle='pill'
                                         data-bs-target='#open-bid'
                                         role='tab'
@@ -1396,7 +1572,7 @@ const CreateNewItem = () => {
                                         onClick={(e) =>
                                           setActiveTab(e.currentTarget.id)
                                         }
-                                        id='2'
+                                        id={2}
                                         data-bs-toggle='pill'
                                         data-bs-target='#timed-auction'
                                         role='tab'
@@ -1415,7 +1591,8 @@ const CreateNewItem = () => {
                                 <div
                                   className='tab-content'
                                   id='pills-tabContent'
-                                >
+                                  >
+                               
                                   <div
                                     className='tab-pane fade show active'
                                     id='fixed-price'
@@ -1430,10 +1607,13 @@ const CreateNewItem = () => {
                                           type='text'
                                           className='form-control'
                                           name='price'
+                                          required
                                           onChange={handleFixedPriceChange}
                                           value={fixedPrice.price}
                                           placeholder='Enter Price For One Piece'
                                         />
+                             <div class="invalid-feedback">Enter price </div>
+
                                         <div className='input-group-append'>
                                           <select
                                             className='form-select'
@@ -1458,6 +1638,7 @@ const CreateNewItem = () => {
                                       </div>
                                     </div>
                                   </div>
+                               
                                   <div
                                     className='tab-pane fade'
                                     id='open-bid'
@@ -1472,10 +1653,14 @@ const CreateNewItem = () => {
                                           type='text'
                                           className='form-control'
                                           name='Bid_price'
+
                                           onChange={handleBidPriceChange}
                                           value={openForBids.Bid_price}
                                           placeholder='Enter Price For Bid Piece'
+                                          required
                                         />
+                             <div class="invalid-feedback">Enter BID Price </div>
+
                                         <div className='input-group-append'>
                                           <select
                                             className='form-select'
@@ -1502,6 +1687,7 @@ const CreateNewItem = () => {
                                       </div>
                                     </div>
                                   </div>
+                               
                                   <div
                                     className='tab-pane fade'
                                     id='timed-auction'
@@ -1519,7 +1705,10 @@ const CreateNewItem = () => {
                                           type='text'
                                           className='form-control'
                                           placeholder='Enter minimum bid'
+                                          required
                                         />
+                             <div class="invalid-feedback">Enter minimumBid Price </div>
+
                                       </div>
                                       <div className='d-flex align-items-center price-detail'>
                                         <a href='#'>
@@ -1558,6 +1747,7 @@ const CreateNewItem = () => {
                                           <input
                                             type='date'
                                             name='finishDate'
+
                                             onChange={(e) =>
                                               setTimedAuction({
                                                 ...timedAuction,
@@ -1567,7 +1757,10 @@ const CreateNewItem = () => {
                                             className='form-select form-control d-block'
                                             min='2023-02-17'
                                             max='2023-02-28'
+                                            required
                                           />
+                             <div class="invalid-feedback">select Date </div>
+
                                           {/* <option
                                             value='Right after listing'
                                             selected
@@ -1725,6 +1918,7 @@ const CreateNewItem = () => {
                               Create Item
                             </a> */}
                             <button
+                              type='submit'
                               className='btn btn-violet w-100'
                               onClick={handleSubmitNewItem}
                             >
@@ -1732,15 +1926,18 @@ const CreateNewItem = () => {
                             </button>
                           </div>
                         </div>
-
-                        <div className='create-item-content border-bottom pb-3 mb-3'></div>
-                      </div>
+                        
+                        <div className='create-item-content border-bottom pb-3 mb-3'>
+                          
+                        </div>
+                      </form>
+                      
                       {/*</form>*/}
                     </div>
                   </div>
                 </div>
               </div>
-
+                
               <div
                 className='tab-pane fade'
                 id='create-collection'
@@ -1748,7 +1945,9 @@ const CreateNewItem = () => {
               >
                 {/*<form  onSubmit={handleSubmitNew}>*/}
                 <div className='col-md-12 col-lg-12'>
-                  <div className='create-item-section'>
+                  <form className={`create-item-section ${validationCollection}`} onSubmit={handleSubmitNewCollection}>
+
+
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>Choose Type</h4>
                       <h5 className='create-item-subtitle'>
@@ -1761,7 +1960,7 @@ const CreateNewItem = () => {
                             <input
                               type='radio'
                               name='chooseType'
-                              value='single'
+                              value={1}
                               className='card-input-element'
                               onChange={handleCollectionChange}
                               defaultChecked
@@ -1790,7 +1989,7 @@ const CreateNewItem = () => {
                               // onChange={handleRadioChange}
                               type='radio'
                               name='chooseType'
-                              value='multiple'
+                              value={2}
                               className='card-input-element'
                               onChange={handleCollectionChange}
                             />
@@ -1814,24 +2013,22 @@ const CreateNewItem = () => {
                         </div>
                       </div>
                     </div>
-                    {collectionData.chooseType === 'multiple' ? (
-                      <div className='create-item-content border-bottom pb-3 mb-3'>
-                        <h4 className='create-item-title'>Amount</h4>
-                        <div className='row'>
-                          <div className='col-lg-9 col-md-9'>
-                            <input
-                              name='amount'
-                              value={collectionData.amount}
-                              onChange={handleCollectionChange}
-                              type='number'
-                              className='form-control'
-                            />
-                          </div>
+                    {collectionData.chooseType === "multiple" ? <div className='create-item-content border-bottom pb-3 mb-3'>
+                      <h4 className='create-item-title'>Amount</h4>
+                      <div className='row'>
+                        <div className='col-lg-9 col-md-9'>
+                          <input
+                            name='amount'
+                            value={collectionData.amount}
+                            onChange={handleCollectionChange}
+                            type='number'
+                            className='form-control'
+                            required
+                          />
+                            <div class="invalid-feedback">Please fill Amount.</div>
                         </div>
                       </div>
-                    ) : (
-                      ''
-                    )}
+                    </div> : ''}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>
                         Logo Image <span className='text-red'>*</span>
@@ -1857,9 +2054,12 @@ const CreateNewItem = () => {
                               />
                             )}
                             <input
+                                    required
+
+                                    type='file'
                               onChange={handleLogoImage}
                               name='logo_image'
-                              type='file'
+                             
                             />
                           </label>
                         </div>
@@ -1922,9 +2122,11 @@ const CreateNewItem = () => {
                               />
                             )}
                             <input
+                            required
                               onChange={handleBannerImage}
                               name='banner_image'
                               type='file'
+                               ref={bannerRef} 
                             />
                           </label>
                         </div>
@@ -1941,7 +2143,9 @@ const CreateNewItem = () => {
                             type='text'
                             className='form-control'
                             placeholder='E.g. Treasures of the sea'
+                            required
                           />
+                            <div class="invalid-feedback">Please Enter Name.</div>
                         </div>
                       </div>
                     </div>
@@ -1956,7 +2160,9 @@ const CreateNewItem = () => {
                             type='text'
                             className='form-control'
                             placeholder='E.g. Treasures of the sea'
+                            required
                           />
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
                       </div>
                     </div>
@@ -1994,7 +2200,9 @@ const CreateNewItem = () => {
                             // name
                             // id
                             rows={4}
+                            required
                           />
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
                       </div>
                     </div>
@@ -2110,7 +2318,9 @@ const CreateNewItem = () => {
                             type='text'
                             className='form-control'
                             placeholder='e.g 25'
+                            required
                           />
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
                       </div>
                     </div>
@@ -2218,12 +2428,14 @@ const CreateNewItem = () => {
                             value={collectionData.payment_token}
                             onChange={handleCollectionChange}
                             className='form-select form-control d-block'
+                            required
                           >
-                            <option selected> Add Token</option>
+                            <option value=''> Add Token</option>
                             <option value='Polygon'>Polygon</option>
                             <option value='Solana'>Solana</option>
                             <option value='Binance'>Binance</option>
                           </select>
+                          <div class="invalid-feedback">Please select out this field.</div>
                         </div>
                       </div>
                     </div>
@@ -2478,7 +2690,7 @@ const CreateNewItem = () => {
                         Submit
                       </button>
                     </div>
-                  </div>
+                  </form>
                 </div>
                 {/*</form>*/}
               </div>
@@ -2529,6 +2741,7 @@ const CreateNewItem = () => {
                             <input
                               name='attrType'
                               value={attri.attrType}
+                              required
                               // onChange={handleChangeToggle}
                               onChange={(e) =>
                                 handleAttributeChange(
@@ -2554,6 +2767,7 @@ const CreateNewItem = () => {
                           <input
                             name='attrName'
                             value={attri.attrName}
+                            required
                             onChange={(e) =>
                               handleAttributeChange(
                                 attrIndex,
@@ -2647,6 +2861,7 @@ const CreateNewItem = () => {
                             name='levelSpeed'
                             type='text'
                             value={lev.levelSpeed}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2668,6 +2883,7 @@ const CreateNewItem = () => {
                             name='levelUsername'
                             type='number'
                             value={lev.levelUsername}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2685,6 +2901,7 @@ const CreateNewItem = () => {
                             name='levelServer'
                             type='number'
                             value={lev.levelServer}
+                            required
                             onChange={(e) =>
                               handleLevelChange(
                                 levelIndex,
@@ -2696,7 +2913,7 @@ const CreateNewItem = () => {
                             placeholder='Server'
                             // aria-label="Server"
                             style={{ borderRadius: '0.25rem' }}
-                            // defaultValue="5"
+                          // defaultValue="5"
                           />
                           {itemData.levels.length === 1 ? (
                             ''
@@ -2781,6 +2998,7 @@ const CreateNewItem = () => {
                             name='statsSpeed'
                             type='text'
                             value={stat.statsSpeed}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
@@ -2802,6 +3020,7 @@ const CreateNewItem = () => {
                             name='statsUsername'
                             type='number'
                             value={stat.statsUsername}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
@@ -2820,6 +3039,7 @@ const CreateNewItem = () => {
                             name='statsServer'
                             type='number'
                             value={stat.statsServer}
+                            required
                             onChange={(e) =>
                               handleStatsChange(
                                 stateIndex,
@@ -2866,6 +3086,7 @@ const CreateNewItem = () => {
                   Save
                 </button>
               </div>
+              
             </div>
           </div>
         </div>

@@ -236,6 +236,7 @@ axios.get(`https://lnfthee-backend.onrender.com/api/getCollection/update?id=${co
     
     return (
         <Fragment>
+                
             <Breadcrumb title="Collection Details" parent="view"/>
             <Container fluid={true} >
             <DataTableExtensions {...tableData}>
@@ -243,6 +244,7 @@ axios.get(`https://lnfthee-backend.onrender.com/api/getCollection/update?id=${co
                    	columns={columns}
                        data={data}
                        noHeader
+                       progressPending={loading} 
                        defaultSortField="id"
                        defaultSortAsc={false}
                        highlightOnHover

@@ -8,6 +8,7 @@ import { useTranslation, initReactI18next } from "react-i18next";
 import  Apexcharts from "../../Components/Apexcharts"
 import instance from '../../axios';
 import axios from 'axios';
+import Loader from '../../Components/Loader/Loader';
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -88,6 +89,7 @@ function ExploreFilter() {
   //     element.removeEventListener('click', Exploreshow);
   //   };
   // }, []);
+  const [loading,setLoading]=useState(true)
  
   useEffect(async () => {
     await axios
@@ -96,7 +98,7 @@ function ExploreFilter() {
         // setLoading(true);
         console.log(response.data,"<><><>><>><><><><><><><");
         setCollections(response.data.data);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch((e) => {
         // setLoading(true);
@@ -109,16 +111,16 @@ useEffect(async() => {
       .get(`${process.env.REACT_APP_BASE_URL}/api/all?collection=${collections?.name}`)
       .then((response) => {
         console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
-        if (response.data.data.length === 0) {
-          axios
-            .get(`${process.env.REACT_APP_BASE_URL}/api/all`)
-            .then((response) => {
-              console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
-              setShownList(response.data.data);
-            });
-        } else {
+        // if (response.data.data.length === 0) {
+        //   axios
+        //     .get(`${process.env.REACT_APP_BASE_URL}/api/all`)
+        //     .then((response) => {
+        //       console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
+        //       setShownList(response.data.data);
+        //     });
+        // } else {
           setShownList(response.data.data);
-        }
+        // }
       });
   }
 }, [collections]);
@@ -141,6 +143,8 @@ useEffect(async() => {
 
   return (
     <> 
+    
+  {loading?(<Loader/>):
  <main>
   <section className="explore-filter-section bg-section pt-0" >
    <div className="explore-banner-area">
@@ -239,7 +243,7 @@ useEffect(async() => {
                     </ul>
                   </div>
                 </div>
-                <p>{t("CreativeArtCollection.Created By")}<span>{t("explore.Metroverse")}</span> </p>
+                <p>{t("CreativeArtCollection.Created By")}<span>{collections?.created_by?.user_name}</span> </p>
               </div>
               <div className="profile-bid-detail">
                 <div className="col-lg-6 col-md-6 p-0">
@@ -295,11 +299,11 @@ useEffect(async() => {
                 </div>
 
                 <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> {t("explore.Utility Token")} </p>
-                <div className="d-flex mb-3" >
+                {/* <div className="d-flex mb-3" >
                   <button className="btn btn-violetFilter d-flex likeBtn"><i className="ri-heart-line me-2 fw-light" />
                    {t("explore.Like")}</button>
                   <button className="btn btn-outline-whiteFilter ms-3  followBtn">{t("explore.Follow")} +</button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -384,7 +388,7 @@ useEffect(async() => {
                                <div className="collection-wrapper">
                                    <div className="collection-content">
                                        <div className="top-wrapper">
-                                           <h3 className="search-count">{t('explore.Showing')} 01-09 {t("explore.of")} 17 {t("explore.result")}</h3>
+                                           <h3 className="search-count">{t('explore.Showing')} 01-09 {t("explore.of")} {shownList.length} {t("explore.result")}</h3>
                                            <div className="d-flex justify-content-between align-items-center">
                                                <div className="sort-by-filter"> <span>{t("explore.sort by")}: </span> {/* <select className="form-select" aria-label="Default select example" style={{display: 'none'}}>
                                                        <option selected>Most Popular</option>
@@ -803,7 +807,7 @@ useEffect(async() => {
 </section>
 
 
- </main>
+ </main>}
     
     </>
   

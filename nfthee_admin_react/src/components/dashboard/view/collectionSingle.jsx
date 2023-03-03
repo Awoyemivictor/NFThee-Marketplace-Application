@@ -29,15 +29,21 @@ const CollectionSingle = () => {
     const location = useLocation();
     const _ID = (location.state.state._id);
     const [collection, setCollection] = useState([]);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         
         axios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCollection/read?id=${_ID}`)
-            .then(response => setCollection(response.data.data))
+            .then(response => {setCollection(response.data.data)
+				setLoading(false)
+			}
+			
+			)
     }, [])        
     return (
         <>
-            
+     
 
             <Fragment>
 			<Breadcrumb title="Collection Detail" parent="Base" />
@@ -48,7 +54,11 @@ const CollectionSingle = () => {
 							<CardHeader>
 								<h5>Collection View</h5>
 							</CardHeader>
-							
+						{loading?   <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>:
 								<CardBody>
 									<Row>
 										<Col md="12">
@@ -186,7 +196,7 @@ const CollectionSingle = () => {
                   >
                     Back
                   </Button>
-								</CardBody>
+								</CardBody>}
 					
 						</Card>
 					</Col>

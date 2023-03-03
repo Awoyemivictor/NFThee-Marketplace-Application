@@ -94,7 +94,7 @@ export const handleCollectionCreation = async (
   let creator;
   console.log(
     chooseBlockchain,
-    nftType,
+     nftType,
     name,
     symbol,
     minterAddress,
@@ -139,7 +139,7 @@ export const handleCollectionCreation = async (
     );
   }
 
-  if (nftType === 'single') {
+  if (nftType === 1) {
     try {
       res1 = await creator.deployERC721(
         name,
@@ -214,7 +214,7 @@ export const handleNFTCreation = async (
     chooseCollection,
     name,
     symbol,
-    chooseType,
+    {chooseType},
     minterAddress
   );
   let res1;
