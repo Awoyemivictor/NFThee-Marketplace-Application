@@ -77,7 +77,7 @@ const Profile = () => {
   //   }, 1500);
   // }
   const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
-const {_id,email}=JSON.parse(localStorage.getItem('userLoggedIn'))
+const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
 const[users,setuser]=useState([])
@@ -302,7 +302,7 @@ setChanges(Math.floor(Math.random() * 10))
                     </div>
                     <div className="user-profile-detail">
                       {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
-                      <h3>{user.user_name}</h3>
+                      <h3>{user_name}</h3>
                       {/* <span className="tooltiptext" id="myTooltip">Copy to clipboard</span> */}
                       <p class="profile-sub-header mb-3"><img src="assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
                       <div className="d-lg-none d-block mb-4">
@@ -797,20 +797,16 @@ setChanges(Math.floor(Math.random() * 10))
                         className="avatar-icon img-fluid"
                       />
                       <span className="creator-name">
-                        {console.log({ collection })}
                         Created By @
-                        {collection?.name ? collection?.name : 'undefined'}
+                        {user_name ? user_name : 'undefined'}
                       </span>
                     </div>
                     <div className="card-media">
-              <Link to={`/exploredetail/${collection._id}`}>
+              <Link to={`/explorefilter/${collection._id}`}>
 
                         <img
                           // src={'/assets/images/featured-img7.jpg'}
-                          src={
-                            collection?.uploadFile
-                              ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection?.uploadFile?.filename}`
-                              : '/assets/images/featured-img7.jpg'
+                          src={collection?.logo_image|| '/assets/images/featured-img7.jpg'
                           }
                           alt=""
                           className="img-fluid"
@@ -823,10 +819,10 @@ setChanges(Math.floor(Math.random() * 10))
                           <a href="#">{collection?.name}</a>
                         </h5>
                         <h6>
-                          {collection?.about ? collection?.about : 'undefined'}
+                          {collection?.description ? collection?.description : 'undefined'}
                         </h6>
                       </div>
-                      <div className="eth-price">
+                      {/* <div className="eth-price">
                         <div className="bid-title">
                           <span></span>
                         </div>
@@ -837,7 +833,8 @@ setChanges(Math.floor(Math.random() * 10))
                             className="me-1"
                           />
                           {!collection?.putOnMarketplace ? (
-                            <small className="font-weight-light">Bids</small>
+                            // <small className="font-weight-light">Bids</small>'
+                            ''
                           ) : collection?.putOnMarketplace?.price ? (
                             <span>{collection?.putOnMarketplace?.price}</span>
                           ) : (
@@ -846,7 +843,7 @@ setChanges(Math.floor(Math.random() * 10))
                             </span>
                           )}
                         </h6>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="meta-info">
                         {/* Buy Now */}

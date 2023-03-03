@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ModalBuynft } from '../../Components/Layout/Modal';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setFavorite } from '../../redux/favoriteSlice';
+import instance from '../../axios';
 
 const ExploreNftListRow = ({ data ,loadingFilter}) => {
   console.log("<><><><><><><><><>><>><><><><><><><><><><><><><><><><><><><><><>",data)
@@ -28,8 +29,8 @@ const [isLiked, setIsLiked] = useState(false);
       postId:collection._id
     }
     setIsLiked(true)
-    const apiUrl=isLiked?'http://localhost:8002/api/removeLikes':'http://localhost:8002/api/insertLikes'
-    axios.post(apiUrl,requestBody).then(response=>{
+    const apiUrl=isLiked?'/api/removeLikes':'/api/insertLikes'
+    instance.post(apiUrl,requestBody).then(response=>{
       setLike(response.data);
     }).catch(error=>{
       console.log(error);
@@ -78,7 +79,7 @@ const [isLiked, setIsLiked] = useState(false);
                       <span className="creator-name">
                         {console.log({ collection })}
                         Created By @
-                        {collection?.name ? collection?.name : 'undefined'}
+                        {collection?.created_by?.user_name ? collection?.created_by?.user_name : 'undefined'}
                       </span>
                     </div>
                     <div className="card-media">

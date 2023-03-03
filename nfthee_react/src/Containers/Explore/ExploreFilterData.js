@@ -462,7 +462,7 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({_id, uploadFile,designation,title, name,putOnMarketplace}) => {
+  export const FilterCard = ({_id, uploadFile,designation,title, name,putOnMarketplace,created_by}) => {
     const { t } = useTranslation();
     return (
         <div className="col-12 col-sm-3">
@@ -473,7 +473,7 @@ const images = [
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {name ? name : '@Lorihart'}</span> </div>
+                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {created_by?.user_name ? created_by?.user_name : '@Lorihart'}</span> </div>
                     <div className="card-media">
                        <img src={uploadFile} alt="" className="img-fluid" />
 
@@ -524,7 +524,7 @@ const images = [
                       <div className="card-title mb-2">
                           <h5>{title}</h5>
                       </div>
-                      <div className="auction-create-by pb-2"><img src="assets/images/img2.png" alt="" className="avatar-icon img-fluid" />
+                      <div className="auction-create-by pb-2"><img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" />
                           <span className="creator-name">{t("CreativeArtCollection.Created By")}
                           @Lorihart</span>
                       </div>

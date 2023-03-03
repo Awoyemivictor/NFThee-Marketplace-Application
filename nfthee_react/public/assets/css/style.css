@@ -1526,6 +1526,7 @@ a:hover {
 .live-auction-area .auction-card .card-body .card-media {
   position: relative;
   margin-bottom: 10px;
+  max-width: 50px;
 }
 
 .live-auction-area .auction-card .card-body .card-media img {

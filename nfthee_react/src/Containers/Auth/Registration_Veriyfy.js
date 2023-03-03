@@ -37,7 +37,7 @@ function Registration_Veriyfy() {
                 showConfirmButton: false,
                 timer: 1500,
             });
-            await axios.post('http://192.168.1.147:8002/api/signup', registerData).then(response => {
+            await instance.post('/api/signup', registerData).then(response => {
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
         })
         } else {
@@ -54,7 +54,7 @@ function Registration_Veriyfy() {
             email: registerData.email_address,
             redirectURI: new URL('/walletlogin', window.location.origin).href
         })
-        const res = await axios.post('http://192.168.1.147:8002/api/signup', registerData, {
+        const res = await instance.post('/api/signup', registerData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + didToken,
@@ -103,8 +103,8 @@ function Registration_Veriyfy() {
       email: registerData.email_address,
       redirectURI: new URL('/walletlogin', window.location.origin).href,
     });
-    const res = await axios
-      .post('http://192.168.1.147:8002/api/signup', registerData, {
+    const res = await instance
+      .post('/api/signup', registerData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + didToken,

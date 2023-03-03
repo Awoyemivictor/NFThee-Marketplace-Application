@@ -776,7 +776,7 @@ const validateCollectionInputs=()=>{
       };
 
       //  const nftOrder= 
-      await axios.post('http://192.168.1.143:8003/api/createOrder', reqParams)
+      await instance.post('/api/createOrder', reqParams)
         .then(res => console.log('sucess', [res.data.data]))
     }
   // }

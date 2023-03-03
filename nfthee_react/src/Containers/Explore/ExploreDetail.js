@@ -123,7 +123,10 @@ function ExploreDetail() {
     });
   });
 }
-
+const [bidAmount,setBidAmount]=useState()
+ const handleBidAmount=()=>{
+console.log({bidAmount})
+ }
   useEffect(()=>{
     function openGraph(divId) {
       $("#" + divId).toggle();
@@ -218,7 +221,7 @@ function ExploreDetail() {
                               </div>
                               <div className="ms-3">
                                 <p className="text1">Owned By</p>
-                                <span className="text2">Abstract Painting</span>
+                                <span className="text2">{collections?.created_by?.user_name||'Abstract Paint'}</span>
                               </div>
                             </div>
                           </div>
@@ -237,7 +240,7 @@ function ExploreDetail() {
                               </div>
                               <div className="ms-3">
                                 <p className="text1">Collection By</p>
-                                <span className="text2">{collections?collections.chooseCollection:"undefined"}</span>
+                                <span className="text2">{collections.chooseCollection||'undefined'}</span>
                               </div>
                             </div>
                           </div>
@@ -277,7 +280,7 @@ function ExploreDetail() {
                                       </a>
                                     </div>
                                     <div className="ms-3">
-                                      <p className="text1">{t("product.Minted By")} <span>HEROSTHENAME</span></p>
+                                      <p className="text1">{t("product.Minted By")} <span>{collections?.created_by?.user_name?collections?.created_by?.user_name:'HEROSTHENAME'}</span></p>
                                       <span className="text2">3 hours ago</span>
                                     </div>
                                   </div>
@@ -397,8 +400,9 @@ function ExploreDetail() {
                                   <h4> {t("product.Highest Bid By")} Kohaku Tora</h4>
                                   <div className="d-flex align-items-center">
                                     <span className="d-flex">
-                                    <a href="#" className="value1"><img src="/assets/images/icons/ethereum-big.png" alt="" />0.1 ETH</a>
-                                    <sup> <a href="#" className="value2 ml-1">${collections?.putOnMarketplace?.price}</a></sup></span>
+                                    <a href="#" className="value1"><img src="/assets/images/icons/ethereum-big.png" alt="" />{collections?.putOnMarketplace?.price} ETH</a>
+                                    {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -421,10 +425,10 @@ function ExploreDetail() {
                         <button className="btn btn-violet btn-shadow w-100" onClick={toggleModal}><i className="bx bxs-basket me-2" />{t("product.Buy now")}</button>
                       </div>}
                       
-                      {collections?.putOnMarketplace?.price? null:
-                      <div className="col-lg-4 mb-4 mb-lg-0">
+                      {collections?.putOnMarketplace?.price?null: <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" /> Make An Offer</button>
-                      </div>}</>)
+                      </div>
+                      }</>)
 }
                       <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-outline-white1 w-100"><i className="bx bx-credit-card me-2" /> {t("product.Buy Card")}</button>
@@ -446,7 +450,7 @@ function ExploreDetail() {
                                 <div className="input-group-prepend">
                                   <span className="input-group-text"><img src="/assets/images/icons/ethereum-pink.png" alt="" className="me-1 eth-icon" /> WETH</span>
                                 </div>
-                                <input type="text" className="form-control" placeholder= {t("product.amount")}  />
+                                <input type="number" className="form-control" placeholder= {t("product.amount")} value={bidAmount} onChange={e=>setBidAmount(e.target.value)} />
                                 <div className="input-group-append">
                                   <span className="input-group-text">$0.00</span>
                                 </div>
@@ -455,7 +459,7 @@ function ExploreDetail() {
                                 <h6 className="balance-value">{t("product.Balance")} : <span>0.000 WETH</span></h6>
                               </div>
                             </div>
-                            <div className="offer-expiration">
+                            {/* <div className="offer-expiration">
                               <label htmlFor className="form-label">{t("product.Offer Expiration")}</label>
                               <div className="row mb-3">
                                 <div className="col-md-3 col-5">
@@ -475,10 +479,10 @@ function ExploreDetail() {
                                   <label className="form-check-label" htmlFor="offer-checkbox">{t("product.By Checking This Box, I Agree To NFTHEE Terms Of Service")}</label>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <div className="modal-footer border-0">
-                            <button type="button" className="btn btn-violet shadow-none">{t("product.Make Offer")}</button>
+                            <button type="button" className="btn btn-violet shadow-none"  data-bs-dismiss="modal" aria-label="Close" onClick={handleBidAmount}>{t("product.Make Offer")}</button>
                             <button type="button" className="btn btn-violet-outline ms-3">{t("product.Convert ETH")}</button>
                           </div>
                         </div>
