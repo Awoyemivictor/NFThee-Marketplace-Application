@@ -19,7 +19,7 @@ import { getUserAddress } from '../../Config/constants';
 import { getUnixTimeAfterDays } from '../../Config/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { logOut } from '../../Components/Layout/Navbar';
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
@@ -27,7 +27,8 @@ const CreateNewItem = () => {
   const [reset, setReset] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
-  if (userId === null) {
+  if (userId === null||undefined||'') {
+    logOut()
     history.push('/');
   }
 
@@ -1186,13 +1187,13 @@ const CreateNewItem = () => {
                               </a>
                             </div>
                             <div className='card-title'>
-                              <h3>
+                              {/* <h3>
                                 {itemData.putOnMarketplace
                                   ? itemData.putOnMarketplace?.price
                                   : 'Not For Sale'}
-                              </h3>
+                              </h3> */}
                               <span>
-                                {activeTab === 0 ? (
+                                {activeTab === "0" ? (
                                   <span>{fixedPrice.price}</span>
                                 ) : activeTab === 1 ? (
                                   ''

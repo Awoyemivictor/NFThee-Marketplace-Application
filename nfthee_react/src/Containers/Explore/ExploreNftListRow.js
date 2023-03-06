@@ -6,13 +6,13 @@ import { ModalBuynft } from '../../Components/Layout/Modal';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setFavorite } from '../../redux/favoriteSlice';
 import instance from '../../axios';
-
-const ExploreNftListRow = ({ data ,loadingFilter}) => {
+import { handleLikes } from '../../services/apiServices';
+const ExploreNftListRow = ({ data ,loadingFilter,setliked}) => {
   console.log("<><><><><><><><><>><>><><><><><><><><><><><><><><><><><><><><><>",data)
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-const [like,setLike]=useState([])
-const [isLiked, setIsLiked] = useState(false);
+// const [like,setLike]=useState([])
+// const [isLiked, setIsLiked] = useState(false);
 
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [Buydata,setBuydata]=useState()
@@ -24,21 +24,25 @@ setBuydata(index)
 
   const [noOfElement, setNoOfElement] = useState(8);
   const slice = data.slice(0, noOfElement);
-
-  const handleAddFavorite = (collection) => {
-    console.log(collection)
-     dispatch(setFavorite(collection));
+  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))||''
+const [diable,setDisaable]=useState(false)
+  
+const handleAddFavorite = async(e,collection) => {
+   
      const requestBody={
-      userId:"63e78caf2acaaee14ca0c8d9",
-      postId:collection._id
+      id:_id,
+      postId:collection
     }
-    setIsLiked(true)
-    const apiUrl=isLiked?'/api/removeLikes':'/api/insertLikes'
-    instance.post(apiUrl,requestBody).then(response=>{
-      setLike(response.data);
-    }).catch(error=>{
-      console.log(error);
-    })
+console.log({_id})
+    if(_id!=''||undefined){
+    const data= await handleLikes(requestBody,e.target.id,setDisaable)
+    if(!data){
+      setDisaable(true)
+    }if(data){
+      // setDisaable(false)
+      setliked(Math.random())
+    } 
+  }
     
 
 };
@@ -129,7 +133,42 @@ setBuydata(index)
                       <button className="btn buy-now-btn" onClick={e=>toggleModal(index)} >
                         Buy Now
                       </button>
-                      <button className="wishlist-button ms-auto" tabIndex={0}>
+
+                      {collection.likes.includes(_id)? 
+                      <button  
+                      className="wishlist-button ms-auto" 
+                      id="unliked"
+                      disabled={diable}
+                      onClick={(e)=>handleAddFavorite(e,collection._id)}
+                      tabIndex={0}
+                      >
+                                 
+                                         <span
+                          className="number-like d-flex"
+                         
+                          >
+                                       
+                         <i id='unliked' className= 'ri-heart-fill me-1'/>{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
+                         </span>
+                                       </button>:
+                                       <button 
+                                        className="wishlist-button ms-auto"
+                                        id="liked"
+                      disabled={diable}
+
+                                        onClick={(e)=>handleAddFavorite(e,collection._id)}
+                                         tabIndex={0}
+                                 
+                                       >
+                                        <span
+                          className="number-like d-flex"
+                         
+                          >
+                                    
+                         <i id="liked" className=' ri-heart-line me-1'  />{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
+                         </span>            
+                                       </button>}
+                      {/* <button className="wishlist-button ms-auto" tabIndex={0}>
                         <span
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
@@ -137,7 +176,7 @@ setBuydata(index)
                          <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
 
                         </span>
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
