@@ -35,6 +35,9 @@ const signupInfo = new Schema(
     banner_image: {
       type: String,
     },
+    token_id: {
+      type: String,
+    },
     bio: {
       type: String,
     },

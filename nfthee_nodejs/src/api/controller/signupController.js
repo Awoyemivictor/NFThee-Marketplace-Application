@@ -14,6 +14,8 @@ exports.register = async (req, res, next) => {
     next(error);
   }
 };
+
+
 exports.signupDataAll = async (req, res, next) => {
   try {
     const data = await signupServices.signupDataAll(req);
@@ -108,6 +110,37 @@ exports.userUnFollow = async (req, res, next) => {
     return successResponse(req, res, data.data, data.message)
     
     ;
+  } catch (error) {
+    next(error);
+  }
+};
+
+//token update on login user
+exports.addLoginToken = async (req, res, next) => {
+  try {
+    const data = await signupServices.addLoginToken(req);
+    console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Notification store data 
+
+exports.notificationSend = async (req, res, next) => {
+  try {
+    const data = await signupServices.notificationSend(req);
+    console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
   } catch (error) {
     next(error);
   }
