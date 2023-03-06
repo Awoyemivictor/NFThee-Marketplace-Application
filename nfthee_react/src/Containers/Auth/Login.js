@@ -8,18 +8,28 @@ import {useParams} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../hooks/useRedux";
 import {setUser} from "../../redux/userSlice";
 import {setMeta} from "../../redux/metaSlice";
+import {requestForToken} from '../../../src/firebase-config';
+import axios from "axios";
 
 
 function Login() {
     const dispatch = useAppDispatch()
     const history = useHistory();
     const [email, setEmail] = useState('');
-    const [userData, setUserData] = useState();
+    const [userToken, setUserToken] = useState();
     // console.info(instance)
     // console.warn(useAppSelector(state => state));
     // console.warn(user)
     const {params} = useParams();
     // console.log(params);
+    
+    useEffect(() => {
+        requestForToken().then((data) =>{
+            setUserToken(data)
+        }).catch((e)=>{
+            console.log("error",e)
+        })
+    });
 
     // let name, value;
 
@@ -93,6 +103,7 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault()
+        console.log("e.preventDefault()",e.preventDefault(),e.target.value)
         // const redirectURI = `${window.location.origin}/walletlogin`;
         // const didToken = await magic.auth.loginWithMagicLink({email, redirectURI})
         // localStorage.setItem("tokenMagic", didToken)
@@ -119,6 +130,23 @@ function Login() {
             });
             await instance.get(`/api/login/email?email_address=${email}`).then(response => {
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+            console.log("lofin data frontend",response.data.data)
+            let payload = {email_address:response.data.data.email_address, token_id:userToken}
+
+            if(!response.data.data.token_id){
+                instance.post('/api/addLoginToken',payload).then((res)=>{
+                    console.log("res--------",res)
+                }).catch((e)=>{
+                    console.log("eorror--------",e)
+                })
+            }else{
+                instance.post('/api/addLoginToken',payload).then((res)=>{
+                    console.log("res--------",res)
+                }).catch((e)=>{
+                    console.log("eorror--------",e)
+                })
+            }
+            
         })
         } else {
             Swal.fire({
@@ -152,7 +180,7 @@ function Login() {
                     timer: 1500,
                 });
             })
-
+        console.log("resp-----",res)
         if (res.status === 200) {
             const userMetaData = await magic.user.getMetadata()
             await dispatch(setMeta(userMetaData))

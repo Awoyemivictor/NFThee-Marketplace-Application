@@ -5,6 +5,8 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
+import {onMessageListener} from '../../firebase-config';
+// import firebase from "../../../public/js/firebase-messaging-sw";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -54,6 +56,15 @@ const Profile = () => {
       tooltip.classList.remove('active');
     }, 1500);
   }
+
+  // useEffect(()=>{
+  //   onMessageListener().then((resp)=>{ 
+  //     console.log("msd send receiver",resp)
+  //   }).catch((e)=>{
+  //     console.log("msd nor sended,",e)
+  //   })
+  // },[]);
+  
   function outFunc() {
     var tooltip = document.getElementById("myTooltip");
     tooltip.innerHTML = "Copy to clipboard";
@@ -85,7 +96,9 @@ const[users,setuser]=useState([])
 
     instance
     .get(`/api/userCollections?id=${_id}`)
-    .then(res=>( setCollectionData(res.data.data)))
+    .then(res=>{ setCollectionData(res.data.data)
+      console.log('res.data.data',res.data.data);
+    })
 
   },[])
   useEffect(()=>{
@@ -96,6 +109,7 @@ const[users,setuser]=useState([])
 
 
   },[])
+
 
   const [changes,setChanges]=useState()
 
@@ -137,29 +151,83 @@ const[users,setuser]=useState([])
   const handlleFollow=(id,e)=>{
     // setChanges(true)
     if(e.target.value==="follow"){
-   const formData=new FormData()
-   formData.append("id", id);
-console.log(id)
-   const { data } =  axios({
-    method: 'put',
-    url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
-    data: {
-        id: id,
-    }
-  });}
+      const formData=new FormData()
+      formData.append("id", id);
+      console.log(id)
+      const { data } =  axios({
+        method: 'put',
+        url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
+        data: {
+            id: id,
+        }
+      });
+
+      // console.log("collectionData",id,"--",_id)
+      const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+      // console.log("ldata lcal",ldata,"---",ldata.user_name)
+
+     
+      let receiver_token =""
+
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+        console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+        receiver_token = res.data.data.token_id;
+      }).catch((e)=>{
+        console.log("get user data with id error-----",e)
+      })
+
+      setTimeout(()=>{
+
+        let payload = {sender_id:_id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} follow you`} 
+
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+        console.log("notification api send receiver",res)
+        }).catch((e)=>{
+          console.log("notification api receiver",e)
+        })
+
+        const server_key = "AAAAnGlm4-o:APA91bHRRIit_ku-IL-BJwammXTLkWoIsuikVw-z1Wod6G6zYJCnTfqPxB1zT449AQZZTXd8BAnC8hnc3lwHDjC9W-OCJT1LMaGRjeT7pdd9-3z6tw2j8ERnVaRVYsmiwCmk1Bu7Ua4i";
+
+        const headers = {
+            'Authorization' : 'key='+server_key,
+            'Content-Type'  : 'application/json',
+        };
+
+        let payloads = {
+          to   : receiver_token,
+          data : {body:`${ldata.user_name} follow you`,title:'Firebase Notification'},
+        };
+
+        axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+          headers: headers
+        }).then((res)=>{
+            console.log("notification api send method receiver",res)
+          }).catch((e)=>{
+            console.log("notification api error receiver",e)
+          })
+
+      },3000);
+
+      
+  }
+    
+      
+
+
   if(e.target.value==="unfollow"){
 
- const formData=new FormData()
- formData.append("id", id);
-console.log(id)
- const { data } =  axios({
-  method: 'put',
-  url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
-  data: {
-      id: id,
+    const formData=new FormData()
+    formData.append("id", id);
+        console.log(id)
+        const { data } =  axios({
+          method: 'put',
+          url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
+          data: {
+              id: id,
+          }
+    });
   }
-});
-}
+
 setChanges(Math.floor(Math.random() * 10))
 // console.log(data);
    

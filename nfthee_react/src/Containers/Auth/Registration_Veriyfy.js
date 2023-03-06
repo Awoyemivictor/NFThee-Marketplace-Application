@@ -24,6 +24,7 @@ function Registration_Veriyfy() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        console.log("registerData",registerData)
     }, []);
 
     const handleVerify = async (e) => {
@@ -37,8 +38,10 @@ function Registration_Veriyfy() {
                 showConfirmButton: false,
                 timer: 1500,
             });
-            await axios.post('http://192.168.1.4:8002/api/signup', registerData).then(response => {
+            await axios.post('http://localhost:8002/api/signup', registerData).then(response => {
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+            console.log("register user function output--,",response.data.data);
+
         })
         } else {
             Swal.fire({
