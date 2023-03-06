@@ -32,8 +32,8 @@ const contractAddresswithID = async () => {
   }
 };
 
-export const wrapPaymentTokens = async () => {
-  const price = ethers.utils.parseEther('0.0001').toString();
+export const wrapPaymentTokens = async (priceOfEth) => {
+  const price = ethers.utils.parseEther(priceOfEth).toString();
   console.log(price);
 
   console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
@@ -70,8 +70,8 @@ export const wrapPaymentTokens = async () => {
   }
 };
 
-export const unwrapPaymentTokens = async () => {
-  const price = ethers.utils.parseEther('0.0001').toString();
+export const unwrapPaymentTokens = async (priceOfEth) => {
+  const price = ethers.utils.parseEther(priceOfEth).toString();
   console.log(price);
 
   console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
