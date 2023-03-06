@@ -44,7 +44,7 @@ export const requestForToken = () => {
 };
 
 
-export const onMessageListener = (payload) =>{
+export const onMessageListener = () =>{
     onMessage(messaging, (payload) => {
       var notificationTitle = payload.data.title;
         console.log(444,payload);
