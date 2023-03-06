@@ -8,8 +8,8 @@ import Apexcharts from '../../Components/Apexcharts'
 import Loader from '../../Components/Loader/Loader';
 import $ from "jquery"
 import { MultiSelect } from "react-multi-select-component";
+import { acceptBid,fetchBid,createBid,updateBid } from '../../services/apiServices';
  import "../../index.css"
-import axios from 'axios';
 import instance from '../../axios';
  const options = [
   { label: "Mint", value: "mint" }, 
@@ -124,9 +124,32 @@ function ExploreDetail() {
   });
 }
 const [bidAmount,setBidAmount]=useState()
- const handleBidAmount=()=>{
+
+ const handleBidAmount=async()=>{
 console.log({bidAmount})
- }
+if(bidAmount !=""||undefined||null){
+  let bidData={
+    bidder:id,
+    owner:collections?.created_by?._id,
+    bid_status:'Bid',
+    bid_price:bidAmount,
+    nftId:id,
+    bid_quantity:1
+  }
+
+  const data=await createBid(bidData)
+  console.log({data})
+}
+
+}
+const [eth,setEth]=useState()
+const [wth,setWth]=useState()
+const handleEth=(e)=>{
+
+console.log({eth},{wth})
+}
+
+
   useEffect(()=>{
     function openGraph(divId) {
       $("#" + divId).toggle();
@@ -198,7 +221,8 @@ console.log({bidAmount})
                           <i className="ri-eye-line icon" /> 100
                         </a>
                         <a href="#" className="like ms-3">
-                          <i className="ri-heart-line icon" /> 100
+                          <i className="ri-heart-line icon" /> {collections.likes.length?collections.likes.length:""}
+                          {/* 100 */}
                         </a>
                       </div>
                     </div>
@@ -240,7 +264,7 @@ console.log({bidAmount})
                               </div>
                               <div className="ms-3">
                                 <p className="text1">Collection By</p>
-                                <span className="text2">{collections.chooseCollection||'undefined'}</span>
+                                <span className="text2">{collections?collections.chooseCollection:'undefined'}</span>
                               </div>
                             </div>
                           </div>
@@ -262,7 +286,14 @@ console.log({bidAmount})
                         <li className="nav-item" role="presentation">
                           <button className="nav-link" id="attribute-tab" data-bs-toggle="tab" data-bs-target="#attribute" type="button" role="tab" aria-controls="attribute" aria-selected="false">{t("product.Attributes")}</button>
                         </li>
+                        {collections.putOnMarketplace.Bid_price &&collections.created_by?._id ===id?
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="Bid-tab" data-bs-toggle="tab" data-bs-target="#Bid" type="button" role="tab" aria-controls="Bid" aria-selected="false">{t("Bid")}</button>
+                        </li>:''}
                       </ul>
+
+
+                      
                       <div className="tab-content custom-scrollbar" id="myTabContent">
                         <div className="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                           <div className="card-body">
@@ -291,6 +322,15 @@ console.log({bidAmount})
                         </div>
                         <div className="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">{collections?collections.about:'lorem35'}</div>
                         <div className="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">3</div>
+                        
+                       
+
+                        {/* WETHtoETH */}
+                        {/* {collections.putOnMarketplace.Bid_price &&collections.created_by ===id? */}
+                        <div className="tab-pane fade" id="Bid" role="tabpanel" aria-labelledby="Bid-tab">4</div>
+                        {/* :''} */}
+
+
                         <div className="tab-pane fade" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
                         <div className="explore-attribute-card-section">
         <div className="row">
@@ -412,14 +452,16 @@ console.log({bidAmount})
                       </div>
                     </div>
                     <div className="row">
-                      {collections?.created_by===id?<>
+                      {collections?.created_by?._id===id?<>
                         <div className="col-lg-4 mb-4 mb-lg-0">
-                        <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" />Delisting</button>
+                        <button className="btn btn-outline-white1 w-100" ><i className="bx bxs-purchase-tag me-2" />Delisting</button>
                       </div>
                       <div className="col-lg-4 mb-4 mb-lg-0">
-                        <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" /> Remove From Auction</button>
+                        <button className="btn btn-outline-white1 w-100"><i className="bx bxs-purchase-tag me-2" /> Remove From Auction</button>
                       </div>
-                      </>:(<>
+                      </>:collections?.created_by?._id===id &&collections.putOnMarketplace.Bid_price?<div className="col-lg-4 mb-4 mb-lg-0">
+                        <button className="btn btn-outline-white1 w-100"><i className="bx bx-credit-card me-2" /> {t("product.Withdraw")}</button>
+                      </div>:(<>
                     {collections?.putOnMarketplace?.Bid_price? null:
                      <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-violet btn-shadow w-100" onClick={toggleModal}><i className="bx bxs-basket me-2" />{t("product.Buy now")}</button>
@@ -429,7 +471,7 @@ console.log({bidAmount})
                         <button className="btn btn-outline-white1 w-100" data-bs-toggle="modal" data-bs-target="#makeOfferModal"><i className="bx bxs-purchase-tag me-2" /> Make An Offer</button>
                       </div>
                       }</>)
-}
+} 
                       <div className="col-lg-4 mb-4 mb-lg-0">
                         <button className="btn btn-outline-white1 w-100"><i className="bx bx-credit-card me-2" /> {t("product.Buy Card")}</button>
                       </div>
@@ -483,8 +525,71 @@ console.log({bidAmount})
                           </div>
                           <div className="modal-footer border-0">
                             <button type="button" className="btn btn-violet shadow-none"  data-bs-dismiss="modal" aria-label="Close" onClick={handleBidAmount}>{t("product.Make Offer")}</button>
-                            <button type="button" className="btn btn-violet-outline ms-3">{t("product.Convert ETH")}</button>
+                            <button type="button" className="btn btn-violet-outline ms-3" data-bs-toggle="modal" data-bs-target="#convertEth">{t("product.Convert ETH")}</button>
                           </div>
+
+                          {/* //convert modal */}
+                          <div className="modal fade" id="convertEth" tabIndex={-1} role="modal-dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div className="modal-dialog modal-dialog-centered modal-lg make-offer-modal-section">
+                        <div className="modal-content">
+                          <div className="modal-header text-center d-block">
+                            <h5 className="modal-title d-inline-block">{t("Convert ETH  ")}</h5>
+                            <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                          <div className="modal-body">
+                            <div className="offer-price">
+                      <div className="tab-content custom-scrollbar" id="myTabContent">
+
+                            <ul className="nav nav-tabs" id="myTab" role="tablist">
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="ETHtoWETH-tab" data-bs-toggle="tab" data-bs-target="#ETHtoWETH" type="button" role="tab" aria-controls="ETHtoWETH" aria-selected="true">{t(" ETH to WETH")}</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="WETHtoETH-tab" data-bs-toggle="tab" data-bs-target="#WETHtoETH" type="button" role="tab" aria-controls="WETHtoETH" aria-selected="false">{t("WETH to ETH")}</button>
+                        </li></ul>
+                        <div className="tab-pane fade" id="ETHtoWETH" role="tabpanel" aria-labelledby="ETHtoWETH-tab">
+                        <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text"><img src="/assets/images/icons/ethereum-pink.png" alt="" className="me-1 eth-icon" /> Eth</span>
+                                </div>
+                                <input type="number" className="form-control" placeholder= {t("product.ETH to WETH")} value={eth} onChange={e=>setEth(e.target.value)}/>
+                                <div className="input-group-append">
+                                  <span className="input-group-text">$0.00</span>
+                                </div>
+                              </div>
+                        </div>
+                        <div className="tab-pane fade" id="WETHtoETH" role="tabpanel" aria-labelledby="WETHtoETH-tab">
+                        <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text"><img src="/assets/images/icons/ethereum-pink.png" alt="" className="me-1 eth-icon" /> WETH</span>
+                                </div>
+                                <input type="number" className="form-control" placeholder= {t("product.WETH to ETH")} value={wth} onChange={e=>setWth(e.target.value)} />
+                                <div className="input-group-append">
+                                  <span className="input-group-text">$0.00</span>
+                                </div>
+                              </div>
+                        </div>
+</div>
+                        
+                              <div className="mt-2 text-end">
+                                <h6 className="balance-value">{t("product.Balance")} : <span>0.000 WETH</span></h6>
+                              </div>
+                              <div className="modal-footer border-0">
+                            <button type="button" className="btn btn-violet shadow-none"  data-bs-dismiss="modal" aria-label="Close" onClick={handleEth}>{t("Submit")}</button>
+                            
+                          </div>
+                            </div>
+                            
+                          </div>
+                          {/* <div className="modal-footer border-0">
+                            <button type="button" className="btn btn-violet shadow-none"  data-bs-dismiss="modal" aria-label="Close" onClick={handleBidAmount}>{t("product.Make Offer")}</button>
+                            <button type="button" className="btn btn-violet-outline ms-3">{t("product.Convert ETH")}</button>
+                          </div> */}
+                        </div>
+                      </div>
+                    </div>
                         </div>
                       </div>
                     </div>

@@ -16,7 +16,12 @@ import { Modal } from './Modal';
 
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
+export const logOut = () => {
+  localStorage.removeItem('TokenData');    
+  localStorage.removeItem('userLoggedIn');
 
+  window.location.href = '/';
+};
 export const Navbar = () => {
   const [token, setToken] = useState('');
   useEffect(() => {
@@ -26,7 +31,8 @@ export const Navbar = () => {
 
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
-  console.info(user);
+  console.info({user});
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -120,12 +126,12 @@ export const Navbar = () => {
   const [isNotLogin, setIsNotLogin] = useState(
     LoginStatis === null ? true : false && (window.location.href = '/')
   );
-  const logOut = () => {
-    localStorage.removeItem('TokenData');    
-    localStorage.removeItem('userLoggedIn');
+  // export const logOut = () => {
+  //   localStorage.removeItem('TokenData');    
+  //   localStorage.removeItem('userLoggedIn');
 
-    window.location.href = '/';
-  };
+  //   window.location.href = '/';
+  // };
 
   function langFlag(currentLanguageCode) {
     switch (currentLanguageCode) {
@@ -311,7 +317,7 @@ export const Navbar = () => {
                       ))}
                     </ul>
                   </div>
-                  {token ? (
+                  {token &&userId._id  ? (
                     <div className="user-icon-box d-none d-md-block dropdown">
                       <a
                         type="button"
@@ -319,7 +325,7 @@ export const Navbar = () => {
                         aria-expanded="false"
                       >
                         <img
-                          src="images/avatar1.png"
+                          src="/images/avatar1.png"
                           alt="img"
                           className="img-fluid user-avatar"
                         />

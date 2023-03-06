@@ -107,6 +107,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
 
   const [filteredData, setFilteredData] = useState([]);
   const [queryParamChanged, setQueryParamChanged] = useState(false);
+  const [like, setliked] = useState();
   useEffect(() => {
     // if (!serachButton) return;
     // if (location.search) {
@@ -160,7 +161,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
         setTimeout(()=> setLoadingFilter(false), 2000);
         
      });
-  }, [filterSearch, searchText, serachButton]);
+  }, [filterSearch, searchText, serachButton,like]);
   const handleSearchText = (e) => {
     e.preventDefault();
     setSearchButton(true);
@@ -440,7 +441,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                     >  
                       <div className="bottom-wrapper">
                      
-                        <ExploreNftListRow data={filteredData} loadingFilter={loadingFilter} />
+                        <ExploreNftListRow data={filteredData} loadingFilter={loadingFilter} setliked={setliked} />
                       
                       </div>
                     </div>
