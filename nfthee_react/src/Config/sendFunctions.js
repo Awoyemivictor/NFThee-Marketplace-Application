@@ -325,7 +325,7 @@ export const handleListNFTSale = async (
   console.log(res);
 };
 
-export const handleNFTBuy = async (tokenPrice, collectionName,tokenId) => {
+export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   console.info(tokenPrice, collectionName);
 
   let res;
@@ -498,6 +498,12 @@ export const handleWithdrawBidForToken = async (contractAddress, tokenId) => {
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
+
+  let gasLimit = await marketplaceInstance.estimateGas.withdrawBidForToken(
+    contractAddress,
+    tokenId
+  );
+  console.log(gasLimit);
 
   res1 = marketplaceInstance.withdrawBidForToken(contractAddress, tokenId);
 

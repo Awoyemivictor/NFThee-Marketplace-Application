@@ -20,6 +20,8 @@ import { getUnixTimeAfterDays } from '../../Config/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { logOut } from '../../Components/Layout/Navbar';
+import { wrapPaymentTokens,unwrapPaymentTokens } from '../../Config/token-actions/wrap-token';
+
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
@@ -31,6 +33,11 @@ const CreateNewItem = () => {
     logOut()
     history.push('/');
   }
+
+  const test = async () => {
+    // await wrapPaymentTokens()
+    await unwrapPaymentTokens()
+  };
 
   const Blockchains = [
     {
@@ -406,7 +413,7 @@ const CreateNewItem = () => {
   };
   const [collections, setCollections] = useState([]);
   const [marketplace, setMarketPlace] = useState(true);
-  const [activeTab, setActiveTab] = useState("0");
+  const [activeTab, setActiveTab] = useState('0');
   console.log(marketplace);
 
   useEffect(() => {
@@ -665,10 +672,10 @@ const CreateNewItem = () => {
   const handleSubmitNewItem = async (e) => {
     e.preventDefault();
     validateItemInputs();
-   
+
     let data = {};
     switch (activeTab) {
-      case "0":
+      case '0':
         data = fixedPrice;
         break;
 
@@ -1937,6 +1944,14 @@ const CreateNewItem = () => {
 
                         <div className='create-item-content border-bottom pb-3 mb-3'></div>
                       </form>
+
+                      <button
+                        type='submit'
+                        className='btn btn-violet w-100'
+                        onClick={test}
+                      >
+                        Test
+                      </button>
 
                       {/*</form>*/}
                     </div>
