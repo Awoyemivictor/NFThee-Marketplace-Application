@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+var AutoIncrement = require('mongoose-sequence')(mongoose);
+
 const nftSchema = new Schema(
   {
     user: {
@@ -108,5 +110,7 @@ const nftSchema = new Schema(
   },
   { timestamps: true }
 );
+
+nftSchema.plugin(AutoIncrement, { id: 'order_seq', inc_field: 'nextId' });
 
 module.exports = mongoose.model('nft', nftSchema);

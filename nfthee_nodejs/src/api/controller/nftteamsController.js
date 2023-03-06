@@ -175,3 +175,12 @@ exports.remove_likes= async (req, res, next) => {
     
 }
 
+
+exports.getPrice = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.getPrice(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}

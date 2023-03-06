@@ -31,7 +31,6 @@ export const getUserAddress = async () => {
   let account = accounts[0];
   provider.on('accountsChanged', function (accounts) {
     account = accounts[0];
-    console.log(address); // Print new address
   });
 
   const signer = provider.getSigner();
@@ -40,5 +39,5 @@ export const getUserAddress = async () => {
 
   console.log(address);
 
-  return address
+  return address;
 };

@@ -32,7 +32,7 @@ exports.index = async (req) => {
           },
         }
       : {};
-      
+
     //search by category
 
     let result = await nftIteams
@@ -73,7 +73,7 @@ exports.nftStore = async (req) => {
 
     let create_user = {
       userId: req.body.userId,
-      tokenId:req.body.tokenId,
+      tokenId: req.body.tokenId,
       chooseType: req.body.chooseType,
       uploadFile: req.body.uploadFile,
       name: req.body.name,
@@ -86,6 +86,7 @@ exports.nftStore = async (req) => {
       attribute: req.body.attribute,
       levels: req.body.levels,
       stats: req.body.stats,
+      created_by:req.body.created_by,
       explicitAndSensitiveContent: req.body.explicitAndSensitiveContent,
     };
 
@@ -130,10 +131,11 @@ exports.getAllItemInfo = async (req, res) => {
 exports.read_getItemInfo = async (req, res) => {
   try {
     let userId = req.query.id;
-    let result = await nftIteams.findOne({ _id: userId });
+
+    let result = await nftIteams.findOne({ _id: userId }).populate('created_by');
 
     return {
-      message: 'create item added successfully.',
+      message: ' Data find successfully.',
       status: true,
       data: result,
     };
@@ -163,7 +165,7 @@ exports.update_getItemInfo = async (req, res) => {
 exports.read_nftStore = async (req) => {
   try {
     let userId = req.query.id;
-    let result = await nftIteams.findOne({ _id: userId });
+    let result =await nftIteams.findOne({ _id: userId }).populate('created_by');
     console.log(userId, result);
     return {
       message: 'Read Data Fetch.....',
@@ -260,7 +262,7 @@ exports.upload_image = async (req) => {
 
 exports.insert_likes = async (req) => {
   try {
-    let id = req.query.id;
+    let id = req.body.id;
     console.log(':::::::>', id);
     let liked = await nftIteams.findByIdAndUpdate(
       req.body.postId,
@@ -283,7 +285,7 @@ exports.insert_likes = async (req) => {
 
 exports.remove_likes = async (req) => {
   try {
-    let id = req.query.id;
+    let id = req.body.id;
     console.log(':::::::>', id);
     let disliked = await nftIteams.findByIdAndUpdate(
       req.body.postId,
@@ -301,5 +303,41 @@ exports.remove_likes = async (req) => {
     };
   } catch (error) {
     return error;
+  }
+};
+
+exports.getPrice = async (req, res) => {
+  try {
+    let priceRange = req.query.priceRange;
+    // let priceMin = priceRange.split('-')[0];
+    // let priceMax = priceRange.split('-')[1];
+    let priceMin = Number(priceRange.split('-')[0]);
+    let priceMax = Number(priceRange.split('-')[1]);
+    console.log('typeOf', typeof priceMin, priceMin, priceMax);
+    let data = await nftIteams.aggregate([
+      {
+        $unwind: '$putOnMarketplace',
+      },
+      {
+        $match: {
+          $and: [
+            {
+              'putOnMarketplace.price': {
+                $gte: priceMin,
+                $lte: priceMax,
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    return {
+      message: 'Price range found successfully.',
+      status: true,
+      data: data,
+    };
+  } catch (error) {
+    throw error;
   }
 };
