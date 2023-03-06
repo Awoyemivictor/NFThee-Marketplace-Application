@@ -201,9 +201,9 @@ const[users,setuser]=useState([])
         axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
           headers: headers
         }).then((res)=>{
-            console.log("notification api send method receiver",res)
+            console.log("FCM send method receiver",res)
           }).catch((e)=>{
-            console.log("notification api error receiver",e)
+            console.log("FCM api error receiver",e)
           })
 
       },3000);
