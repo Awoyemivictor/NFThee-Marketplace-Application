@@ -11,7 +11,6 @@ function App() {
 
   useEffect(()=>{
     onMessageListener();
-    console.log("sdfsd")
   })
 
   const routeComponents = routes.map(({ path, component }, key) => (
