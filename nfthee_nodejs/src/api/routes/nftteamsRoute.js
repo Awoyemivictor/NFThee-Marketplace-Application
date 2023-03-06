@@ -21,6 +21,7 @@ const {
   update_getItemInfo,
   insert_likes,
   remove_likes,
+  getPrice
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
@@ -44,49 +45,8 @@ router.post('/unlike', remove_likes);
 router.post('/writeImage', uploadS3.single('testImage'), upload_image);
 
 router.post('/uploadImageTest', imageUpload.single('fileName'));
-router.get('/getRange', async (req, res) => {
-  try {
-    // let priceRange = req.query.priceRange;
-    // let priceMin = priceRange.split('-')[0];
-    // let priceMax = priceRange.split('-')[1];
-    // let data = await nftIteams.aggregate([
-    //   {
-    //     $unwind: '$putOnMarketplace',
-    //   },
-    //   {
-    //     $match: {
-    //       $and: [
-    //         {
-    //           'putOnMarketplace.price': {
-    //             $expr:
-    //             { $gt: [ { $getField: "price.usd" }, 200 ] }
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // ]);
 
-    let data = await nftIteams.aggregate([
-      {
-        $match: {
-          'putOnMarketplace.price': {
-            $elemMatch: {
-              value: {
-                $gte: { $toInt: '10' },
-                $lte: { $toInt: '20' },
-              },
-            },
-          },
-        },
-      },
-    ]);
-    console.log(data);
+router.get('/getPrice', getPrice);
 
-    res.send(data);
-  } catch (error) {
-    throw error;
-  }
-});
 
 module.exports = router;
