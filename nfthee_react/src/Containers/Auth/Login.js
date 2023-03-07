@@ -175,7 +175,14 @@ if(data&&tok!=null){
             }
         }).then(response => {
         localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
-            dispatch(setUser(response.data.data))})
+            dispatch(setUser(response.data.data))
+        
+            // console.log("res-----",response)
+            if (response.status === 200) {
+                const userMetaData =  magic.user.getMetadata()
+                dispatch(setMeta(userMetaData))
+            }
+        })
             .catch(err => {
                 Swal.fire({
                     position: "top-center",
@@ -186,10 +193,7 @@ if(data&&tok!=null){
                 });
             })
 
-        if (res.status === 200) {
-            const userMetaData = await magic.user.getMetadata()
-            await dispatch(setMeta(userMetaData))
-        }
+        
         history.push('/walletlogin')
     }
 

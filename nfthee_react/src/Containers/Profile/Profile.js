@@ -185,6 +185,7 @@ const[users,setuser]=useState([])
           data : {body:`${ldata.user_name} follow you`,title:'Firebase Notification'},
         };
 
+        console.log("token---------------------",receiver_token)
         axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
           headers: headers
         }).then((res)=>{
@@ -203,15 +204,15 @@ const[users,setuser]=useState([])
           
           // Send a message to the device corresponding to the provided
           // registration token.
-          console.log("messaging message active on profile page---",messaging)
-          messaging.send(message)
-            .then((response) => {
-              // Response is a message ID string.
-              console.log('Successfully sent message:', response);
-            })
-            .catch((error) => {
-              console.log('Error sending message:', error);
-            });
+          // console.log("messaging message active on profile page---",messaging)
+          // messaging.send(message)
+          //   .then((response) => {
+          //     // Response is a message ID string.
+          //     console.log('Successfully sent message:', response);
+          //   })
+          //   .catch((error) => {
+          //     console.log('Error sending message:', error);
+          //   });
 
       },3000);
 
