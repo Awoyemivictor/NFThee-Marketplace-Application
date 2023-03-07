@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const { createCollection } = require("../../models");
 const { nftIteams } = require("../../models");
 const { mailerLogin } = require("../../utils/email");
+const {notificationModel} = require('../../models');
 // const {signup} = require('../../models');
 
 const { credentials } = require("../../config").constantCredentials;
@@ -504,6 +505,44 @@ exports.addLoginToken = async (req, res) => {
       data: users,
     };
   } else {
+    return {
+      message: "User hasn't found",
+      status: false,
+      data: null,
+    };
+  }
+};
+  
+
+exports.notificationSend = async (req,res) => {
+  console.log(req.body, 'firstsss sdjbjd--------------');
+
+  let id = req.body.receiver_id
+  let r_users = await signup.findById(id);
+
+  payload_data = {
+  sender_id      : req.body.sender_id,
+  receiver_id    : req.body.receiver_id,
+  sender_token   : req.body.sender_token,
+  receiver_token : req.body.receiver_token,
+  message        : req.body.message,
+  status         : 'active',
+  } 
+
+  let result = ""
+  if(r_users){
+    result = await notificationModel.create(payload_data);
+    console.log("result-------",result);
+  }
+
+  if(result){
+    return {
+      message: "Notification update",
+      status: true,
+      data: result,
+    };
+
+  }else{
     return {
       message: "User hasn't found",
       status: false,

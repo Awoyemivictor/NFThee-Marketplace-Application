@@ -5,6 +5,7 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
+import {messaging} from "../../firebase-config";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -148,25 +149,71 @@ const[users,setuser]=useState([])
         }
       });
 
-      const server_key = "AAAAnGlm4-o:APA91bHRRIit_ku-IL-BJwammXTLkWoIsuikVw-z1Wod6G6zYJCnTfqPxB1zT449AQZZTXd8BAnC8hnc3lwHDjC9W-OCJT1LMaGRjeT7pdd9-3z6tw2j8ERnVaRVYsmiwCmk1Bu7Ua4i";
-
-      const headers = {
-          'Authorization' : 'key='+server_key,
-          'Content-Type'  : 'application/json',
-      };
+      // console.log("collectionData",id,"--",_id)
+      const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+      // console.log("ldata lcal",ldata,"---",ldata.user_name)
 
      
-      let payloads = {
-          to   : 'eAK4Y5bGVSTNL-Ti8JZ-hY:APA91bFXL1IyS5SpCpxw5JVv4E_vwsvin2Y7k9J_EizDlsGvqhM8pM22SP5ZBiTTlrROxLjwER5SlbeYn_aYAonTt6ZYjth2Lkm0sO6em7V0bHQvJm9mRs9XLMUomSdlVVnkjs6bp3v9',
-          data : {body:'mesaage send',title:'firebase'},
-      };
-      axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
-        headers: headers
-      }).then((res)=>{
-          console.log("notification api send method receiver",res)
+      let receiver_token =""
+
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+        console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+        receiver_token = res.data.data.token_id;
+      }).catch((e)=>{
+        console.log("get user data with id error-----",e)
+      })
+
+      setTimeout(()=>{
+
+        let payload = {sender_id:_id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} follow you`} 
+
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+        console.log("notification api send receiver",res)
         }).catch((e)=>{
-          console.log("notification api error receiver",e)
+          console.log("notification api receiver",e)
         })
+
+        const server_key = "AAAAnGlm4-o:APA91bHRRIit_ku-IL-BJwammXTLkWoIsuikVw-z1Wod6G6zYJCnTfqPxB1zT449AQZZTXd8BAnC8hnc3lwHDjC9W-OCJT1LMaGRjeT7pdd9-3z6tw2j8ERnVaRVYsmiwCmk1Bu7Ua4i";
+
+        const headers = {
+            'Authorization' : 'key='+server_key,
+            'Content-Type'  : 'application/json',
+        };
+
+        let payloads = {
+          to   : receiver_token,
+          data : {body:`${ldata.user_name} follow you`,title:'Firebase Notification'},
+        };
+
+        axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+          headers: headers
+        }).then((res)=>{
+            console.log("FCM send method receiver",res)
+          }).catch((e)=>{
+            console.log("FCM api error receiver",e)
+          })
+
+          const message = {
+            data: {
+             body:`${ldata.user_name} follow you`,
+             title:'Firebase Notification',
+            },
+            token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
+          };
+          
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          console.log("messaging message active on profile page---",messaging)
+          messaging.send(message)
+            .then((response) => {
+              // Response is a message ID string.
+              console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+              console.log('Error sending message:', error);
+            });
+
+      },3000);
 
 
   }
