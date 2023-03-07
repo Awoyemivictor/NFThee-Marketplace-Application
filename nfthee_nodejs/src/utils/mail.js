@@ -91,3 +91,40 @@ module.exports = class Mail {
         return true;
     }
 }
+
+// Node Mialer mail send with node js
+// var nodemailer = require("nodemailer");
+
+// var nodemailer = require('nodemailer');
+// email sender function
+// exports.sendEmail = function(req, res){
+    // define the transporter
+    // var transporter = nodemailer.createTransport({
+    //     host: 'smtp.ethereal.email',
+    //     port: 587,
+    //     auth: {
+    //         user: 'lucious84@ethereal.email',
+    //         pass: 'qpdspSf9S2wEzJQhyj'
+    //     }
+    // });
+
+    // // Define the email
+    // var mailOptions = {
+    //     from: 'tebaxag160@wwgoc.com',
+    //     to: 'mohit.lnwebworks@gmail.com',
+    //     subject: 'Subject',
+    //     text: 'Finally Sent the mail'
+    // };
+
+    // // We send the email
+    // transporter.sendMail(mailOptions, function(error, info){
+    //     if (error) {
+    //         console.log(error);
+    //         // res.send(500, err.message);
+    //     } else {
+    //         console.log("Email sent",info);
+    //         // res.status(200).jsonp(req.body);
+    //     }
+    // });
+
+    // // exports=transporter.sendMail

@@ -50,6 +50,8 @@ exports.credentials = {
   AWS_ID: process.env.AWS_ID || '',
   AWS_SECRET: process.env.AWS_SECRET || '',
   AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME || '',
+  BASE_FRONTEND_URL:
+    process.env.BASE_FRONTEND_URL || 'https://lnfthee-frontend.onrender.com',
   USER_TYPE: {
     USER: 'user',
   },

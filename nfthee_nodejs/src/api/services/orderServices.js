@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 
 const { orderModel, nftIteams } = require('../../models');
-
+const { mailerLogin } = require('../../utils/email');
 const { credentials } = require('../../config').constantCredentials;
 
 exports.createOrder = async (req, res) => {
@@ -31,7 +31,13 @@ exports.createOrder = async (req, res) => {
 
     console.log('==>', order);
     let result = await orderModel.create(order);
-
+    if (result) {
+      let email = 'mohit.lnwebworks@gmail.com';
+      let Subject = 'Created Order';
+      let message = `<h3>created your order successfully</h3><p>to check your order<a href='${credentials.BASE_FRONTEND_URL}/exploredetail/${order.nftId}'><h4>Click here</h4></a></p>`;
+      console.log('mkamkkkkkkkkkkkkkkkkkkkkkkkkk', message, email);
+      mailerLogin(email, message, Subject);
+    }
     return {
       message: 'Order placed Successfully',
       status: true,

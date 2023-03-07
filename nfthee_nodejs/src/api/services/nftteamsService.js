@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const multer = require('multer');
 
-const { nftIteams } = require('../../models');
+const { nftIteams, signup } = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
 
@@ -156,7 +156,7 @@ exports.update_getItemInfo = async (req, res) => {
       message: 'create item added successfully.',
       status: true,
       data: result,
-    };
+    };testEmail
   } catch (error) {
     throw error;
   }
@@ -176,7 +176,22 @@ exports.read_nftStore = async (req) => {
     return error;
   }
 };
-
+// exports.buy_nft = async (req,res) => {
+//   try {
+//     let userId = req.query.id;
+//     // const user = await signup.findById(req.user.id);
+//     let result = await nftIteams.findOne({ _id: userId });
+    
+//     console.log(userId, result);
+//     return {
+//       message: 'buy Nft Data Fetch.....',
+//       status: true,
+//       data: result,
+//     };
+//   } catch (error) {
+//     return error;
+//   }
+// };
 exports.upadte_nftStore = async (req) => {
   try {
     let userId = req.body.userId;

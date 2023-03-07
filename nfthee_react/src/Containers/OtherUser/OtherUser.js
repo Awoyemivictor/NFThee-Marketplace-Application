@@ -93,7 +93,7 @@ export default function OtherUser() {
 
   console.log("id of /ExploreDetails",id)
     const [image, setImage] = useState({ preview: "/assets/images/avt-5.jpg", raw: "" });
-  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+  const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
   const[collectionData,setCollectionData]=useState([])
   const[itemData,setItemData]=useState([])
     useEffect(()=>{
@@ -126,7 +126,7 @@ export default function OtherUser() {
 //   console.log(id)
      const { data } =  await axios({
       method: 'put',
-      url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
+      url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}username=${user_name}`,
       data: {
           id: e.target.name,
       }
@@ -138,7 +138,7 @@ export default function OtherUser() {
 //   console.log(id)
    const { data } = await axios({
     method: 'put',
-    url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
+    url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}username=${user_name}`,
     data: {
         id: e.target.name,
     }

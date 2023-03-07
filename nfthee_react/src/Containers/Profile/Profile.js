@@ -77,7 +77,7 @@ const Profile = () => {
   //   }, 1500);
   // }
   const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
-const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
+const {_id,user_name,email_address}=JSON.parse(localStorage.getItem('userLoggedIn'))
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
 const[users,setuser]=useState([])
@@ -142,7 +142,7 @@ const[users,setuser]=useState([])
       console.log(id)
       const { data } =  axios({
         method: 'put',
-        url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}`,
+        url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}&&username=${user_name}&&email=${email_address}`,
         data: {
             id: id,
         }
