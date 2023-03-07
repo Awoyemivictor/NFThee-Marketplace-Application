@@ -8,6 +8,8 @@ import {useParams} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../hooks/useRedux";
 import {setUser} from "../../redux/userSlice";
 import {setMeta} from "../../redux/metaSlice";
+import {requestForToken} from '../../../src/firebase-config';
+import axios from "axios";
 
 
 function Login() {
@@ -15,6 +17,8 @@ function Login() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [userData, setUserData] = useState();
+    const [userToken, setUserToken] = useState();
+    
     // console.info(instance)
     // console.warn(useAppSelector(state => state));
     // console.warn(user)
@@ -31,6 +35,14 @@ if(data&&tok!=null){
     // const URI = `http://localhost:3000/walletlogin`;
 
     // const URI = `${window.location.origin}/walletlogin`;
+
+    useEffect(() => {
+        requestForToken().then((data) =>{
+            setUserToken(data)
+        }).catch((e)=>{
+            console.log("error",e)
+        })
+    });
 
     let magic = new Magic("pk_live_A57B8D59D07E9901");
 
@@ -124,6 +136,22 @@ if(data&&tok!=null){
             });
              instance.get(`/api/login/email?email_address=${email}`).then(response => {
             localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
+            console.log("lofin data frontend",response.data.data)
+            let payload = {email_address:response.data.data.email_address, token_id:userToken}
+
+            if(!response.data.data.token_id){
+                instance.post('/api/addLoginToken',payload).then((res)=>{
+                    console.log("res--------",res)
+                }).catch((e)=>{
+                    console.log("eorror--------",e)
+                })
+            }else{
+                instance.post('/api/addLoginToken',payload).then((res)=>{
+                    console.log("res--------",res)
+                }).catch((e)=>{
+                    console.log("eorror--------",e)
+                })
+            }
         })
         } else {
             Swal.fire({
@@ -147,7 +175,14 @@ if(data&&tok!=null){
             }
         }).then(response => {
         localStorage.setItem("userLoggedIn",JSON.stringify(response.data.data))
-            dispatch(setUser(response.data.data))})
+            dispatch(setUser(response.data.data))
+        
+            // console.log("res-----",response)
+            if (response.status === 200) {
+                const userMetaData =  magic.user.getMetadata()
+                dispatch(setMeta(userMetaData))
+            }
+        })
             .catch(err => {
                 Swal.fire({
                     position: "top-center",
@@ -158,10 +193,7 @@ if(data&&tok!=null){
                 });
             })
 
-        if (res.status === 200) {
-            const userMetaData = await magic.user.getMetadata()
-            await dispatch(setMeta(userMetaData))
-        }
+        
         history.push('/walletlogin')
     }
 

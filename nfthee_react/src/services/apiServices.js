@@ -131,44 +131,41 @@ export const handleLikes = async (result, value, setDisaable) => {
   console.log(data)
   return data;
 };
-
-export const createBid = async ({
-  nftId,
-  bidder,
-  owner,
-  bid_status,
-  bid_price,
-  bid_quantity,
-}) => {
-  const create = '/api/createBidNft';
-  const url = '/api/getOrdersByNftId';
+export const createBid=async({nftId,bidder,owner,bid_status,bid_price,
+  bid_quantity})=>{
+  const create='/api/createBidNft'
+  const url='/api/getOrdersByNftId'
   // http://192.168.1.147:8002/api/getOrdersByNftId
   // let all=bidData.nftId
+  
 
-  let data;
-  const order = await instance.post(url, { nftId: nftId });
-  console.log([order.data.data[0]._id]);
-  if (order.data.data[0]._id) {
-    let bidData = {
-      bidder,
-      owner,
-      bid_status,
-      bid_price,
-      nftId,
-      oderId: order.data.data[0]._id,
-      bid_quantity,
-    };
-    data = await instance.post(create, bidData);
+
+  let data; 
+const   order=await instance.post(url,{nftId:nftId})
+  console.log([order.data.data[0]._id])
+if(order.data.data[0]._id){
+  let bidData={
+    bidder,
+    owner,
+    bid_status,
+    bid_price:bid_price,
+    nftId,
+    oderId:order.data.data[0]._id,
+    bid_quantity
   }
-  return data;
-};
+  data=await instance.post(create,bidData)
+
+}
+return data
+  
+}
 
 // export const updateBid=async()=>{
-const create = '/api/createBidNft';
-const update = '/api/updateBidNft';
-const accept = '/api/acceptBidNft';
-const fetch = '/api/fetchBidNft';
-
+  // const create='/api/createBidNft'
+  // const update='/api/updateBidNft'
+  // const accept='/api/acceptBidNft'
+  // const fetch='/api/fetchBidNft'
+  
 // }
 // export const acceptBid=async()=>{
 //   const create='/api/createBidNft'
@@ -177,10 +174,12 @@ const fetch = '/api/fetchBidNft';
 //   const fetch='/api/fetchBidNft'
 
 // }
-// export const fetchBid=async()=>{
-//   const create='/api/createBidNft'
-//   const update='/api/updateBidNft'
-//   const accept='/api/acceptBidNft'
-//   const fetch='/api/fetchBidNft'
+export const fetchBid=async(nftId)=>{
+  const fetchUrl='/api/fetchBidNft'
+  let data;
 
-// }
+  data=await instance.post(fetchUrl,{nftId})
+
+  console.log([data.data],'fetch')
+  return data.data
+}

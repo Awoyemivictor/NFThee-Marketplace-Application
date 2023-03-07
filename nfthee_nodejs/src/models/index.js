@@ -12,3 +12,4 @@ exports.likes = require('./likesModel');
 exports.orderModel = require('./orderModel');
 exports.bidModel = require('./bidModel');
 exports.nftOwnerModel = require('./nftOwnerModel');
+exports.notificationModel = require('./notificationModel');

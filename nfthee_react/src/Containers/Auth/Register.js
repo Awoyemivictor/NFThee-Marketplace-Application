@@ -5,6 +5,7 @@ import {useHistory, NavLink, Link} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import Swal from 'sweetalert2'
 import {Magic} from "magic-sdk";
+import {requestForToken} from '../../../src/firebase-config';
 
 function Register() {
     const {register, handleSubmit, clearErrors, formState: {errors}, trigger} = useForm();
@@ -19,18 +20,31 @@ if(data&&tok!=null){
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
+
+    const [usertoken, setUsertoken] =useState("")
+    useEffect(() => {
+        requestForToken().then((data) =>{
+            setUsertoken(data)
+        }).catch((e)=>{
+            console.log("error",e)
+        })
+    });
+
     const [userData, setUserData] = useState({
         user_name: '',
         first_name: '',
         last_name: '',
         email_address: '',
         country: '',
+        token_id:''
     })
+
 
     console.log(register,":><><<<<>>>>")
     const [loading, setLoading] = useState(false)
     const handleChange = (e) => {
-        const value = e.target.value
+        const value = e.target.value       
+        userData.token_id = usertoken
         setUserData({
             ...userData,
             [e.target.name]: value

@@ -36,9 +36,9 @@ export const Modal = ({ onRequestClose }) => {
   console.log(selectedId);
 
   return (
-    <div className='modal__backdrop'>
+    <div className='modal__backdrop' >
       <div className='modal__container'>
-        <div class='row'>
+        <div class='row '>
           <div class='col-11'>
             <h3 className='modal__title'>Select Currency</h3>
           </div>
@@ -220,3 +220,191 @@ export const ModalBuynft = ({ onRequestClose, collectionData }) => {
     </div>
   );
 };
+
+
+export const ConvertModal=({ onRequestClose,  
+  setActiveTab,
+  setEth,
+  setWth,
+  handleEth,
+  handleWth, 
+  eth,
+  wth,
+  activeTab
+})=>{
+  
+
+  return (
+    <div className='modal__backdrop'>
+      <div className='modal__container1'>
+        <div class='row'>
+          <div class='col-11'>
+            <h2 class='modal_title'>Convert </h2>
+          </div>
+          <div class='col-1'>
+            <Link onClick={onRequestClose}>
+              <img src='/assets/images/icons/close.png' alt='' />
+            </Link>
+          </div>
+        </div>
+
+
+
+        <div className='offer-price'>
+                                      <div
+                                        className='tab-content custom-scrollbar'
+                                        id='myTabContent'
+                                      >
+                                        <ul
+                                          className='nav nav-tabs'
+                                          id='myTab'
+                                          role='tablist'
+                                        >
+                                          <li
+                                            className='nav-item'
+                                            role='presentation'
+                                          >
+                                            <button
+                                              className='nav-link active'
+                                              id='ETHtoWETH-tab'
+                                              data-bs-toggle='tab'
+                                              data-bs-target='#ETHtoWETH'
+                                              type='button'
+                                              role='tab'
+                                              aria-controls='ETHtoWETH'
+                                              aria-selected='true'
+                                              value={1}
+                                              onClick={e=>setActiveTab(e.target.value)}
+                                            >
+                                               ETH to WETH
+                                            </button>
+                                          </li>
+                                          <li
+                                            className='nav-item'
+                                            role='presentation'
+                                          >
+                                            <button
+                                              className='nav-link'
+                                              id='WETHtoETH-tab'
+                                              data-bs-toggle='tab'
+                                              data-bs-target='#WETHtoETH'
+                                              type='button'
+                                              role='tab'
+                                              aria-controls='WETHtoETH'
+                                              aria-selected='false'
+                                              value={2}
+                                              onClick={e=>setActiveTab(e.target.value)}
+                                            >
+                                              WETH to ETH
+                                            </button>
+                                          </li>
+                                        </ul>
+                                        <div
+                                          className='tab-pane fade show active'
+                                          id='ETHtoWETH'
+                                          role='tabpanel'
+                                          aria-labelledby='ETHtoWETH-tab'
+                                        >
+                                          <div className='input-group mb-3'>
+                                            <div className='input-group-prepend'>
+                                              <span className='input-group-text'>
+                                                <img
+                                                  src='/assets/images/icons/ethereum-pink.png'
+                                                  alt=''
+                                                  className='me-1 eth-icon'
+                                                />{' '}
+                                                Eth
+                                              </span>
+                                            </div>
+                                            <input
+                                              type='number'
+                                              className='form-control'
+                                              placeholder={
+                                                'Enter Amount'
+                                              }
+                                              value={eth}
+                                              onChange={(e) =>
+                                                setEth(e.target.value)
+                                              }
+                                            />
+                                            <div className='input-group-append'>
+                                              <span className='input-group-text'>
+                                                $0.00
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          className='tab-pane fade'
+                                          id='WETHtoETH'
+                                          role='tabpanel'
+                                          aria-labelledby='WETHtoETH-tab'
+                                        >
+                                          <div className='input-group mb-3'>
+                                            <div className='input-group-prepend'>
+                                              <span className='input-group-text'>
+                                                <img
+                                                  src='/assets/images/icons/ethereum-pink.png'
+                                                  alt=''
+                                                  className='me-1 eth-icon'
+                                                />{' '}
+                                                WETH
+                                              </span>
+                                            </div>
+                                            <input
+                                              type='number'
+                                              className='form-control'
+                                              placeholder={
+                                                'Enter Amount'
+                                              }
+                                              value={wth}
+                                              onChange={(e) =>
+                                                setWth(e.target.value)
+                                              }
+                                            />
+                                            <div className='input-group-append'>
+                                              <span className='input-group-text'>
+                                                $0.00
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className='mt-2 text-end'>
+                                        <h6 className='balance-value'>
+                                          Balance :{' '}
+                                          <span>0.000 WETH</span>
+                                        </h6>
+                                      </div>
+                                      <div className='modal-footer border-0'>
+                                        {activeTab ==='1'?
+                                        <button
+                                          type='button'
+                                          className='btn btn-violet shadow-none'
+                                          
+                                          data-bs-toggle="modal" data-bs-dismiss="modal"
+                                          onClick={handleEth}
+                                        >
+                                          Wrap
+                                        </button>:<button
+                                          type='button'
+                                          className='btn btn-violet shadow-none'
+                                       
+                                          data-bs-toggle="modal" data-bs-dismiss="modal"
+                                          onClick={handleWth}
+                                        >
+                                          Unwrap
+                                        </button>}
+                                      </div>
+                                    </div>
+
+
+
+
+        </div>
+    </div>
+  );
+
+
+}
