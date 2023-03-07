@@ -15,7 +15,7 @@ const bidSchema = new Schema({
     enum: ['Bid', 'Cancelled', 'Accepted', 'Sold', 'Rejected'],
   },
   bid_price: {
-    type: mongoose.Types.Decimal128,
+    type: Number,
     required: true,
   },
   nftId: {

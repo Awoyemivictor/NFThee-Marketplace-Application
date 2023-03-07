@@ -70,13 +70,6 @@ export const approveTokens = async (ownerAddress) => {
   return res1.status;
 };
 
-const marketpalceInstance = async () => {
-  return await exportInstance(
-    contracts.polygonContracts.MARKETPLACE,
-    Market.abi
-  );
-};
-
 /**
  *
  * @param For Collection Creattion
