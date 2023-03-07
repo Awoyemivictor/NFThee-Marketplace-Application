@@ -5,6 +5,7 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
+import {messaging} from "../../firebase-config";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -191,6 +192,26 @@ const[users,setuser]=useState([])
           }).catch((e)=>{
             console.log("FCM api error receiver",e)
           })
+
+          const message = {
+            data: {
+             body:`${ldata.user_name} follow you`,
+             title:'Firebase Notification',
+            },
+            token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
+          };
+          
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          console.log("messaging message active on profile page---",messaging)
+          messaging.send(message)
+            .then((response) => {
+              // Response is a message ID string.
+              console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+              console.log('Error sending message:', error);
+            });
 
       },3000);
 

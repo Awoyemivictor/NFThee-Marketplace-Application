@@ -20,7 +20,7 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 
 console.log("message",app,"sdvsdv",messaging)
 
@@ -58,3 +58,10 @@ export const onMessageListener = () =>{
         new Notification(notificationTitle,notificationOptions);
     });
 };
+
+// export const onMessageListeners = () =>
+//   new Promise((resolve) => {
+//     messaging.onMessage((payload) => {
+//       resolve(payload);
+//     });
+//   });
