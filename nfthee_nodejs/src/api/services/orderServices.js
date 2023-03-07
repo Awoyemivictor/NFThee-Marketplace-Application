@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const fs = require('fs');
+const mongoose = require("mongoose");
+const fs = require("fs");
 
-const { orderModel, nftIteams } = require('../../models');
-
-const { credentials } = require('../../config').constantCredentials;
+const { orderModel, nftIteams } = require("../../models");
+const { mailerLogin } = require("../../utils/email");
+const { credentials } = require("../../config").constantCredentials;
 
 exports.createOrder = async (req, res) => {
   try {
@@ -29,11 +29,17 @@ exports.createOrder = async (req, res) => {
       quantity_sold: req.body.quantity_sold,
     };
 
-    console.log('==>', order);
+    console.log("==>", order);
     let result = await orderModel.create(order);
-
+    if (result) {
+      let email = "mohit.lnwebworks@gmail.com";
+      let Subject = "Created Order";
+      let message = `<h3>created your order successfully</h3><p>to check your order<a href='http://localhost:3000/exploredetail/${order.nftId}'><h4>Click here</h4></a></p>`;
+      console.log("mkamkkkkkkkkkkkkkkkkkkkkkkkkk", message, email);
+      mailerLogin(email, message, Subject);
+    }
     return {
-      message: 'Order placed Successfully',
+      message: "Order placed Successfully",
       status: true,
       data: result,
     };
@@ -50,7 +56,7 @@ exports.getOrder = async (req) => {
       _id: orderId,
     });
     return {
-      message: 'Order Details',
+      message: "Order Details",
       status: true,
       data: result,
     };
@@ -63,7 +69,7 @@ exports.updateOrder = async (req) => {
   try {
     if (!req.body.nftId)
       return {
-        message: 'NFT Id Required',
+        message: "NFT Id Required",
         status: false,
         data: [],
       };
@@ -107,32 +113,32 @@ exports.updateOrder = async (req) => {
       await NFT.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(req.body.nftId),
-          'nOwnedBy.address': req.body.oSeller,
+          "nOwnedBy.address": req.body.oSeller,
         },
         {
           $set: {
-            'nOwnedBy.$.quantity': parseInt(leftQty),
+            "nOwnedBy.$.quantity": parseInt(leftQty),
           },
         }
       );
     }
     //Credit the buyer
-    console.log('Crediting Buyer');
+    console.log("Crediting Buyer");
 
     let subDocId = await NFT.exists({
       _id: mongoose.Types.ObjectId(req.body.nftId),
-      'nOwnedBy.address': req.body.buyer_address,
+      "nOwnedBy.address": req.body.buyer_address,
     });
     if (subDocId) {
-      console.log('Subdocument Id', subDocId);
+      console.log("Subdocument Id", subDocId);
 
       let _NFTB = await NFT.findOne({
         _id: mongoose.Types.ObjectId(req.body.nftId),
-        'nOwnedBy.address': req.body.oBuyer,
-      }).select('nOwnedBy -_id');
-      console.log('_NFTB-------->', _NFTB);
+        "nOwnedBy.address": req.body.oBuyer,
+      }).select("nOwnedBy -_id");
+      console.log("_NFTB-------->", _NFTB);
       console.log(
-        'Quantity found for buyers',
+        "Quantity found for buyers",
         _NFTB.nOwnedBy.find((o) => o.address === req.body.oBuyer.toLowerCase())
           .quantity
       );
@@ -150,17 +156,17 @@ exports.updateOrder = async (req) => {
       await NFT.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(req.body.nftId),
-          'nOwnedBy.address': req.body.oBuyer,
+          "nOwnedBy.address": req.body.oBuyer,
         },
         {
           $set: {
-            'nOwnedBy.$.quantity': parseInt(ownedQty),
+            "nOwnedBy.$.quantity": parseInt(ownedQty),
           },
         },
         { upsert: true, runValidators: true }
       );
     } else {
-      console.log('Subdocument Id not found');
+      console.log("Subdocument Id not found");
       let dataToadd = {
         address: req.body.oBuyer,
         quantity: parseInt(req.body.oQtyBought),
@@ -174,7 +180,7 @@ exports.updateOrder = async (req) => {
     }
 
     return {
-      message: 'Order updated Successfully',
+      message: "Order updated Successfully",
       status: true,
       data: [],
     };
@@ -188,7 +194,7 @@ exports.deleteOrder = async (req) => {
     const result = await orderModel.deleteOne({ _id: req.body.orderId });
 
     return {
-      message: 'Order Deleted Successfully',
+      message: "Order Deleted Successfully",
       status: true,
       data: result,
     };
@@ -206,7 +212,7 @@ exports.getOrdersByNftId = async (req) => {
       })
       .exec();
     return {
-      message: 'Order Details Using NFT ID and Status',
+      message: "Order Details Using NFT ID and Status",
       status: true,
       data: result,
     };

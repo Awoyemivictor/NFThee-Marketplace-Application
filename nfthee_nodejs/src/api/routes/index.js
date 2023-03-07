@@ -15,4 +15,6 @@ module.exports = (app) => {
   app.use(apiV1Prefix, require('./historyRoute'));
   app.use(apiV1Prefix, require('./likesRoute'));
   app.use(apiV1Prefix, require('./orderRoute'));
+  app.use(apiV1Prefix, require('./bidRoutes'));
+  
 };
