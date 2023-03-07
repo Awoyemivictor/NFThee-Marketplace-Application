@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { bidModel } = require('../../models');
-const mongoose = require('mongoose');
 const { mailerLogin } = require("../../utils/email");
 const { credentials } = require('../../config').constantCredentials;
 
@@ -49,6 +48,8 @@ exports.createBidNft = async (req, res) => {
       status: true,
       data: bidData,
     };
+  }catch (error) {
+    throw error
   }
 };
 
