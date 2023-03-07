@@ -7,7 +7,7 @@ import {
   SingleSlider,
 } from './ExploreFilterData';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
-import { ModalBuynft,ConvertModal } from '../../Components/Layout/Modal';
+import { ModalBuynft, ConvertModal } from '../../Components/Layout/Modal';
 
 import { useTranslation } from 'react-i18next';
 import Apexcharts from '../../Components/Apexcharts';
@@ -57,7 +57,7 @@ function ExploreDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [convertModalOpen, setconvertModalIsOpen] = useState(false);
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
 
   const submitToken = async () => {
     console.log(eth, wth);
@@ -74,17 +74,15 @@ function ExploreDetail() {
   useEffect(() => {
     collectionSlider();
   });
-  const [ collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [shownList, setShownList] = useState([]);
-  const [bidData,setBidData]=useState([])
+  const [bidData, setBidData] = useState([]);
 
-
-
-  const handleBidData=async()=>{
-    const data=await fetchBid(id)
-    setBidData(data.data)
-  }
-console.log(bidData,'bidData')
+  const handleBidData = async () => {
+    const data = await fetchBid(id);
+    setBidData(data.data);
+  };
+  console.log(bidData, 'bidData');
   useEffect(async () => {
     setIsLoading(true);
     await instance
@@ -175,34 +173,27 @@ console.log(bidData,'bidData')
       console.log({ data });
     }
   };
-  const[activeTab,setActiveTab]=useState('1')
+  const [activeTab, setActiveTab] = useState('1');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
 
-    if (eth!=='') {
-      await wrapPaymentTokens(eth);
-    } 
+    await wrapPaymentTokens(eth);
   };
   const handleWth = async (e) => {
     console.log({ eth }, { wth });
 
-    if (wth==='') {
-      await unwrapPaymentTokens(wth)
-    } 
+    await unwrapPaymentTokens(wth);
   };
 
+  const handleAcceptBid = () => {
+    console.log('handleAcceptBid');
+  };
 
-  const handleAcceptBid=()=>{
- console.log('handleAcceptBid')
-  }
-
-  const handleCanceltBid=()=>{
-    console.log('handleCanceltBid')
-
-
-  }
+  const handleCanceltBid = () => {
+    console.log('handleCanceltBid');
+  };
   // console.log({activeTab})
 
   useEffect(() => {
@@ -244,13 +235,11 @@ console.log(bidData,'bidData')
                     <ModalBuynft
                       onRequestClose={toggleModal}
                       collectionData={collections}
-
                     />
                   )}
                   {convertModalOpen && (
                     <ConvertModal
                       onRequestClose={convertToggleModal}
-              
                       setActiveTab={setActiveTab}
                       setEth={setEth}
                       setWth={setWth}
@@ -573,7 +562,6 @@ console.log(bidData,'bidData')
                                         <span className='text2'>
                                           3 hours ago
                                         </span>
-                                        
                                       </div>
                                     </div>
                                   </div>
@@ -606,67 +594,101 @@ console.log(bidData,'bidData')
                             role='tabpanel'
                             aria-labelledby='Bid-tab'
                           >
-                            4{bidData.filter((bid)=>bid.bid_price>0).map((data)=>(
-
+                            4
+                            {bidData
+                              .filter((bid) => bid.bid_price > 0)
+                              .map((data) => (
                                 <div className='card-body'>
-                              <div className='col-lg-6 col-md-6 px-lg-0'>
-                                <div className='creator-card creator-card-two mb-lg-4'>
-                                  <div className='card-body'>
-                                    <div className='avatars'>
-                                      <div className='media'>
-                                        <div className='badge'>
-                                          <img
-                                            src='/assets/images/icons/star-check.png'
-                                            alt=''
-                                          />
-                                        </div>
-                                        <a href='#'>
-                                          <img
-                                            src={data?.bidder?.profile_image?data.bidder.profile_image:'/assets/images/avt-1.jpg'}
-                                            alt=''
-                                            className='avatar'
-                                          />
-                                        </a>
-                                      </div>
-                                      <div className='ms-3'>
-                                        <p className='text2'>
-                                          <div className='input-group-prepend'>
-                                    <span className='input-group-text'>
-                                      <img
-                                        src='/assets/images/icons/ethereum-pink.png'
-                                        alt=''
-                                        className='me-1 eth-icon'
-                                        />{' '}
-                                        {data.bid_price?data.bid_price:''}
-                                      WETH
-                                    </span>&nbsp;&nbsp;
-                                          <span style={{maxWidth:'175px'}} >
-                                           {/* <br/> */}
-                                           &nbsp;&nbsp; Bided  &nbsp;&nbsp;By&nbsp;&nbsp; {data?.bidder?.user_name?data?.bidder?.user_name:'HEROSTHENAME'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                          </span>
-                                           {collections?.created_by?._id===userId._id?
-                                           <>
-                                          <button type="button" class="btn btn-success" onClick={handleAcceptBid}>Accept</button>
-                                            <button type="button" class="btn btn-danger" onClick={handleCanceltBid} >Reject</button>
-                                            </>
-                                            :null}
-
-                                            {data?.bidder?._id===userId._id?<button type="button" class="btn btn-danger" onClick={handleCanceltBid}>Cancel</button>:null}
+                                  <div className='col-lg-6 col-md-6 px-lg-0'>
+                                    <div className='creator-card creator-card-two mb-lg-4'>
+                                      <div className='card-body'>
+                                        <div className='avatars'>
+                                          <div className='media'>
+                                            <div className='badge'>
+                                              <img
+                                                src='/assets/images/icons/star-check.png'
+                                                alt=''
+                                              />
                                             </div>
-
-                                        </p>
-                                        <span className='text2'>
-                                          3 hours ago
-                                        </span>
-                                        
+                                            <a href='#'>
+                                              <img
+                                                src={
+                                                  data?.bidder?.profile_image
+                                                    ? data.bidder.profile_image
+                                                    : '/assets/images/avt-1.jpg'
+                                                }
+                                                alt=''
+                                                className='avatar'
+                                              />
+                                            </a>
+                                          </div>
+                                          <div className='ms-3'>
+                                            <p className='text2'>
+                                              <div className='input-group-prepend'>
+                                                <span className='input-group-text'>
+                                                  <img
+                                                    src='/assets/images/icons/ethereum-pink.png'
+                                                    alt=''
+                                                    className='me-1 eth-icon'
+                                                  />{' '}
+                                                  {data.bid_price
+                                                    ? data.bid_price
+                                                    : ''}
+                                                  WETH
+                                                </span>
+                                                &nbsp;&nbsp;
+                                                <span
+                                                  style={{ maxWidth: '175px' }}
+                                                >
+                                                  {/* <br/> */}
+                                                  &nbsp;&nbsp; Bided
+                                                  &nbsp;&nbsp;By&nbsp;&nbsp;{' '}
+                                                  {data?.bidder?.user_name
+                                                    ? data?.bidder?.user_name
+                                                    : 'HEROSTHENAME'}
+                                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                                {collections?.created_by
+                                                  ?._id === userId._id ? (
+                                                  <>
+                                                    <button
+                                                      type='button'
+                                                      class='btn btn-success'
+                                                      onClick={handleAcceptBid}
+                                                    >
+                                                      Accept
+                                                    </button>
+                                                    <button
+                                                      type='button'
+                                                      class='btn btn-danger'
+                                                      onClick={handleCanceltBid}
+                                                    >
+                                                      Reject
+                                                    </button>
+                                                  </>
+                                                ) : null}
+                                                {data?.bidder?._id ===
+                                                userId._id ? (
+                                                  <button
+                                                    type='button'
+                                                    class='btn btn-danger'
+                                                    onClick={handleCanceltBid}
+                                                  >
+                                                    Cancel
+                                                  </button>
+                                                ) : null}
+                                              </div>
+                                            </p>
+                                            <span className='text2'>
+                                              3 hours ago
+                                            </span>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                            ))}
-                            
+                              ))}
                           </div>
                           {/* :''} */}
 
@@ -886,17 +908,17 @@ console.log(bidData,'bidData')
                             {t('product.Buy Card')}
                           </button>
                         </div>
-                        {collections?.putOnMarketplace?.price ? 
-                        <div className='col-lg-4 mb-4 mb-lg-0'>
-                          <button
-                        
-                          className='btn btn-outline-white1 w-100'
-                          onClick={convertToggleModal}
-                          >
-                            <i className='bx bx-credit-card me-2' />{' '}
-                            {t('Convert')}
-                          </button>
-                        </div>:null}
+                        {collections?.putOnMarketplace?.price ? (
+                          <div className='col-lg-4 mb-4 mb-lg-0'>
+                            <button
+                              className='btn btn-outline-white1 w-100'
+                              onClick={convertToggleModal}
+                            >
+                              <i className='bx bx-credit-card me-2' />{' '}
+                              {t('Convert')}
+                            </button>
+                          </div>
+                        ) : null}
                       </div>
                       <div
                         className='modal fade'
@@ -1000,16 +1022,15 @@ console.log(bidData,'bidData')
                                 {t('product.Convert ETH')}
                               </button>
                             </div>
- 
+
                             {/* //convert modal */}
-                             <div
+                            <div
                               className='modal fade'
                               id='convertEth'
                               tabIndex={-1}
                               role='modal-dialog'
                               aria-labelledby='convertEth'
                               aria-hidden='true'
-                              
                             >
                               <div className='modal-dialog modal-dialog-centered modal-lg make-offer-modal-section'>
                                 <div className='modal-content'>
@@ -1020,7 +1041,8 @@ console.log(bidData,'bidData')
                                     <button
                                       type='button'
                                       className='close'
-                                      data-bs-toggle="modal" data-bs-dismiss="modal"
+                                      data-bs-toggle='modal'
+                                      data-bs-dismiss='modal'
                                     >
                                       <span aria-hidden='true'>×</span>
                                     </button>
@@ -1050,7 +1072,9 @@ console.log(bidData,'bidData')
                                               aria-controls='ETHtoWETH'
                                               aria-selected='true'
                                               value={1}
-                                              onClick={e=>setActiveTab(e.target.value)}
+                                              onClick={(e) =>
+                                                setActiveTab(e.target.value)
+                                              }
                                             >
                                               {t(' ETH to WETH')}
                                             </button>
@@ -1069,7 +1093,9 @@ console.log(bidData,'bidData')
                                               aria-controls='WETHtoETH'
                                               aria-selected='false'
                                               value={2}
-                                              onClick={e=>setActiveTab(e.target.value)}
+                                              onClick={(e) =>
+                                                setActiveTab(e.target.value)
+                                              }
                                             >
                                               {t('WETH to ETH')}
                                             </button>
@@ -1095,9 +1121,7 @@ console.log(bidData,'bidData')
                                             <input
                                               type='number'
                                               className='form-control'
-                                              placeholder={t(
-                                                'Enter Amount'
-                                              )}
+                                              placeholder={t('Enter Amount')}
                                               value={eth}
                                               onChange={(e) =>
                                                 setEth(e.target.value)
@@ -1130,9 +1154,7 @@ console.log(bidData,'bidData')
                                             <input
                                               type='number'
                                               className='form-control'
-                                              placeholder={t(
-                                                'Enter Amount'
-                                              )}
+                                              placeholder={t('Enter Amount')}
                                               value={wth}
                                               onChange={(e) =>
                                                 setWth(e.target.value)
@@ -1154,24 +1176,27 @@ console.log(bidData,'bidData')
                                         </h6>
                                       </div>
                                       <div className='modal-footer border-0'>
-                                        {activeTab ==='1'?
-                                        <button
-                                          type='button'
-                                          className='btn btn-violet shadow-none'
-                                          
-                                          data-bs-toggle="modal" data-bs-dismiss="modal"
-                                          onClick={handleEth}
-                                        >
-                                          {t('Wrap')}
-                                        </button>:<button
-                                          type='button'
-                                          className='btn btn-violet shadow-none'
-                                       
-                                          data-bs-toggle="modal" data-bs-dismiss="modal"
-                                          onClick={handleWth}
-                                        >
-                                          {t('Unwrap')}
-                                        </button>}
+                                        {activeTab === '1' ? (
+                                          <button
+                                            type='button'
+                                            className='btn btn-violet shadow-none'
+                                            data-bs-toggle='modal'
+                                            data-bs-dismiss='modal'
+                                            onClick={handleEth}
+                                          >
+                                            {t('Wrap')}
+                                          </button>
+                                        ) : (
+                                          <button
+                                            type='button'
+                                            className='btn btn-violet shadow-none'
+                                            data-bs-toggle='modal'
+                                            data-bs-dismiss='modal'
+                                            onClick={handleWth}
+                                          >
+                                            {t('Unwrap')}
+                                          </button>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
