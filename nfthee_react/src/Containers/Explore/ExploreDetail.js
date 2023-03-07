@@ -166,7 +166,7 @@ function ExploreDetail() {
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
 
-    if (eth==='') {
+    if (eth!=='') {
       await wrapPaymentTokens(eth);
     } else {
       await unwrapPaymentTokens(wth)
