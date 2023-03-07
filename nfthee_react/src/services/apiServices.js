@@ -82,7 +82,7 @@ export const insertHistory = async () => {
     Authorization: 'Bearer my-token',
   }; //*  pass this header along with post request
   await instance
-    .post( '/api/insertHistory')
+    .post('/api/insertHistory')
     .then((response) => {
       return console.log(response);
     })
@@ -94,7 +94,7 @@ export const insertHistory = async () => {
 // export const listNFT
 
 export const getCollection = async (result) => {
-  console.log(result.name)
+  console.log(result.name);
   let requestOptions = { name: result.name };
 
   let datas = await instance
@@ -110,72 +110,77 @@ export const getCollection = async (result) => {
   return datas;
 };
 
-export const handleLikes =async(result,value,setDisaable)=>{
-  const removeUrl='/api/unlike'
-  const addUrl='/api/like'
+export const handleLikes = async (result, value, setDisaable) => {
+  const removeUrl = '/api/unlike';
+  const addUrl = '/api/like';
   let data;
-  if(value==='liked'){
-    setDisaable(true)
-   data= await instance.post(addUrl,result).finally(()=>setDisaable(false))
-   
+
+  if (value === 'liked') {
+    console.log('value', value);
+    setDisaable(true);
+    data = await instance
+      .post(addUrl, result)
+      .finally(() => setDisaable(false));
   }
-  if(value==='unliked'){
-    setDisaable(true)
-     data= await instance.post(removeUrl,result).finally(()=>setDisaable(false))
-  
-     
-    }
-  return data
-}
+  if (value === 'unliked') {
+    setDisaable(true);
+    data = await instance
+      .post(removeUrl, result)
+      .finally(() => setDisaable(false));
+  }
+  console.log(data)
+  return data;
+};
 
-
-export const createBid=async({nftId,bidder,owner,bid_status,bid_price,
-  bid_quantity})=>{
-  const create='/api/createBidNft'
-  const url='/api/getOrdersByNftId'
+export const createBid = async ({
+  nftId,
+  bidder,
+  owner,
+  bid_status,
+  bid_price,
+  bid_quantity,
+}) => {
+  const create = '/api/createBidNft';
+  const url = '/api/getOrdersByNftId';
   // http://192.168.1.147:8002/api/getOrdersByNftId
   // let all=bidData.nftId
-  
 
-
-  let data; 
-const   order=await instance.post(url,{nftId:nftId})
-  console.log([order.data.data[0]._id])
-if(order.data.data[0]._id){
-  let bidData={
-    bidder,
-    owner,
-    bid_status,
-    bid_price,
-    nftId,
-    oderId:order.data.data[0]._id,
-    bid_quantity
+  let data;
+  const order = await instance.post(url, { nftId: nftId });
+  console.log([order.data.data[0]._id]);
+  if (order.data.data[0]._id) {
+    let bidData = {
+      bidder,
+      owner,
+      bid_status,
+      bid_price,
+      nftId,
+      oderId: order.data.data[0]._id,
+      bid_quantity,
+    };
+    data = await instance.post(create, bidData);
   }
-  data=await instance.post(create,bidData)
-
-}
-return data
-  
-}
+  return data;
+};
 
 // export const updateBid=async()=>{
-  const create='/api/createBidNft'
-  const update='/api/updateBidNft'
-  const accept='/api/acceptBidNft'
-  const fetch='/api/fetchBidNft'
-  
+const create = '/api/createBidNft';
+const update = '/api/updateBidNft';
+const accept = '/api/acceptBidNft';
+const fetch = '/api/fetchBidNft';
+
 // }
 // export const acceptBid=async()=>{
 //   const create='/api/createBidNft'
 //   const update='/api/updateBidNft'
 //   const accept='/api/acceptBidNft'
 //   const fetch='/api/fetchBidNft'
-  
+
 // }
 // export const fetchBid=async()=>{
 //   const create='/api/createBidNft'
 //   const update='/api/updateBidNft'
 //   const accept='/api/acceptBidNft'
 //   const fetch='/api/fetchBidNft'
-  
+
 // }
