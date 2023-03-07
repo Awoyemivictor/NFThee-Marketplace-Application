@@ -7,7 +7,7 @@ import {
   SingleSlider,
 } from './ExploreFilterData';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
-import { ModalBuynft } from '../../Components/Layout/Modal';
+import { ModalBuynft,ConvertModal } from '../../Components/Layout/Modal';
 
 import { useTranslation } from 'react-i18next';
 import Apexcharts from '../../Components/Apexcharts';
@@ -56,6 +56,8 @@ function ExploreDetail() {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setModalIsOpen] = useState(false);
+  const [convertModalOpen, setconvertModalIsOpen] = useState(false);
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
 
   const submitToken = async () => {
     console.log(eth, wth);
@@ -65,12 +67,24 @@ function ExploreDetail() {
     setModalIsOpen(!isModalOpen);
   };
 
+  const convertToggleModal = () => {
+    setconvertModalIsOpen(!convertModalOpen);
+  };
+
   useEffect(() => {
     collectionSlider();
   });
-  const [collections, setCollections] = useState([]);
+  const [ collections, setCollections] = useState([]);
   const [shownList, setShownList] = useState([]);
+  const [bidData,setBidData]=useState([])
 
+
+
+  const handleBidData=async()=>{
+    const data=await fetchBid(id)
+    setBidData(data.data)
+  }
+console.log(bidData,'bidData')
   useEffect(async () => {
     setIsLoading(true);
     await instance
@@ -149,7 +163,7 @@ function ExploreDetail() {
     console.log({ bidAmount });
     if (bidAmount != '' || undefined || null) {
       let bidData = {
-        bidder: id,
+        bidder: userId._id,
         owner: collections?.created_by?._id,
         bid_status: 'Bid',
         bid_price: bidAmount,
@@ -161,6 +175,7 @@ function ExploreDetail() {
       console.log({ data });
     }
   };
+  const[activeTab,setActiveTab]=useState('1')
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
   const handleEth = async (e) => {
@@ -168,10 +183,27 @@ function ExploreDetail() {
 
     if (eth==='') {
       await wrapPaymentTokens(eth);
-    } else {
-      await unwrapPaymentTokens(wth)
-    }
+    } 
   };
+  const handleWth = async (e) => {
+    console.log({ eth }, { wth });
+
+    if (wth==='') {
+      await unwrapPaymentTokens(wth)
+    } 
+  };
+
+
+  const handleAcceptBid=()=>{
+ console.log('handleAcceptBid')
+  }
+
+  const handleCanceltBid=()=>{
+    console.log('handleCanceltBid')
+
+
+  }
+  // console.log({activeTab})
 
   useEffect(() => {
     function openGraph(divId) {
@@ -212,6 +244,21 @@ function ExploreDetail() {
                     <ModalBuynft
                       onRequestClose={toggleModal}
                       collectionData={collections}
+
+                    />
+                  )}
+                  {convertModalOpen && (
+                    <ConvertModal
+                      onRequestClose={convertToggleModal}
+              
+                      setActiveTab={setActiveTab}
+                      setEth={setEth}
+                      setWth={setWth}
+                      handleEth={handleEth}
+                      handleWth={handleWth}
+                      eth={eth}
+                      wth={wth}
+                      activeTab={activeTab}
                     />
                   )}
                   <div className='col-lg-6 col-md-6'>
@@ -457,8 +504,7 @@ function ExploreDetail() {
                               {t('product.Attributes')}
                             </button>
                           </li>
-                          {collections.putOnMarketplace.Bid_price &&
-                          collections.created_by?._id === id ? (
+                          {collections.putOnMarketplace.Bid_price ? (
                             <li className='nav-item' role='presentation'>
                               <button
                                 className='nav-link'
@@ -467,6 +513,7 @@ function ExploreDetail() {
                                 data-bs-target='#Bid'
                                 type='button'
                                 role='tab'
+                                onClick={handleBidData}
                                 aria-controls='Bid'
                                 aria-selected='false'
                               >
@@ -526,6 +573,7 @@ function ExploreDetail() {
                                         <span className='text2'>
                                           3 hours ago
                                         </span>
+                                        
                                       </div>
                                     </div>
                                   </div>
@@ -558,7 +606,67 @@ function ExploreDetail() {
                             role='tabpanel'
                             aria-labelledby='Bid-tab'
                           >
-                            4
+                            4{bidData.filter((bid)=>bid.bid_price>0).map((data)=>(
+
+                                <div className='card-body'>
+                              <div className='col-lg-6 col-md-6 px-lg-0'>
+                                <div className='creator-card creator-card-two mb-lg-4'>
+                                  <div className='card-body'>
+                                    <div className='avatars'>
+                                      <div className='media'>
+                                        <div className='badge'>
+                                          <img
+                                            src='/assets/images/icons/star-check.png'
+                                            alt=''
+                                          />
+                                        </div>
+                                        <a href='#'>
+                                          <img
+                                            src={data?.bidder?.profile_image?data.bidder.profile_image:'/assets/images/avt-1.jpg'}
+                                            alt=''
+                                            className='avatar'
+                                          />
+                                        </a>
+                                      </div>
+                                      <div className='ms-3'>
+                                        <p className='text2'>
+                                          <div className='input-group-prepend'>
+                                    <span className='input-group-text'>
+                                      <img
+                                        src='/assets/images/icons/ethereum-pink.png'
+                                        alt=''
+                                        className='me-1 eth-icon'
+                                        />{' '}
+                                        {data.bid_price?data.bid_price:''}
+                                      WETH
+                                    </span>&nbsp;&nbsp;
+                                          <span style={{maxWidth:'175px'}} >
+                                           {/* <br/> */}
+                                           &nbsp;&nbsp; Bided  &nbsp;&nbsp;By&nbsp;&nbsp; {data?.bidder?.user_name?data?.bidder?.user_name:'HEROSTHENAME'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                          </span>
+                                           {collections?.created_by?._id===userId._id?
+                                           <>
+                                          <button type="button" class="btn btn-success" onClick={handleAcceptBid}>Accept</button>
+                                            <button type="button" class="btn btn-danger" onClick={handleCanceltBid} >Reject</button>
+                                            </>
+                                            :null}
+
+                                            {data?.bidder?._id===userId._id?<button type="button" class="btn btn-danger" onClick={handleCanceltBid}>Cancel</button>:null}
+                                            </div>
+
+                                        </p>
+                                        <span className='text2'>
+                                          3 hours ago
+                                        </span>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            ))}
+                            
                           </div>
                           {/* :''} */}
 
@@ -721,7 +829,7 @@ function ExploreDetail() {
                         </div>
                       </div>
                       <div className='row'>
-                        {collections?.created_by?._id === id ? (
+                        {collections?.created_by?._id === userId._id ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button className='btn btn-outline-white1 w-100'>
@@ -736,7 +844,7 @@ function ExploreDetail() {
                               </button>
                             </div>
                           </>
-                        ) : collections?.created_by?._id === id &&
+                        ) : collections?.created_by?._id === userId._id &&
                           collections.putOnMarketplace.Bid_price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
                             <button className='btn btn-outline-white1 w-100'>
@@ -778,6 +886,17 @@ function ExploreDetail() {
                             {t('product.Buy Card')}
                           </button>
                         </div>
+                        {collections?.putOnMarketplace?.price ? 
+                        <div className='col-lg-4 mb-4 mb-lg-0'>
+                          <button
+                        
+                          className='btn btn-outline-white1 w-100'
+                          onClick={convertToggleModal}
+                          >
+                            <i className='bx bx-credit-card me-2' />{' '}
+                            {t('Convert')}
+                          </button>
+                        </div>:null}
                       </div>
                       <div
                         className='modal fade'
@@ -881,15 +1000,16 @@ function ExploreDetail() {
                                 {t('product.Convert ETH')}
                               </button>
                             </div>
-
+ 
                             {/* //convert modal */}
-                            <div
+                             <div
                               className='modal fade'
                               id='convertEth'
                               tabIndex={-1}
                               role='modal-dialog'
-                              aria-labelledby='exampleModalLabel'
+                              aria-labelledby='convertEth'
                               aria-hidden='true'
+                              
                             >
                               <div className='modal-dialog modal-dialog-centered modal-lg make-offer-modal-section'>
                                 <div className='modal-content'>
@@ -900,8 +1020,7 @@ function ExploreDetail() {
                                     <button
                                       type='button'
                                       className='close'
-                                      data-bs-dismiss='modal'
-                                      aria-label='Close'
+                                      data-bs-toggle="modal" data-bs-dismiss="modal"
                                     >
                                       <span aria-hidden='true'>×</span>
                                     </button>
@@ -922,7 +1041,7 @@ function ExploreDetail() {
                                             role='presentation'
                                           >
                                             <button
-                                              className='nav-link'
+                                              className='nav-link active'
                                               id='ETHtoWETH-tab'
                                               data-bs-toggle='tab'
                                               data-bs-target='#ETHtoWETH'
@@ -930,6 +1049,8 @@ function ExploreDetail() {
                                               role='tab'
                                               aria-controls='ETHtoWETH'
                                               aria-selected='true'
+                                              value={1}
+                                              onClick={e=>setActiveTab(e.target.value)}
                                             >
                                               {t(' ETH to WETH')}
                                             </button>
@@ -947,13 +1068,15 @@ function ExploreDetail() {
                                               role='tab'
                                               aria-controls='WETHtoETH'
                                               aria-selected='false'
+                                              value={2}
+                                              onClick={e=>setActiveTab(e.target.value)}
                                             >
                                               {t('WETH to ETH')}
                                             </button>
                                           </li>
                                         </ul>
                                         <div
-                                          className='tab-pane fade'
+                                          className='tab-pane fade show active'
                                           id='ETHtoWETH'
                                           role='tabpanel'
                                           aria-labelledby='ETHtoWETH-tab'
@@ -973,7 +1096,7 @@ function ExploreDetail() {
                                               type='number'
                                               className='form-control'
                                               placeholder={t(
-                                                'product.ETH to WETH'
+                                                'Enter Amount'
                                               )}
                                               value={eth}
                                               onChange={(e) =>
@@ -1008,7 +1131,7 @@ function ExploreDetail() {
                                               type='number'
                                               className='form-control'
                                               placeholder={t(
-                                                'product.WETH to ETH'
+                                                'Enter Amount'
                                               )}
                                               value={wth}
                                               onChange={(e) =>
@@ -1031,15 +1154,24 @@ function ExploreDetail() {
                                         </h6>
                                       </div>
                                       <div className='modal-footer border-0'>
+                                        {activeTab ==='1'?
                                         <button
                                           type='button'
                                           className='btn btn-violet shadow-none'
-                                          data-bs-dismiss='modal'
-                                          aria-label='Close'
+                                          
+                                          data-bs-toggle="modal" data-bs-dismiss="modal"
                                           onClick={handleEth}
                                         >
-                                          {t('Submit')}
-                                        </button>
+                                          {t('Wrap')}
+                                        </button>:<button
+                                          type='button'
+                                          className='btn btn-violet shadow-none'
+                                       
+                                          data-bs-toggle="modal" data-bs-dismiss="modal"
+                                          onClick={handleWth}
+                                        >
+                                          {t('Unwrap')}
+                                        </button>}
                                       </div>
                                     </div>
                                   </div>

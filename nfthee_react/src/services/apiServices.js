@@ -146,7 +146,7 @@ if(order.data.data[0]._id){
     bidder,
     owner,
     bid_status,
-    bid_price,
+    bid_price:bid_price,
     nftId,
     oderId:order.data.data[0]._id,
     bid_quantity
@@ -159,10 +159,10 @@ return data
 }
 
 // export const updateBid=async()=>{
-  const create='/api/createBidNft'
-  const update='/api/updateBidNft'
-  const accept='/api/acceptBidNft'
-  const fetch='/api/fetchBidNft'
+  // const create='/api/createBidNft'
+  // const update='/api/updateBidNft'
+  // const accept='/api/acceptBidNft'
+  // const fetch='/api/fetchBidNft'
   
 // }
 // export const acceptBid=async()=>{
@@ -172,10 +172,12 @@ return data
 //   const fetch='/api/fetchBidNft'
   
 // }
-// export const fetchBid=async()=>{
-//   const create='/api/createBidNft'
-//   const update='/api/updateBidNft'
-//   const accept='/api/acceptBidNft'
-//   const fetch='/api/fetchBidNft'
-  
-// }
+export const fetchBid=async(nftId)=>{
+  const fetchUrl='/api/fetchBidNft'
+  let data;
+
+  data=await instance.post(fetchUrl,{nftId})
+
+  console.log([data.data],'fetch')
+  return data.data
+}

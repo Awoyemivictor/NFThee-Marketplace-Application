@@ -27,7 +27,7 @@ const CreateNewItem = () => {
   const { SingleValue, Option } = components;
   const history = useHistory();
   const [reset, setReset] = useState(false);
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
 
   if (userId === null||undefined||'') {
     logOut()
