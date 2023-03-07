@@ -41,3 +41,13 @@ exports.acceptBidNft = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.fetchBids = async (req,res,next) => {
+  try {
+    const data = await bidServices.fetchBids(req);
+
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};
