@@ -274,6 +274,20 @@ exports.upload_image = async (req) => {
     return error;
   }
 };
+exports.userLikes = async (req) => {
+  try {
+    let id = req.query.id;
+    console.log(':::::::>', id);
+  let userLikes = await nftIteams.find({likes:id});
+    return {
+      message: 'user liked posts',
+      status: true,
+      data: userLikes,
+    };
+  } catch (error) {
+    return error;
+  }
+};
 
 exports.insert_likes = async (req) => {
   try {

@@ -25,7 +25,7 @@ export const TopSeller = ({
     <div className={`col ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
-          <Link to={`/users/${_id}`}><img src={profile_image?`${process.env.REACT_APP_BASE_URL}/fileUpload/${profile_image}`:"/images/avt-2.jpg"} alt="" className="" /></Link>
+          <Link to={`/users/${_id}`}><img src={profile_image||"/images/avt-2.jpg"} alt="" className="" /></Link>
           <div className="badge">
             <img src="/images/icons/star-check.png" alt="" />
           </div>

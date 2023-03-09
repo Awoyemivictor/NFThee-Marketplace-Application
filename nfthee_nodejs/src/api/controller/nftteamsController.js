@@ -10,6 +10,14 @@ exports.index = async (req, res, next) => {
     }
 }
 
+exports.userLikes = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.userLikes(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+} 
 exports.getItemInfo = async (req, res, next) => {
     try {
         const data = await nftteamsService.getItemInfo(req);

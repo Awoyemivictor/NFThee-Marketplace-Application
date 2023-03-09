@@ -1,5 +1,6 @@
 // const BASE_URL = 'https://theemarketplace.onrender.com/api/';
 
+import axios from 'axios';
 import instance from '../axios';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL + '/api';
@@ -180,6 +181,20 @@ export const fetchBid=async(nftId)=>{
 
   data=await instance.post(fetchUrl,{nftId})
 
-  console.log([data.data],'fetch')
+  return data.data
+}
+
+
+export const fetchUserBid=async(id)=>{
+  // http://localhost:8002?id=640972565a4dfcc2eb3b3fd3/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
+  const fetchUrl=`http://192.168.1.143:8002/api/userBids?id=${id}`
+  let data;
+
+  data=await
+    // instance
+    axios
+    .post(fetchUrl)
+
+ 
   return data.data
 }

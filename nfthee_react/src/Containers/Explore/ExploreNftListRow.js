@@ -8,10 +8,7 @@ import { setFavorite } from '../../redux/favoriteSlice';
 import instance from '../../axios';
 import { handleLikes } from '../../services/apiServices';
 const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
-  console.log(
-    '<><><><><><><><><>><>><><><><><><><><><><><><><><><><><><><><><>',
-    data
-  );
+ 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   // const [like,setLike]=useState([])

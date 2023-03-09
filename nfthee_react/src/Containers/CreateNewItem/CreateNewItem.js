@@ -28,10 +28,10 @@ const CreateNewItem = () => {
   const history = useHistory();
   const [reset, setReset] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
-
-  if (userId === null||undefined||'') {
-    logOut()
+console.log({userId},'useid')
+  if (userId === ''||undefined||null ) {
     history.push('/');
+    // logOut()
   }
 
   const test = async () => {
@@ -601,7 +601,8 @@ const CreateNewItem = () => {
             }),
             setLogoImage(null),
             setBannerImage(null),
-            setFeaturedImage(null)
+            setFeaturedImage(null),
+            setCollectionValidation('needs-validated')
 
             // mySelectRef.current.select=""
           );
@@ -727,7 +728,9 @@ const CreateNewItem = () => {
             title: 'NFT Created Successfully',
             showConfirmButton: false,
             timer: 1500,
-          });
+          },
+          
+          setItemValidation('needs-validated'));
           result = response;
         })
         .catch((err) => {

@@ -6,6 +6,9 @@ import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
 import {messaging} from "../../firebase-config";
+import { async } from "@firebase/util";
+import ExploreNftListRow from "../Explore/ExploreNftListRow";
+import { fetchUserBid } from "../../services/apiServices";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -42,6 +45,9 @@ const Profile = () => {
   var result = result1.slice(0, 8) + ".." + result1.slice(38, 48);
   console.log(result);
   const [tokenid, setTokenId] = useState(result);
+  const [loadingFilter, setLoadingFilter] = useState(true);
+  const [like, setliked] = useState();
+
 
   // if(tokenid === "undefined" ){
   //    window.location.href = "/walletlogin"
@@ -77,11 +83,15 @@ const Profile = () => {
   //      tooltip.classList.remove('active');
   //   }, 1500);
   // }
-  const [image, setImage] = useState({ preview: "assets/images/avt-5.jpg", raw: "" });
+  const [image, setImage] = useState({ preview: "/assets/images/avt-5.jpg", raw: "" });
 const {_id,user_name,email_address}=JSON.parse(localStorage.getItem('userLoggedIn'))
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
-const[users,setuser]=useState([])
+const[usersData,setUsersData]=useState([])
+const[addFavData,setFavData]=useState([])
+const [userBid,setUserBid]=useState([])
+
+
   useEffect(()=>{
 
     instance
@@ -89,6 +99,7 @@ const[users,setuser]=useState([])
     .then(res=>( setCollectionData(res.data.data)))
 
   },[])
+  
   useEffect(()=>{
 
     instance
@@ -97,14 +108,47 @@ const[users,setuser]=useState([])
 
 
   },[])
-
-  const [changes,setChanges]=useState()
-
   useEffect(()=>{
+  const fetchUrl=`/api/userBids?id=${_id}`
 
     instance
-    .get(`/api/signUp/all`)
-    .then(res=>( setuser(res.data.data)))
+    // axios
+    .post(fetchUrl)
+    .then(res=>( setUserBid(res.data.data)))
+    // const data =  fetchUserBid(_id);
+    // // setUserBid(data);
+    // console.log(data,'userBid')
+
+  },[])
+
+  // useEffect(()=>{
+
+  //   instance
+  //   .get(`/api/userItems?id=${_id}`)
+  //   .then(res=>( setItemData(res.data.data)))
+
+
+  // },[])
+
+  useEffect(()=>{
+    // http://192.168.1.143:8002/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
+    instance
+    .get(`/api/userLikes?id=${_id}`)
+    .then(res=>( setFavData(res.data.data)))
+    .finally(()=>setLoadingFilter(false))
+
+  },[like])
+
+
+  const [changes,setChanges]=useState()
+const [buttonLoading,setButtonLoading]=useState(false)
+  useEffect(()=>{
+    // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
+    instance
+    .get(`/api/followingList?id=${_id}`)
+    .then(res=> ( setUsersData(res.data.data[0].following)))
+        .then(res=> ( setUsersData(res.data.data[0].following)))
+    .finally(setButtonLoading(false))
 
   },[changes])
 
@@ -121,6 +165,8 @@ const[users,setuser]=useState([])
       });
     })
   };
+
+
   const handleUpload = async e => {
     e.preventDefault();
     const formData = new FormData();
@@ -135,13 +181,14 @@ const[users,setuser]=useState([])
     });
   };
   console.log("key pass",process.env.SERVICE_KEY);
-  const handlleFollow=(id,e)=>{
+  const handlleFollow= async(id,e)=>{
     // setChanges(true)
+    setButtonLoading(true)
     if(e.target.value==="follow"){
       const formData=new FormData()
       formData.append("id", id);
       console.log(id)
-      const { data } =  axios({
+      const { data } =  await axios({
         method: 'put',
         url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}&&username=${user_name}&&email=${email_address}`,
         data: {
@@ -220,21 +267,16 @@ const[users,setuser]=useState([])
   }
   if(e.target.value==="unfollow"){
 
- const formData=new FormData()
- formData.append("id", id);
-console.log(id)
- const { data } =  axios({
-  method: 'put',
-  url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}`,
-  data: {
-      id: id,
-  }
-});
+//  const formData=new FormData()
+//  formData.append("id", id);
+ const { data } = await  instance.put(`/api/userUnFollow?id=${_id}&& username=${user_name}`,
+ {
+      id}
+);
 }
 setChanges(Math.floor(Math.random() * 10))
-// console.log(data);
-   
-  }
+
+}
   return (
     <>
       <main>
@@ -242,7 +284,7 @@ setChanges(Math.floor(Math.random() * 10))
           <section className="profile-banner-section">
             <div className="profile-banner-image">
               <img
-                src="assets/images/Banner4.png"
+                src="/assets/images/Banner4.png"
                 alt=""
                 className="img-fluid w-100 profile-banner-img"
               />
@@ -252,14 +294,14 @@ setChanges(Math.floor(Math.random() * 10))
                     <div className="user-more-detail">
                       <div className="more">
                         <div className="icon dropdown">
-                          <a href="#" data-bs-toggle="dropdown" aria-expanded="false"><img src="assets/images/icons/three-dots.png" alt="" /></a>
+                          <a href="#" data-bs-toggle="dropdown" aria-expanded="false"><img src="/assets/images/icons/three-dots.png" alt="" /></a>
                           <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/rotate.png" /></span>  Refrash</a>
-                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/etherscan-logo.png" /></span>Etherscan  </a>
-                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/share.png" /></span> Share </a>
-                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/report.png" /></span> Report </a>
-                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/home.png" /></span>Website </a>
-                            {/* <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="assets/images/icons/eyeicon.png" /></span>Preview </a> */}
+                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/rotate.png" /></span>  Refrash</a>
+                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/etherscan-logo.png" /></span>Etherscan  </a>
+                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/share.png" /></span> Share </a>
+                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/report.png" /></span> Report </a>
+                            <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/home.png" /></span>Website </a>
+                            {/* <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/eyeicon.png" /></span>Preview </a> */}
                           </div>
                         </div>
                       </div>
@@ -320,26 +362,26 @@ setChanges(Math.floor(Math.random() * 10))
                               <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <a className="dropdown-item" href="#">
                                   <span className="dropdown-icon">
-                                    <img src="assets/images/icons/share.png" />
+                                    <img src="/assets/images/icons/share.png" />
                                   </span>
                                   Share
                                 </a>
                                 <a className="dropdown-item" href="#">
                                   <span className="dropdown-icon">
-                                    <img src="assets/images/icons/report.png" />
+                                    <img src="/assets/images/icons/report.png" />
                                   </span>
                                   Report
                                 </a>
                                 <a className="dropdown-item" href="#">
 
                                   <span className="dropdown-icon">
-                                    <img src="assets/images/icons/home.png" />
+                                    <img src="/assets/images/icons/home.png" />
                                   </span>
                                   Website
                                 </a>
                                 {/* <a className="dropdown-item" href="#">
                                  <span className="dropdown-icon">
-                                   <img src="assets/images/icons/eyeIcon.png" /></span> Preview </a> */}
+                                   <img src="/assets/images/icons/eyeIcon.png" /></span> Preview </a> */}
 
                               </div>
                             </div>
@@ -358,7 +400,7 @@ setChanges(Math.floor(Math.random() * 10))
                     <div className="user-profile-icon">
                       <div className="user-box">
                         <img
-                          // src="assets/images/avt-5.jpg"
+                          // src="/assets/images/avt-5.jpg"
                           src={image.preview}
                           alt=""
                           className="img-fluid user-img"
@@ -367,7 +409,7 @@ setChanges(Math.floor(Math.random() * 10))
                           <input id="select-image" style={{ display: "none" }} type="file" onChange={handleChange} />
                           {/* <input id="profile-image-upload" class="hidden" type="file" onchange="previewFile()" ></input> */}
                           <label htmlFor="select-image">
-                            <img src="assets/images/icons/pencil.png" onChange={handleChange} style={{ cursor: "pointer" }} alt="" /> </label>
+                            <img src="/assets/images/icons/pencil.png" onChange={handleChange} style={{ cursor: "pointer" }} alt="" /> </label>
                         </span>
                       </div>
                     </div>
@@ -375,10 +417,10 @@ setChanges(Math.floor(Math.random() * 10))
                       {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
                       <h3>{user_name}</h3>
                       {/* <span className="tooltiptext" id="myTooltip">Copy to clipboard</span> */}
-                      <p class="profile-sub-header mb-3"><img src="assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
+                      <p class="profile-sub-header mb-3"><img src="/assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
                       <div className="d-lg-none d-block mb-4">
                         <a href="#"><span className="profile-sub-header">
-                          <img src="assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
+                          <img src="/assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
                       </div>
                       <a
                         href="#"
@@ -390,7 +432,7 @@ setChanges(Math.floor(Math.random() * 10))
                         <sapn id="tooltip" class="tooltip ">Copied !</sapn>
 
                         <img
-                          src="assets/images/icons/ethereum-white.png"
+                          src="/assets/images/icons/ethereum-white.png"
                           alt=""
                           className="me-1"
                         />
@@ -403,7 +445,7 @@ setChanges(Math.floor(Math.random() * 10))
                         className="btn btn-violet edit-profile-btn ms-2"
                       >
                         <img
-                          src="assets/images/icons/pencil.png"
+                          src="/assets/images/icons/pencil.png"
                           alt=""
                           className="me-1"
                         />
@@ -427,8 +469,8 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#on-sale"
                       aria-selected="true"
                     >
-                      <img src="assets/images/icons/sale-icon.png" alt="" />
-                      On Sale (05)
+                      <img src="/assets/images/icons/sale-icon.png" alt="" />
+                      On Sale ({itemData?.length})
                     </button>
                     <button
                       className="nav-link"
@@ -437,8 +479,8 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#following"
                       aria-selected="false"
                     >
-                      <img src="assets/images/icons/followdark.png" alt="" />
-                      Following (05)
+                      <img src="/assets/images/icons/followdark.png" alt="" />
+                      Following ({usersData?.length})
                     </button>
                     <button
                       className="nav-link"
@@ -447,7 +489,7 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#created"
                       aria-selected="false"
                     >
-                      <img src="assets/images/icons/create-icon.png" alt="" />
+                      <img src="/assets/images/icons/create-icon.png" alt="" />
                       Created ({itemData?.length})
                     </button>
                     <button
@@ -457,7 +499,7 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#collections"
                       aria-selected="false"
                     >
-                      <img src="assets/images/icons/pic-icon.png" alt="" />
+                      <img src="/assets/images/icons/pic-icon.png" alt="" />
                       Collections ({collectionData?.length})
                     </button>
                     <button
@@ -468,10 +510,10 @@ setChanges(Math.floor(Math.random() * 10))
                       aria-selected="false"
                     >
                       <img
-                        src="assets/images/icons/heart-icon-black.png"
+                        src="/assets/images/icons/heart-icon-black.png"
                         alt=""
                       />
-                      Liked (05)
+                      Liked ({addFavData?.length})
                     </button>
                     <button
                       className="nav-link"
@@ -480,7 +522,7 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#activity"
                       aria-selected="false"
                     >
-                      <img src="assets/images/icons/act-line-icon.png" alt="" />
+                      <img src="/assets/images/icons/act-line-icon.png" alt="" />
                       Activity (05)
                     </button>
                     {/* <div class="dropdown-menu">
@@ -494,10 +536,11 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-toggle="tab"
                       data-bs-target="#offers"
                       aria-selected="false"
+                     
                     >
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="assets/images/icons/percent-icon.png" alt="" />
-                        Offers (05)</a>
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+                        <img src="/assets/images/icons/percent-icon.png" alt="" />
+                        Offers ({userBid.length })</a>
                       <div class="dropdown-menu offer-dropdown">
                         <a class="dropdown-item" href="#">Offers received</a>
                         <a class="dropdown-item" href="#">Offers made</a>
@@ -569,11 +612,14 @@ setChanges(Math.floor(Math.random() * 10))
                               </div>
                               <div id="option1" class="size_chart" >
                                 <div className="activity-table-container table-responsive">
+                                 {
+                                  itemData!=0?itemData.map((data)=>(
                                   <table className="table">
                                     <thead>
                                       <tr>
 
                                         <th scope="col">Item</th>
+                                        <th scope="col">Type</th>
                                         <th scope="col">Unit Price</th>
                                         <th scope="col">Floor Difference</th>
                                         <th scope="col">Expiration Date</th>
@@ -584,23 +630,28 @@ setChanges(Math.floor(Math.random() * 10))
                                       <tr>
                                         <td>
                                           <div class="d-flex align-items-center">
-                                            <img src="assets/images/icons/activeimg.png" alt="" class="user-img" />
-                                            <span class="ms-2">Money Poly</span>
+                                            <img src={data.uploadFile||"/assets/images/icons/activeimg.png"} alt="" class="user-img" />
+                                            <span class="ms-2">{data.name}</span>
                                           </div>
                                         </td>
+                                        <td > {data.putOnMarketplace.Bid_price?'Bid':''}{data.putOnMarketplace.price?'Fixed ':''}  </td>
+
                                         <td>
                                           <div class="price-detail">
-                                            <h5><img src="assets/images/icons/ethereum.png" alt="" class="me-1" /> 2.59</h5>
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.putOnMarketplace.Bid_price?data.putOnMarketplace.Bid_price:''}{data.putOnMarketplace.price?data.putOnMarketplace.price:''} </h5>
                                             <h6>$52547.30</h6>
                                           </div>
                                         </td>
                                         <td >   At Floor   </td>
-                                        <td>  May 16, 2022</td>
+                                        <td>  {data.updatedAt}</td>
                                         <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
                                       </tr>
 
                                     </tbody>
                                   </table>
+                                  ))
+                                   :`Create Nft's`
+                                  }
                                 </div>
 
                                 {/* <div className="row"  >
@@ -619,7 +670,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         <a href="#">
                                           <img
                                             className="user_img"
-                                            src="assets/images/avatar2.png"
+                                            src="/assets/images/avatar2.png"
                                             alt=""
                                           />
                                         </a>
@@ -630,7 +681,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           <p className="eth_price">
                                             <img
                                               className="me-1"
-                                              src="assets/images/icons/ethereum.png"
+                                              src="/assets/images/icons/ethereum.png"
                                               alt=""
                                             />
                                             25,368.18
@@ -655,7 +706,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         <a href="#">
                                           <img
                                             className="user_img"
-                                            src="assets/images/avatar2.png"
+                                            src="/assets/images/avatar2.png"
                                             alt=""
                                           />
                                         </a>
@@ -666,7 +717,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           <p className="eth_price">
                                             <img
                                               className="me-1"
-                                              src="assets/images/icons/ethereum.png"
+                                              src="/assets/images/icons/ethereum.png"
                                               alt=""
                                             />
                                             25,368.18
@@ -691,7 +742,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         <a href="#">
                                           <img
                                             className="user_img"
-                                            src="assets/images/avatar2.png"
+                                            src="/assets/images/avatar2.png"
                                             alt=""
                                           />
                                         </a>
@@ -702,7 +753,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           <p className="eth_price">
                                             <img
                                               className="me-1"
-                                              src="assets/images/icons/ethereum.png"
+                                              src="/assets/images/icons/ethereum.png"
                                               alt=""
                                             />
                                             25,368.18
@@ -727,7 +778,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         <a href="#">
                                           <img
                                             className="user_img"
-                                            src="assets/images/avatar2.png"
+                                            src="/assets/images/avatar2.png"
                                             alt=""
                                           />
                                         </a>
@@ -738,7 +789,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           <p className="eth_price">
                                             <img
                                               className="me-1"
-                                              src="assets/images/icons/ethereum.png"
+                                              src="/assets/images/icons/ethereum.png"
                                               alt=""
                                             />
                                             25,368.18
@@ -763,7 +814,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         <a href="#">
                                           <img
                                             className="user_img"
-                                            src="assets/images/avatar2.png"
+                                            src="/assets/images/avatar2.png"
                                             alt=""
                                           />
                                         </a>
@@ -774,7 +825,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           <p className="eth_price">
                                             <img
                                               className="me-1"
-                                              src="assets/images/icons/ethereum.png"
+                                              src="/assets/images/icons/ethereum.png"
                                               alt=""
                                             />
                                             25,368.18
@@ -798,57 +849,43 @@ setChanges(Math.floor(Math.random() * 10))
                   </div>
                   <div className="tab-pane fade" id="following">
                     
-                    2{users.filter(res=>res.user_name).map((data)=>( <table className="table" >
-                                    <thead>
-                                      <tr>
-
-                                        <th scope="col">userName</th>
-                                        <th scope="col">Unit Price</th>
-                                        <th scope="col">Floor Difference</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div class="d-flex align-items-center">
-                                            <img src="/assets/images/icons/activeimg.png" alt="" class="user-img" />
-                                            <span class="ms-2">{data.user_name}</span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div class="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> 2.59</h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td >   At Floor   </td>
-                                        <td>  May 16, 2022</td>
-                                        <td>
-                                          {/* <a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Follow</a> */}
-                                     {data.followers.includes(_id)? <button
+                   {usersData.length!=0?usersData.map((data)=>( 
+                   
+                   <table class="table table-borderless">
+                   <thead>
+                     <tr>
+                       <th scope="col">UserName</th>
+                       <th scope="col">Last</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <td><div class="d-flex align-items-center">
+                                           <img src="/assets/images/icons/activeimg.png" alt="" class="user-img" />
+                                           <span class="ms-2">{data.user_name}</span>
+                                         </div></td>
+                       <td> {buttonLoading?<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  WAIT...
+</button>:data.followers.includes(_id)? <button
                                      value="unfollow"
-                                 
+                                     class="btn btn-secondary"
                                        onClick={(e)=>handlleFollow(data._id,e)}
                                        >
-                                       unfollow
-                                       </button>:<button
+                                        unfollow
+                                        </button>:<button
+                                        class="btn btn-primary"
                                      value="follow"
                                  
                                        onClick={(e)=>handlleFollow(data._id,e)}
                                        >
-                                       follow
-                                       </button>}
-                                      
-
-
-                                        </td>
-                                      </tr>
-
-                                    </tbody>
-                                  </table>
-                                  ))}
+                                        follow
+                                        </button>}</td>
+                     </tr>
+                    
+                   </tbody>
+                 </table>
+                                  )):'Following No One'}
                   </div>
                   <div className="tab-pane fade" id="created">
                    3 
@@ -936,13 +973,72 @@ setChanges(Math.floor(Math.random() * 10))
       </div>
                   </div>
                   <div className="tab-pane fade" id="liked">
-                    5
+               
+                    <ExploreNftListRow data={addFavData} loadingFilter={loadingFilter} setliked={setliked}/>
                   </div>
                   <div className="tab-pane fade" id="activity">
                     6
                   </div>
                   <div className="tab-pane fade" id="offers">
-                    7
+                     <div className="container">
+                      <div className="col-lg-12 col-md-12">
+                        <div className="top-collection-over-section">
+                          <div className="row">
+                            <div className="profile-content-wrapper">
+                              <div class="row">
+                                <div class="col-6">
+                                  <h4 className="hd-title ">  Offer Made    </h4>
+                                </div>
+                                
+                              </div>
+                              <div style={{'display':'none'+'!important'}}   >
+                                <div className="activity-table-container table-responsive">
+                                  {userBid.length !=0?userBid.map((data)=>(
+                                  <table className="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Offer Price</th>
+                                        <th scope="col">Expiration Date</th>
+                                        <th scope="col"> </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center">
+                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" class="user-img" />
+                                            <span class="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div class="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div class="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.bid_price}</h5>
+                                            <h6>$52547.30</h6>
+                                          </div>
+                                        </td>
+                                        <td>  May 16, 2022</td>
+                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>)):''}
+                                </div>
+
+                              </div>
+                              
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
