@@ -139,33 +139,33 @@ export const link_menu_explore = [
   {
     name: "navbar.All_NFTs",
     path: "/explorenft",
-    icon: 'assets/images/icons/nft-grid.png'
+    icon: '/assets/images/icons/nft-grid.png'
   },
   {
     name: "navbar.Ethereum",
     path: "/explore-ethereum",
     // children: link_menu_ethereum,
-    icon: "assets/images/icons/eth-icon.png"
+    icon: "/assets/images/icons/eth-icon.png"
   },
   {
     name: "Solana",
     path: "/explore-solana",
-    icon: 'assets/images/icons/solana-icon.png'
+    icon: '/assets/images/icons/solana-icon.png'
   },
   {
     name: "Polygon",
     path: "/explore-polygon",
-    icon: 'assets/images/icons/polygon.png'
+    icon: '/assets/images/icons/polygon.png'
   },
   {
     name: "Binance",
     path: "/explore-binance",
-    icon: 'assets/images/icons/binance.png'
+    icon: '/assets/images/icons/binance.png'
   },
   {
     name: "Harmony",
     path: "/explore-harmony",
-    icon: 'assets/images/icons/harmony.png'
+    icon: '/assets/images/icons/harmony.png'
   },
 ]
 

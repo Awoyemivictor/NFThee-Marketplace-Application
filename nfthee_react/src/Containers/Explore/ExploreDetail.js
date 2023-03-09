@@ -82,7 +82,6 @@ function ExploreDetail() {
     const data = await fetchBid(id);
     setBidData(data.data);
   };
-  console.log(bidData, 'bidData');
   useEffect(async () => {
     setIsLoading(true);
     await instance
@@ -597,11 +596,11 @@ function ExploreDetail() {
                             4
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
-                              .map((data) => (
+                              .map((data,i) => (
                                 <div className='card-body'>
                                   <div className='col-lg-6 col-md-6 px-lg-0'>
                                     <div className='creator-card creator-card-two mb-lg-4'>
-                                      <div className='card-body'>
+                                      <div className='card-body' key={i}>
                                         <div className='avatars'>
                                           <div className='media'>
                                             <div className='badge'>

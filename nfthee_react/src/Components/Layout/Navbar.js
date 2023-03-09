@@ -31,7 +31,7 @@ export const Navbar = () => {
 
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
-  console.info({user});
+  // console.info({user});
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -194,7 +194,7 @@ export const Navbar = () => {
   };
   const text=localStorage.getItem('search')
   const [serachTextNav,setSerachTextNav]=useState(text||'')
-  console.log({serachTextNav})
+  // console.log({serachTextNav})
  
   return (
     <>
@@ -213,12 +213,12 @@ export const Navbar = () => {
                 to="/"
               >
                 <img
-                  src="images/icons/light-logo.png"
+                  src="/images/icons/light-logo.png"
                   alt=""
                   className="img-fluid light-logo"
                 />
                 <img
-                  src="images/icons/dark-logo.png"
+                  src="/images/icons/dark-logo.png"
                   alt=""
                   className="img-fluid dark-logo"
                 />
@@ -226,10 +226,10 @@ export const Navbar = () => {
               <div className="d-lg-none d-flex">
                 <div className="switch-mode">
                   <span className="dark-mode mode-control">
-                    <img src="assets/images/icons/sun.png" alt="" />
+                    <img src="/assets/images/icons/sun.png" alt="" />
                   </span>
                   <span className="light-mode mode-control d-none">
-                    <img src="assets/images/icons/moon.png" alt="" />
+                    <img src="/assets/images/icons/moon.png" alt="" />
                   </span>
                 </div>
                 <button
@@ -344,7 +344,7 @@ export const Navbar = () => {
                             <div className="d-flex align-items-center mt-2">
                               <span className="flag-name">
                                 <img
-                                  src="assets/images/icons/eth-icon.png"
+                                  src="/assets/images/icons/eth-icon.png"
                                   alt=""
                                   className="me-2"
                                   style={{ width: '13px' }}
@@ -358,7 +358,7 @@ export const Navbar = () => {
                         <div className="dropdown-divider m-0" />
                         <Link to="/profile" className="dropdown-item">
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/profile-icon.png" />
+                            <img src="/assets/images/icons/profile-icon.png" />
                           </span>{' '}
                           Profile{' '}
                         </Link>{' '}
@@ -366,32 +366,32 @@ export const Navbar = () => {
                                                 <ChildMenu data={link_menu_profile} /> */}
                         <Link className="dropdown-item" to="/favorites">
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/heart-icon.png" />
+                            <img src="/assets/images/icons/heart-icon.png" />
                           </span>{' '}
                           Favorites{' '}
                         </Link>
                         {/* <a className="dropdown-item" to="#" onClick={toggleModal} > */}
                         <a className="dropdown-item" to="#">
                           <span className="dropdown-icon ">
-                            <img src="assets/images/icons/currency-rate-icon.png" />
+                            <img src="/assets/images/icons/currency-rate-icon.png" />
                           </span>{' '}
                           Change Currency{' '}
                         </a>
                         <Link className="dropdown-item" to="/mycollections">
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/grid-icon.png" />
+                            <img src="/assets/images/icons/grid-icon.png" />
                           </span>{' '}
                           My Collections{' '}
                         </Link>
                         <Link className="dropdown-item" to="/profilesetting">
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/setting-icon.png" />
+                            <img src="/assets/images/icons/setting-icon.png" />
                           </span>{' '}
                           Settings{' '}
                         </Link>
                         <Link className="dropdown-item" href="#">
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/rewardblue.png" />
+                            <img src="/assets/images/icons/rewardblue.png" />
                           </span>{' '}
                           Rewards to collect{' '}
                         </Link>
@@ -401,7 +401,7 @@ export const Navbar = () => {
                           onClick={logOut}
                         >
                           <span className="dropdown-icon">
-                            <img src="assets/images/icons/logout-icon.png" />
+                            <img src="/assets/images/icons/logout-icon.png" />
                           </span>{' '}
                           Sign Out{' '}
                         </Link>
@@ -416,7 +416,7 @@ export const Navbar = () => {
                         aria-expanded="false"
                       >
                         <img
-                          src="assets/images/icons/user-avatar.png"
+                          src="/assets/images/icons/user-avatar.png"
                           alt="img"
                           className="img-fluid user-avatar-icon"
                         />
