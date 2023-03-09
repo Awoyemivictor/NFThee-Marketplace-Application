@@ -280,6 +280,7 @@ import {
   Media,
 } from 'reactstrap';
 import moment from 'moment';
+import instance from '../../../axios';
 // import { Container, Row, Col, Card } from "reactstrap";
 
 const ViewPartner = () => {
@@ -298,8 +299,8 @@ const ViewPartner = () => {
     },
   });
   React.useEffect(() => {
-    authAxios
-      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}api/getPartner?id=${partner_id}`)
+    instance
+      .get(`api/getPartner?id=${partner_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

@@ -12,6 +12,7 @@ import {toast} from "react-toastify";
 
 import axios, { Axios } from 'axios';
 import instance from "../../../axios";
+import backendInstance from "../../../backendInstance";
 
 const ItemDetail = () => {
     let history = useHistory();
@@ -19,7 +20,7 @@ const ItemDetail = () => {
     const [data, setdata] = useState([]);
     useEffect(() => {
      
-        axios.get(`${process.env.REACT_APP_RENDER_BASE_URL}/api/admin/getAllItem`)
+        backendInstance.get(`api/admin/getAllItem`)
 
             .then(response => setdata(response.data.data))
             .finally(() => setLoading(false))
@@ -98,7 +99,7 @@ const ItemDetail = () => {
         setLoading(true)
      
     console.log(collections._id)
-    axios.get(`https://lnfthee-backend.onrender.com/api/getItem/update?id=${collections._id}`)
+    backendInstance.get(`api/getItem/update?id=${collections._id}`)
     .then(response => console.log(response.data.data))
     .finally(() => setLoading(false))
     }

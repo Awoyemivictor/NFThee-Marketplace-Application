@@ -19,6 +19,7 @@ import {
 	Label,
 	Input,
 } from 'reactstrap';
+import instance from '../../../axios';
 
 const smsSetting = () => {
 	const [data, setdata] = useState([]);
@@ -43,8 +44,8 @@ const smsSetting = () => {
 	});
 
 	const getData = () => {
-		authAxios
-			.get(`http://44.198.133.66:8004/api/getSmsDetails`)
+		instance
+			.get(`api/getSmsDetails`)
 			.then((response) => {
 				console.log(response.data);
 
@@ -106,8 +107,8 @@ const smsSetting = () => {
 		};
 		console.log(body);
 
-		authAxios
-			.post('http://44.198.133.66:8004/api/addSmsDetails', body, {
+		instance
+			.post('api/addSmsDetails', body, {
 				headers: {
 					'Content-Type': 'application/json',
 				},

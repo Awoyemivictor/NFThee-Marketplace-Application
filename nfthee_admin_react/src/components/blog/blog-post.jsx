@@ -23,6 +23,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { useLocation, useHistory } from 'react-router-dom';
+import instance from '../../axios';
 
 const BlogPost = (props) => {
   const [FileData, setFileData] = useState({ file: '' });
@@ -153,11 +154,11 @@ const BlogPost = (props) => {
   // data["dateofPosting"] = moment(data["dateofPosting"]).format(
   //   "MM/DD/YYYY"
   // );
-  const authAxios = axios.create({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
+  // const authAxios = axios.create({
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //   },
+  // });
 
   const onCreateBlogSubmit = (e) => {
     e.preventDefault();
@@ -192,9 +193,9 @@ const BlogPost = (props) => {
     //   status:defaultValues.status,
     //  }
     //  console.log(registeredData)
-    authAxios
+    instance
       .post(
-        `${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/blog`,
+        `api/blog`,
 
         formdata,
         {

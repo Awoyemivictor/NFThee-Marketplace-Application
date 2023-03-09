@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_ADMIN_BASE_URL + '/',
-
+const backendInstance = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL + '/',
   // baseURL: process.env.REACT_APP_ADMIN_RENDER_BASE_URL + '/',
   headers: {
     'Access-Control-Allow-Origin': '*',
@@ -11,4 +10,4 @@ const instance = axios.create({
   },
 });
 
-export default instance;
+export default backendInstance;

@@ -102,9 +102,9 @@ export const handleCollectionCreation = async (
   };
 
   console.log(userAddress);
-  let eth = 'Ethereum Testnet';
+  let eth = 'Ethereum Goerli Testnet';
   let poly = 'Polygon Testnet';
-  let bsc = 'Binance Smart Chain';
+  let bsc = 'BSC Testnet ';
   let harmony = 'Harmony Testnet';
 
   if (eth === chooseBlockchain) {

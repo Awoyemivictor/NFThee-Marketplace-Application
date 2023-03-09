@@ -266,7 +266,7 @@ const CreateNewItem = () => {
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get(`https://lnfthee-admin-backend.onrender.com/api/getBlockchain`)
+        .get(`http://localhost:8004/api/getBlockchain`)
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {
@@ -860,7 +860,7 @@ const CreateNewItem = () => {
     let poly = 'Polygon Testnet';
     let bsc = 'Binance Smart Chain';
     let harmony = 'Harmony Testnet';
-    console.log(getChainValues, eth);
+    console.log(getChainValues, poly);
 
     if (eth === getChainValues) {
       ethTest();

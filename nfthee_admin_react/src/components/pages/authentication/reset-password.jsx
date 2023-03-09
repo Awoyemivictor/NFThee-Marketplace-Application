@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Container, Row, Col, Form, FormGroup, Card } from "reactstrap";
 import axios from "axios";
+import instance from "../../../axios";
 
 const Samplepage = () => {
   const [currentPass, setCurrentPass] = React.useState("");
@@ -18,8 +19,8 @@ const Samplepage = () => {
       newPass: newPass,
       conirmPass: confirmPass,
     };
-    authAxios
-      .post("http://44.198.133.66:8004/api/user/changePassword", body)
+    instance
+      .post("api/user/changePassword", body)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

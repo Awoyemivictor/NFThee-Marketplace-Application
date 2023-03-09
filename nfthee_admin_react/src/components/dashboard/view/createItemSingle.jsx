@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import Loader from "./loader";
 import {toast} from "react-toastify";
 import axios from "axios";
-import instance from "../../../axios";
+import backendInstance from "../../../backendInstance";
 import {
 	Container,
 	Row,
@@ -143,7 +143,7 @@ const ItemSingle = () => {
     // };
     useEffect(() => {
         // if (loading) {
-        axios.get(`${process.env.REACT_APP_RENDER_BASE_URL}/api/getItem/read?id=${_ID}`).then((res) => {
+            backendInstance.get(`api/getItem/read?id=${_ID}`).then((res) => {
             if (res.data) {
                 setdata(res.data.data);
                 console.log("hsvbadjhvsdjhbahiuegdibsdjkb",res.data);

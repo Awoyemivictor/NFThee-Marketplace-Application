@@ -41,7 +41,7 @@ const viewBlockChain = () => {
 	
 	React.useEffect(() => {
 		instance
-			.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getBlockchain?id=${blockchain_id}`)
+			.get(`api/getBlockchain?id=${blockchain_id}`)
 			.then((ress) => {
 				console.log(ress.data);
 				if (ress.data) {
@@ -81,11 +81,12 @@ const viewBlockChain = () => {
 														Icon:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
-														<p
+														{/* <p
 															dangerouslySetInnerHTML={{
 																__html: blockchain.icon,
 															}}
-														/>
+														/> */}
+														<img src={blockchain.icon} height="32px" width="32px" />
 													</div>
 												</FormGroup>
 												<FormGroup className="form-row">

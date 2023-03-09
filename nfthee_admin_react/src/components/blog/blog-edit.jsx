@@ -23,6 +23,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useLocation, useHistory } from "react-router-dom";
+import instance from "../../axios";
 
 const BlogEdit = (props) => {
 	const history = useHistory()
@@ -85,15 +86,15 @@ const BlogEdit = (props) => {
     }));
   };
 
-  const authAxios = axios.create({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+  // const authAxios = axios.create({
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //   },
+  // });
 
   function getData() {
-    authAxios
-      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/singleBlog?id=${blog_id}`)
+    instance
+      .get(`api/singleBlog?id=${blog_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {
@@ -132,8 +133,8 @@ const BlogEdit = (props) => {
     formdata.append("keyword_tag", defaultValues.keyword_tag);
 	formdata.append("blogId",blog_id)
 
-    authAxios
-      .post(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/blog/modify`, formdata, {
+    instance
+      .post(`api/blog/modify`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

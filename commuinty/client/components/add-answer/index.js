@@ -13,6 +13,8 @@ import Tag from '../tag'
 
 import styles from './add-answer.module.css'
 
+import instance from '../../in'
+
 const AddAnswer = ({ id, tags, setQuestion }) => {
   const { authAxios } = useContext(FetchContext)
   const { isAuthenticated } = useContext(AuthContext)

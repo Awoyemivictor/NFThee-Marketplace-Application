@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import Loader from "../../blog/loader";
 import { toast } from "react-toastify";
 import axios from "axios";
+import instance from "../../../axios";
 
 const suggestionDetails = () => {
   let history = useHistory();
@@ -141,7 +142,7 @@ const suggestionDetails = () => {
 
   useEffect(() => {
     // if (loading) {
-    authAxios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getSuggestion`).then((res) => {
+    instance.get(`api/getSuggestion`).then((res) => {
       if (res.data) {
         const newData = res.data.data.map((item) => {
           return {
@@ -165,8 +166,8 @@ const suggestionDetails = () => {
     // remove and save the item of interest to your variable
     const removedItems = next.splice(next.indexOf(e), 1);
     // your axios function formatted for /delete/:id
-    const deleteCarModel = authAxios.get(
-      `http://44.198.133.66:8004/api/deleteSuggestion?id=${e._id}`
+    const deleteCarModel = instance.get(
+      `api/deleteSuggestion?id=${e._id}`
     );
     // update react state with the new array
     setdata(next);
