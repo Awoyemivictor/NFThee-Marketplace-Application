@@ -23,6 +23,15 @@ exports.signupDataAll = async (req, res, next) => {
     next(error);
   }
 };
+exports.followingList = async (req, res, next) => {
+  try {
+    const data = await signupServices.followingList(req);
+
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};
 exports.signupData = async (req, res, next) => {
   try {
     const data = await signupServices.signupData(req);
@@ -32,9 +41,22 @@ exports.signupData = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.login = async (req, res, next) => {
   try {
     const data = await signupServices.login(req);
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.updateAccountAdrs = async (req, res, next) => {
+  try {
+    const data = await signupServices.updateAccountAdrs(req);
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {
@@ -55,7 +77,7 @@ exports.updateProfile = async (req, res, next) => {
 
 exports.updateAccountAddress = async (req, res, next) => {
   try {
-    const data = await signupServices.updateAddress(req);
+    const data = await signupServices.updateAccountAddress(req);
     return successResponse(req, res, data.data, data.message);
   } catch (error) {
     next(error);

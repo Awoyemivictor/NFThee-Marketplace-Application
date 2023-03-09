@@ -21,6 +21,7 @@ const {
   update_getItemInfo,
   insert_likes,
   remove_likes,
+  userLikes,
   getPrice
 } = require('../controller').nftteamsController;
 
@@ -41,6 +42,7 @@ router.get('/getItem', getItemInfo);
 router.get('/getItem/read', read_getItemInfo);
 router.get('/getItem/update', update_getItemInfo);
 router.post('/like', insert_likes);
+router.get('/userLikes', userLikes);
 router.post('/unlike', remove_likes);
 router.post('/writeImage', uploadS3.single('testImage'), upload_image);
 
