@@ -124,25 +124,21 @@ export default function OtherUser() {
     //  const formData=new FormData()
     //  formData.append("id", id);
 //   console.log(id)
-     const { data } =  await axios({
-      method: 'put',
-      url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}username=${user_name}`,
-      data: {
+     const { data } =  await instance.put(`/api/userFollow?id=${_id}&& username=${user_name}`,
+       {
           id: e.target.name,
       }
-    });}
+    );}
     if(e.target.value==="unfollow"){
   
 //    const formData=new FormData()
 //    formData.append("id", id);
 //   console.log(id)
-   const { data } = await axios({
-    method: 'put',
-    url: `${process.env.REACT_APP_BASE_URL}/api/userUnFollow?id=${_id}username=${user_name}`,
-    data: {
+   const { data } = await instance.put(`/api/userUnFollow?id=${_id}&& username=${user_name}`,
+   {
         id: e.target.name,
     }
-  });
+  );
   }
   setChanges(Math.floor(Math.random() * 10))
   // console.log(data);
