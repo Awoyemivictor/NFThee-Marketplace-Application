@@ -15,6 +15,8 @@ const {
   userUnFollow,
   addLoginToken,
   notificationSend,
+  followingList,
+  updateAccountAdrs
 } = require('../controller').signupController;
 const {
   Multer: { upload, uploadS3 },
@@ -33,9 +35,11 @@ router.post('/updateProfile', uploadMultiple, updateProfile);
 router.post('/updateAddress', updateAccountAddress);
 router.get('/userCollections', userCollections);
 router.get('/userItems', userItems);
+router.get('/followingList', followingList);
 router.put('/userFollow', userFollow);
 router.put('/userUnFollow', userUnFollow);
 router.post('/addLoginToken', addLoginToken);
+router.post('/updateAccountAdrs', updateAccountAdrs);
 router.post('/notificationSend', notificationSend);
 
 // router.post("/reg", SignUp)

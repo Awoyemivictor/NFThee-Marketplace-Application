@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const { createCollection } = require("../../models");
 const { nftIteams } = require("../../models");
 const { mailerLogin } = require("../../utils/email");
-const {notificationModel} = require('../../models');
+const { notificationModel } = require("../../models");
 // const {signup} = require('../../models');
 
 const { credentials } = require("../../config").constantCredentials;
@@ -235,6 +235,43 @@ exports.login = async (req, res) => {
     return err;
   }
 };
+exports.updateAccountAdrs = async (req, res) => {
+  try {
+    // const { email_address } = req.;
+    // console.log(req.body, req.query);
+    const email_address = req.body.email_address;
+    const token_data = "0x1f9090aae28b8a3dceadf281b0f12828e676c327";
+    await signup.findOneAndUpdate(
+      {
+        email_address,
+      },
+      {
+        $set: {
+          account_address: token_data,
+        },
+      }
+    );
+    const user = await signup.find({ email_address });
+
+    /**} */
+
+    if (user) {
+      return {
+        message: "Email Get............",
+        status: true,
+        data: user,
+      };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (err) {
+    return err;
+  }
+};
 exports.updateProfile = async (req, res) => {
   console.log(req.body, "first");
   try {
@@ -339,6 +376,35 @@ exports.userItems = async (req, res) => {
   }
 };
 
+//user following list route
+
+exports.followingList = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    // const user = await createCollection.find({ created_by: userId ,status:'pending'});
+    const user = await signup
+      .find({ _id: userId })
+      .select("following")
+      .populate("following");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><><><><><>", user);
+    if (user) {
+      return {
+        message: "data Updated Sucessfully",
+        status: true,
+        data: user,
+      };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
 // const followMail = (username) => {
 //   console.log("mailer function hit---", username);
 
@@ -392,9 +458,15 @@ exports.userFollow = async (req, res) => {
     let username = req.query.username;
     let email = req.query.email;
     console.log("sjjndjknjkdnnnnnnnnnn", userId, username);
-    let message=`<h3>${username}</h3><p>follow you</p>`
-    console.log('mkamkkkkkkkkkkkkkkkkkkkkkkkkk',message,username,userId,email)
-    mailerLogin(email,message);
+    let message = `<h3>${username}</h3><p>follow you</p>`;
+    console.log(
+      "mkamkkkkkkkkkkkkkkkkkkkkkkkkk",
+      message,
+      username,
+      userId,
+      email
+    );
+    // mailerLogin(email,message);
     const data = {
       user:
         (await signup.findByIdAndUpdate(
@@ -512,37 +584,35 @@ exports.addLoginToken = async (req, res) => {
     };
   }
 };
-  
 
-exports.notificationSend = async (req,res) => {
-  console.log(req.body, 'firstsss sdjbjd--------------');
+exports.notificationSend = async (req, res) => {
+  console.log(req.body, "firstsss sdjbjd--------------");
 
-  let id = req.body.receiver_id
+  let id = req.body.receiver_id;
   let r_users = await signup.findById(id);
 
   payload_data = {
-  sender_id      : req.body.sender_id,
-  receiver_id    : req.body.receiver_id,
-  sender_token   : req.body.sender_token,
-  receiver_token : req.body.receiver_token,
-  message        : req.body.message,
-  status         : 'active',
-  } 
+    sender_id: req.body.sender_id,
+    receiver_id: req.body.receiver_id,
+    sender_token: req.body.sender_token,
+    receiver_token: req.body.receiver_token,
+    message: req.body.message,
+    status: "active",
+  };
 
-  let result = ""
-  if(r_users){
+  let result = "";
+  if (r_users) {
     result = await notificationModel.create(payload_data);
-    console.log("result-------",result);
+    console.log("result-------", result);
   }
 
-  if(result){
+  if (result) {
     return {
       message: "Notification update",
       status: true,
       data: result,
     };
-
-  }else{
+  } else {
     return {
       message: "User hasn't found",
       status: false,
