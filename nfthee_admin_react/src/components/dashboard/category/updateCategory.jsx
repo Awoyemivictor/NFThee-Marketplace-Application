@@ -19,6 +19,7 @@ import {
 	Input,
 } from 'reactstrap';
 import SimpleMDE from "react-simplemde-editor";
+import instance from '../../../axios';
 const updateCategory = () => {
 	const [data, setdata] = useState([]);
 	const [name, setName] = useState('');
@@ -40,8 +41,8 @@ const updateCategory = () => {
 	  };
 
 	function getData() {
-		authAxios
-			.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCategory?id=${category_id}`)
+		instance
+			.get(`api/getCategory?id=${category_id}`)
 			.then((ress) => {
 				console.log(ress.data);
 				if (ress.data) {
@@ -71,8 +72,8 @@ const updateCategory = () => {
 		};
 		console.log(body);
 
-		authAxios
-			.post('http://44.198.133.66:8004/api/updateCategory', body, {
+		instance
+			.post('api/updateCategory', body, {
 				headers: {
 					'Content-Type': 'application/json',
 				},

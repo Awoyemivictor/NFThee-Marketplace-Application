@@ -84,7 +84,7 @@ const addBlockChain = () => {
 		console.log(body);
 
 		instance
-			.post('/api/addBlockchain', body, {
+			.post('api/addBlockchain', body, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},

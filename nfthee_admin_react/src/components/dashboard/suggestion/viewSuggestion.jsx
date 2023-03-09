@@ -20,6 +20,7 @@ import {
   TabPane,
   Media,
 } from "reactstrap";
+import instance from "../../../axios";
 // import { Container, Row, Col, Card } from "reactstrap";
 
 const viewSuggestion = () => {
@@ -39,8 +40,8 @@ const viewSuggestion = () => {
   });
   React.useEffect(() => {
     console.log(process.env.REACT_APP_BASE_URL)
-    authAxios
-      .get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getSuggestion?id=${suggestion_id}`)
+    instance
+      .get(`api/getSuggestion?id=${suggestion_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {

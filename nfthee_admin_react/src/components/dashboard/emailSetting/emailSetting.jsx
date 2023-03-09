@@ -19,6 +19,7 @@ import {
 	Label,
 	Input,
 } from 'reactstrap';
+import instance from '../../../axios';
 
 const emailSetting = () => {
 	const [data, setdata] = useState([]);
@@ -49,7 +50,7 @@ const emailSetting = () => {
 	});
 
 	const getData = () => {
-		authAxios.get(`http://44.198.133.66:8004/api/readEmail`).then((ress) => {
+		instance.get(`api/readEmail`).then((ress) => {
 			console.log(ress.data.data);
 			console.log(ress.data.data._id);
 			if (ress.data.data !== null) {
@@ -123,8 +124,8 @@ const emailSetting = () => {
 		};
 		console.log(body);
 
-		authAxios
-			.post('http://44.198.133.66:8004/api/addEmail', body, {
+		instance
+			.post('api/addEmail', body, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -156,8 +157,8 @@ const emailSetting = () => {
 		};
 		console.log(body);
 
-		authAxios
-			.post('http://44.198.133.66:8004/api/updateEmail', body, {
+		instance
+			.post('api/updateEmail', body, {
 				headers: {
 					'Content-Type': 'application/json',
 				},

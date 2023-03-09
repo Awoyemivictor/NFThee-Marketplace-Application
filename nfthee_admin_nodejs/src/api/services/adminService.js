@@ -109,8 +109,10 @@ exports.adminUpdate = async (req) => {
 exports.blog_delete = async (req) => {
   try {
     let blogId = req.body.blogId;
+    console.log("---------",blogId)
     let blogData = await adminModel.findById(mongoose.Types.ObjectId(blogId));
-    if (blogData) {
+    console.log(blogData);
+    if ((blogData, blogId)) {
       fs.unlink(blogData.uploadFile, () => {
         console.log('deleted');
       });

@@ -23,6 +23,7 @@ import {
 	Form,
 	FormGroup,
 } from 'reactstrap';
+import backendInstance from "../../../backendInstance";
 const CollectionSingle = () => {
 	const history = useHistory();
 
@@ -34,7 +35,7 @@ const CollectionSingle = () => {
 
     useEffect(() => {
         
-        axios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getCollection/read?id=${_ID}`)
+        backendInstance.get(`api/getCollection/read?id=${_ID}`)
             .then(response => {setCollection(response.data.data)
 				setLoading(false)
 			}

@@ -14,7 +14,7 @@ const {
   deleteSuggestion,
 } = require('../controller').categoryController;
 
-router.post('/addCategory',auth, addCategory);
+router.post('/addCategory',auth, uploadS3.single('icon'),addCategory);
 router.post('/updateCategory',auth, updateCategory);
 router.get('/getCategory',auth, getCategory);
 router.get('/deleteCategory',auth, deleteCategory);

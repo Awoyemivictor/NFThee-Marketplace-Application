@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import Loader from './loader';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import instance from '../../axios';
 
 const BlogDetail = () => {
   let history = useHistory();
@@ -17,11 +18,11 @@ const BlogDetail = () => {
   const [data, setdata] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const authAxios = axios.create({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
+  // const instance = axios.create({
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //   },
+  // });
 
   // Date / Blog Title / Author Name /  Date of Posting   - (View / Delete )
 
@@ -149,28 +150,34 @@ const BlogDetail = () => {
 
   const onUpdate = (e) => {
     console.log('onUpdate=>', e);
-    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogEdit?blogId=${e._id}`);
+    // history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogEdit?blogId=${e._id}`);
+    history.push(
+      `/blog/blogEdit?blogId=${e._id}`
+    );
+
     console.log();
   };
 
   useEffect(() => {
     // if (loading) {
-    authAxios.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/blog/all`).then((res) => {
-      if (res.data) {
-        const newData = res.data.data.map((item) => {
-          return {
-            ...item,
-            date_of_posting: moment(item['date_of_posting']).format(
-              'DD/MM/YYYY'
-            ),
-            createdAt: moment(item['createdAt']).format('DD/MM/YYYY'),
-          };
-        });
-        setdata(newData);
+    instance
+      .get(`api/blog/all`)
+      .then((res) => {
+        if (res.data) {
+          const newData = res.data.data.map((item) => {
+            return {
+              ...item,
+              date_of_posting: moment(item['date_of_posting']).format(
+                'DD/MM/YYYY'
+              ),
+              createdAt: moment(item['createdAt']).format('DD/MM/YYYY'),
+            };
+          });
+          setdata(newData);
 
-        setLoading(false);
-      }
-    });
+          setLoading(false);
+        }
+      });
     // }
   }, []);
 
@@ -181,8 +188,8 @@ const BlogDetail = () => {
     // remove and save the item of interest to your variable
     const removedItems = next.splice(next.indexOf(e), 1);
     // your axios function formatted for /delete/:id
-    const deleteCarModel = axios.delete(
-      `${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/admin/blog/delete`,
+    const deleteCarModel = instance.delete(
+      `api/blog/delete`,
       blogId
     );
     // update react state with the new array
@@ -194,7 +201,9 @@ const BlogDetail = () => {
     history.push(`/blog/blogSingle?blogId=${e._id}`);
   };
   const handleAddNewBlog = (e) => {
-    history.push(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/blog/blogPost`);
+    history.push(
+      `/blog/blogPost`
+    );
   };
   // const onUpdateBlog = (e) => {
   //   console.log("onUpdateBlog=>", e);

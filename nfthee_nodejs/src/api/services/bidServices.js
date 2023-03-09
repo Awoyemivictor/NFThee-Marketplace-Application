@@ -181,80 +181,65 @@ exports.userBids = async (req, res) => {
 };
 
 // exports.fetchBidNft = async (req, res) => {
+
 //   try {
+//     // if (!req.userId) return res.send('Unauthorized Access');
 //     let nftId = req.body.nftId;
-//     let result = await bidModel.find({ nftId }).populate('bidder');
-//     console.log(result);
+//     let orderId = req.body.orderId;
+//     let bidder = req.body.bidder;
+//     let bid_status = req.body.bid_status;
+
+//     console.log('data',nftId,orderId,bidder,bid_status)
+    
+
+//     let data = await bidModel.aggregate([
+//       {
+//         $match: {
+//           $and: [
+//             // { bid_quantity: { $gte: 1 } },
+//             // { nftId: mongoose.Types.ObjectId(nftId) },
+//             { nftId: mongoose.Types.ObjectId(nftId) },
+//           ],
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 1,
+//           bidder: 1,
+//           owner: 1,
+//           bid_status: 1,
+//           bid_price: 1,
+//           nftId: 1,
+//           orderId: 1,
+//           bid_quantity: 1,
+//           // oBuyerSignature: 1,
+//           bid_deadline: 1,
+//         },
+//       },
+//       // {
+//       //   $lookup: {
+//       //     from: 'user',
+//       //     localField: 'bidder',
+//       //     foreignField: '_id',
+//       //     as: 'bidder_detail',
+//       //   },
+//       // },
+//       // { $unwind: '$bidder' },
+//     ])
+
+//     console.log('Datat==>>',data, data.length);
 
 //     return {
-//       message: 'Bid Data ',
+//       message: 'Bid Details',
 //       status: true,
-//       data: result,
-//     };
+//       data: data,
+//     }
+
+    
 //   } catch (error) {
-//     throw error
+//     throw error;
 //   }
 // };
-exports.fetchBidNft = async (req, res) => {
-
-  try {
-    // if (!req.userId) return res.send('Unauthorized Access');
-    let nftId = req.body.nftId;
-    // let orderId = req.body.orderId;
-    // let bidder = req.body.bidder;
-    // let bid_status = req.body.bid_status;
-
-    // console.log('data',nftId,orderId,bidder,bid_status)
-    
-
-    let data = await bidModel.aggregate([
-      {
-        $match: {
-          $and: [
-            // { bid_quantity: { $gte: 1 } },
-            // { nftId: mongoose.Types.ObjectId(nftId) },
-            { nftId: mongoose.Types.ObjectId(nftId) },
-          ],
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          bidder: 1,
-          owner: 1,
-          bid_status: 1,
-          bid_price: 1,
-          nftId: 1,
-          orderId: 1,
-          bid_quantity: 1,
-          // oBuyerSignature: 1,
-          bid_deadline: 1,
-        },
-      },
-      // {
-      //   $lookup: {
-      //     from: 'user',
-      //     localField: 'bidder',
-      //     foreignField: '_id',
-      //     as: 'bidder_detail',
-      //   },
-      // },
-      // { $unwind: '$bidder' },
-    ])
-
-    console.log('Datat==>>',data, data.length);
-
-    return {
-      message: 'Bid Details',
-      status: true,
-      data: data,
-    }
-
-    
-  } catch (error) {
-    throw error;
-  }
-};
 
 // exports.acceptBidNft = async (req, res) => {
 //   try {

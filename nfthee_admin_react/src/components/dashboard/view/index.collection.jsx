@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import instance from "../../../axios";
 import axios from "axios";
 import { width } from "@mui/system";
+import backendInstance from "../../../backendInstance";
 
 
 const CollectionDetail = () => {
@@ -18,7 +19,7 @@ const CollectionDetail = () => {
 
     const [data, setdata] = useState([]);
     useEffect(() => {
-        axios.get(`https://lnfthee-backend.onrender.com/api/getAll`)
+        backendInstance.get(`api/getAll`)
              .then(response => setdata(response.data.data))
              .finally(() => setLoading(false))
      
@@ -204,7 +205,7 @@ const completeTask=(collections)=>{
     setLoading(true)
  
 console.log(collections._id)
-axios.get(`https://lnfthee-backend.onrender.com/api/getCollection/update?id=${collections._id}`)
+backendInstance.get(`api/getCollection/update?id=${collections._id}`)
 .then(response => console.log(response.data.data))
 .finally(() => setLoading(false))
 }
@@ -227,7 +228,7 @@ axios.get(`https://lnfthee-backend.onrender.com/api/getCollection/update?id=${co
             showCancelButton: true,
         }).then(function (result) {
             if (result.value) {
-                axios.post(`/api/deleteCollection/?id=${collections._id}`)
+                instance.post(`/api/deleteCollection/?id=${collections._id}`)
                     .then(response => console.info(response.data.data))
             }
         });

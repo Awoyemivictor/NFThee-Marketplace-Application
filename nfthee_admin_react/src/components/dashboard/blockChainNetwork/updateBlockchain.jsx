@@ -20,6 +20,7 @@ import {
   Label,
   Input,
 } from "reactstrap";
+import instance from "../../../axios";
 const updateBlockchain = () => {
   const [data, setdata] = useState([]);
   // fields
@@ -56,8 +57,8 @@ const updateBlockchain = () => {
   });
 
   function getData() {
-    authAxios
-      .get(` ${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/getBlockchain?id=${blockchain_id}`)
+    instance
+      .get(`api/getBlockchain?id=${blockchain_id}`)
       .then((ress) => {
         console.log(ress.data);
         if (ress.data) {
@@ -89,8 +90,8 @@ const updateBlockchain = () => {
     };
     console.log(body);
 
-    authAxios
-      .post(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/editBlockchain`, body, {
+    instance
+      .post(`api/editBlockchain`, body, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
