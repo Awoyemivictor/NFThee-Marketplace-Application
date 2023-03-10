@@ -45,9 +45,10 @@ const create_collection = new Schema(
     royalty_percentage: {
       type: Number,
     },
-    links: {
-      type: String,
-    },
+    links:[{
+      type:String,
+      default:'https://etherscan.io/'
+    }],
     creator_earnings: {
       type: String,
     },

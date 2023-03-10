@@ -142,11 +142,15 @@ exports.read_getCollectionInfo = async (req, res) => {
 };
 exports.update_getCollectionInfo = async (req, res) => {
   try {
-    let userId = req.query.id;
-    let result = await createCollection.findOneAndUpdate(
-      { _id: userId },
+    let collectionId = req.query.id;
+    let action=req.query.action;
+    let result = ( action === 'verified')? await createCollection.findOneAndUpdate(
+      { _id: collectionId },
       { $set: { status: 'verified' } }
-    );
+    ): await createCollection.findOneAndUpdate(
+      { _id: collectionId },
+      { $set: { status: 'pending' } }
+    )
     return {
       message: 'status updated successfully.',
       status: true,
