@@ -32,6 +32,11 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
 
     mapping(address => ERC721Market) private _erc721Market;
 
+    enum ListingType {
+        FLOOR_PRICE_BID, // 0
+        AUCTION // 1
+    }
+
     /**
      * @dev only if listing and bid is enabled
      * This is to help contract migration in case of upgrading contract
@@ -423,17 +428,14 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
             tokenType,
             expireTimestamp
         );
-        if (tokenType == 2) {} else {
-            require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-            _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
-            _erc721Market[contractAddress].bids[tokenId].bidders.add(
-                msg.sender
-            );
-            _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
+        require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-            emit TokenBidEntered(contractAddress, tokenId, bid);
-        }
+        _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
+        _erc721Market[contractAddress].bids[tokenId].bidders.add(msg.sender);
+        _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
+
+        emit TokenBidEntered(contractAddress, tokenId, bid);
     }
 
     /**
@@ -592,6 +594,13 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
             _removeBidOfBidder(contractAddress, tokenId, existingBid.bidder);
         }
     }
+
+    /**
+     * @dev See {TheeNFTMarketplace-AuctionEnd}.
+
+     */
+
+    function auctionEnd() public payable nonReentrant {}
 
     /* GETTERS */
 
