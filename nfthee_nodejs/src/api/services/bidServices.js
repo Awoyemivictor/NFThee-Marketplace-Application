@@ -253,6 +253,18 @@ exports.userBids = async (req, res) => {
 //   }
 // };
 
+// exports.acceptBidNft = async (req, res) => {
+//   try {
+//     return {
+//       message: 'Bid Accepted Successfully',
+//       status: true,
+//       data: [],
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 exports.acceptBidNft = async (req, res) => {
   console.log(req.body);
   try {
