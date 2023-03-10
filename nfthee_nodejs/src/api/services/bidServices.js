@@ -180,6 +180,22 @@ exports.userBids = async (req, res) => {
   }
 };
 
+exports.fetchBidNft = async (req, res) => {
+  try {
+    let nftId = req.body.nftId;
+    let result = await bidModel.find({ nftId }).populate('bidder');
+    console.log(result);
+
+    return {
+      message: 'Bid Data ',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error
+  }
+};
+
 // exports.fetchBidNft = async (req, res) => {
 
 //   try {
