@@ -22,7 +22,7 @@ import {
 } from '../../services/apiServices';
 import '../../index.css';
 import instance from '../../axios';
-
+import { handleLikes } from '../../services/apiServices';
 import {
   wrapPaymentTokens,
   unwrapPaymentTokens,
@@ -58,6 +58,7 @@ function ExploreDetail() {
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [convertModalOpen, setconvertModalIsOpen] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
+  const [like, setliked] = useState();
 
   const submitToken = async () => {
     console.log(eth, wth);
@@ -100,7 +101,7 @@ function ExploreDetail() {
       .catch((e) => {
         // setLoading(true);
       });
-  }, [id]);
+  }, [id,like]);
 
   // console.log("exploreDetail",collections)
   const collectionSlider = () => {
@@ -172,6 +173,32 @@ function ExploreDetail() {
       console.log({ data });
     }
   };
+
+  const [diable, setDisaable] = useState(false)
+
+  const handleAddFavorite = async (e, collection) => {
+
+    const requestBody = {
+      id: userId._id,
+      postId: collection,
+    };
+    if (userId._id != '' || undefined) {
+      console.log('test==>>>>>if', requestBody, e.target.id);
+      const data = await handleLikes(requestBody, e.target.id, setDisaable);
+      if (!data) {
+        setDisaable(true);
+      }else  setDisaable(false)
+      if (data) {
+        setDisaable(false)
+        setliked(Math.random());
+      }
+    }
+  };
+
+
+  
+
+
   const [activeTab, setActiveTab] = useState('1');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
@@ -346,13 +373,54 @@ function ExploreDetail() {
                           <a href='#' className='view'>
                             <i className='ri-eye-line icon' /> 100
                           </a>
-                          <a href='#' className='like ms-3'>
-                            <i className='ri-heart-line icon' />{' '}
+                       
+                            {/* <i className='ri-heart-line icon' />{' '}
                             {collections.likes.length
                               ? collections.likes.length
                               : ''}
-                            {/* 100 */}
-                          </a>
+                            100 */}
+                               <span  className='like ms-3'>
+                                {collections.likes.includes(userId._id) ? (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='unliked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, collections._id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='unliked' className='ri-heart-fill me-1' />
+                              {collections.likes
+                                ? collections.likes.length === 0
+                                  ? ''
+                                  : collections.likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        ) : (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='liked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, collections._id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='liked' className=' ri-heart-line me-1' />
+                              {collections.likes
+                                ? collections.likes.length === 0
+                                  ? ''
+                                  : collections.likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        )}
+                        </span>
+
                         </div>
                       </div>
                       <div className='mb-3 d-flex d-lg-block flex-wrap'>
@@ -464,20 +532,7 @@ function ExploreDetail() {
                               {t('product.about project')}
                             </button>
                           </li>
-                          <li className='nav-item' role='presentation'>
-                            <button
-                              className='nav-link'
-                              id='detail-tab'
-                              data-bs-toggle='tab'
-                              data-bs-target='#detail'
-                              type='button'
-                              role='tab'
-                              aria-controls='detail'
-                              aria-selected='false'
-                            >
-                              {t('product.Details')}
-                            </button>
-                          </li>
+                         
                           <li className='nav-item' role='presentation'>
                             <button
                               className='nav-link'
@@ -576,14 +631,7 @@ function ExploreDetail() {
                           >
                             {collections ? collections.about : 'lorem35'}
                           </div>
-                          <div
-                            className='tab-pane fade'
-                            id='detail'
-                            role='tabpanel'
-                            aria-labelledby='detail-tab'
-                          >
-                            3
-                          </div>
+                         
 
                           {/* WETHtoETH */}
                           {/* {collections.putOnMarketplace.Bid_price &&collections.created_by ===id? */}
@@ -717,96 +765,6 @@ function ExploreDetail() {
                                   </div>
                                 ))}
 
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>CLOTHES</h3>
-                                      <h4 className='card-text'>Old</h4>
-                                      <p className='card-subtext'>
-                                        75% have this trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>EARINGS</h3>
-                                      <h4 className='card-text'>Circle2</h4>
-                                      <p className='card-subtext'>
-                                        5% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>EYES</h3>
-                                      <h4 className='card-text'>Soft</h4>
-                                      <p className='card-subtext'>
-                                        6% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>FACE</h3>
-                                      <h4 className='card-text'>Gold</h4>
-                                      <p className='card-subtext'>
-                                        4% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>GLASSES</h3>
-                                      <h4 className='card-text'>Oldfashion4</h4>
-                                      <p className='card-subtext'>
-                                        4% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>HAIR</h3>
-                                      <h4 className='card-text'>Stick</h4>
-                                      <p className='card-subtext'>
-                                        4% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>HEADWEAR</h3>
-                                      <h4 className='card-text'>B Top Hat</h4>
-                                      <p className='card-subtext'>
-                                        9% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='col-lg-4'>
-                                  <div className='card'>
-                                    <div className='card-body'>
-                                      <h3 className='card-title'>NECKLACE</h3>
-                                      <h4 className='card-text'>
-                                        Y Spotted Tie
-                                      </h4>
-                                      <p className='card-subtext'>
-                                        5% Have This Trait
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -1885,7 +1843,7 @@ function ExploreDetail() {
                   </h2>
                   <span>
                     <img
-                      src='assets/images/path1.png'
+                      src='/assets/images/path1.png'
                       alt=''
                       className='img-fluid'
                     />

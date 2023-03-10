@@ -28,7 +28,6 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
   const [diable, setDisaable] = useState(false);
 
   const handleAddFavorite = async (e, collection) => {
-    console.log('test==>>>>>>.');
 
     const requestBody = {
       id: _id,
