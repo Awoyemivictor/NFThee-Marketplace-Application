@@ -156,8 +156,7 @@ exports.update_getItemInfo = async (req, res) => {
       message: 'create item added successfully.',
       status: true,
       data: result,
-    };testEmail
-  } catch (error) {
+    };  } catch (error) {
     throw error;
   }
 };
@@ -238,13 +237,13 @@ exports.delete_nftStore = async (req) => {
   try {
     let userId = req.body.userId;
     console.log(userId);
-    let userIdData = await nftIteams.findOne({ userId: userId });
+    let userIdData = await nftIteams.findOne({ _id: userId });
     console.log(userIdData);
     if (userIdData) {
       fs.unlink(userIdData.uploadFile, () => {
         console.log('Delete Data');
       });
-      let result = await nftIteams.findOneAndRemove({ userId: userId });
+      let result = await nftIteams.findOneAndRemove({ _id: userId });
       return {
         message: 'Create Item Data deleted..........',
         status: true,

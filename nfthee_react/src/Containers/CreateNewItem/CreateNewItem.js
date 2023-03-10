@@ -20,24 +20,22 @@ import { getUnixTimeAfterDays } from '../../Config/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { logOut } from '../../Components/Layout/Navbar';
-import { wrapPaymentTokens,unwrapPaymentTokens } from '../../Config/token-actions/wrap-token';
+import {
+  wrapPaymentTokens,
+  unwrapPaymentTokens,
+} from '../../Config/token-actions/wrap-token';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
   const { SingleValue, Option } = components;
   const history = useHistory();
   const [reset, setReset] = useState(false);
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
-console.log({userId},'useid')
-  if (userId === ''||undefined||null ) {
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
+  console.log({ userId }, 'useid');
+  if (userId === '' || undefined || null) {
     history.push('/');
     // logOut()
   }
-
-  const test = async () => {
-    // await wrapPaymentTokens()
-    await unwrapPaymentTokens()
-  };
 
   const Blockchains = [
     {
@@ -266,7 +264,7 @@ console.log({userId},'useid')
     const fetchBlockchains = async () => {
       const arr = [];
       await axios
-        .get(`http://localhost:8004/api/getBlockchain`)
+        .get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getBlockchain`)
         .then((response) => {
           let res = response.data.data;
           res.map((blockchain) => {
@@ -508,11 +506,7 @@ console.log({userId},'useid')
       collectionData.creator_earnings
     );
     console.log({ contractAddress });
-    // await handleNFTCreation(collectionData.blockchain, contractAddress);
-    // await instance
-    // .post('/api/createCollection', collectionData)
-    // console.log(contractAddress);
-    // await handleNFTCreation(contractAddress)
+
     if (
       contractAddress.length === 42 &&
       collectionData.name &&
@@ -622,20 +616,6 @@ console.log({userId},'useid')
     }
   };
 
-  const handleNFTListing = async () => {
-    const contractAddress = await handleCollectionCreation(
-      collectionData.blockchain,
-      true,
-      collectionData.name,
-      collectionData.symbol,
-      '0x41c100Fb0365D9A06Bf6E5605D6dfF72F44fb106',
-      collectionData.creator_earnings
-    );
-    console.log(contractAddress);
-    await handleNFTCreation(collectionData.blockchain, contractAddress);
-    const res = await handleListNFTSale(contractAddress, 1);
-    console.log(res);
-  };
 
   const [openForBids, setOpenForBids] = useState({
     Bid_price: '',
@@ -722,15 +702,17 @@ console.log({userId},'useid')
       const resultssss = await instance
         .post(`/api/store`, post)
         .then((response) => {
-          Swal.fire({
-            position: 'top-center',
-            icon: 'success',
-            title: 'NFT Created Successfully',
-            showConfirmButton: false,
-            timer: 1500,
-          },
-          
-          setItemValidation('needs-validated'));
+          Swal.fire(
+            {
+              position: 'top-center',
+              icon: 'success',
+              title: 'NFT Created Successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            },
+
+            setItemValidation('needs-validated')
+          );
           result = response;
         })
         .catch((err) => {
@@ -753,6 +735,7 @@ console.log({userId},'useid')
         if (activeTab === '0') {
           console.log('Inside Tab1');
           data = await handleListNFTSale(
+            itemData.chooseType,
             tokenId,
             fixedPrice.price,
             collectionAddress
@@ -1203,7 +1186,7 @@ console.log({userId},'useid')
                                   : 'Not For Sale'}
                               </h3> */}
                               <span>
-                                {activeTab === "0" ? (
+                                {activeTab === '0' ? (
                                   <span>{fixedPrice.price}</span>
                                 ) : activeTab === 1 ? (
                                   ''
@@ -1947,14 +1930,6 @@ console.log({userId},'useid')
 
                         <div className='create-item-content border-bottom pb-3 mb-3'></div>
                       </form>
-
-                      <button
-                        type='submit'
-                        className='btn btn-violet w-100'
-                        onClick={test}
-                      >
-                        Test
-                      </button>
 
                       {/*</form>*/}
                     </div>

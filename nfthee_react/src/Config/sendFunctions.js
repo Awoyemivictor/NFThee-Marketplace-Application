@@ -161,12 +161,27 @@ export const handleCollectionCreation = async (
       );
       console.log(contractAddress, userAddress, royaltyPercentage, options);
 
+      res1 = await marketplaceInstance.royalty(contractAddress);
+
+      res1 = await res1.wait();
+      console.log('res1 collection  ===>>>', res1);
+
+      if (res1.status === 0) {
+        console.log('Transaction Failed');
+      }
+
       res1 = await marketplaceInstance.setRoyalty(
         contractAddress,
         userAddress,
         royaltyPercentage,
         options
       );
+      res1 = await res1.wait();
+
+      if (res1.status === 0) {
+        console.log('Transaction Failed');
+      }
+
       return contractAddress;
     } catch (error) {
       console.log(error);
@@ -268,31 +283,31 @@ export const handleNFTCreation = async (
  */
 
 export const handleListNFTSale = async (
+  chooseType,
   tokenId,
   fixedPrice,
   collectionAddress
 ) => {
-  console.log(tokenId, fixedPrice, collectionAddress);
+  console.log(chooseType, tokenId, fixedPrice, collectionAddress);
   let res;
   const price = ethers.utils.parseEther(fixedPrice).toString();
+  const userAccount = await getUserAddress();
+
   const time = getUnixTimeAfterDays(20);
-  const options = {
-    gasPrice: 10000000000,
-    gasLimit: 9000000,
-  };
 
   let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);
 
   let checkApproval = await nftInstance.isApprovedForAll(
-    '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9',
+    userAccount,
     contracts.polygonContracts.MARKETPLACE
   );
   console.log(checkApproval);
   if (checkApproval === false) {
-    await nftInstance.setApprovalForAll(
+    res = await nftInstance.setApprovalForAll(
       contracts.polygonContracts.MARKETPLACE,
       true
     );
+    res = await res.wait();
   }
 
   let marketplaceInstance = await exportInstance(
@@ -300,14 +315,30 @@ export const handleListNFTSale = async (
     Market.abi
   );
 
-  console.info(collectionAddress, tokenId, price, time, 1, 2, options);
+  console.info(collectionAddress, tokenId, price, time, 1, 2);
+
+  let gasLimit = await marketplaceInstance.estimateGas.listToken(
+    collectionAddress,
+    tokenId,
+    price,
+    time,
+    1,
+    1
+  );
+
+  let options = {
+    from: userAccount,
+    gasLimit: Number(gasLimit) + 10,
+  };
+
+  console.log(Number(gasLimit) + 10);
   res = await marketplaceInstance.listToken(
     collectionAddress,
     tokenId,
     price,
     time,
     1,
-    2,
+    1,
     options
   );
 
@@ -319,7 +350,7 @@ export const handleListNFTSale = async (
 };
 
 export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
-  console.info(tokenPrice, collectionName);
+  console.info(tokenPrice, collectionName, tokenId);
 
   let res;
   const userAddress = getUserAddress();
