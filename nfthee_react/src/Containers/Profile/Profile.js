@@ -105,9 +105,9 @@ const [userBid,setUserBid]=useState([])
     instance
     .get(`/api/userItems?id=${_id}`)
     .then(res=>( setItemData(res.data.data)))
+    .finally(()=>setLoadingFilter(false))
 
-
-  },[])
+  },[like])
   useEffect(()=>{
   const fetchUrl=`/api/userBids?id=${_id}`
 
@@ -267,8 +267,7 @@ const [buttonLoading,setButtonLoading]=useState(false)
   }
   if(e.target.value==="unfollow"){
 
-//  const formData=new FormData()
-//  formData.append("id", id);
+
  const { data } = await  instance.put(`/api/userUnFollow?id=${_id}&& username=${user_name}`,
  {
       id}
@@ -889,6 +888,8 @@ setChanges(Math.floor(Math.random() * 10))
                   </div>
                   <div className="tab-pane fade" id="created">
                    3 
+                   <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked}/>
+
                   </div>
                   <div className="tab-pane fade" id="collections">
                     4<div className="row">

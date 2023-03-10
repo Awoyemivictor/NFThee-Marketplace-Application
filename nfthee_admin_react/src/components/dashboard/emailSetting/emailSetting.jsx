@@ -52,7 +52,7 @@ const emailSetting = () => {
 	const getData = () => {
 		instance.get(`api/readEmail`).then((ress) => {
 			console.log(ress.data.data);
-			console.log(ress.data.data._id);
+			// console.log(ress.data.data._id);
 			if (ress.data.data !== null) {
 				setdata({ ...ress.data.data });
 				setDomainName(ress.data.data.domain_name);

@@ -27,6 +27,8 @@ import {
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
+  const address=getUserAddress()
+  console.log({address})
   const { SingleValue, Option } = components;
   const history = useHistory();
   const [reset, setReset] = useState(false);
@@ -41,30 +43,30 @@ const CreateNewItem = () => {
     {
       label: 'Ethereum',
       value: 'Ethereum',
-      image: 'assets/images/icons/ethereum-pink.png',
+      image: '/assets/images/icons/ethereum-pink.png',
     },
     {
       label: 'Solana',
       value: 'Solana',
-      image: 'assets/images/icons/solona.png',
+      image: '/assets/images/icons/solona.png',
     },
     {
       label: 'Polygon',
       value: 'Polygon',
-      image: 'assets/images/icons/polygon.png',
+      image: '/assets/images/icons/polygon.png',
     },
     {
       label: 'Binance',
       value: 'Binance',
-      image: 'assets/images/icons/binance.png',
+      image: '/assets/images/icons/binance.png',
     },
     {
       label: 'Harmony',
       value: 'Harmony',
-      image: 'assets/images/icons/harmony.png',
+      image: '/assets/images/icons/harmony.png',
     },
   ];
-
+ 
   const categoryList = [
     { value: 'Art', label: 'Art' },
     { value: 'Collectibles', label: 'Collectibles' },
@@ -507,6 +509,21 @@ const CreateNewItem = () => {
     );
     console.log({ contractAddress });
 
+
+
+    const links = [
+      { website: collectionData.website },
+      { discord: collectionData.discord },
+      { instagram: collectionData.instagram },
+      { medium: collectionData.medium },
+      { telegram: collectionData.telegram }
+    ];
+
+    // await handleNFTCreation(collectionData.blockchain, contractAddress);
+    // await instance
+    // .post('/api/createCollection', collectionData)
+    // console.log(contractAddress);
+    // await handleNFTCreation(contractAddress)
     if (
       contractAddress.length === 42 &&
       collectionData.name &&
@@ -523,13 +540,14 @@ const CreateNewItem = () => {
       formData.append('featured_image', collectionData.featured_image);
       formData.append('banner_image', collectionData.banner_image);
       formData.append('url', collectionData.url);
+     
       formData.append('category', collectionData.category);
-      formData.append('website', collectionData.website);
-      formData.append('discord', collectionData.discord);
-      formData.append('instagram', collectionData.instagram);
+      // formData.append('website', collectionData.website);
+      // formData.append('discord', collectionData.discord);
+      // formData.append('instagram', collectionData.instagram);
       formData.append('amount', collectionData?.amount);
-      formData.append('medium', collectionData.medium);
-      formData.append('telegram', collectionData.telegram);
+      // formData.append('medium', collectionData.medium);
+      // formData.append('telegram', collectionData.telegram);
       formData.append('creator_earnings', collectionData.creator_earnings);
       formData.append('created_by', collectionData.created_by);
       formData.append('blockchain', collectionData.blockchain);
@@ -541,6 +559,10 @@ const CreateNewItem = () => {
       );
       formData.append('contract_address', contractAddress);
 
+      for (const link of links) {
+        const [[key, value]] = Object.entries(link);
+        formData.append("links", JSON.stringify({[key]:`${value.toString()}`}));
+      }
       // symbol: '',
       // description: '',
       // chooseType: '',
@@ -650,6 +672,8 @@ const CreateNewItem = () => {
   const [validationItem, setItemValidation] = useState('needs-validated');
   const [validationCollection, setCollectionValidation] =
     useState('needs-validated');
+
+
   const handleSubmitNewItem = async (e) => {
     e.preventDefault();
     validateItemInputs();
@@ -669,11 +693,13 @@ const CreateNewItem = () => {
         break;
     }
     const post = itemData;
-
+ const creatorAddress = await getUserAddress();
+    console.log(creatorAddress[0]);
     post.putOnMarketplace = data;
     if (post.chooseType === 'single') {
       post.amount = 1;
     }
+   
     console.log(activeTab);
     console.log(itemData.chooseType, 'postchosos');
 
@@ -686,6 +712,11 @@ const CreateNewItem = () => {
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
     console.log({ tokenId }, { collectionAddress }, { res }, { post });
+    let owned_by={
+      address:creatorAddress[0],
+      quantity:post.amount
+    }
+    post.owned_by=owned_by
     if (
       tokenId &&
       collectionAddress &&

@@ -10,28 +10,28 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft1.png"
+        img: "/assets/images/nft1.png"
       },
       {
         id: 2,
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft2.png"
+        img: "/assets/images/nft2.png"
       },
       {
         id: 3,
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft3.png"
+        img: "/assets/images/nft3.png"
       },
       {
         id: 4,
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft4.png"
+        img: "/assets/images/nft4.png"
 
       },
       {
@@ -39,7 +39,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft5.png"
+        img: "/assets/images/nft5.png"
 
       },
       {
@@ -47,7 +47,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft6.png"
+        img: "/assets/images/nft6.png"
 
       },
       {
@@ -55,7 +55,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft7.png"
+        img: "/assets/images/nft7.png"
 
       },
       {
@@ -63,7 +63,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft8.png"
+        img: "/assets/images/nft8.png"
 
       },
       {
@@ -71,7 +71,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft9.png"
+        img: "/assets/images/nft9.png"
 
       },
       {
@@ -79,7 +79,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft11.png"
+        img: "/assets/images/nft11.png"
 
       },
       {
@@ -87,7 +87,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft12.png"
+        img: "/assets/images/nft12.png"
 
       },
       {
@@ -95,7 +95,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft13.png"
+        img: "/assets/images/nft13.png"
 
       },
       {
@@ -103,7 +103,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft14.png"
+        img: "/assets/images/nft14.png"
 
       },
       {
@@ -111,7 +111,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft15.png"
+        img: "/assets/images/nft15.png"
 
       },
       {
@@ -119,7 +119,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft18.png"
+        img: "/assets/images/nft18.png"
 
       },
       {
@@ -127,7 +127,7 @@ export const cardData =
         title: "Walking On The Air",
         bidInfo: "Current Bid",
         price: 2.59,
-        img: "assets/images/nft17.png"
+        img: "/assets/images/nft17.png"
 
       },
     ]
@@ -136,74 +136,74 @@ export const cardData =
     {
       name: "Azudi",
       value: "azudi",
-      img: "assets/images/icons/azudi.png"
+      img: "/assets/images/icons/azudi.png"
     },
     {
       name: "World Of Women",
       value: "world_of_women",
-      img: "assets/images/icons/women.png"
+      img: "/assets/images/icons/women.png"
     },
     {
       name: "Crytoskulls",
       value: "cryptoskulls",
-      img: "assets/images/icons/cryto.png"
+      img: "/assets/images/icons/cryto.png"
     },
     {
       name: "Phantabear",
       value: "phantabear",
-      img: "assets/images/icons/phantabear.png"
+      img: "/assets/images/icons/phantabear.png"
     },
     {
       name: "FLUF Bear",
       value: "fluf_bear",
-      img: "assets/images/icons/bear.png"
+      img: "/assets/images/icons/bear.png"
     },
     {
       name: "FOFO MOFOS",
       value: "fofo_mofos",
-      img: "assets/images/icons/fomo.png"
+      img: "/assets/images/icons/fomo.png"
     },
     {
       name: "doddles",
       value: "doddles",
-      img: "assets/images/icons/doddles.png"
+      img: "/assets/images/icons/doddles.png"
     },
   ];
   const CATEGORIES = [
     {
       name: "Trending",
       value: "trending",
-      img: "assets/images/icons/trand.png"
+      img: "/assets/images/icons/trand.png"
     },
     {
       name: "Top",
       value: "top",
-      img: "assets/images/icons/top.png"
+      img: "/assets/images/icons/top.png"
     },
     {
       name: "Art",
       value: "art",
-      img: "assets/images/icons/art.png"
+      img: "/assets/images/icons/art.png"
     },
     {
       name: "Domain Name",
       value: "domain_name",
-      img: "assets/images/icons/domain.png"
+      img: "/assets/images/icons/domain.png"
     },
     {
       name: "Music",
       value: "music",
-      img: "assets/images/icons/music.png"
+      img: "/assets/images/icons/music.png"
     },
     {
       name: "Photography",
       value: "photography",
-      img: "assets/images/icons/photo.png"
+      img: "/assets/images/icons/photo.png"
     },
     {
       name: "Sports",
       value: "sports",
-      img: "assets/images/icons/sport.png"
+      img: "/assets/images/icons/sport.png"
     },
   ];
 
@@ -211,13 +211,13 @@ export const cardData =
     {
       name: "ALL Items",
       value: "all_items",
-      img: "assets/images/icons/all_item.png"
+      img: "/assets/images/icons/all_item.png"
 
     },
     {
       name: "Bundles",
       value: "bundles",
-      img: "assets/images/icons/bundule.png"
+      img: "/assets/images/icons/bundule.png"
 
     },
   ];
@@ -225,17 +225,17 @@ export const cardData =
   {
     name: "Ethereum",
     value: "ethereum",
-    img: "assets/images/icons/ethereum_select.png"
+    img: "/assets/images/icons/ethereum_select.png"
   },
   {
     name: "Solana",
     value: "Solana",
-    img: "assets/images/icons/solana_select.png"
+    img: "/assets/images/icons/solana_select.png"
   },
   {
     name: "Binance",
     value: "kalythan",
-    img: "assets/images/icons/binance_select.png"
+    img: "/assets/images/icons/binance_select.png"
   },
 
 ];
@@ -298,63 +298,63 @@ export const cardData =
 const images = [
   {
     id: 1,
-    img: "assets/images/featured-img7.jpg"
+    img: "/assets/images/featured-img7.jpg"
   },
   {
     id: 2,
-    img: "assets/images/nft1.png"
+    img: "/assets/images/nft1.png"
   },
   {
     id: 3,
-    img: "assets/images/nft2.png"
+    img: "/assets/images/nft2.png"
   },
   {
     id: 4,
-    img: "assets/images/nft3.png"
+    img: "/assets/images/nft3.png"
   },
   {
     id: 5,
-    img: "assets/images/icons/bear.png"
+    img: "/assets/images/icons/bear.png"
   },
   {
     id: 6,
-    img: "assets/images/icons/fomo.png"
+    img: "/assets/images/icons/fomo.png"
   },
   {
     id: 7,
-    img: "assets/images/icons/doddles.png"
+    img: "/assets/images/icons/doddles.png"
   },
   {
     id: 8,
-    img: "assets/images/featured-img7.jpg"
+    img: "/assets/images/featured-img7.jpg"
   },
   {
     id: 9,
-    img: "assets/images/nft1.png"
+    img: "/assets/images/nft1.png"
   },
   {
     id: 10,
-    img: "assets/images/nft2.png"
+    img: "/assets/images/nft2.png"
   },
   {
     id: 11,
-    img: "assets/images/nft3.png"
+    img: "/assets/images/nft3.png"
   },
   {
     id: 12,
-    img: "assets/images/featured-img7.jpg"
+    img: "/assets/images/featured-img7.jpg"
   },
   {
     id: 13,
-    img: "assets/images/nft1.png"
+    img: "/assets/images/nft1.png"
   },
   {
     id: 14,
-    img: "assets/images/nft2.png"
+    img: "/assets/images/nft2.png"
   },
   {
     id: 15,
-    img: "assets/images/nft3.png"
+    img: "/assets/images/nft3.png"
   },
 ];
   const price_caontainer = () => {
@@ -488,7 +488,7 @@ const images = [
                         <div className="meta-info-wrapper">
                             <div className="c-card-detail"> <span>{designation}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src="assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace?.price} </h6>
+                                <h6> <img src="/assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace?.price} </h6>
                             </div>
                         </div> <button className="btn place-bid-btn"> { t('explore.Place Bid') }</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
                     </div>
@@ -514,7 +514,7 @@ const images = [
               <div className="row gx-3">
               <div className="col-md-2 col-4">
                   <div className="card-media">
-                  <img src="assets/images/featured-img7.jpg" alt="" className="img-fluid" />
+                  <img src="/assets/images/featured-img7.jpg" alt="" className="img-fluid" />
                   </div>
               </div>
               <div className="col-md-10 col-8">
@@ -541,7 +541,7 @@ const images = [
                       <span>{bidInfo}</span>
                   </div>
                   <div className="eth-price">
-                      <h6><img src="assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {price}
+                      <h6><img src="/assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {price}
                       </h6>
                   </div>
                   </div>

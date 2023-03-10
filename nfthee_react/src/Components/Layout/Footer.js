@@ -23,11 +23,11 @@ export const Footer = () => {
                   <h4 className="head-title">{t("footer.Join The Community")}</h4>
                   <div className="widget-social">
                   <ul>
-                    <li><a href="#"><img src="assets/images/icons/discord-icon.png" alt="" /></a></li>
-                    <li><a href="#"><img src="assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                    <li><a href="#"><img src="assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
-                    <li><a href="#"><img src="assets/images/icons/youtube-icon2.png" alt="" /></a></li>
-                    <li><a href="#"><img src="assets/images/icons/mail-icon.png" alt="" /></a></li>
+                    <li><a href="#"><img src="/assets/images/icons/discord-icon.png" alt="" /></a></li>
+                    <li><a href="#"><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
+                    <li><a href="#"><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                    <li><a href="#"><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
+                    <li><a href="#"><img src="/assets/images/icons/mail-icon.png" alt="" /></a></li>
                   </ul>
                   </div>
                 </div>
@@ -43,8 +43,8 @@ export const Footer = () => {
               <div className="col-lg-2 col-md-12 col-12">
                 <div className="widget widget-logo">
                   <div className="logo-footer">
-                    <a href="index.html"><img src="assets/images/icons/light-logo.png" alt="" className="light-logo" /></a>
-                    <a href="index.html"><img src="assets/images/icons/dark-logo.png" alt="" className="dark-logo" /></a>
+                    <a href="index.html"><img src="/assets/images/icons/light-logo.png" alt="" className="light-logo" /></a>
+                    <a href="index.html"><img src="/assets/images/icons/dark-logo.png" alt="" className="dark-logo" /></a>
                   </div>
                   <p className="sub-widget-title">{t("footer.footer_content")}</p>
                 </div>
@@ -103,8 +103,8 @@ export const Footer = () => {
                   <p className="subtitle-widget">{t("footer.Download the NFThee app. and discover special NFTs anytime, anywhere")}</p>
                   <div className="widget-social">
                     <ul>
-                      <li><a href="#"><img src="assets/images/icons/play-store.png" alt="" className="w-75" /></a></li>
-                      <li><a href="#"><img src="assets/images/icons/app-store.png" alt="" className="w-75" /></a></li>
+                      <li><a href="#"><img src="/assets/images/icons/play-store.png" alt="" className="w-75" /></a></li>
+                      <li><a href="#"><img src="/assets/images/icons/app-store.png" alt="" className="w-75" /></a></li>
                     </ul>
                   </div>
                 </div>

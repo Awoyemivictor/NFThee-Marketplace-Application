@@ -64,24 +64,37 @@ const ItemDetail = () => {
         <div>
           {data.status === 'pending' && (
             <button
+            id='verified'
               className='btn btn-success btn-sm'
-              onClick={() => completeTask(data)}
-              id='1'
+              onClick={(e) => completeTask(data,e)}
             >
               <i class='fa fa-check-circle-o' aria-hidden='true'></i>
             </button>
           )}
+
+
+          {data.status === 'verified' && (
+            <button
+            id='pending'
+            class="btn btn-warning"
+              onClick={(e) => completeTask(data,e)}
+            >
+             
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+            </button>
+          )}
+
           <button
             className='btn btn-primary btn-sm'
             onClick={() => handleViewItems(data)}
-            id='2'
+            id='3'
           >
             <i className='fa fa-eye'></i>
           </button>
           <button
             className='btn btn-danger btn-sm'
             onClick={() => handleDeleteItem(data)}
-            id='3'
+            id='4'
           >
             <i className='fa fa-trash'></i>
           </button>
@@ -94,12 +107,14 @@ const ItemDetail = () => {
     columns,
   };
 
-  const completeTask = (collections) => {
+  const completeTask = (collections,e) => {
     setLoading(true);
 
-    console.log(collections._id);
+   
+
+   
     backendInstance
-      .get(`api/getItem/update?id=${collections._id}`)
+      .get(`api/getItem/update?id=${collections._id}&&action=${e.target.id}`)
       .then((response) => console.log(response.data.data))
       .finally(() => setLoading(false));
   };
@@ -116,7 +131,6 @@ const ItemDetail = () => {
   };
 
   const handleDeleteItem = (data) => {
-    console.log(data + '==========>' + data._id);
 
     let body = { userId: data._id };
     Swal.fire({

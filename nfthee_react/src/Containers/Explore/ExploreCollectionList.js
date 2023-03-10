@@ -22,13 +22,13 @@ const ExploreCollectionList = ({collections}) => {
                                             <div className="card-img-block">
                                                 <img
                                                     className={collection.display_theme === "contained-theme" ? 'containedImage' : collection.display_theme === "padded-theme" ? 'paddedImage' : 'coveredImage'}
-                                                    src={collection.logo_image}
+                                                    src={collection.banner_image}
                                                     alt=""
                                                 />
                                             </div>
                                             <div className="card-body pt-5">
                                                 <img
-                                                    src={collection.featured_image?collection.featured_image:"assets/images/avt-4.jpg"}
+                                                    src={collection.logo_image?collection.logo_image:"assets/images/avt-4.jpg"}
                                                 
                                                     // src={"assets/images/avt-4.jpg"}
                                                     alt=""

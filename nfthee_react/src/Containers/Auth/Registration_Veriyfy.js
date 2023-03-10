@@ -52,7 +52,9 @@ function Registration_Veriyfy() {
         title: 'please provide valid email',
         showConfirmButton: false,
         timer: 1500,
-      });
+      },
+      localStorage.removeItem('userLoggedIn')
+      );
     }
 
     const didToken = await magic.auth.loginWithMagicLink({
@@ -66,6 +68,7 @@ function Registration_Veriyfy() {
           Authorization: 'Bearer ' + didToken,
         },
       })
+      
       .catch((err) => {
         Swal.fire({
           position: 'top-center',

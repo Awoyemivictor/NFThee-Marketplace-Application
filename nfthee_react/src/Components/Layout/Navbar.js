@@ -17,8 +17,7 @@ import { Modal } from './Modal';
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
 export const logOut = () => {
-  localStorage.removeItem('TokenData');    
-  localStorage.removeItem('userLoggedIn');
+  localStorage.clear();
 
   window.location.href = '/';
 };
@@ -440,10 +439,10 @@ export const Navbar = () => {
                   )}
                   <div className="switch-mode">
                     <span className="dark-mode mode-control">
-                      <img src="images/icons/sun.png" alt="" />
+                      <img src="/images/icons/sun.png" alt="" />
                     </span>
                     <span className="light-mode mode-control d-none">
-                      <img src="images/icons/moon.png" alt="" />
+                      <img src="/images/icons/moon.png" alt="" />
                     </span>
                   </div>
                 </form>
