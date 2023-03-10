@@ -5,7 +5,7 @@ const orderSchema = new Schema({
   seller_address: String, //walletADDRESS OF Seller
   tokenId: Number, //TokenID
   token_address: String, // Collection contract address
-  token_quantity: Number,
+  token_quantity: Number, //order quantity
   order_type: {
     type: Number,
     //0 - Buy Now

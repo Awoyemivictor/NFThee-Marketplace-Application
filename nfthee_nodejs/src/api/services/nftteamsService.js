@@ -146,22 +146,58 @@ exports.read_getItemInfo = async (req, res) => {
 
 exports.update_getItemInfo = async (req, res) => {
   try {
-    let userId = req.query.id;
-    let result = await nftIteams.findOneAndUpdate(
-      { _id: userId },
-      { $set: { status: 'verified' } }
-    );
-
+    let nftId = req.query.id;
+    // let body = req.body
+    let action=req.query.action
+    console.log('snjnsjknssjn',nftId,action)
+  //  if (
+  //     req.body.action === 'verified'
+  //   ) 
+  //  await nftIteams.findOneAndUpdate(
+  //     { _id: nftId },
+  //     { $set: { status: 'verified' } }
+  //   );
+  //   if (
+  //     req.body.action === 'pending'
+  //   )
+  //  await nftIteams.findOneAndUpdate(
+  //     { _id: nftId },
+  //     { $set: { status: 'pending' } }
+  //   );
+  let result = ( action === 'verified')? await nftIteams.findOneAndUpdate(
+          { _id: nftId },
+          { $set: { status: 'verified' } }
+        ): await nftIteams.findOneAndUpdate(
+          { _id: nftId },
+          { $set: { status: 'pending' } }
+        )
     return {
-      message: 'create item added successfully.',
+      message: 'status update successfully.',
       status: true,
       data: result,
-    };testEmail
+    };
   } catch (error) {
     throw error;
   }
 };
 
+// exports.update_getItemInfo = async (req, res) => {
+//   try {
+//     let userId = req.query.id;
+//     let result = await nftIteams.findOneAndUpdate(
+//       { _id: userId },
+//       { $set: { status: 'verified' } }
+//     );
+
+//     return {
+//       message: 'create item added successfully.',
+//       status: true,
+//       data: result,
+//     };testEmail
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 exports.read_nftStore = async (req) => {
   try {
     let userId = req.query.id;
@@ -238,13 +274,13 @@ exports.delete_nftStore = async (req) => {
   try {
     let userId = req.body.userId;
     console.log(userId);
-    let userIdData = await nftIteams.findOne({ userId: userId });
+    let userIdData = await nftIteams.findOne({ _id: userId });
     console.log(userIdData);
     if (userIdData) {
       fs.unlink(userIdData.uploadFile, () => {
         console.log('Delete Data');
       });
-      let result = await nftIteams.findOneAndRemove({ userId: userId });
+      let result = await nftIteams.findOneAndRemove({ _id: userId });
       return {
         message: 'Create Item Data deleted..........',
         status: true,
