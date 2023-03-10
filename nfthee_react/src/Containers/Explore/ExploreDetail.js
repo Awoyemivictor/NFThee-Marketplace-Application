@@ -19,6 +19,7 @@ import {
   fetchBid,
   createBid,
   updateBid,
+  getCollection,
 } from '../../services/apiServices';
 import '../../index.css';
 import instance from '../../axios';
@@ -27,6 +28,12 @@ import {
   wrapPaymentTokens,
   unwrapPaymentTokens,
 } from '../../Config/token-actions/wrap-token';
+
+import {
+  handleAcceptBid,
+  handleDeListToken,
+  handleWithdrawBidForToken,
+} from '../../Config/sendFunctions';
 const options = [
   { label: 'Mint', value: 'mint' },
   { label: 'Transfer', value: 'Transfer' },
@@ -186,12 +193,27 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const handleAcceptBid = () => {
-    console.log('handleAcceptBid');
+  const getCollectionAddress = async () => {
+    console.log(collections)
+    await getCollection()
   };
 
-  const handleCanceltBid = () => {
+  const handleAcceptBid = async () => {
+    let result = await handleAcceptBid();
+  };
+
+  const handleCanceltBid = async () => {
     console.log('handleCanceltBid');
+    let result = await handleWithdrawBidForToken();
+  };
+
+  const removeFromAuction = async () => {
+    console.log('Remove from auction');
+    // let result = handleRemoveFromAuction()
+  };
+
+  const handleDeListToken = async () => {
+    let result = await handleDeListToken();
   };
   // console.log({activeTab})
 
@@ -596,7 +618,7 @@ function ExploreDetail() {
                             4
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
-                              .map((data,i) => (
+                              .map((data, i) => (
                                 <div className='card-body'>
                                   <div className='col-lg-6 col-md-6 px-lg-0'>
                                     <div className='creator-card creator-card-two mb-lg-4'>
@@ -853,24 +875,24 @@ function ExploreDetail() {
                         {collections?.created_by?._id === userId._id ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
-                              <button className='btn btn-outline-white1 w-100'>
+                              <button
+                                className='btn btn-outline-white1 w-100'
+                                onClick={handleDeListToken}
+                              >
                                 <i className='bx bxs-purchase-tag me-2' />
                                 Delisting
-                              </button>
-                            </div>
-                            <div className='col-lg-4 mb-4 mb-lg-0'>
-                              <button className='btn btn-outline-white1 w-100'>
-                                <i className='bx bxs-purchase-tag me-2' />{' '}
-                                Remove From Auction
                               </button>
                             </div>
                           </>
                         ) : collections?.created_by?._id === userId._id &&
                           collections.putOnMarketplace.Bid_price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
-                            <button className='btn btn-outline-white1 w-100'>
-                              <i className='bx bx-credit-card me-2' />{' '}
-                              {t('product.Withdraw')}
+                            <button
+                              className='btn btn-outline-white1 w-100'
+                              onClick={removeFromAuction}
+                            >
+                              <i className='bx bx-credit-card me-2' /> Remove
+                              From Auction
                             </button>
                           </div>
                         ) : (

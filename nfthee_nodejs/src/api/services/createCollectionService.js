@@ -217,10 +217,11 @@ exports.update_createCollectionInfo = async (req, res) => {
 
 exports.delete_createCollectionInfo = async (req, res) => {
   try {
-    let userId = req.body.userId;
+    let nftId = req.body.userId;
     //console.log(req.body)
-    console.log(userId);
-    let userIdData = await createCollection.findOne({ userId: userId });
+    let userIdData = await createCollection.findOne({
+      _id: mongoose.Types.ObjectId(nftId),
+    });
     //console.log(userIdData)
     const userIdDataValue = [
       userIdData.logo_image,
@@ -241,7 +242,9 @@ exports.delete_createCollectionInfo = async (req, res) => {
       fs.unlink(trunk, () => {
         console.log('Delete Data');
       });
-      let result = await createCollection.findOneAndRemove({ userId: userId });
+      let result = await createCollection.findOneAndRemove({
+        _id: mongoose.Types.ObjectId(nftId),
+      });
       return {
         message: 'Create New Item Data deleted..........',
         status: true,
