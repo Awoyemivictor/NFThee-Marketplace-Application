@@ -70,6 +70,8 @@ function TopSeller() {
   const selectRef = useRef();
   const [isRevealPwd, setIsRevealPwd] = useState(false); 
   const [isOpen, setIsopen] = useState(true); 
+  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+
   const ToggleSidebar = () => {
     isOpen === true ? setIsopen(false) : setIsopen(true);
   }; 
@@ -371,7 +373,7 @@ const[users,setuser]=useState([])
                   className="row justify-content-center"
                   style={{ bsGutterX: "2.5rem" }}
                 >
-                  {users.filter(res=>res.user_name).map((item, index) => (
+                  {users.filter(res=>res._id!=_id).map((item, index) => (
                     <TopSellerCard {...item} index={index} className={'col-1'} />
                   ))}
                 </div>

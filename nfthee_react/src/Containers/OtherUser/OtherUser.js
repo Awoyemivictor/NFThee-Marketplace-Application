@@ -5,6 +5,7 @@ import $ from "jquery";
 import {useAppSelector} from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
+import ExploreNftListRow from "../Explore/ExploreNftListRow";
 export default function OtherUser() {
     const user = useAppSelector(state => state.user.user)
 
@@ -30,7 +31,6 @@ export default function OtherUser() {
       });
     })
 
-
   
     const token = JSON.parse(localStorage.getItem("TokenData"));
     console.log(token === null ? window.location.href = "/walletlogin" : token);
@@ -41,6 +41,9 @@ export default function OtherUser() {
     var result = result1.slice(0, 8) + ".." + result1.slice(38, 48);
     console.log(result);
     const [tokenid, setTokenId] = useState(result);
+
+    const [loadingFilter, setLoadingFilter] = useState(true);
+  const [like, setliked] = useState();
   
     // if(tokenid === "undefined" ){
     //    window.location.href = "/walletlogin"
@@ -108,9 +111,9 @@ export default function OtherUser() {
       instance
       .get(`/api/userItems?id=${id}`)
       .then(res=>( setItemData(res.data.data)))
+      .finally(()=>setLoadingFilter(false))
   
-  
-    },[])
+    },[like])
   
 
   
@@ -128,7 +131,88 @@ export default function OtherUser() {
        {
           id: e.target.name,
       }
-    );}
+    );
+  
+  
+    const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+      // console.log("ldata lcal",ldata,"---",ldata.user_name)
+
+     
+      let receiver_token =""
+
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+        console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+        receiver_token = res.data.data.token_id;
+      }).catch((e)=>{
+        console.log("get user data with id error-----",e)
+      })
+
+      setTimeout(()=>{
+
+        let payload = {sender_id:_id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} follow you`} 
+
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+        console.log("notification api send receiver",res)
+        }).catch((e)=>{
+          console.log("notification api receiver",e)
+        })
+
+        const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
+
+        const headers = {
+            'Authorization' : `key=${server_key}`,
+            'Content-Type'  : 'application/json',
+        };
+
+        let payloads = {
+          to   : receiver_token,
+          data : {body:`${ldata.user_name} follow you`,title:'Firebase Notification'},
+        };
+
+        console.log("token---------------------",receiver_token)
+        axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+          headers: headers
+        }).then((res)=>{
+            console.log("FCM send method receiver",res)
+          }).catch((e)=>{
+            console.log("FCM api error receiver",e)
+          })
+
+          const message = {
+            data: {
+             body:`${ldata.user_name} follow you`,
+             title:'Firebase Notification',
+            },
+            token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
+          };
+          
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          // console.log("messaging message active on profile page---",messaging)
+          // messaging.send(message)
+          //   .then((response) => {
+          //     // Response is a message ID string.
+          //     console.log('Successfully sent message:', response);
+          //   })
+          //   .catch((error) => {
+          //     console.log('Error sending message:', error);
+          //   });
+
+      },3000);
+
+
+  
+  
+      // setChanges(Math.floor(Math.random() * 10))
+  
+  
+  }
+
+
+
+     
+
+
     if(e.target.value==="unfollow"){
   
 //    const formData=new FormData()
@@ -139,6 +223,75 @@ export default function OtherUser() {
         id: e.target.name,
     }
   );
+
+
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+  // console.log("ldata lcal",ldata,"---",ldata.user_name)
+
+ 
+  let receiver_token =""
+
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+    receiver_token = res.data.data.token_id;
+  }).catch((e)=>{
+    console.log("get user data with id error-----",e)
+  })
+
+  setTimeout(()=>{
+
+    let payload = {sender_id:_id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} follow you`} 
+
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+    console.log("notification api send receiver",res)
+    }).catch((e)=>{
+      console.log("notification api receiver",e)
+    })
+
+    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
+
+    const headers = {
+        'Authorization' : `key=${server_key}`,
+        'Content-Type'  : 'application/json',
+    };
+
+    let payloads = {
+      to   : receiver_token,
+      data : {body:`${ldata.user_name} unfollowed you`,title:'Firebase Notification'},
+    };
+
+    console.log("token---------------------",receiver_token)
+    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+      headers: headers
+    }).then((res)=>{
+        console.log("FCM send method receiver",res)
+      }).catch((e)=>{
+        console.log("FCM api error receiver",e)
+      })
+
+      const message = {
+        data: {
+         body:`${ldata.user_name} follow you`,
+         title:'Firebase Notification',
+        },
+        token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
+      };
+      
+      // Send a message to the device corresponding to the provided
+      // registration token.
+      // console.log("messaging message active on profile page---",messaging)
+      // messaging.send(message)
+      //   .then((response) => {
+      //     // Response is a message ID string.
+      //     console.log('Successfully sent message:', response);
+      //   })
+      //   .catch((error) => {
+      //     console.log('Error sending message:', error);
+      //   });
+
+  },3000);
+
+
   }
   setChanges(Math.floor(Math.random() * 10))
   // console.log(data);
@@ -763,10 +916,11 @@ export default function OtherUser() {
                                     {/* ))} */} 
                                                         {/* </div> */}
                     <div className="tab-pane fade" id="created">
-                     3 
+                   <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked}/>
+                     
                     </div>
                     <div className="tab-pane fade" id="collections">
-                      4<div className="row">
+                      <div className="row">
                       {collectionData.map((collection, index) => {
           return (
             <div className="col-12 col-sm-3 " key={index}>

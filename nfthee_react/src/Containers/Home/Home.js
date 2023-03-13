@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 // import TopCategories from "../../Components/TopCategories";
 import { connect } from 'react-redux';
 import { SectionHeading, TopSeller } from '../../Components';
-import { top_sellers } from './Data';
+// import { top_sellers } from './Data';
 import Newdrop from './Newdrop';
 import TopCategories from './TopCategories';
 import { TopCollectionData, TopSellers } from './TopCollectionData';
@@ -15,11 +15,23 @@ import $ from 'jquery';
 import cookies from 'js-cookie';
 import i18 from '../../Components/i18';
 import { useAppSelector } from '../../hooks/useRedux';
+import instance from '../../axios';
 
 function Home(props) {
   const { t } = useTranslation();
   const currentLanguage = i18.language;
   // console.info(meta)
+
+  const[users,setuser]=useState([])
+
+     useEffect(()=>{
+
+      instance
+      .get(`/api/signUp/all`)
+      .then(res=>( setuser(res.data.data)))
+  
+    },[])
+  
   const [sliderItems, setSliderItems] = useState([
     {
       text: {
@@ -59,6 +71,8 @@ function Home(props) {
   const [active, setActive] = useState(0);
   const [activeSlide, setActiveSlide] = useState(sliderItems[active]);
   const homeSliderRef = useRef(null);
+  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -406,7 +420,7 @@ function Home(props) {
                 className="row justify-content-center"
                 style={{ bsGutterX: '2.1rem' }}
               >
-                {top_sellers.map((item, index) => (
+                {users.filter(res=>res._id!=_id).map((item, index) => (
                   <TopSeller {...item} index={index} />
                 ))}
               </div>

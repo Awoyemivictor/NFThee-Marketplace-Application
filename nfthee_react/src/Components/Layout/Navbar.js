@@ -34,6 +34,36 @@ export const Navbar = () => {
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [notifications, setNotification] = useState([
+    {
+      color: "red",
+      value: "#f00"
+    },
+    {
+      color: "green",
+      value: "#0f0"
+    },
+    {
+      color: "blue",
+      value: "#00f"
+    },
+    {
+      color: "cyan",
+      value: "#0ff"
+    },
+    {
+      color: "magenta",
+      value: "#f0f"
+    },
+    {
+      color: "yellow",
+      value: "#ff0"
+    },
+    {
+      color: "black",
+      value: "#000"
+    }
+  ])
 
   // const [fakeState, setFakeState] = useState(true)
   // useEffect(() => {
@@ -155,6 +185,8 @@ export const Navbar = () => {
     }
   }
 
+
+
   useEffect(() => {
     MobileSidebar();
   }, []);
@@ -191,10 +223,10 @@ export const Navbar = () => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-  const text=localStorage.getItem('search')
-  const [serachTextNav,setSerachTextNav]=useState(text||'')
+  const text = localStorage.getItem('search')
+  const [serachTextNav, setSerachTextNav] = useState(text || '')
   // console.log({serachTextNav})
- 
+
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -255,7 +287,7 @@ export const Navbar = () => {
                     type="text"
                     name="str"
                     value={serachTextNav}
-                    onChange={e=>setSerachTextNav( localStorage.setItem('search',e.target.value))}
+                    onChange={e => setSerachTextNav(localStorage.setItem('search', e.target.value))}
                     placeholder={t('navbar.Search')}
                     className="form-control"
                   />
@@ -316,7 +348,32 @@ export const Navbar = () => {
                       ))}
                     </ul>
                   </div>
-                  {token &&userId._id  ? (
+
+
+                  {token ? <>
+                    <div>
+                      <button className='btn bg-transparent'
+                        data-bs-toggle="dropdown" data-bs-target="#notification"
+                      ><img src='/images/icons/notification-bell-icon.png'></img>
+                      </button>
+                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification" style={{ maxHeight: '200px',minWidth:'306px',textAlign:'center', overflowY: 'auto' }}>
+
+                        {notifications.length>=0?notifications.map((notification, index) => (
+                          <div key={index} className='dropdown-item'>
+                            <h6>{notification.color}</h6>
+                            <p>{notification.value}</p>
+                          </div>
+                        )):"No Notification"}
+                        
+                      </div>
+
+
+
+
+                    </div>
+
+                  </> : null}
+                  {token && userId._id ? (
                     <div className="user-icon-box d-none d-md-block dropdown">
                       <a
                         type="button"
