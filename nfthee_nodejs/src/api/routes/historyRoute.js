@@ -6,7 +6,7 @@ const {
 
 } = require('../controller').historyController
 
-
+ 
 router.post('/insertHistory', insertHistory);
 router.post('/fetchHistory', fetchHistory);
 

@@ -249,7 +249,7 @@ backendInstance.get(`api/getCollection/update?id=${collections._id}&&action=${e.
                 
             <Breadcrumb title="Collection Details" parent="view"/>
             <Container fluid={true} >
-            <DataTableExtensions {...tableData}>
+            {/* <DataTableExtensions {...tableData}> */}
                 <DataTable
                    	columns={columns}
                        data={data}
@@ -263,7 +263,7 @@ backendInstance.get(`api/getCollection/update?id=${collections._id}&&action=${e.
                  
                    
                 />
-   </DataTableExtensions>
+   {/* </DataTableExtensions> */}
             </Container>
             {/* <Item/> */}
         </Fragment>
