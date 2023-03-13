@@ -11,6 +11,7 @@ exports.insertHistory = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.fetchHistory = async (req, res, next) => {
   try {
     const data = await historyServices.fetchHistory(req);
@@ -20,3 +21,4 @@ exports.fetchHistory = async (req, res, next) => {
     next(error);
   }
 };
+ 

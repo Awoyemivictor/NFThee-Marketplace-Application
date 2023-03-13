@@ -103,7 +103,7 @@ exports.createCollectionInfo = async (req, res) => {
 };
 exports.getCollectionInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({ status: 'verified' });
+    let result = await createCollection.find({ status: 'verified' }).populate('created_by');
 
     return {
       message: 'data find successfully.',
@@ -116,7 +116,7 @@ exports.getCollectionInfo = async (req, res) => {
 };
 exports.getAllInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({});
+    let result = await createCollection.find({}).populate('created_by');
 
     return {
       message: 'data find successfully.',

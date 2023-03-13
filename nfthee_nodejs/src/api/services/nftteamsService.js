@@ -42,8 +42,7 @@ exports.index = async (req) => {
         ...collection,
         ...categories,
         status: 'verified',
-      })
-      .sort({ id: -1 });
+      }).populate('created_by').sort({ id: -1 });
     console.log(result);
     if (result) {
       return {
@@ -116,17 +115,56 @@ exports.getItemInfo = async (req, res) => {
   }
 };
 exports.getAllItemInfo = async (req, res) => {
-  try {
-    let result = await nftIteams.find({});
-
-    return {
-      message: 'data find successfully.',
-      status: true,
-      data: result,
-    };
-  } catch (error) {
-    throw error;
-  }
+  
+    try {
+      let str = req.query.str
+        ? { name: { $regex: new RegExp(req.query.str, 'i') } }
+        : {};
+      // let blockChain = req.query.blockChain
+      //   ? {
+      //       chooseBlockchain: {
+      //         $regex: new RegExp(req.query.blockChain.split(',').join('|'), 'i'),
+      //       },
+      //     }
+      //   : {};
+      // let collection = req.query.collection
+      //   ? {
+      //       chooseCollection: {
+      //         $regex: new RegExp(req.query.collection.split(',').join('|'), 'i'),
+      //       },
+      //     }
+      //   : {};
+      // let categories = req.query.categories
+      //   ? {
+      //       chooseCategory: {
+      //         $regex: new RegExp(req.query.categories.split(',').join('|'), 'i'),
+      //       },
+      //     }
+      //   : {};
+  
+      //search by category
+  
+      let result = await nftIteams
+        .find({
+          ...str,
+          // ...blockChain,
+          // ...collection,
+          // ...categories,
+          // status: 'verified',
+        })
+        .sort({ id: -1 });
+      console.log('filter data:----',result);
+      if (result) {
+        return {
+          message: 'Data find successfully',
+          status: true,
+          data: result,
+        };
+      }
+    } catch (error) {
+      return error;
+    }
+  
 };
 exports.read_getItemInfo = async (req, res) => {
   try {

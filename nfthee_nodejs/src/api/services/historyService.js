@@ -9,7 +9,7 @@ const { credentials } = require('../../config').constantCredentials;
 
 exports.insertHistory = async (req, res) => {
   try {
-    const insertData = new history({
+    const insertData = new history({ 
       nftId: req.body.nftId,
       userId: req.body.userId,
       action: req.body.action,
