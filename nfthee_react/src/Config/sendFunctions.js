@@ -232,7 +232,7 @@ export const handleNFTCreation = async (
   let creator;
   const tokenId = generateRandomNumbers();
 
-  let collectionAddress = await getCollection({ name: chooseCollection });
+  let collectionAddress = await getCollection(chooseCollection);
 
   if (chooseType === 'single') {
     try {
@@ -364,7 +364,8 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
     gasLimit: 9000000,
     value: price,
   };
-  let collectionAddress = await getCollection({ name: collectionName });
+  let collectionAddress = await getCollection(collectionName);
+
   console.log(collectionAddress);
 
   let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);

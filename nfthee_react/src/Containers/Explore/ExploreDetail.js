@@ -34,6 +34,8 @@ import {
   handleDeListToken,
   handleWithdrawBidForToken,
 } from '../../Config/sendFunctions';
+
+import { getUserAddress } from '../../Config/constants';
 const options = [
   { label: 'Mint', value: 'mint' },
   { label: 'Transfer', value: 'Transfer' },
@@ -108,7 +110,7 @@ function ExploreDetail() {
       .catch((e) => {
         // setLoading(true);
       });
-  }, [id,like]);
+  }, [id, like]);
 
   // console.log("exploreDetail",collections)
   const collectionSlider = () => {
@@ -181,10 +183,9 @@ function ExploreDetail() {
     }
   };
 
-  const [diable, setDisaable] = useState(false)
+  const [diable, setDisaable] = useState(false);
 
   const handleAddFavorite = async (e, collection) => {
-
     const requestBody = {
       id: userId._id,
       postId: collection,
@@ -194,17 +195,13 @@ function ExploreDetail() {
       const data = await handleLikes(requestBody, e.target.id, setDisaable);
       if (!data) {
         setDisaable(true);
-      }else  setDisaable(false)
+      } else setDisaable(false);
       if (data) {
-        setDisaable(false)
+        setDisaable(false);
         setliked(Math.random());
       }
     }
   };
-
-
-  
-
 
   const [activeTab, setActiveTab] = useState('1');
   const [eth, setEth] = useState();
@@ -220,18 +217,21 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const getCollectionAddress = async () => {
-    console.log(collections)
-    await getCollection()
+  const handleTokenAcceptBid = async () => {
+    const userAddress = getUserAddress();
+
+    let data = await getCollection(collections.chooseCollection);
+
+    let result = await handleAcceptBid(data, collections.tokenId, userAddress);
   };
 
-  const handleAcceptBid = async () => {
-    let result = await handleAcceptBid();
-  };
+  const withdrawTokenBid = async () => {
+    let collectionAddress = await getCollection(collections.chooseCollection);
 
-  const handleCanceltBid = async () => {
-    console.log('handleCanceltBid');
-    let result = await handleWithdrawBidForToken();
+    let result = await handleWithdrawBidForToken(
+      collectionAddress,
+      collections.tokenId
+    );
   };
 
   const removeFromAuction = async () => {
@@ -239,10 +239,15 @@ function ExploreDetail() {
     // let result = handleRemoveFromAuction()
   };
 
-  const handleDeListToken = async () => {
-    let result = await handleDeListToken();
+  const handleTokenDelisting = async () => {
+    let collectionAddress = await getCollection(collections.chooseCollection);
+    console.log(collectionAddress);
+    let result = await handleDeListToken(
+      collectionAddress,
+      collections.tokenId
+    );
+    console.log(result);
   };
-  // console.log({activeTab})
 
   useEffect(() => {
     function openGraph(divId) {
@@ -395,54 +400,59 @@ function ExploreDetail() {
                           <a href='#' className='view'>
                             <i className='ri-eye-line icon' /> 100
                           </a>
-                       
-                            {/* <i className='ri-heart-line icon' />{' '}
+
+                          {/* <i className='ri-heart-line icon' />{' '}
                             {collections.likes.length
                               ? collections.likes.length
                               : ''}
                             100 */}
-                               <span  className='like ms-3'>
-                                {collections.likes.includes(userId._id) ? (
-                          <button
-                            className='wishlist-button ms-auto'
-                            id='unliked'
-                            disabled={diable}
-                            onClick={(e) =>
-                              handleAddFavorite(e, collections._id)
-                            }
-                            tabIndex={0}
-                          >
-                            <span className='number-like d-flex'>
-                              <i id='unliked' className='ri-heart-fill me-1' />
-                              {collections.likes
-                                ? collections.likes.length === 0
-                                  ? ''
-                                  : collections.likes.length
-                                : ''}
-                            </span>
-                          </button>
-                        ) : (
-                          <button
-                            className='wishlist-button ms-auto'
-                            id='liked'
-                            disabled={diable}
-                            onClick={(e) =>
-                              handleAddFavorite(e, collections._id)
-                            }
-                            tabIndex={0}
-                          >
-                            <span className='number-like d-flex'>
-                              <i id='liked' className=' ri-heart-line me-1' />
-                              {collections.likes
-                                ? collections.likes.length === 0
-                                  ? ''
-                                  : collections.likes.length
-                                : ''}
-                            </span>
-                          </button>
-                        )}
-                        </span>
-
+                          <span className='like ms-3'>
+                            {collections.likes.includes(userId._id) ? (
+                              <button
+                                className='wishlist-button ms-auto'
+                                id='unliked'
+                                disabled={diable}
+                                onClick={(e) =>
+                                  handleAddFavorite(e, collections._id)
+                                }
+                                tabIndex={0}
+                              >
+                                <span className='number-like d-flex'>
+                                  <i
+                                    id='unliked'
+                                    className='ri-heart-fill me-1'
+                                  />
+                                  {collections.likes
+                                    ? collections.likes.length === 0
+                                      ? ''
+                                      : collections.likes.length
+                                    : ''}
+                                </span>
+                              </button>
+                            ) : (
+                              <button
+                                className='wishlist-button ms-auto'
+                                id='liked'
+                                disabled={diable}
+                                onClick={(e) =>
+                                  handleAddFavorite(e, collections._id)
+                                }
+                                tabIndex={0}
+                              >
+                                <span className='number-like d-flex'>
+                                  <i
+                                    id='liked'
+                                    className=' ri-heart-line me-1'
+                                  />
+                                  {collections.likes
+                                    ? collections.likes.length === 0
+                                      ? ''
+                                      : collections.likes.length
+                                    : ''}
+                                </span>
+                              </button>
+                            )}
+                          </span>
                         </div>
                       </div>
                       <div className='mb-3 d-flex d-lg-block flex-wrap'>
@@ -743,14 +753,16 @@ function ExploreDetail() {
                                                     <button
                                                       type='button'
                                                       class='btn btn-success'
-                                                      onClick={handleAcceptBid}
+                                                      onClick={
+                                                        handleTokenAcceptBid
+                                                      }
                                                     >
                                                       Accept
                                                     </button>
                                                     <button
                                                       type='button'
                                                       class='btn btn-danger'
-                                                      onClick={handleCanceltBid}
+                                                      onClick={withdrawTokenBid}
                                                     >
                                                       Reject
                                                     </button>
@@ -761,7 +773,7 @@ function ExploreDetail() {
                                                   <button
                                                     type='button'
                                                     class='btn btn-danger'
-                                                    onClick={handleCanceltBid}
+                                                    onClick={withdrawTokenBid}
                                                   >
                                                     Cancel
                                                   </button>
@@ -806,7 +818,6 @@ function ExploreDetail() {
                                     </div>
                                   </div>
                                 ))}
-
                               </div>
                             </div>
                           </div>
@@ -850,12 +861,13 @@ function ExploreDetail() {
                         </div>
                       </div>
                       <div className='row'>
-                        {collections?.created_by?._id === userId._id ? (
+                        {collections?.created_by?._id === userId._id &&
+                        collections.putOnMarketplace.price ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button
                                 className='btn btn-outline-white1 w-100'
-                                onClick={handleDeListToken}
+                                onClick={handleTokenDelisting}
                               >
                                 <i className='bx bxs-purchase-tag me-2' />
                                 Delisting

@@ -519,11 +519,6 @@ const CreateNewItem = () => {
       { telegram: collectionData.telegram }
     ];
 
-    // await handleNFTCreation(collectionData.blockchain, contractAddress);
-    // await instance
-    // .post('/api/createCollection', collectionData)
-    // console.log(contractAddress);
-    // await handleNFTCreation(contractAddress)
     if (
       contractAddress.length === 42 &&
       collectionData.name &&
@@ -701,7 +696,6 @@ const CreateNewItem = () => {
     }
    
     console.log(activeTab);
-    console.log(itemData.chooseType, 'postchosos');
 
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
       post.chooseBlockchain,
