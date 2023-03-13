@@ -84,7 +84,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                     <div className='card-body'>
                       <div className='auction-create-by'>
                         <img
-                          src='assets/images/img2.png'
+                          src='/assets/images/img2.png'
                           alt=''
                           className='avatar-icon img-fluid'
                         />
@@ -123,7 +123,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                           </div>
                           <h6>
                             <img
-                              src='assets/images/icons/ethereum.png'
+                              src='/assets/images/icons/ethereum.png'
                               alt=''
                               className='me-1'
                             />

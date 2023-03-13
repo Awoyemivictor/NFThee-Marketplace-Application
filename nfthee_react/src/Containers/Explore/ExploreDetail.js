@@ -567,16 +567,16 @@ function ExploreDetail() {
                           <li className='nav-item' role='presentation'>
                             <button
                               className='nav-link'
-                              id='detail-tab'
+                              id='history-tab'
                               data-bs-toggle='tab'
-                              data-bs-target='#detail'
+                              data-bs-target='#history'
                               type='button'
                               role='tab'
-                              aria-controls='detail'
+                              aria-controls='history'
                               aria-selected='false'
                             >
-                              {t('product.Details')}
-                            </button>
+                              History
+                                                          </button>
                           </li>
                           <li className='nav-item' role='presentation'>
                             <button
@@ -678,9 +678,9 @@ function ExploreDetail() {
                           </div>
                           <div
                             className='tab-pane fade'
-                            id='detail'
+                            id='history'
                             role='tabpanel'
-                            aria-labelledby='detail-tab'
+                            aria-labelledby='history-tab'
                           >
                             3
                           </div>

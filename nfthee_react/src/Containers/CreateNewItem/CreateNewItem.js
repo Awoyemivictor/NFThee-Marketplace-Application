@@ -33,10 +33,14 @@ const CreateNewItem = () => {
   const history = useHistory();
   const [reset, setReset] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
-  console.log({ userId }, 'useid');
+
   if (userId === '' || undefined || null) {
     history.push('/');
     // logOut()
+  }
+  if(!userId){
+    history.push('/');
+    
   }
 
   const Blockchains = [

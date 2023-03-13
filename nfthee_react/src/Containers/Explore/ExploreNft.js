@@ -244,14 +244,14 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                           <div className="panel-title">
                             {filter ? (
                               <img
-                                src="assets/images/icons/filter-icon.png"
+                                src="/assets/images/icons/filter-icon.png"
                                 alt=""
                                 className="me-2 filter-icon"
                                 onClick={ToggleSidebar}
                               />
                             ) : (
                               <img
-                                src="assets/images/icons/filter-icon.png"
+                                src="/assets/images/icons/filter-icon.png"
                                 alt=""
                                 className="me-2 filter-icon"
                                 onClick={FilterClose}
@@ -263,14 +263,14 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                             {" "}
                             {filter ? (
                               <img
-                                src="assets/images/icons/close.png"
+                                src="/assets/images/icons/close.png"
                                 alt=""
                                 className="img-fluid close-icon"
                                 onClick={ToggleSidebar}
                               />
                             ) : (
                               <img
-                                src="assets/images/icons/close.png"
+                                src="/assets/images/icons/close.png"
                                 alt=""
                                 className="img-fluid close-icon"
                                 onClick={FilterClose}
@@ -306,7 +306,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                             onClick={ToggleSidebar}
                           >
                             <img
-                              src="assets/images/icons/filter-icon.png"
+                              src="/assets/images/icons/filter-icon.png"
                               alt=""
                               className="filter-icon"
                             />
@@ -320,7 +320,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                   <div className="col-lg-12 filter-mobile-wrapper">
                     <button onClick={FilterClose} className="filter_button">
                       <img
-                        src="assets/images/icons/filter-icon.png"
+                        src="/assets/images/icons/filter-icon.png"
                         alt=""
                         className="me-3"
                       />
@@ -390,12 +390,12 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                                   aria-selected="true"
                                 >
                                   <img
-                                    src="assets/images/icons/grid-view-pink.png"
+                                    src="/assets/images/icons/grid-view-pink.png"
                                     alt=""
                                     className="img-fluid grid-icon1"
                                   />
                                   <img
-                                    src="assets/images/icons/grid-view-gray.png"
+                                    src="/assets/images/icons/grid-view-gray.png"
                                     alt=""
                                     className="img-fluid grid-icon2"
                                   />
@@ -414,12 +414,12 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                                   aria-selected="false"
                                 >
                                   <img
-                                    src="assets/images/icons/list-view-gray.png"
+                                    src="/assets/images/icons/list-view-gray.png"
                                     alt=""
                                     className="img-fluid grid-icon2 "
                                   />
                                   <img
-                                    src="assets/images/icons/list-view-pink.png"
+                                    src="/assets/images/icons/list-view-pink.png"
                                     alt=""
                                     className="img-fluid grid-icon1"
                                   />
