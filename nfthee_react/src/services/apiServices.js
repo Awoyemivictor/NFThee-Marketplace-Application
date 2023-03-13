@@ -95,8 +95,7 @@ export const insertHistory = async () => {
 // export const listNFT
 
 export const getCollection = async (result) => {
-  console.log(result.name);
-  let requestOptions = { name: result.name };
+  let requestOptions = { name: result };
 
   let datas = await instance
     .post('/api/getSingleCollectionByName', requestOptions)
@@ -129,44 +128,46 @@ export const handleLikes = async (result, value, setDisaable) => {
       .post(removeUrl, result)
       .finally(() => setDisaable(false));
   }
-  console.log(data)
+  console.log(data);
   return data;
 };
-export const createBid=async({nftId,bidder,owner,bid_status,bid_price,
-  bid_quantity})=>{
-  const create='/api/createBidNft'
-  const url='/api/getOrdersByNftId'
+export const createBid = async ({
+  nftId,
+  bidder,
+  owner,
+  bid_status,
+  bid_price,
+  bid_quantity,
+}) => {
+  const create = '/api/createBidNft';
+  const url = '/api/getOrdersByNftId';
   // http://192.168.1.147:8002/api/getOrdersByNftId
   // let all=bidData.nftId
-  
 
-
-  let data; 
-const   order=await instance.post(url,{nftId:nftId})
-  console.log([order.data.data[0]._id])
-if(order.data.data[0]._id){
-  let bidData={
-    bidder,
-    owner,
-    bid_status,
-    bid_price:bid_price,
-    nftId,
-    oderId:order.data.data[0]._id,
-    bid_quantity
+  let data;
+  const order = await instance.post(url, { nftId: nftId });
+  console.log([order.data.data[0]._id]);
+  if (order.data.data[0]._id) {
+    let bidData = {
+      bidder,
+      owner,
+      bid_status,
+      bid_price: bid_price,
+      nftId,
+      oderId: order.data.data[0]._id,
+      bid_quantity,
+    };
+    data = await instance.post(create, bidData);
   }
-  data=await instance.post(create,bidData)
-
-}
-return data
-  
-}
+  return data;
+};
 
 // export const updateBid=async()=>{
-  // const create='/api/createBidNft'
-  // const update='/api/updateBidNft'
-  // const accept='/api/acceptBidNft'
-  // const fetch='/api/fetchBidNft'
-  
+// const create='/api/createBidNft'
+// const update='/api/updateBidNft'
+// const accept='/api/acceptBidNft'
+// const fetch='/api/fetchBidNft'
+
 // }
 // export const acceptBid=async()=>{
 //   const create='/api/createBidNft'
@@ -175,26 +176,22 @@ return data
 //   const fetch='/api/fetchBidNft'
 
 // }
-export const fetchBid=async(nftId)=>{
-  const fetchUrl='/api/fetchBidNft'
+export const fetchBid = async (nftId) => {
+  const fetchUrl = '/api/fetchBidNft';
   let data;
 
-  data=await instance.post(fetchUrl,{nftId})
+  data = await instance.post(fetchUrl, { nftId });
 
-  return data.data
-}
+  return data.data;
+};
 
-
-export const fetchUserBid=async(id)=>{
+export const fetchUserBid = async (id) => {
   // http://localhost:8002?id=640972565a4dfcc2eb3b3fd3/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
-  const fetchUrl=`http://192.168.1.143:8002/api/userBids?id=${id}`
+  const fetchUrl = `http://192.168.1.143:8002/api/userBids?id=${id}`;
   let data;
 
-  data=await
-    // instance
-    axios
-    .post(fetchUrl)
+  data = await // instance
+  axios.post(fetchUrl);
 
- 
-  return data.data
-}
+  return data.data;
+};
