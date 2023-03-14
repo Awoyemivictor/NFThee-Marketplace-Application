@@ -16,12 +16,13 @@ import { Modal } from './Modal';
 
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
+import instance from '../../axios';
 export const logOut = () => {
   localStorage.clear();
 
   window.location.href = '/';
 };
-export const Navbar = () => {
+export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem('TokenData'));
@@ -34,36 +35,16 @@ export const Navbar = () => {
   const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notifications, setNotification] = useState([
-    {
-      color: "red",
-      value: "#f00"
-    },
-    {
-      color: "green",
-      value: "#0f0"
-    },
-    {
-      color: "blue",
-      value: "#00f"
-    },
-    {
-      color: "cyan",
-      value: "#0ff"
-    },
-    {
-      color: "magenta",
-      value: "#f0f"
-    },
-    {
-      color: "yellow",
-      value: "#ff0"
-    },
-    {
-      color: "black",
-      value: "#000"
+  const [notifications, setNotification] = useState([])
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
+
+  let receiver_id = userId._id
+  useEffect(() => {
+    if (receiver_id) {
+      instance.post('/api/notificationFetch', { receiver_id })
+        .then(res => setNotification(res.data.data))
     }
-  ])
+  }, [checkChanges])
 
   // const [fakeState, setFakeState] = useState(true)
   // useEffect(() => {
@@ -189,6 +170,7 @@ export const Navbar = () => {
 
   useEffect(() => {
     MobileSidebar();
+    setNewNotificationCount(notifications.length)
   }, []);
 
   const MobileSidebar = () => {
@@ -352,19 +334,30 @@ export const Navbar = () => {
 
                   {token ? <>
                     <div>
-                      <button className='btn bg-transparent'
-                        data-bs-toggle="dropdown" data-bs-target="#notification"
-                      ><img src='/images/icons/notification-bell-icon.png'></img>
-                      </button>
-                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification" style={{ maxHeight: '200px',minWidth:'306px',textAlign:'center', overflowY: 'auto' }}>
 
-                        {notifications.length>=0?notifications.map((notification, index) => (
-                          <div key={index} className='dropdown-item'>
-                            <h6>{notification.color}</h6>
-                            <p>{notification.value}</p>
-                          </div>
-                        )):"No Notification"}
+                      <button className='btn bg-transparent  position-relative'
+                        onClick={() => {setChanges(Math.random())
+                        setNewNotificationCount(0)
+                        }}
+                        data-bs-toggle="dropdown" data-bs-target="#notification"
+
+                      >
+                        {newNotificationCount>0?<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                          <span class="visually-hidden"></span>
+                        </span>:null}
                         
+
+                        <img src='/images/icons/notification-bell-icon.png'></img>
+                      </button>
+                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification" style={{ maxHeight: '413px', minWidth: '479px', textAlign: 'center', overflowY: 'auto' }}>
+
+                        {notifications.length != 0 ? notifications.slice(0, 5).map((notification, index) => (
+                          <div key={index} className='dropdown-item'>
+                            <h6>{notification.message}</h6>
+                            {/* <p>{notification.value}</p> */}
+                          </div>
+                        )) : <div className='dropdown-item'><h6>No Notification</h6></div>}
+
                       </div>
 
 
@@ -375,7 +368,7 @@ export const Navbar = () => {
                   </> : null}
                   {token && userId._id ? (
                     <div className="user-icon-box d-none d-md-block dropdown">
-                      <a
+                      <a href='#'
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
@@ -427,7 +420,7 @@ export const Navbar = () => {
                           Favorites{' '}
                         </Link>
                         {/* <a className="dropdown-item" to="#" onClick={toggleModal} > */}
-                        <a className="dropdown-item" to="#">
+                        <a className="dropdown-item" href="#">
                           <span className="dropdown-icon ">
                             <img src="/assets/images/icons/currency-rate-icon.png" />
                           </span>{' '}
@@ -445,7 +438,7 @@ export const Navbar = () => {
                           </span>{' '}
                           Settings{' '}
                         </Link>
-                        <Link className="dropdown-item" href="#">
+                        <Link className="dropdown-item" to="#">
                           <span className="dropdown-icon">
                             <img src="/assets/images/icons/rewardblue.png" />
                           </span>{' '}
@@ -453,7 +446,7 @@ export const Navbar = () => {
                         </Link>
                         <Link
                           className="dropdown-item"
-                          href="#"
+                          to="#"
                           onClick={logOut}
                         >
                           <span className="dropdown-icon">

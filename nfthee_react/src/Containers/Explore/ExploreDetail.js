@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FilterCard,
-  filter_card,
-  AccordionCards,
-  cardData,
+  // FilterCard,
+  // filter_card,
+  // AccordionCards,
+  // cardData,
   SingleSlider,
 } from './ExploreFilterData';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
@@ -20,6 +20,7 @@ import {
   createBid,
   updateBid,
   getCollection,
+  handleBidNotification,
 } from '../../services/apiServices';
 import '../../index.css';
 import instance from '../../axios';
@@ -84,7 +85,7 @@ function ExploreDetail() {
   useEffect(() => {
     collectionSlider();
   });
-  const [collections, setCollections] = useState([]);
+  const [nftData, setNftData] = useState([]);
   const [shownList, setShownList] = useState([]);
   const [bidData, setBidData] = useState([]);
 
@@ -94,12 +95,13 @@ function ExploreDetail() {
   };
   useEffect(async () => {
     setIsLoading(true);
+    handleBidData()
     await instance
       .get(`/api/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
         console.log(response.data, '<><><>><>><><><><><><><');
-        setCollections(response.data.data);
+        setNftData(response.data.data);
         setIsLoading(false);
         let name = response.data.data.chooseCollection;
         console.log({ name });
@@ -112,7 +114,7 @@ function ExploreDetail() {
       });
   }, [id, like]);
 
-  // console.log("exploreDetail",collections)
+  // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
       $('.explore-collection-slider').slick({
@@ -171,7 +173,7 @@ function ExploreDetail() {
     if (bidAmount != '' || undefined || null) {
       let bidData = {
         bidder: userId._id,
-        owner: collections?.created_by?._id,
+        owner: nftData?.currentOwner?._id,
         bid_status: 'Bid',
         bid_price: bidAmount,
         nftId: id,
@@ -179,11 +181,14 @@ function ExploreDetail() {
       };
 
       const data = await createBid(bidData);
-      console.log({ data });
+   if(data.status===200){
+      await handleBidNotification(nftData?.currentOwner?._id,bidAmount)
+   }
     }
   };
 
-  const [diable, setDisaable] = useState(false);
+
+   const [diable, setDisaable] = useState(false);
 
   const handleAddFavorite = async (e, collection) => {
     const requestBody = {
@@ -220,17 +225,17 @@ function ExploreDetail() {
   const handleTokenAcceptBid = async () => {
     const userAddress = getUserAddress();
 
-    let data = await getCollection(collections.chooseCollection);
+    let data = await getCollection(nftData.chooseCollection);
 
-    let result = await handleAcceptBid(data, collections.tokenId, userAddress);
+    let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
   };
 
   const withdrawTokenBid = async () => {
-    let collectionAddress = await getCollection(collections.chooseCollection);
+    let collectionAddress = await getCollection(nftData.chooseCollection);
 
     let result = await handleWithdrawBidForToken(
       collectionAddress,
-      collections.tokenId
+      nftData.tokenId
     );
   };
 
@@ -240,11 +245,11 @@ function ExploreDetail() {
   };
 
   const handleTokenDelisting = async () => {
-    let collectionAddress = await getCollection(collections.chooseCollection);
+    let collectionAddress = await getCollection(nftData.chooseCollection);
     console.log(collectionAddress);
     let result = await handleDeListToken(
       collectionAddress,
-      collections.tokenId
+      nftData.tokenId
     );
     console.log(result);
   };
@@ -257,8 +262,10 @@ function ExploreDetail() {
       $(this).toggleClass('btnColor-pink');
     });
   }, []);
-  // console.log([])
-
+  const hasBidder = bidData.some(bid => {
+    return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
+  });
+  
   return (
     <>
       {isLoading ? (
@@ -287,7 +294,7 @@ function ExploreDetail() {
                   {isModalOpen && (
                     <ModalBuynft
                       onRequestClose={toggleModal}
-                      collectionData={collections}
+                      nftData={nftData}
                     />
                   )}
                   {convertModalOpen && (
@@ -306,7 +313,7 @@ function ExploreDetail() {
                   <div className='col-lg-6 col-md-6'>
                     <div className='item-image'>
                       <img
-                        src={collections?.uploadFile}
+                        src={nftData?.uploadFile}
                         alt=''
                         className='img-fluid'
                       />
@@ -316,8 +323,8 @@ function ExploreDetail() {
                     <div className='explore-item-detail-content'>
                       <div className='d-flex justify-content-between align-items-center mb-3'>
                         <h3 className='heading-title mb-0'>
-                          {collections
-                            ? collections.name
+                          {nftData
+                            ? nftData.name
                             : t('product.The Fantasy Flower Illustration')}
                         </h3>
                         <div className='user-more-detail'>
@@ -402,18 +409,18 @@ function ExploreDetail() {
                           </a>
 
                           {/* <i className='ri-heart-line icon' />{' '}
-                            {collections.likes.length
-                              ? collections.likes.length
+                            {nftData.likes.length
+                              ? nftData.likes.length
                               : ''}
                             100 */}
                           <span className='like ms-3'>
-                            {collections.likes.includes(userId._id) ? (
+                            {nftData.likes.includes(userId._id) ? (
                               <button
                                 className='wishlist-button ms-auto'
                                 id='unliked'
                                 disabled={diable}
                                 onClick={(e) =>
-                                  handleAddFavorite(e, collections._id)
+                                  handleAddFavorite(e, nftData._id)
                                 }
                                 tabIndex={0}
                               >
@@ -422,10 +429,10 @@ function ExploreDetail() {
                                     id='unliked'
                                     className='ri-heart-fill me-1'
                                   />
-                                  {collections.likes
-                                    ? collections.likes.length === 0
+                                  {nftData.likes
+                                    ? nftData.likes.length === 0
                                       ? ''
-                                      : collections.likes.length
+                                      : nftData.likes.length
                                     : ''}
                                 </span>
                               </button>
@@ -435,7 +442,7 @@ function ExploreDetail() {
                                 id='liked'
                                 disabled={diable}
                                 onClick={(e) =>
-                                  handleAddFavorite(e, collections._id)
+                                  handleAddFavorite(e, nftData._id)
                                 }
                                 tabIndex={0}
                               >
@@ -444,10 +451,10 @@ function ExploreDetail() {
                                     id='liked'
                                     className=' ri-heart-line me-1'
                                   />
-                                  {collections.likes
-                                    ? collections.likes.length === 0
+                                  {nftData.likes
+                                    ? nftData.likes.length === 0
                                       ? ''
-                                      : collections.likes.length
+                                      : nftData.likes.length
                                     : ''}
                                 </span>
                               </button>
@@ -457,7 +464,7 @@ function ExploreDetail() {
                       </div>
                       <div className='mb-3 d-flex d-lg-block flex-wrap'>
                         <a href='#' className='token-detail'>
-                          <span>{t('product.Token id')} : </span>#958
+                          <span>{t('product.Token id')} : </span>#{nftData.tokenId}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
                           <span>{t('product.Token standard')} : </span>Erc721
@@ -470,8 +477,8 @@ function ExploreDetail() {
                           <span style={{ marginLeft: '0' }}>
                             {t('product.Blockchain')} :{' '}
                           </span>
-                          {collections
-                            ? collections.chooseBlockchain
+                          {nftData
+                            ? nftData.chooseBlockchain
                             : 'undefined'}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
@@ -495,7 +502,7 @@ function ExploreDetail() {
                                   <div className='ms-3'>
                                     <p className='text1'>Owned By</p>
                                     <span className='text2'>
-                                      {collections?.created_by?.user_name ||
+                                      {nftData?.currentOwner?.user_name ||
                                         'Abstract Paint'}
                                     </span>
                                   </div>
@@ -523,8 +530,8 @@ function ExploreDetail() {
                                   <div className='ms-3'>
                                     <p className='text1'>Collection By</p>
                                     <span className='text2'>
-                                      {collections
-                                        ? collections.chooseCollection
+                                      {nftData
+                                        ? nftData.chooseCollection
                                         : 'undefined'}
                                     </span>
                                   </div>
@@ -592,7 +599,7 @@ function ExploreDetail() {
                               {t('product.Attributes')}
                             </button>
                           </li>
-                          {collections.putOnMarketplace.Bid_price ? (
+                          {nftData.putOnMarketplace.Bid_price ? (
                             <li className='nav-item' role='presentation'>
                               <button
                                 className='nav-link'
@@ -625,8 +632,8 @@ function ExploreDetail() {
                           >
                             <div className='card-body'>
                               <p className='para1'>
-                                {collections
-                                  ? collections.designation
+                                {nftData
+                                  ? nftData.designation
                                   : t('product.detail_description')}
                               </p>
                               <div className='col-lg-6 col-md-6 px-lg-0'>
@@ -652,8 +659,8 @@ function ExploreDetail() {
                                         <p className='text1'>
                                           {t('product.Minted By')}{' '}
                                           <span>
-                                            {collections?.created_by?.user_name
-                                              ? collections?.created_by
+                                            {nftData?.currentOwner?.user_name
+                                              ? nftData?.currentOwner
                                                   ?.user_name
                                               : 'HEROSTHENAME'}
                                           </span>
@@ -674,7 +681,7 @@ function ExploreDetail() {
                             role='tabpanel'
                             aria-labelledby='about-tab'
                           >
-                            {collections ? collections.about : 'lorem35'}
+                            {nftData ? nftData.about : 'lorem35'}
                           </div>
                           <div
                             className='tab-pane fade'
@@ -686,7 +693,7 @@ function ExploreDetail() {
                           </div>
 
                           {/* WETHtoETH */}
-                          {/* {collections.putOnMarketplace.Bid_price &&collections.created_by ===id? */}
+                          {/* {nftData.putOnMarketplace.Bid_price &&nftData.currentOwner ===id? */}
                           <div
                             className='tab-pane fade'
                             id='Bid'
@@ -747,7 +754,7 @@ function ExploreDetail() {
                                                     : 'HEROSTHENAME'}
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
-                                                {collections?.created_by
+                                                {nftData?.currentOwner
                                                   ?._id === userId._id ? (
                                                   <>
                                                     <button
@@ -801,7 +808,7 @@ function ExploreDetail() {
                           >
                             <div className='explore-attribute-card-section'>
                               <div className='row'>
-                                {collections?.attribute?.map((attri, i) => (
+                                {nftData?.attribute?.map((attri, i) => (
                                   <div className='col-lg-4' key={i}>
                                     <div className='card'>
                                       <div className='card-body'>
@@ -842,10 +849,10 @@ function ExploreDetail() {
                                             src='/assets/images/icons/ethereum-big.png'
                                             alt=''
                                           />
-                                          {collections?.putOnMarketplace
-                                            ? collections?.putOnMarketplace
+                                          {nftData?.putOnMarketplace
+                                            ? nftData?.putOnMarketplace
                                                 ?.price ||
-                                              collections?.putOnMarketplace
+                                              nftData?.putOnMarketplace
                                                 ?.Bid_price
                                             : ''}{' '}
                                           ETH
@@ -861,8 +868,8 @@ function ExploreDetail() {
                         </div>
                       </div>
                       <div className='row'>
-                        {collections?.created_by?._id === userId._id &&
-                        collections.putOnMarketplace.price ? (
+                        {nftData?.currentOwner?._id === userId._id &&
+                        nftData.putOnMarketplace.price ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button
@@ -874,8 +881,8 @@ function ExploreDetail() {
                               </button>
                             </div>
                           </>
-                        ) : collections?.created_by?._id === userId._id &&
-                          collections.putOnMarketplace.Bid_price ? (
+                        ) : nftData?.currentOwner?._id === userId._id &&
+                          nftData.putOnMarketplace.Bid_price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
                             <button
                               className='btn btn-outline-white1 w-100'
@@ -887,7 +894,7 @@ function ExploreDetail() {
                           </div>
                         ) : (
                           <>
-                            {collections?.putOnMarketplace?.Bid_price ? null : (
+                            {nftData?.putOnMarketplace?.Bid_price ? null : (
                               <div className='col-lg-4 mb-4 mb-lg-0'>
                                 <button
                                   className='btn btn-violet btn-shadow w-100'
@@ -899,7 +906,7 @@ function ExploreDetail() {
                               </div>
                             )}
 
-                            {collections?.putOnMarketplace?.price ? null : (
+                            {nftData?.putOnMarketplace?.price ? null : (
                               <div className='col-lg-4 mb-4 mb-lg-0'>
                                 <button
                                   className='btn btn-outline-white1 w-100'
@@ -919,7 +926,7 @@ function ExploreDetail() {
                             {t('product.Buy Card')}
                           </button>
                         </div>
-                        {collections?.putOnMarketplace?.price ? (
+                        {nftData?.putOnMarketplace?.price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
                             <button
                               className='btn btn-outline-white1 w-100'
@@ -1015,7 +1022,17 @@ function ExploreDetail() {
                             </div> */}
                             </div>
                             <div className='modal-footer border-0'>
-                              <button
+                             {hasBidder?
+                             
+                             <button
+                             type='button'
+                             className='btn btn-violet shadow-none'
+                             data-bs-dismiss='modal'
+                             aria-label='Close'
+                             onClick={handleBidAmount}
+                           >
+                             {t('Update Offer')}
+                           </button>:<button
                                 type='button'
                                 className='btn btn-violet shadow-none'
                                 data-bs-dismiss='modal'
@@ -1024,6 +1041,17 @@ function ExploreDetail() {
                               >
                                 {t('product.Make Offer')}
                               </button>
+                            }
+                             
+                            {/* //  <button */}
+                            {/* //     type='button' */}
+                            {/* //     className='btn btn-violet shadow-none' */}
+                            {/* //     data-bs-dismiss='modal' */}
+                            {/* //     aria-label='Close' */}
+                            {/* //     onClick={handleBidAmount} */}
+                            {/* //   > */}
+                            {/* //     {t('product.Make Offer')} */}
+                            {/* //   </button> */}
                               <button
                                 type='button'
                                 className='btn btn-violet-outline ms-3'

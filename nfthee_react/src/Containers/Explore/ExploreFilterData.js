@@ -260,8 +260,8 @@ export const cardData =
   const collection_caontainer = () => {
     return (
       <>
-        {COLLECTION.map((item) => (
-          <CheckBox {...item} />
+        {COLLECTION.map((item,i) => (
+          <CheckBox value={i} {...item} />
         ))}
       </>
     );
@@ -269,8 +269,8 @@ export const cardData =
   const collection_categories = () => {
     return (
       <>
-        {CATEGORIES.map((item) => (
-          <CheckBox {...item} />
+        {CATEGORIES.map((item,i) => (
+          <CheckBox value={i} {...item} />
         ))}
       </>
     );
@@ -279,8 +279,8 @@ export const cardData =
   const single_item_caontainer = () => {
     return (
       <>
-        {SINGLE_ITEMS.map((item) => (
-          <CheckBox {...item} />
+        {SINGLE_ITEMS.map((item,i) => (
+          <CheckBox value={i} {...item} />
         ))}
       </>
     );
@@ -288,8 +288,8 @@ export const cardData =
   const blockchain_caontainer = () => {
   return (
     <>
-      {BLOCKCHAIN.map((item) => (
-        <CheckBox {...item} />
+      {BLOCKCHAIN.map((item,i) => (
+        <CheckBox value={i} {...item} />
       ))}
     </>
   );
@@ -406,8 +406,8 @@ const images = [
   const chains_container = () => {
     return (
       <>
-        {CHAINS.map((item) => (
-          <CheckBox {...item} />
+        {CHAINS.map((item,i) => (
+          <CheckBox value={i} {...item} />
         ))}
       </>
     );
@@ -416,8 +416,8 @@ const images = [
   const on_sale_in_container = () => {
     return (
       <>
-        {ON_SALE_IN.map((item) => (
-          <CheckBox {...item} />
+        {ON_SALE_IN.map((item,i) => (
+          <CheckBox value={i} {...item} />
         ))}
       </>
     );

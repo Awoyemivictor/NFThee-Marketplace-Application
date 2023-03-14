@@ -131,6 +131,12 @@ export const handleLikes = async (result, value, setDisaable) => {
   console.log(data);
   return data;
 };
+
+
+
+
+
+
 export const createBid = async ({
   nftId,
   bidder,
@@ -185,13 +191,114 @@ export const fetchBid = async (nftId) => {
   return data.data;
 };
 
-export const fetchUserBid = async (id) => {
-  // http://localhost:8002?id=640972565a4dfcc2eb3b3fd3/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
-  const fetchUrl = `http://192.168.1.143:8002/api/userBids?id=${id}`;
-  let data;
+// export const fetchUserBid = async (id) => {
+//   // http://localhost:8002?id=640972565a4dfcc2eb3b3fd3/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
+//   const fetchUrl = `http://192.168.1.143:8002/api/userBids?id=${id}`;
+//   let data;
 
-  data = await // instance
-  axios.post(fetchUrl);
+//   data = await // instance
+//   axios.post(fetchUrl);
 
-  return data.data;
-};
+//   return data.data;
+// };
+
+
+export const handleBuyNotification = async (id) => {
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+  let receiver_token =""
+
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+    receiver_token = res.data.data.token_id;
+  }).catch((e)=>{
+    console.log("get user data with id error-----",e)
+  })
+
+  setTimeout(()=>{
+
+    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} bought your Nft`} 
+
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+    console.log("notification api send receiver",res)
+    }).catch((e)=>{
+      console.log("notification api receiver",e)
+    })
+
+    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
+   
+    const headers = {
+        'Authorization' : `key=${server_key}`,
+        'Content-Type'  : 'application/json',
+    };
+
+    let payloads = {
+      to   : receiver_token,
+      data : {body:`${ldata.user_name} bought your Nft`,title:'Firebase Notification'},
+    };
+
+    console.log("token---------------------",receiver_token)
+    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+      headers: headers
+    }).then((res)=>{
+        console.log("FCM send method receiver",res)
+      }).catch((e)=>{
+        console.log("FCM api error receiver",e)
+      })
+
+     
+  },3000);
+
+
+}
+
+
+
+export const handleBidNotification = async (id,bidAmount) => {
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+  let receiver_token =""
+console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+    receiver_token = res.data.data.token_id;
+  }).catch((e)=>{
+    console.log("get user data with id error-----",e)
+  })
+
+  setTimeout(()=>{
+
+    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} bided on your Nft ${bidAmount}`} 
+
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
+    console.log("notification api send receiver",res)
+    }).catch((e)=>{
+      console.log("notification api receiver",e)
+    })
+
+    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
+   
+    const headers = {
+        'Authorization' : `key=${server_key}`,
+        'Content-Type'  : 'application/json',
+    };
+
+    let payloads = {
+      to   : receiver_token,
+      data : {body:`${ldata.user_name} bided on your Nft ${bidAmount}`,title:'Firebase Notification'},
+    };
+
+    console.log("token---------------------",receiver_token)
+    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+      headers: headers
+    }).then((res)=>{
+        console.log("FCM send method receiver",res)
+      }).catch((e)=>{
+        console.log("FCM api error receiver",e)
+      })
+
+     
+  },3000);
+
+
+}
+
+

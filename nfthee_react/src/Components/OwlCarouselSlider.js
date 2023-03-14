@@ -20,7 +20,7 @@ export const OwlCarouselSlider = (props) => {
             margin={2}
             nav={true}
             dots={false}
-            loop={true}
+            loop={props.categories.length > 10 ? true : false}
             className="explore-owl-slider owl-theme owl-carousel"
             navText={[
                 '<span class="ri-arrow-left-s-line left-arrow"></span>',
