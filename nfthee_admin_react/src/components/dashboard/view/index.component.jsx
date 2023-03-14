@@ -38,9 +38,6 @@ const ItemDetail = () => {
       name: 'Name',
       selector: 'name',
       sortable: true,
-      filterable:true,
-      filterDigit:-1,
-      sortField: 'name',
     },
     {
       name: 'About',
@@ -48,9 +45,6 @@ const ItemDetail = () => {
       sortable: true,
       truncateText: true,
       maxWidth: '1px',
-      sortField: 'about',
-      filterable:false,
-
     },
     {
       name: 'Designation',
@@ -58,21 +52,16 @@ const ItemDetail = () => {
       sortable: true,
       truncateText: true,
       maxWidth: '1px',
-      filterable:false,
-      sortField: 'designation',
     },
     {
       name: 'Blockchain',
       selector: 'chooseBlockchain',
       sortable: true,
-      filterable:false,
-      sortField: 'chooseBlockchain'
     },
     {
       name: 'Status',
       selector: 'status',
       sortable: true,
-      filterable:false,
     },
     {
       name: 'Action',
@@ -123,8 +112,7 @@ const ItemDetail = () => {
   const tableData = {
     data,
     columns,
-    
-    // filterPlaceholder:"filter items",
+    filterPlaceholder:"filter items",
     filterDigit:0
   };
 console.log(tableData,tableData.filterPlaceholder)
@@ -189,8 +177,7 @@ console.log(tableData,tableData.filterPlaceholder)
             highlightOnHover
             pagination
             striped
-            onSort={handleSort}
-            sortServer
+            
             // filter={filterDigit}
           />
         </DataTableExtensions>

@@ -1,9 +1,28 @@
-import React, {Fragment} from 'react';
+import React, {useState,useEffect,Fragment} from 'react';
 import Breadcrumb from '../common/breadcrumb.component'
 import {Container,Row,Col,Card,CardHeader,CardBody,Form,FormGroup,Table} from 'reactstrap'
+// import backendInstance from "../../../backendInstance";
+import backendInstance from "../../backendInstance";
+
 
 const EditProfile = () => {
+const[user,setUser]=useState([])
+const data=JSON.parse(localStorage.getItem('adminLoggedin'))
+// console.log(username,lastName)
+useEffect(()=>{
+    // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
+    backendInstance
+    .get(`/user/login`)
+        // .then(res=> ( setUser(res.data.data)))
+        .then(res=> ( console.log(res.data.data)))
 
+
+  },[])
+  useEffect(()=>{
+   
+    console.log(data)
+
+  },[])
         return(
             <Fragment>
                 <Breadcrumb title="Edit Profile" parent="Users" />
@@ -29,11 +48,25 @@ const EditProfile = () => {
                                                          src={require('../../assets/images/user/11.png')} />
                                                 </div>
                                                 <div className="col">
-                                                    <h4 className="mb-0">MARK JECNO</h4>
+                                                    <h4 className="mb-0">{data.username}</h4>
                                                     <p className="mb-4 ">DESIGNER</p>
                                                 </div>
                                             </Row>
-                                            <FormGroup>
+                                            <Row className="mb-2">
+                                                <div className="col">
+                                                <h6 className="form-label">First Name</h6>
+                                                   <h3 className="mb-0"> {data.firstName}</h3>
+                                                <h6 className="form-label">Last Name</h6>
+                                                   <h4 className="mb-0">{data.lastName}</h4>
+                                                </div>
+                                            </Row>
+                                            <Row className="mb-2">
+                                                <div className="col">
+                                                <h6 className="form-label">Phone Number </h6>
+                                                  <h3 className="mb-0">  {data.phoneNumber}</h3>
+                                                </div>
+                                            </Row>
+                                            {/* <FormGroup>
                                                 <h6 className="form-label">Bio</h6>
                                                 <textarea className="form-control" rows="5" defaultValue="On the other hand, we denounce with righteous indignation" />
                                             </FormGroup>
@@ -44,14 +77,14 @@ const EditProfile = () => {
                                             <FormGroup>
                                                 <label className="form-label">Password</label>
                                                 <input type="password" className="form-control" defaultValue="password" />
-                                            </FormGroup>
-                                            <FormGroup>
+                                            </FormGroup> */}
+                                            {/* <FormGroup>
                                                 <label className="form-label">Website</label>
                                                 <input className="form-control" placeholder="http://Uplor .com" />
-                                            </FormGroup>
-                                            <div className="form-footer">
+                                            </FormGroup> */}
+                                            {/* <div className="form-footer">
                                                 <button className="btn btn-primary btn-block">Save</button>
-                                            </div>
+                                            </div> */}
                                         </Form>
                                     </CardBody>
                                 </Card>

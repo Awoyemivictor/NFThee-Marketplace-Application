@@ -166,3 +166,31 @@ exports.notificationSend = async (req, res, next) => {
     next(error);
   }
 };
+
+
+exports.notificationFetch = async (req, res, next) => {
+  try {
+    const data = await signupServices.notificationFetch(req);
+    console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.messageDelete = async (req, res, next) => {
+  try {
+    const data = await signupServices.messageDelete(req);
+    console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};

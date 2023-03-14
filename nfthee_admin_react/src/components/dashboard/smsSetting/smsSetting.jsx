@@ -92,9 +92,9 @@ const smsSetting = () => {
 	};
 	console.log(data);
 
-	React.useEffect(() => {
-		getData();
-	}, []);
+	// React.useEffect(() => {
+	// 	getData();
+	// }, []);
 
 	const onAddSms = (e) => {
 		const body = {
@@ -109,9 +109,9 @@ const smsSetting = () => {
 
 		instance
 			.post('api/addSmsDetails', body, {
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				// headers: {
+				// 	'Content-Type': 'application/json',
+				// },
 			})
 			.then((response) => {
 				toast.success(response.data.message);
@@ -271,7 +271,7 @@ const smsSetting = () => {
 													className="form-control"
 													name="status"
 												>
-													{/* <option>Select</option> */}
+													<option>Select</option>
 													<option value="True">Active</option>
 													<option value="False">Inactive</option>
 												</select>
