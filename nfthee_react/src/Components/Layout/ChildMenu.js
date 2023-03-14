@@ -21,9 +21,9 @@ export const OpenChildMenu = ({ data, isMobile, onHideSideBar }) => {
   };
   return (
     <div className="dropdown-menu dropdown-menu-start">
-      {data.map((item) => {
+      {data.map((item,i) => {
         return (
-          <MenuItem
+          <MenuItem key={i}
             {...item}
             className={`${
               item.children && isMobile
@@ -76,7 +76,7 @@ export const MenuItem = ({
       className={`dropdown-item ${className}`}
       onClick={onHideSideBar}
       to={path}
-      exact
+      exact='true'
       key={value}
     >
       {icon && (

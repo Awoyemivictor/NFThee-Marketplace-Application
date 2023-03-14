@@ -5,18 +5,26 @@ import { Footer, Navbar } from "./Components/Layout";
 import LaunchPage from "./Components/LaunchPage";
 import Loader from "./Components/Loader/Loader";
 import {onMessageListener,requestForToken} from "../src/firebase-config";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+import instance from "./axios";
 
 // import MultipleFileInput from "./Containers/CreateNewItem/formTest";
 function App() {
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
 
+ const [checkChanges,setChanges]=useState()
   async function requestPermission() {
     const permission = await Notification.requestPermission();
-    if (permission === "granted") {
+    if (permission === "granted" &&ldata._id) {
       // Generate Token
       await requestForToken().then((data) =>{
         console.log("Token Gen", data);
-      }).catch((e)=>{
+        setChanges(data)
+        let paload={email_address:ldata.email_address,token_id:data}
+        instance.post('/api/addLoginToken',paload)
+        .then(res=> localStorage.setItem('userLoggedIn',JSON.stringify(res.data.data)))
+      })
+        .catch((e)=>{
           console.log("error",e)
       })
         
@@ -29,7 +37,7 @@ function App() {
   useEffect(() => {
     // Req user for notification permission
     requestPermission();
-  }, []);
+  }, [checkChanges]);
 
   useEffect(()=>{
     // onMessageListener();
@@ -46,7 +54,7 @@ function App() {
     <>  
      <Loader />     
     {/* {currentPath === "/launchpage" && <LaunchPage />} */}
-      <Navbar /> 
+      <Navbar checkChanges={checkChanges} setChanges={setChanges} /> 
       <ScrollToTop/>
       <Switch> 
         {routeComponents}

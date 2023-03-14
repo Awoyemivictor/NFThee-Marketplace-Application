@@ -221,7 +221,7 @@ const CreateNewItem = () => {
     medium: '',
     telegram: '',
     creator_earnings: '',
-    created_by: userId?._id || '',
+    currentOwner: userId?._id || '',
     blockchain: '',
     payment_token: '',
     display_theme: '',
@@ -260,7 +260,7 @@ const CreateNewItem = () => {
         statsServer: 0,
       },
     ],
-    created_by: userId?._id || '',
+    currentOwner: userId?._id || '',
     putOnMarketplace: {},
     explicitAndSensitiveContent: true,
   };
@@ -548,7 +548,7 @@ const CreateNewItem = () => {
       // formData.append('medium', collectionData.medium);
       // formData.append('telegram', collectionData.telegram);
       formData.append('creator_earnings', collectionData.creator_earnings);
-      formData.append('created_by', collectionData.created_by);
+      formData.append('currentOwner', collectionData.currentOwner);
       formData.append('blockchain', collectionData.blockchain);
       formData.append('payment_token', collectionData.payment_token);
       formData.append('display_theme', collectionData.display_theme);
@@ -576,7 +576,7 @@ const CreateNewItem = () => {
       // medium: '',
       // telegram: '',
       // creator_earnings: '',
-      // created_by: userId._id||"",
+      // currentOwner: userId._id||"",
       // blockchain: '',
       // payment_token: '',
       // display_theme: '',
@@ -608,7 +608,7 @@ const CreateNewItem = () => {
               medium: '',
               telegram: '',
               creator_earnings: '',
-              created_by: userId._id || '',
+              currentOwner: userId._id || '',
               blockchain: '',
               payment_token: '',
               display_theme: '',

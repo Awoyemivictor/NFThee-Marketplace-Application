@@ -108,13 +108,12 @@ const [userBid,setUserBid]=useState([])
     .finally(()=>setLoadingFilter(false))
 
   },[like])
-  useEffect(()=>{
   const fetchUrl=`/api/userBids?id=${_id}`
+  useEffect(()=>{
 
     instance
-    // axios
     .post(fetchUrl)
-    .then(res=>( setUserBid(res.data.data)))
+    .then(res=> setUserBid(res.data.data))
     // const data =  fetchUserBid(_id);
     // // setUserBid(data);
     // console.log(data,'userBid')
@@ -406,7 +405,7 @@ setChanges(Math.floor(Math.random() * 10))
                         />
                         <span className="edit-img-box" style={{ cursor: "pointer" }}>
                           <input id="select-image" style={{ display: "none" }} type="file" onChange={handleChange} />
-                          {/* <input id="profile-image-upload" class="hidden" type="file" onchange="previewFile()" ></input> */}
+                          {/* <input id="profile-image-upload" className="hidden" type="file" onchange="previewFile()" ></input> */}
                           <label htmlFor="select-image">
                             <img src="/assets/images/icons/pencil.png" onChange={handleChange} style={{ cursor: "pointer" }} alt="" /> </label>
                         </span>
@@ -416,7 +415,7 @@ setChanges(Math.floor(Math.random() * 10))
                       {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
                       <h3>{user_name}</h3>
                       {/* <span className="tooltiptext" id="myTooltip">Copy to clipboard</span> */}
-                      <p class="profile-sub-header mb-3"><img src="/assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
+                      <p className="profile-sub-header mb-3"><img src="/assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
                       <div className="d-lg-none d-block mb-4">
                         <a href="#"><span className="profile-sub-header">
                           <img src="/assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
@@ -428,7 +427,7 @@ setChanges(Math.floor(Math.random() * 10))
                         onClick={myFunction}
                         data-title="Copy Address"
                       >
-                        <sapn id="tooltip" class="tooltip ">Copied !</sapn>
+                        <span id="tooltip" className="tooltip ">Copied !</span>
 
                         <img
                           src="/assets/images/icons/ethereum-white.png"
@@ -524,9 +523,9 @@ setChanges(Math.floor(Math.random() * 10))
                       <img src="/assets/images/icons/act-line-icon.png" alt="" />
                       Activity (05)
                     </button>
-                    {/* <div class="dropdown-menu">
-                    <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
+                    {/* <div className="dropdown-menu">
+                    <div className="dropdown-divider"></div>
+                      <a className="dropdown-item" href="#">Separated link</a>
                     </div> */}
 
                     <button
@@ -537,12 +536,12 @@ setChanges(Math.floor(Math.random() * 10))
                       aria-selected="false"
                      
                     >
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+                      <a className="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
                         <img src="/assets/images/icons/percent-icon.png" alt="" />
                         Offers ({userBid.length })</a>
-                      <div class="dropdown-menu offer-dropdown">
-                        <a class="dropdown-item" href="#">Offers received</a>
-                        <a class="dropdown-item" href="#">Offers made</a>
+                      <div className="dropdown-menu offer-dropdown">
+                        <a className="dropdown-item" href="#">Offers received</a>
+                        <a className="dropdown-item" href="#">Offers made</a>
                       </div>
                     </button>
                   </div>
@@ -586,10 +585,10 @@ setChanges(Math.floor(Math.random() * 10))
                                       <option value="option2">Inactive</option>
                                     </select>
                                   </div>
-                                  {/* <div id="option1" class="size_chart">
+                                  {/* <div id="option1" className="size_chart">
                                   Kids
                                 </div>
-                                <div id="option2" class="size_chart">
+                                <div id="option2" className="size_chart">
                                   Youth
                                 </div>   */}
                                 </div>
@@ -601,19 +600,19 @@ setChanges(Math.floor(Math.random() * 10))
                         <div className="top-collection-over-section">
                           <div className="row">
                             <div className="profile-content-wrapper">
-                              <div class="row">
-                                <div class="col-6">
+                              <div className="row">
+                                <div className="col-6">
                                   <h4 className="hd-title ">  Active Listings    </h4>
                                 </div>
-                                <div class="col-6">
-                                  <a href="">  <h4 className="hd-title float-end" style={{ color: "#2081E2" }}> Cancle all listings and offer <i class="las la-info-circle"></i>    </h4></a>
+                                <div className="col-6">
+                                  <a href="">  <h4 className="hd-title float-end" style={{ color: "#2081E2" }}> Cancle all listings and offer <i className="las la-info-circle"></i>    </h4></a>
                                 </div>
                               </div>
-                              <div id="option1" class="size_chart" >
+                              <div id="option1" className="size_chart" >
                                 <div className="activity-table-container table-responsive">
                                  {
-                                  itemData!=0?itemData.map((data)=>(
-                                  <table className="table">
+                                  itemData!=0?itemData.map((data,i)=>(
+                                  <table className="table" key={i}>
                                     <thead>
                                       <tr>
 
@@ -628,16 +627,16 @@ setChanges(Math.floor(Math.random() * 10))
                                     <tbody>
                                       <tr>
                                         <td>
-                                          <div class="d-flex align-items-center">
-                                            <img src={data.uploadFile||"/assets/images/icons/activeimg.png"} alt="" class="user-img" />
-                                            <span class="ms-2">{data.name}</span>
+                                          <div className="d-flex align-items-center">
+                                            <img src={data.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                            <span className="ms-2">{data.name}</span>
                                           </div>
                                         </td>
                                         <td > {data.putOnMarketplace.Bid_price?'Bid':''}{data.putOnMarketplace.price?'Fixed ':''}  </td>
 
                                         <td>
-                                          <div class="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.putOnMarketplace.Bid_price?data.putOnMarketplace.Bid_price:''}{data.putOnMarketplace.price?data.putOnMarketplace.price:''} </h5>
+                                          <div className="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.putOnMarketplace.Bid_price?data.putOnMarketplace.Bid_price:''}{data.putOnMarketplace.price?data.putOnMarketplace.price:''} </h5>
                                             <h6>$52547.30</h6>
                                           </div>
                                         </td>
@@ -836,7 +835,7 @@ setChanges(Math.floor(Math.random() * 10))
                                 </div>
                               </div> */}
                               </div>
-                              <div className="row" id="option2" class="size_chart">
+                              <div className="row size_chart" id="option2">
                                 No Data
                               </div>
 
@@ -848,9 +847,9 @@ setChanges(Math.floor(Math.random() * 10))
                   </div>
                   <div className="tab-pane fade" id="following">
                     
-                   {usersData.length!=0?usersData.map((data)=>( 
+                   {usersData.length!=0?usersData.map((data,i)=>( 
                    
-                   <table class="table table-borderless">
+                   <table className="table table-borderless" key={i}>
                    <thead>
                      <tr>
                        <th scope="col">UserName</th>
@@ -859,21 +858,21 @@ setChanges(Math.floor(Math.random() * 10))
                    </thead>
                    <tbody>
                      <tr>
-                       <td><div class="d-flex align-items-center">
-                                           <img src="/assets/images/icons/activeimg.png" alt="" class="user-img" />
-                                           <span class="ms-2">{data.user_name}</span>
+                       <td><div className="d-flex align-items-center">
+                                           <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
+                                           <span className="ms-2">{data.user_name}</span>
                                          </div></td>
-                       <td> {buttonLoading?<button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                       <td> {buttonLoading?<button className="btn btn-primary" type="button" disabled>
+  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   WAIT...
 </button>:data.followers.includes(_id)? <button
                                      value="unfollow"
-                                     class="btn btn-secondary"
+                                     className="btn btn-secondary"
                                        onClick={(e)=>handlleFollow(data._id,e)}
                                        >
                                         unfollow
                                         </button>:<button
-                                        class="btn btn-primary"
+                                        className="btn btn-primary"
                                      value="follow"
                                  
                                        onClick={(e)=>handlleFollow(data._id,e)}
@@ -986,16 +985,16 @@ setChanges(Math.floor(Math.random() * 10))
                         <div className="top-collection-over-section">
                           <div className="row">
                             <div className="profile-content-wrapper">
-                              <div class="row">
-                                <div class="col-6">
+                              <div className="row">
+                                <div className="col-6">
                                   <h4 className="hd-title ">  Offer Made    </h4>
                                 </div>
                                 
                               </div>
                               <div style={{'display':'none'+'!important'}}   >
                                 <div className="activity-table-container table-responsive">
-                                  {userBid.length !=0?userBid.map((data)=>(
-                                  <table className="table">
+                                  {userBid.length !=0?userBid.map((data,i)=>(
+                                  <table className="table" key={i}>
                                     <thead>
                                       <tr>
                                         <th scope="col">Item</th>
@@ -1008,19 +1007,19 @@ setChanges(Math.floor(Math.random() * 10))
                                     <tbody>
                                       <tr>
                                         <td>
-                                          <div class="d-flex align-items-center">
-                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" class="user-img" />
-                                            <span class="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
+                                          <div className="d-flex align-items-center">
+                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
                                           </div>
                                         </td>
                                         <td>
-                                          <div class="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
+                                          <div className="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
                                           </div>
                                         </td>
                                         <td>
-                                          <div class="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" class="me-1" /> {data.bid_price}</h5>
+                                          <div className="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
                                             <h6>$52547.30</h6>
                                           </div>
                                         </td>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { handleNFTBuy, handleNFTBidListing } from '../../Config/sendFunctions';
-import { getCollection } from '../../services/apiServices';
+import { getCollection, handleBuyNotification } from '../../services/apiServices';
 
 export const Modal = ({ onRequestClose }) => {
   // Use useEffect to add an event listener to the document
@@ -94,26 +94,27 @@ export const Modal = ({ onRequestClose }) => {
   );
 };
 
-export const ModalBuynft = ({ onRequestClose, collectionData }) => {
+export const ModalBuynft = ({ onRequestClose, nftData }) => {
   const buyNFT = async () => {
     console.log(
-      collectionData?.putOnMarketplace?.price,
-      collectionData?.chooseCollection,
-      collectionData?.tokenId
+      nftData?.putOnMarketplace?.price,
+      nftData?.chooseCollection,
+      nftData?.tokenId
     );
     const getCollectioAddress = await getCollection({
-      name: collectionData?.chooseCollection,
+      name: nftData?.chooseCollection,
     });
-    const price = collectionData?.putOnMarketplace?.price;
-    const price2 = collectionData?.putOnMarketplace.Bid_price;
+    const price = nftData?.putOnMarketplace?.price;
+    const price2 = nftData?.putOnMarketplace.Bid_price;
 
-    const collectionName = collectionData?.chooseCollection;
-    const tokenId = collectionData?.tokenId;
+    const collectionName = nftData?.chooseCollection;
+    const tokenId = nftData?.tokenId;
     console.log(price);
 
-    console.log(collectionData);
-    if (collectionData?.putOnMarketplace?.price !== undefined) {
-      await handleNFTBuy(price, collectionName, tokenId);
+    console.log(nftData);
+    if (nftData?.putOnMarketplace?.price !== undefined) {
+     await handleNFTBuy(price, collectionName, tokenId);
+     await handleBuyNotification(nftData.currentOwner._id)
     } else {
       await handleNFTBidListing(tokenId, price2, getCollectioAddress);
     }
@@ -169,7 +170,7 @@ export const ModalBuynft = ({ onRequestClose, collectionData }) => {
                       <div class='d-flex align-items-center'>
                         <img
                           src={
-                            collectionData.uploadFile ||
+                            nftData.uploadFile ||
                             '/assets/images/icons/activeimg.png'
                           }
                           alt=''
@@ -177,7 +178,7 @@ export const ModalBuynft = ({ onRequestClose, collectionData }) => {
                           style={{ height: '100px', width: '100px' }}
                         />
                         <span class='ms-2' style={{ fontSize: '18px' }}>
-                          {collectionData.name}
+                          {nftData.name}
                         </span>
                       </div>
                     </td>
@@ -190,9 +191,9 @@ export const ModalBuynft = ({ onRequestClose, collectionData }) => {
                             class='me-1'
                             style={{ fontSize: '18px' }}
                           />
-                          {collectionData?.putOnMarketplace
-                            ? collectionData?.putOnMarketplace?.price ||
-                              collectionData?.putOnMarketplace?.Bid_price
+                          {nftData?.putOnMarketplace
+                            ? nftData?.putOnMarketplace?.price ||
+                              nftData?.putOnMarketplace?.Bid_price
                             : ''}
                         </h5>
                         <h6>$52547.30</h6>

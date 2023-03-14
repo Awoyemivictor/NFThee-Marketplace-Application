@@ -27,11 +27,11 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
   const { _id } = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
   const [diable, setDisaable] = useState(false);
 
-  const handleAddFavorite = async (e, collection) => {
+  const handleAddFavorite = async (e, nft) => {
 
     const requestBody = {
       id: _id,
-      postId: collection,
+      postId: nft,
     };
     console.log({ _id });
     if (_id != '' || undefined) {
@@ -76,7 +76,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
             />
           )}
 
-          {slice.map((collection, index) => {
+          {slice.map((nft, index) => {
             return (
               <div className='col-12 col-sm-3 ' key={index}>
                 <div className='live-auction-area'>
@@ -89,18 +89,18 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                           className='avatar-icon img-fluid'
                         />
                         <span className='creator-name'>
-                          {console.log({ collection })}
+                          {console.log({ nft })}
                           Created By @
-                          {collection?.created_by?.user_name
-                            ? collection?.created_by?.user_name
+                          {nft?.currentOwner?.user_name
+                            ? nft?.currentOwner?.user_name
                             : 'undefined'}
                         </span>
                       </div>
                       <div className='card-media'>
-                        <Link to={`/exploredetail/${collection._id}`}>
+                        <Link to={`/exploredetail/${nft._id}`}>
                           <img
                             // src={'/assets/images/featured-img7.jpg'}
-                            src={collection?.uploadFile}
+                            src={nft?.uploadFile}
                             alt=''
                             className='img-fluid'
                           />
@@ -109,11 +109,11 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                       <div className='card-title mb-2 pb-2 border-bottom-0'>
                         <div className='c-card-detail'>
                           <h5>
-                            <a href='#'>{collection?.name}</a>
+                            <a href='#'>{nft?.name}</a>
                           </h5>
                           <h6>
-                            {collection?.about
-                              ? collection?.about
+                            {nft?.about
+                              ? nft?.about
                               : 'undefined'}
                           </h6>
                         </div>
@@ -127,9 +127,9 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                               alt=''
                               className='me-1'
                             />
-                            {collection?.putOnMarketplace
-                              ? collection?.putOnMarketplace.price ||
-                                collection?.putOnMarketplace.Bid_price
+                            {nft?.putOnMarketplace
+                              ? nft?.putOnMarketplace.price ||
+                                nft?.putOnMarketplace.Bid_price
                               : 'Bid'}
                           </h6>
                         </div>
@@ -142,22 +142,22 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                           Buy Now
                         </button>
 
-                        {collection.likes.includes(_id) ? (
+                        {nft.likes.includes(_id) ? (
                           <button
                             className='wishlist-button ms-auto'
                             id='unliked'
                             disabled={diable}
                             onClick={(e) =>
-                              handleAddFavorite(e, collection._id)
+                              handleAddFavorite(e, nft._id)
                             }
                             tabIndex={0}
                           >
                             <span className='number-like d-flex'>
                               <i id='unliked' className='ri-heart-fill me-1' />
-                              {collection.likes
-                                ? collection.likes.length === 0
+                              {nft.likes
+                                ? nft.likes.length === 0
                                   ? ''
-                                  : collection.likes.length
+                                  : nft.likes.length
                                 : ''}
                             </span>
                           </button>
@@ -167,16 +167,16 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                             id='liked'
                             disabled={diable}
                             onClick={(e) =>
-                              handleAddFavorite(e, collection._id)
+                              handleAddFavorite(e, nft._id)
                             }
                             tabIndex={0}
                           >
                             <span className='number-like d-flex'>
                               <i id='liked' className=' ri-heart-line me-1' />
-                              {collection.likes
-                                ? collection.likes.length === 0
+                              {nft.likes
+                                ? nft.likes.length === 0
                                   ? ''
-                                  : collection.likes.length
+                                  : nft.likes.length
                                 : ''}
                             </span>
                           </button>
@@ -184,9 +184,9 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                         {/* <button className="wishlist-button ms-auto" tabIndex={0}>
                         <span
                           className="number-like d-flex"
-                          onClick={() => handleAddFavorite(collection)}
+                          onClick={() => handleAddFavorite(nft)}
                           >
-                         <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>{collection.likes?collection.likes.length===0?'':collection.likes.length:''}
+                         <i className={isLiked ===true ? 'ri-heart-fill me-1' : 'ri-heart-line me-1'}/>{nft.likes?nft.likes.length===0?'':nft.likes.length:''}
 
                         </span>
                       </button> */}
