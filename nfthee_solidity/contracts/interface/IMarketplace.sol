@@ -21,6 +21,7 @@ interface IMarketplace {
         uint256 nftCount;
         uint256 tokenType;
         uint256 expireTimestamp;
+        uint256 paymentOption;
     }
 
     struct TokenBids {
@@ -122,7 +123,8 @@ interface IMarketplace {
         uint256 value,
         uint256 expireTimestamp,
         uint256 nftCount,
-        uint256 tokenType
+        uint256 tokenType,
+        uint256 paymentOption
     ) external payable;
 
     /**
@@ -195,6 +197,16 @@ interface IMarketplace {
         uint256 from,
         uint256 size
     ) external view returns (Bid[] memory);
+
+    /**
+     * @dev get current listing of a token
+     * @param tokenId contract token Id
+     * @return current valid listing or empty listing struct
+     */
+    function getTokenListing(
+        address contractAddress,
+        uint256 tokenId
+    ) external view returns (Listing memory);
 
     /**
      * @dev get count of tokens with bid(s)

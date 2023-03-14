@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
   FilterCard,
@@ -69,10 +70,6 @@ function ExploreDetail() {
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
   const [like, setliked] = useState();
 
-  const submitToken = async () => {
-    console.log(eth, wth);
-  };
-
   const toggleModal = () => {
     setModalIsOpen(!isModalOpen);
   };
@@ -100,6 +97,7 @@ function ExploreDetail() {
         // setLoading(true);
         console.log(response.data, '<><><>><>><><><><><><><');
         setCollections(response.data.data);
+
         setIsLoading(false);
         let name = response.data.data.chooseCollection;
         console.log({ name });
@@ -206,6 +204,8 @@ function ExploreDetail() {
   const [activeTab, setActiveTab] = useState('1');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
+  const [contractAddress, setContractAddress] = useState('');
+
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
 
@@ -258,6 +258,17 @@ function ExploreDetail() {
     });
   }, []);
   // console.log([])
+
+  // const collection = async () => {
+  //   console.log(collections);
+  //   let data = await getCollection(collections.chooseCollection);
+  //   console.log(data);
+  //   setContractAddress(data);
+  // };
+
+  // useEffect(async () => {
+  //   await collection();
+  // }, [collection]);
 
   return (
     <>
@@ -457,13 +468,20 @@ function ExploreDetail() {
                       </div>
                       <div className='mb-3 d-flex d-lg-block flex-wrap'>
                         <a href='#' className='token-detail'>
-                          <span>{t('product.Token id')} : </span>#958
+                          <span>{t('product.Token id')} : </span>
+                          {collections ? collections.tokenId : 'undefined'}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
-                          <span>{t('product.Token standard')} : </span>Erc721
+                          <span>{t('product.Token standard')} : </span>
+                          {collections.chooseType === 'single' ? (
+                            <span>ERC721 </span>
+                          ) : (
+                            <span>ERC1155 </span>
+                          )}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
-                          <span>Contract: </span>0X…5623
+                          <span>Contract: </span> Test
+                          {/* {contractAddress.substring(0, 5)} */}
                         </a>{' '}
                         <br />
                         <a href='#' className='token-detail '>
@@ -576,7 +594,7 @@ function ExploreDetail() {
                               aria-selected='false'
                             >
                               History
-                                                          </button>
+                            </button>
                           </li>
                           <li className='nav-item' role='presentation'>
                             <button

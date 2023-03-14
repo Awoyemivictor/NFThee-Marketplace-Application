@@ -10,7 +10,7 @@ import ERC721 from './abis/polygon/TestERC721.json';
 import ERC20 from './abis/polygon/TestERC20.json';
 import contracts from './contracts';
 import { generateRandomNumbers, getUnixTimeAfterDays } from './helpers';
-import { getFullYearTime, convertToEth, getUserAddress } from './constants';
+import { getFullYearTime, getUserAddress } from './constants';
 import { getCollection } from '../services/apiServices';
 
 const exportInstance = async (SCAddress, ABI) => {
@@ -35,7 +35,7 @@ const readReceipt = async (hash) => {
   }
 };
 
-export const approveTokens = async (ownerAddress) => {
+export const approveTokens = async (ownerAddress, amount) => {
   const tokens = ethers.utils.parseEther('1000000000');
 
   let res1;
@@ -44,7 +44,7 @@ export const approveTokens = async (ownerAddress) => {
     contracts.polygonContracts.TESTERC20,
     ERC20.abi
   );
-  //  res1   = await tokenInsatnce.mint(amount,{from:ownerAddress})
+  res1 = await tokenInstance.mint(amount, { from: ownerAddress });
 
   hash = res1;
 
@@ -346,8 +346,13 @@ export const handleListNFTSale = async (
   if (res.status === 0) {
     console.log('Transaction Failed');
   }
-  console.log(res);
+  return res.status;
 };
+
+/**
+ *
+ * @param {*} Fixed Price Buying Function
+ */
 
 export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   console.info(tokenPrice, collectionName, tokenId);
@@ -388,15 +393,43 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   );
 
   console.info(collectionAddress, tokenId, 1, 1, 2, options);
-  res = await marketplaceInstance.buyToken(
-    collectionAddress,
-    tokenId,
-    1,
-    1,
-    2,
-    options
-  );
+  let paymentToken = 1;
+  if (paymentToken === 2) {
+    res = await marketplaceInstance.buyToken(
+      collectionAddress,
+      tokenId,
+      1,
+      1,
+      2,
+      options
+    );
+  } else {
+    // let tokenInstance = await exportInstance(
+    //   contracts.polygonContracts.TESTERC20,
+    //   ERC20.abi
+    // );
 
+    // let checkApproval = await tokenInstance.allowance(
+    //   userAddress,
+    //   contracts.polygonContracts.MARKETPLACE
+    // );
+    // console.log(checkApproval, price);
+    // if (checkApproval <= price) {
+    //   await tokenInstance.approve(
+    //     contracts.polygonContracts.MARKETPLACE,
+    //     price * 2
+    //   );
+    // }
+    await approveTokens(userAddress, price * 2);
+    res = await marketplaceInstance.buyToken(
+      collectionAddress,
+      tokenId,
+      1,
+      1,
+      1,
+      { gasPrice: 10000000000, gasLimit: 9000000 }
+    );
+  }
   res = await res.wait();
   if (res.status === 0) {
     console.log('Transaction Failed');

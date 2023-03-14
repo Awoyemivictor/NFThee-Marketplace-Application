@@ -71,7 +71,7 @@ function Home(props) {
   const [active, setActive] = useState(0);
   const [activeSlide, setActiveSlide] = useState(sliderItems[active]);
   const homeSliderRef = useRef(null);
-  const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
+  // const {_id}=JSON.parse(localStorage.getItem('userLoggedIn'))
 
 
   useEffect(() => {
@@ -420,9 +420,9 @@ function Home(props) {
                 className="row justify-content-center"
                 style={{ bsGutterX: '2.1rem' }}
               >
-                {users.filter(res=>res._id!=_id).map((item, index) => (
+                {/* {users.filter(res=>res._id!=_id).map((item, index) => (
                   <TopSeller {...item} index={index} />
-                ))}
+                ))} */}
               </div>
               <div className="row d-lg-none">
                 <Link

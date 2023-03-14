@@ -95,6 +95,7 @@ export const insertHistory = async () => {
 // export const listNFT
 
 export const getCollection = async (result) => {
+  console.log(result)
   let requestOptions = { name: result };
 
   let datas = await instance
