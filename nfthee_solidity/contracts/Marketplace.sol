@@ -199,28 +199,24 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
             _removeBidOfBidder(contractAddress, tokenId, msg.sender);
         } else {
             console.log("Listing Value ===============>", listing.value);
-            _paymentToken.transferFrom(
-                msg.sender,
-                address(this),
-                listing.value
-            );
-            _paymentToken.transferFrom(
-                address(this),
-                listing.seller,
-                listing.value - _serviceFee - _royaltyFee
-            );
-
-            _paymentToken.transferFrom(address(this), owner(), _serviceFee);
+            _paymentToken.safeTransferFrom({
+                from: msg.sender,
+                to: listing.seller,
+                value: listing.value
+            });
+            _paymentToken.safeTransferFrom({
+                from: msg.sender,
+                to: owner(),
+                value: _serviceFee
+            });
             address _royaltyRecipient = royalty(contractAddress).recipient;
-
             if (_royaltyRecipient != address(0) && _royaltyFee > 0) {
-                _paymentToken.transferFrom(
-                    address(this),
-                    _royaltyRecipient,
-                    _royaltyFee
-                );
+                _paymentToken.safeTransferFrom({
+                    from: msg.sender,
+                    to: _royaltyRecipient,
+                    value: _royaltyFee
+                });
             }
-
             // Send token to buyer
             emit TokenBought({
                 contractAddress: contractAddress,
@@ -412,7 +408,8 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         uint256 value,
         uint256 expireTimestamp,
         uint256 nftCount,
-        uint256 tokenType
+        uint256 tokenType,
+        uint256 paymentOption
     )
         external
         payable
@@ -420,22 +417,45 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         onlyTradingOpen
         onlyAllowedExpireTimestamp(expireTimestamp)
     {
-        Bid memory bid = Bid(
-            tokenId,
-            value,
-            msg.sender,
-            nftCount,
-            tokenType,
-            expireTimestamp
-        );
+        if (paymentOption == 2) {
+            Bid memory bid = Bid(
+                tokenId,
+                value,
+                msg.sender,
+                nftCount,
+                tokenType,
+                expireTimestamp,
+                paymentOption
+            );
+            require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-        require(_isBidValid(contractAddress, bid), "Bid is not valid");
+            _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
+            _erc721Market[contractAddress].bids[tokenId].bidders.add(
+                msg.sender
+            );
+            _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
 
-        _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
-        _erc721Market[contractAddress].bids[tokenId].bidders.add(msg.sender);
-        _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
+            emit TokenBidEntered(contractAddress, tokenId, bid);
+        } else {
+            Bid memory bid = Bid(
+                tokenId,
+                value,
+                msg.sender,
+                nftCount,
+                tokenType,
+                expireTimestamp,
+                paymentOption
+            );
+            require(_isBidValid(contractAddress, bid), "Bid is not valid");
 
-        emit TokenBidEntered(contractAddress, tokenId, bid);
+            _erc721Market[contractAddress].tokenIdWithBid.add(tokenId);
+            _erc721Market[contractAddress].bids[tokenId].bidders.add(
+                msg.sender
+            );
+            _erc721Market[contractAddress].bids[tokenId].bids[msg.sender] = bid;
+
+            emit TokenBidEntered(contractAddress, tokenId, bid);
+        }
     }
 
     /**
@@ -667,7 +687,7 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         address contractAddress,
         uint256 tokenId
     ) public view override returns (Bid memory highestBid) {
-        highestBid = Bid(tokenId, 0, address(0), 0, 0, 0);
+        highestBid = Bid(tokenId, 0, address(0), 0, 0, 0, 1);
         uint256 bidderCount = _erc721Market[contractAddress]
             .bids[tokenId]
             .bidders
@@ -749,6 +769,21 @@ contract Marketplace is IMarketplace, Ownable, Royalty, ReentrancyGuard {
         address contractAddress
     ) public view override returns (uint256) {
         return _erc721Market[contractAddress].tokenIdWithBid.length();
+    }
+
+    /*
+     * @dev See {TheeNFTMarketplace-getTokenListing}.
+     */
+    function getTokenListing(
+        address contractAddress,
+        uint256 tokenId
+    ) public view override returns (Listing memory validListing) {
+        Listing memory listing = _erc721Market[contractAddress].listings[
+            tokenId
+        ];
+        if (_isListingValid(contractAddress, listing)) {
+            validListing = listing;
+        }
     }
 
     /**
