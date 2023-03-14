@@ -5,7 +5,8 @@ const {addSmsDetails, getSmsDetails} = require('../controller').manageSettingsCo
 
 const router = express.Router();
 
-router.post("/addSmsDetails", auth, addSmsDetails);
+// router.post("/addSmsDetails", auth, addSmsDetails);
+router.post("/addSmsDetails", addSmsDetails);
 router.get("/getSmsDetails", auth, getSmsDetails);
 
 module.exports = router;

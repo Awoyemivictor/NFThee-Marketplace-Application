@@ -89,6 +89,9 @@ const Signin = (props) => {
     setLoading(true);
     try {
       await instance.post('/api/user/login', data).then((res) => {
+        localStorage.setItem(
+          'adminLoggedin',
+          JSON.stringify(res.data.data))
         console.log('<><><><><<>:>:LKK', res.data);
         console.log(res.data.message);
         if (res.data && res.data.success === true) {

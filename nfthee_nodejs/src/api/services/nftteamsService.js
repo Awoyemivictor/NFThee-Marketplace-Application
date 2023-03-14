@@ -42,7 +42,7 @@ exports.index = async (req) => {
         ...collection,
         ...categories,
         status: 'verified',
-      }).populate('created_by').sort({ id: -1 });
+      }).populate('currentOwner').sort({ id: -1 });
     console.log(result);
     if (result) {
       return {
@@ -151,7 +151,7 @@ exports.getAllItemInfo = async (req, res) => {
           // ...collection,
           // ...categories,
           // status: 'verified',
-        })
+        }).populate('currentOwner')
         .sort({ id: -1 });
       console.log('filter data:----',result);
       if (result) {
@@ -170,7 +170,7 @@ exports.read_getItemInfo = async (req, res) => {
   try {
     let userId = req.query.id;
 
-    let result = await nftIteams.findOne({ _id: userId }).populate('created_by');
+    let result = await nftIteams.findOne({ _id: userId }).populate('currentOwner');
 
     return {
       message: ' Data find successfully.',
@@ -239,7 +239,7 @@ exports.update_getItemInfo = async (req, res) => {
 exports.read_nftStore = async (req) => {
   try {
     let userId = req.query.id;
-    let result =await nftIteams.findOne({ _id: userId }).populate('created_by');
+    let result =await nftIteams.findOne({ _id: userId }).populate('currentOwner');
     console.log(userId, result);
     return {
       message: 'Read Data Fetch.....',

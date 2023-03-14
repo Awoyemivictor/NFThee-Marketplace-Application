@@ -5,7 +5,8 @@ const { createEmail, readEmail, readAllEmail, updateEmail, deleteEmail } = requi
 const { ApiAuth: { auth } } = require('../../utils');
 const route = express.Router()
 
-route.post("/addEmail", auth, createEmail);
+// route.post("/addEmail", auth, createEmail);
+route.post("/addEmail", createEmail);
 route.get("/readEmail", auth, readEmail);
 route.get("/AllEmail", auth, readAllEmail);
 route.post("/updateEmail", auth, updateEmail);

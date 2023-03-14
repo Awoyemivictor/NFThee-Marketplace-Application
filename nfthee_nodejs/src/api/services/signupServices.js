@@ -529,13 +529,22 @@ exports.userUnFollow = async (req, res) => {
           "<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>User:",
           user
         ),
-      follow: await signup.findByIdAndUpdate(
+      follow: 
+      await signup.findByIdAndUpdate(
         userId,
         {
           $pull: { following: req.body.id },
         },
         { new: true }
-      ),
+      ) 
+      //  await notificationModel.findByIdAndDelete(
+      //   userId)
+        // {
+        //   $pull: { receiver_id: req.body.id },
+        // },
+        // { new: true }
+      // )
+      
     };
     console.log(data);
 
@@ -556,7 +565,40 @@ exports.userUnFollow = async (req, res) => {
     return error;
   }
 };
+exports.messageDelete = async (req, res) => {
+  try {
+    // console.log("njbadjajdjdajdbj", req.body);
 
+    let userId = req.query.id;
+    console.log("sjjndjknjkdnnnnnnnnnn", userId);
+
+    const data = 
+    await notificationModel.findOne(   
+      {sender_id:userId}
+        )
+    ;
+    console.log('data:::::::',data);
+
+    const deletemsg=await notificationModel.deleteOne({_id:data._id})
+    console.log('datavdd:::::::',deletemsg);
+
+    if (data) {
+      return {
+        message: "delete Sucessfully",
+        status: true,
+        data: deletemsg,
+      };
+    } else {
+      return {
+        message: "User hasn't found",
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    return error;
+  }}
+;
 // addLoginToken to gernerate token with firebase
 exports.addLoginToken = async (req, res) => {
   console.log(req.body, "firstsss");
@@ -620,7 +662,27 @@ exports.notificationSend = async (req, res) => {
     };
   }
 };
+exports.notificationFetch = async (req, res) => {
+  console.log(req.body, "firstsss sdjbjd--------------");
 
+  let id = req.body.receiver_id;
+  let result = await notificationModel.find({receiver_id:id});
+  console.log('id',id)
+
+  if (result) {
+    return {
+      message: "Notification fetch",
+      status: true,
+      data: result,
+    };
+  } else {
+    return {
+      message: "User hasn't found",
+      status: false,
+      data: null,
+    };
+  }
+};
 // router.post('/follow', async (req, res, next) => {
 //   exports.userFollow = async (req, res) => {
 //   const { action } = req.body;

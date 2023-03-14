@@ -4,7 +4,7 @@ const { smsDetailsModel } = require('../../models');
 exports.addSmsDetails = async (req) => {
     const {url, api, secret, sender, provider, status} = req.body;
     const [smsDetails] = await smsDetailsModel.find();
-    //update
+    //update 
     if (smsDetails) {
         if (Object.keys(req.body).length) {
             const updateSmsDetails = await smsDetailsModel.findByIdAndUpdate(smsDetails._id, req.body, {new: true});

@@ -33,11 +33,11 @@ const emailSetting = () => {
 	);
 	const [hostName, setHostName] = useState(hostName ? hostName : '');
 	const [hostPort, setHostPort] = useState(hostPort ? hostPort : '');
-	const [status, setStatus] = useState(status ? status : '');
+	const [status, setStatus] = useState(status ? status : true);
 	const [id, setId] = useState(id ? id : '');
 	const [hostPass, setHostPass] = useState(hostPass ? hostPass : '');
 
-	console.log('data', data);
+	console.log('data null', data);
 
 	// const query = new URLSearchParams(useLocation().search);
 	// const category_id = query.get('categoryId');
@@ -78,9 +78,9 @@ const emailSetting = () => {
 		});
 	};
 
-	React.useEffect(() => {
-		getData();
-	}, []);
+	// React.useEffect(() => {
+	// 	getData();
+	// }, []);
 
 	console.log(data);
 	// const onUpdateEmailSubmit = (e) => {
@@ -110,7 +110,7 @@ const emailSetting = () => {
 	// };
 
 	// add email function
-
+	const True = status == "True" ? true : false
 	const onAddEmail = (e) => {
 		const body = {
 			domain_name: domainName,
@@ -119,7 +119,7 @@ const emailSetting = () => {
 			reply_email: replyEmailid,
 			host_name: hostName,
 			host_port: hostPort,
-			status: status,
+			status: True,
 			host_pass: hostPass,
 		};
 		console.log(body);
@@ -141,9 +141,12 @@ const emailSetting = () => {
 
 	//  update email
 
+//  const False = false
+
 	const onUpdateEmail = (e) => {
 		// history.push(`/dashboard/category/viewCategory`);
-
+		let sstatus = status
+		console.log("new stat0---",sstatus);
 		const body = {
 			id: id,
 			domain_name: domainName,
@@ -153,15 +156,17 @@ const emailSetting = () => {
 			host_name: hostName,
 			host_port: hostPort,
 			host_pass: hostPass,
-			status: status,
+			// status: status == "True" ? True :False
+			status: True 
+
 		};
 		console.log(body);
 
 		instance
-			.post('api/updateEmail', body, {
-				headers: {
-					'Content-Type': 'application/json',
-				},
+			.post('api/addEmail', body, {
+				// headers: {
+				// 	'Content-Type': 'application/json',
+				// },
 			})
 			.then((response) => {
 				// alert(response.message);
@@ -305,7 +310,7 @@ const emailSetting = () => {
 													className="form-control"
 													name="status"
 												>
-													{/* <option>Select</option> */}
+													<option>Select</option>
 													<option value="True">Active</option>
 													<option value="False">Inactive</option>
 												</select>
@@ -316,7 +321,7 @@ const emailSetting = () => {
 										<Col>
 											{/* {data[0].name} */}
 
-											{data === null ? (
+											{data.length < 0 & data  ? (
 												<Button color="primary" onClick={onAddEmail}>
 													Add Email
 												</Button>

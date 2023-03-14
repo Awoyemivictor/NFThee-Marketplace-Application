@@ -21,18 +21,18 @@ const nftSchema = new Schema(
     },
     nft_quantity: Number,
     nft_orders: [{ type: mongoose.Schema.ObjectId, ref: 'order' }],
-
-    owned_by: [
-      {
-        address: {
-          type: String,
-          lowercase: true,
-        },
-        quantity: {
-          type: Number,
-        },
-      },
-    ],
+    currentOwner: { type: mongoose.Schema.ObjectId, ref: 'user' },
+    // owned_by: [
+    //   {
+    //     address: {
+    //       type: String,
+    //       lowercase: true,
+    //     },
+    //     quantity: {
+    //       type: Number,
+    //     },
+    //   },
+    // ],
     royalty_percentage: Number,
     chooseType: {
       type: String,

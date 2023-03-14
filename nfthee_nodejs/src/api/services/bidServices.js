@@ -17,13 +17,13 @@ exports.createBidNft = async (req, res) => {
     });
     console.log(checkBid);
     if (checkBid === null) {
-      // let bid = await bidModel.findOneAndDelete({
-      //   // bidder: mongoose.Types.ObjectId(req.userId),
-      //   owner: mongoose.Types.ObjectId(req.body.owner),
-      //   nftId: mongoose.Types.ObjectId(req.body.nftId),
-      //   orderId: mongoose.Types.ObjectId(req.body.orderId),
-      //   bid_status: 'Bid',
-      // });
+      let bid = await bidModel.findOneAndDelete({
+        // bidder: mongoose.Types.ObjectId(req.userId),
+        owner: mongoose.Types.ObjectId(req.body.owner),
+        nftId: mongoose.Types.ObjectId(req.body.nftId),
+        orderId: mongoose.Types.ObjectId(req.body.orderId),
+        bid_status: 'Bid',
+      });
     }
 
     let data = {
