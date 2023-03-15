@@ -55,6 +55,7 @@ exports.credentials = {
   USER_TYPE: {
     USER: 'user',
   },
+  AIRDROP_CONTRACT_ADDRESS: '0xB0918525beF671Ab031F7511f46D75359a5dC512',
 };
 
 /**

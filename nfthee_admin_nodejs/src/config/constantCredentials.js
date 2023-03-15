@@ -26,7 +26,6 @@ switch (ENVIRONMENT) {
 
 /**
  * @description credential object credentials
- * @author [Rinku sain]
  */
 exports.credentials = {
   DB_URL: process.env.DB_URL || 'mongodb://127.0.0.1:27017/',
@@ -50,11 +49,14 @@ exports.credentials = {
   USER_TYPE: {
     USER: 'user',
   },
+  AIRDROP_CONTRACT_ADDRESS: '0xB0918525beF671Ab031F7511f46D75359a5dC512',
+  OWNER_PRIVATE_KEY: process.env.OWNER_PRIVATE_KEY || '',
+  POLYGON_RPC_URL: process.env.POLYGON_RPC_URL || '',
 };
 
 /**
  * @description credential object for status codes
- * @author Rinku sain
+
  */
 exports.StatusCodes = {
   NOT_FOUND: 404,

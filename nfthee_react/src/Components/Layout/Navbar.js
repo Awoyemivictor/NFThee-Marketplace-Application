@@ -35,7 +35,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
   // console.info({user});
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotification] = useState([])
