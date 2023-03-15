@@ -17,11 +17,14 @@ import { Modal } from './Modal';
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
 import instance from '../../axios';
-export const logOut = () => {
-  localStorage.clear();
 
-  window.location.href = '/';
+export const logOut = async ()  => {
+  instance.post("/signup/logout").then(
+    localStorage.clear(),
+    window.location.href = '/'
+  ) ;  
 };
+
 export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
