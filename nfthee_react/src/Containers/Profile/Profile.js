@@ -145,8 +145,7 @@ const [buttonLoading,setButtonLoading]=useState(false)
     // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
     instance
     .get(`/api/followingList?id=${_id}`)
-    .then(res=> ( setUsersData(res.data.data[0].following)))
-        .then(res=> ( setUsersData(res.data.data[0].following)))
+    .then(res=>  setUsersData(res.data.data[0].following))
     .finally(setButtonLoading(false))
 
   },[changes])
@@ -416,10 +415,10 @@ setChanges(Math.floor(Math.random() * 10))
                       <h3>{user_name}</h3>
                       {/* <span className="tooltiptext" id="myTooltip">Copy to clipboard</span> */}
                       <p className="profile-sub-header mb-3"><img src="/assets/images/icons/star-check.png" alt="" /> Created Account {user.createdAt}</p>
-                      <div className="d-lg-none d-block mb-4">
+                      {/* <div className="d-lg-none d-block mb-4">
                         <a href="#"><span className="profile-sub-header">
                           <img src="/assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
-                      </div>
+                      </div> */}
                       <a
                         href="#"
                         type="button"
@@ -611,7 +610,7 @@ setChanges(Math.floor(Math.random() * 10))
                               <div id="option1" className="size_chart" >
                                 <div className="activity-table-container table-responsive">
                                  {
-                                  itemData!=0?itemData.map((data,i)=>(
+                                  itemData.lenght>0?itemData.map((data,i)=>(
                                   <table className="table" key={i}>
                                     <thead>
                                       <tr>
@@ -853,15 +852,16 @@ setChanges(Math.floor(Math.random() * 10))
                    <thead>
                      <tr>
                        <th scope="col">UserName</th>
-                       <th scope="col">Last</th>
+                       <th scope="col">Action</th>
                      </tr>
                    </thead>
                    <tbody>
                      <tr>
-                       <td><div className="d-flex align-items-center">
+                      
+                       <td><Link to={`/users/${data._id}`}><div className="d-flex align-items-center">
                                            <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
                                            <span className="ms-2">{data.user_name}</span>
-                                         </div></td>
+                                         </div> </Link></td>
                        <td> {buttonLoading?<button className="btn btn-primary" type="button" disabled>
   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   WAIT...
@@ -993,7 +993,7 @@ setChanges(Math.floor(Math.random() * 10))
                               </div>
                               <div style={{'display':'none'+'!important'}}   >
                                 <div className="activity-table-container table-responsive">
-                                  {userBid.length !=0?userBid.map((data,i)=>(
+                                  {userBid.length >0?userBid.map((data,i)=>(
                                   <table className="table" key={i}>
                                     <thead>
                                       <tr>

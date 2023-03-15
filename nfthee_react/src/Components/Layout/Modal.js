@@ -409,3 +409,327 @@ export const ConvertModal=({ onRequestClose,
 
 
 }
+
+
+
+
+export const ListingModal=({ 
+  onRequestClose,
+  setListing,
+  handleTimedAuctionChange,
+  handleFixedPriceChange,
+  fixedPrice,
+  handleBidPriceChange,
+  openForBids,
+  timedAuction,setTimedAuction
+})=>{
+  
+
+  return (
+    <div className='modal__backdrop'>
+      <div className='modal__container1'>
+        <div class='row'>
+          <div class='col-11'>
+            <h2 class='modal_title'>Put On Marketplace </h2>
+          </div>
+          <div class='col-1'>
+            <Link onClick={onRequestClose}>
+              <img src='/assets/images/icons/close.png' alt='' />
+            </Link>
+          </div>
+
+
+
+     
+                              <div className='create-item-tab'>
+                                <div className='col-md-12 col-lg-12'>
+                                  <ul
+                                    className='nav nav-pills pb-4 mb-3 border-bottom row '
+                                    id='pills-tab'
+                                    role='tablist'
+                                  >
+                                    <li
+                                      className='nav-item'
+                                      role='presentation'
+                                    >
+                                      <a
+                                        className='nav-link active mb-4 mb-lg-0'
+                                        id={0}
+                                        onClick={(e) =>
+                                          setListing(e.currentTarget.id)
+                                        }
+                                        data-bs-toggle='pill'
+                                        data-bs-target='#fixed-price'
+                                        role='tab'
+                                        aria-selected='true'
+                                      >
+                                        <img
+                                          src='/assets/images/icons/price-tag.png'
+                                          alt=''
+                                          className='img-fluid'
+                                        />
+                                        <h5>Fixed Price</h5>
+                                      </a>
+                                    </li>
+                                    <li
+                                      className='nav-item'
+                                      role='presentation'
+                                    >
+                                      <a
+                                        className='nav-link mb-4 mb-lg-0'
+                                        onClick={(e) =>
+                                          setListing(e.currentTarget.id)
+                                        }
+                                        id={1}
+                                        data-bs-toggle='pill'
+                                        data-bs-target='#open-bid'
+                                        role='tab'
+                                        aria-selected='false'
+                                      >
+                                        <img
+                                          src='/assets/images/icons/auction.png'
+                                          alt=''
+                                          className='img-fluid'
+                                        />
+                                        <h5>Open For Bids</h5>
+                                      </a>
+                                    </li>
+                                    <li
+                                      className='nav-item'
+                                      role='presentation'
+                                    >
+                                      <a
+                                        className='nav-link'
+                                        onClick={(e) =>
+                                          setListing(e.currentTarget.id)
+                                        }
+                                        id={2}
+                                        data-bs-toggle='pill'
+                                        data-bs-target='#timed-auction'
+                                        role='tab'
+                                        aria-selected='false'
+                                      >
+                                        <img
+                                          src='/assets/images/icons/clock.png'
+                                          alt=''
+                                          className='img-fluid'
+                                        />
+                                        <h5>Timed Auction</h5>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                  </div>
+                                </div>
+                                <div
+                                  className='tab-content'
+                                  id='pills-tabContent'
+                                >
+                                  <div
+                                    className='tab-pane fade show active'
+                                    id='fixed-price'
+                                    role='tabpanel'
+                                  >
+                                    <div className='create-item-content border-bottom mb-3 pb-3'>
+                                      <h4 className='create-item-title mb-3'>
+                                        Price
+                                      </h4>
+                                      <div className='input-group mb-2'>
+                                        <input
+                                          type='text'
+                                          className='form-control'
+                                          name='price'
+                                          required
+                                          onChange={handleFixedPriceChange}
+                                          value={fixedPrice.price}
+                                          placeholder='Enter Price For One Piece'
+                                        />
+                                        <div class='invalid-feedback'>
+                                          Enter price{' '}
+                                        </div>
+
+                                        <div className='input-group-append'>
+                                          <select
+                                            className='form-select'
+                                            id='basic-addon2'
+                                          >
+                                            <option selected>MATIC</option>
+                                            <option value={1}>WBNB</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div className='d-flex align-items-center price-detail'>
+                                        <a href='#' className='me-3'>
+                                          <h6 className='mb-0'>
+                                            Service Fee <span>2%</span>
+                                          </h6>
+                                        </a>
+                                        <a href='#'>
+                                          <h6 className='mb-0'>
+                                            You Will Receive <span>0 ETH</span>
+                                          </h6>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div
+                                    className='tab-pane fade'
+                                    id='open-bid'
+                                    role='tabpanel'
+                                  >
+                                    <div className='create-item-content border-bottom mb-3 pb-3'>
+                                      <h4 className='create-item-title mb-3'>
+                                        Bid Price
+                                      </h4>
+                                      <div className='input-group mb-2'>
+                                        <input
+                                          type='text'
+                                          className='form-control'
+                                          name='Bid_price'
+                                          onChange={handleBidPriceChange}
+                                          value={openForBids.Bid_price}
+                                          placeholder='Enter Price For Bid Piece'
+                                          required
+                                        />
+                                        <div class='invalid-feedback'>
+                                          Enter BID Price{' '}
+                                        </div>
+
+                                        <div className='input-group-append'>
+                                          <select
+                                            className='form-select'
+                                            id='basic-addon2'
+                                          >
+                                            <option selected>ETH</option>
+                                            <option value={1}>ETH</option>
+                                            <option value={2}>ETH</option>
+                                            <option value={3}>ETH</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div className='d-flex align-items-center price-detail'>
+                                        <a href='#' className='me-3'>
+                                          <h6 className='mb-0'>
+                                            Service Fee <span>2%</span>
+                                          </h6>
+                                        </a>
+                                        <a href='#'>
+                                          <h6 className='mb-0'>
+                                            You Will Receive <span>0 ETH</span>
+                                          </h6>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div
+                                    className='tab-pane fade'
+                                    id='timed-auction'
+                                    role='tabpanel'
+                                  >
+                                    <div className='create-item-content border-bottom mb-3 pb-3'>
+                                      <h4 className='create-item-title mb-3'>
+                                        Minimum Bid
+                                      </h4>
+                                      <div className='mb-2'>
+                                        <input
+                                          name='minimumBid'
+                                          value={timedAuction.minimumBid}
+                                          onChange={handleTimedAuctionChange}
+                                          type='text'
+                                          className='form-control'
+                                          placeholder='Enter minimum bid'
+                                          required
+                                        />
+                                        <div class='invalid-feedback'>
+                                          Enter minimumBid Price{' '}
+                                        </div>
+                                      </div>
+                                      <div className='d-flex align-items-center price-detail'>
+                                        <a href='#'>
+                                          <h6 className='mb-0'>
+                                            Bids below this amount won't be
+                                            allowed.
+                                          </h6>
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <div className='create-item-content border-bottom mb-3 pb-3'>
+                                        {/* <div className='col-lg-6 col-md-6'>
+                                        <h4 className='create-item-title mb-3'>
+                                          Start Date
+                                        </h4>
+                                        <select
+                                          onChange={handleStartDate}
+                                          className='form-select form-control d-block'
+                                        >
+                                          <option
+                                            value='Right after listing'
+                                            selected
+                                          >
+                                            Right after listing
+                                          </option>
+                                          <option value='One'>One</option>
+                                          <option value='Two'>Two</option>
+                                          <option value='Three'>Three</option>
+                                        </select>
+                                      </div> */}
+                                        <div className='col-lg-6 col-md-6'>
+                                          <h4 className='create-item-title mb-3'>
+                                            End Date
+                                          </h4>
+                                          <input
+                                            type='date'
+                                            name='finishDate'
+                                            onChange={(e) =>
+                                              setTimedAuction({
+                                                ...timedAuction,
+                                                [e.target.name]: e.target.value,
+                                              })}
+                                            
+                                            className='form-select form-control d-block'
+                                            min='2023-02-17'
+                                            max='2023-02-28'
+                                            required
+                                          />
+                                          <div class='invalid-feedback'>
+                                            select Date{' '}
+                                          </div>
+
+                                          {/* <option
+                                            value='Right after listing'
+                                            selected
+                                          >
+                                            Right after listing
+                                          </option>
+                                          <option value='One'>One</option>
+                                          <option value='Two'>Two</option>
+                                          <option value='Three'>Three</option> */}
+                                          {/* </input> */}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div className='modal-footer border-0'>
+                                        <button
+                                          type='button'
+                                          className='btn btn-violet shadow-none'
+                                       data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        >
+                                        Submit
+                                        </button>
+                                      </div>
+                                </div>
+                                
+                              </div>
+                          
+
+
+
+
+        </div>
+    </div>
+  );
+
+
+}

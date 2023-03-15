@@ -153,7 +153,6 @@ export const createBid = async ({
 
   let data;
   const order = await instance.post(url, { nftId: nftId });
-  console.log([order.data.data[0]._id]);
   if (order.data.data[0]._id) {
     let bidData = {
       bidder,
@@ -169,20 +168,6 @@ export const createBid = async ({
   return data;
 };
 
-// export const updateBid=async()=>{
-// const create='/api/createBidNft'
-// const update='/api/updateBidNft'
-// const accept='/api/acceptBidNft'
-// const fetch='/api/fetchBidNft'
-
-// }
-// export const acceptBid=async()=>{
-//   const create='/api/createBidNft'
-//   const update='/api/updateBidNft'
-//   const accept='/api/acceptBidNft'
-//   const fetch='/api/fetchBidNft'
-
-// }
 export const fetchBid = async (nftId) => {
   const fetchUrl = '/api/fetchBidNft';
   let data;
@@ -254,7 +239,7 @@ export const handleBuyNotification = async (id) => {
 
 
 
-export const handleBidNotification = async (id,bidAmount) => {
+export const handleBidNotification = async (id,bidAmount,update,nftId) => {
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
   let receiver_token =""
 console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
@@ -267,7 +252,57 @@ console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
 
   setTimeout(()=>{
 
-    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} bided on your Nft ${bidAmount}`} 
+    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,nftId:nftId,sender_username:ldata.user_name,message:`${ldata.user_name} ${typeof update==='string'?'updated bid':'bided'} on your Nft ${bidAmount}`} 
+
+    instance.post(`/api/notificationSend`,payload).then((res)=>{
+    console.log("notification api send receiver",res)
+    }).catch((e)=>{
+      console.log("notification api receiver",e)
+    })
+
+    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
+   
+    const headers = {
+        'Authorization' : `key=${server_key}`,
+        'Content-Type'  : 'application/json',
+    };
+
+    let payloads = {
+      to   : receiver_token,
+      data : {body:`${ldata.user_name} ${typeof update==='string'?'updated bid':'bided'} on your Nft ${bidAmount}`,title:'Firebase Notification'},
+    };
+
+    console.log("token---------------------",receiver_token)
+    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+      headers: headers
+    }).then((res)=>{
+        console.log("FCM send method receiver",res)
+      }).catch((e)=>{
+        console.log("FCM api error receiver",e)
+      })
+
+     
+  },3000);
+
+
+}
+
+
+
+export const handleAcceptNotification = async (id,bidAmount) => {
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+  let receiver_token =""
+console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
+    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+    receiver_token = res.data.data.token_id;
+  }).catch((e)=>{
+    console.log("get user data with id error-----",e)
+  })
+
+  setTimeout(()=>{
+
+    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} accepted your offer`} 
 
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
     console.log("notification api send receiver",res)
@@ -284,7 +319,7 @@ console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
 
     let payloads = {
       to   : receiver_token,
-      data : {body:`${ldata.user_name} bided on your Nft ${bidAmount}`,title:'Firebase Notification'},
+      data : {body:`${ldata.user_name} accepted your offer`,title:'Firebase Notification'},
     };
 
     console.log("token---------------------",receiver_token)

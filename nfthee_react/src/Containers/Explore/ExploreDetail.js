@@ -8,7 +8,7 @@ import {
   SingleSlider,
 } from './ExploreFilterData';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
-import { ModalBuynft, ConvertModal } from '../../Components/Layout/Modal';
+import { ModalBuynft, ConvertModal, ListingModal } from '../../Components/Layout/Modal';
 
 import { useTranslation } from 'react-i18next';
 import Apexcharts from '../../Components/Apexcharts';
@@ -22,6 +22,7 @@ import {
   updateBid,
   getCollection,
   handleBidNotification,
+  handleAcceptNotification,
 } from '../../services/apiServices';
 import '../../index.css';
 import instance from '../../axios';
@@ -38,6 +39,7 @@ import {
 } from '../../Config/sendFunctions';
 
 import { getUserAddress } from '../../Config/constants';
+
 const options = [
   { label: 'Mint', value: 'mint' },
   { label: 'Transfer', value: 'Transfer' },
@@ -68,8 +70,43 @@ function ExploreDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [convertModalOpen, setconvertModalIsOpen] = useState(false);
+  const [listingModalOpen, setlistingModalIsOpen] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
   const [like, setliked] = useState();
+ const [listing,setListing]=useState('0')
+  const [openForBids, setOpenForBids] = useState({
+    Bid_price: '',
+  });
+
+  const [fixedPrice, setFixedPrice] = useState({
+    price: '',
+  });
+  const [timedAuction, setTimedAuction] = useState({
+    minimumBid: 0,
+    finishDate: 0,
+  });
+  const handleFixedPriceChange = (e) => {
+    setFixedPrice({
+      ...fixedPrice,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleBidPriceChange = (e) => {
+    setOpenForBids({
+      ...openForBids,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log('======>', openForBids);
+
+  const handleTimedAuctionChange = (e) => {
+    setTimedAuction({
+      ...timedAuction,
+      [e.target.name]: e.target.value,
+    });
+  };
+
 
   const toggleModal = () => {
     setModalIsOpen(!isModalOpen);
@@ -77,6 +114,9 @@ function ExploreDetail() {
 
   const convertToggleModal = () => {
     setconvertModalIsOpen(!convertModalOpen);
+  };
+  const listingToggleModal = () => {
+    setlistingModalIsOpen(!listingModalOpen);
   };
 
   useEffect(() => {
@@ -165,8 +205,9 @@ function ExploreDetail() {
   };
   const [bidAmount, setBidAmount] = useState();
 
-  const handleBidAmount = async () => {
+  const handleBidAmount = async (e) => {
     console.log({ bidAmount });
+    let update=e.target.id
     if (bidAmount != '' || undefined || null) {
       let bidData = {
         bidder: userId._id,
@@ -176,10 +217,10 @@ function ExploreDetail() {
         nftId: id,
         bid_quantity: 1,
       };
-
+      
       const data = await createBid(bidData);
    if(data.status===200){
-      await handleBidNotification(nftData?.currentOwner?._id,bidAmount)
+      await handleBidNotification(nftData?.currentOwner?._id,bidAmount,update ,nftData._id)
    }
     }
   };
@@ -205,7 +246,7 @@ function ExploreDetail() {
     }
   };
 
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab,setActiveTab]=useState('0')
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
   const [contractAddress, setContractAddress] = useState('');
@@ -227,6 +268,11 @@ function ExploreDetail() {
     let data = await getCollection(nftData.chooseCollection);
 
     let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+
+    if(result.status===200){
+      await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount)
+
+    }
   };
 
   const withdrawTokenBid = async () => {
@@ -265,6 +311,7 @@ function ExploreDetail() {
     return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
   });
   
+  console.log({fixedPrice},{openForBids},{timedAuction})
   return (
     <>
       {isLoading ? (
@@ -307,6 +354,21 @@ function ExploreDetail() {
                       eth={eth}
                       wth={wth}
                       activeTab={activeTab}
+                    />
+                  )}
+
+                  {listingModalOpen&&(
+                    <ListingModal
+                    
+                    onRequestClose={listingToggleModal}
+                    setListing={setListing}
+                    handleFixedPriceChange={handleFixedPriceChange}
+                    handleTimedAuctionChange={handleTimedAuctionChange}
+                    fixedPrice={fixedPrice}
+                    handleBidPriceChange={handleBidPriceChange}
+                    openForBids={openForBids}
+                    timedAuction={timedAuction}
+                    setTimedAuction={setTimedAuction}
                     />
                   )}
                   <div className='col-lg-6 col-md-6'>
@@ -873,7 +935,18 @@ function ExploreDetail() {
                         </div>
                       </div>
                       <div className='row'>
-                        {nftData?.currentOwner?._id === userId._id &&
+                        {nftData?.currentOwner?._id === userId._id &&nftData?.listing ==='delisting'?
+                        <>
+                            <div className='col-lg-4 mb-4 mb-lg-0'>
+                              <button
+                                className='btn btn-outline-white1 w-100'
+                                onClick={listingToggleModal}
+                              >
+                                <i className='bx bxs-purchase-tag me-2' />
+                                listing
+                              </button>
+                            </div>
+                          </>:nftData?.currentOwner?._id === userId._id &&
                         nftData.putOnMarketplace.price ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
@@ -925,12 +998,26 @@ function ExploreDetail() {
                             )}
                           </>
                         )}
-                        <div className='col-lg-4 mb-4 mb-lg-0'>
-                          <button className='btn btn-outline-white1 w-100'>
+                        <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
+                          <button className='btn btn-outline-white1 w-100' onClick={listingToggleModal}>
                             <i className='bx bx-credit-card me-2' />{' '}
                             {t('product.Buy Card')}
                           </button>
+
+                          
+                        
+                          
+
+
+
                         </div>
+
+
+                        
+                            
+                         
+
+
                         {nftData?.putOnMarketplace?.price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
                             <button
@@ -1034,6 +1121,7 @@ function ExploreDetail() {
                              className='btn btn-violet shadow-none'
                              data-bs-dismiss='modal'
                              aria-label='Close'
+                             id='update'
                              onClick={handleBidAmount}
                            >
                              {t('Update Offer')}
