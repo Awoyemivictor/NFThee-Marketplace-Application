@@ -35,7 +35,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
   // console.info({user});
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn'))||'';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotification] = useState([])
@@ -45,7 +45,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   useEffect(() => {
     if (receiver_id) {
       instance.post('/api/notificationFetch', { receiver_id })
-        .then(res => setNotification(res.data.data))
+        .then(res => setNotification(res.data.data.reverse()))
     }
   }, [checkChanges])
 
@@ -354,9 +354,9 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                       </button>
                       <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification" style={{ maxHeight: '413px', minWidth: '479px', textAlign: 'center', overflowY: 'auto' }}>
 
-                        {notifications.length != 0 ? notifications.slice(0, 5).map((notification, index) => (
+                        {notifications.length != 0 ? notifications.slice(0,5).map((notification, index) => (
                           <div key={index} className='dropdown-item'>
-                            <h6>{notification.message}</h6>
+                          <Link to={`/exploredetail/${notification.nftId._id}`}>   <h6>{notification.message}</h6></Link>
                             {/* <p>{notification.value}</p> */}
                           </div>
                         )) : <div className='dropdown-item'><h6>No Notification</h6></div>}
