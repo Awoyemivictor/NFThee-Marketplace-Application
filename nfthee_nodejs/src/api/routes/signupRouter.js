@@ -46,6 +46,7 @@ router.post('/updateAccountAdrs', updateAccountAdrs);
 router.post('/notificationSend', notificationSend);
 router.post('/notificationFetch', notificationFetch);
 
+
 // router.post("/reg", SignUp)
 
 module.exports = router;
