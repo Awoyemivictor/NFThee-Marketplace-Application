@@ -45,7 +45,16 @@ router.post('/addLoginToken', addLoginToken);
 router.post('/updateAccountAdrs', updateAccountAdrs);
 router.post('/notificationSend', notificationSend);
 router.post('/notificationFetch', notificationFetch);
-
+/* Implement Logout Endpoint */
+router.post('/logout', async (req, res) => {
+  if (req.isAuthenticated()) {
+    await magic.users.logoutByIssuer(req.user.issuer);
+    req.logout();
+    return res.status(200).end();
+  } else {
+    return res.status(401).end(`User is not logged in.`);
+  }
+});
 // router.post("/reg", SignUp)
 
 module.exports = router;
