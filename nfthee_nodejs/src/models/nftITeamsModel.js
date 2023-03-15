@@ -44,6 +44,10 @@ const nftSchema = new Schema(
       type: String,
       default: 'pending',
     },
+    listing: {
+      type: String,
+      default: 'listing',
+    },
     name: {
       type: String,
       require: true,

@@ -309,6 +309,7 @@ const CreateNewItem = () => {
   }, [reset]);
 
   const [itemData, setItemData] = useState(initialDataState);
+  const [createHistory, setCreateHistory] = useState([]);
   console.log('::::::::>', { itemData }, { collectionData });
 
   const handleCollectionChange = (e) => {
@@ -673,7 +674,7 @@ const CreateNewItem = () => {
     useState('needs-validated');
 
 
-  const handleSubmitNewItem = async (e) => {
+    const handleSubmitNewItem = async (e) => {
     e.preventDefault();
     validateItemInputs();
 
@@ -700,7 +701,7 @@ const CreateNewItem = () => {
     }
    
     console.log(activeTab);
-
+    let result;
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
       post.chooseBlockchain,
       post.chooseCollection,
@@ -727,7 +728,7 @@ const CreateNewItem = () => {
     ) {
       post.tokenId = tokenId;
       post.nft_quantity = 1;
-      let result;
+      // let result;
       const resultssss = await instance
         .post(`/api/store`, post)
         .then((response) => {
@@ -744,6 +745,7 @@ const CreateNewItem = () => {
           );
           result = response;
         })
+       
         .catch((err) => {
           Swal.fire({
             position: 'top-center',
@@ -755,7 +757,7 @@ const CreateNewItem = () => {
         });
       console.log({ result }, 'result');
       data = {};
-
+        
       console.log('Marketplace Value', marketplace, typeof activeTab);
 
       if (marketplace === true) {
@@ -810,15 +812,69 @@ const CreateNewItem = () => {
         quantity: 1,
         saleType: activeTab,
         validUpto: timeAfterDays,
-
         tokenId: tokenId,
       };
-
+    
       //  const nftOrder=
       await instance
         .post('/api/createOrder', reqParams)
         .then((res) => console.log('sucess', [res.data.data]));
     }
+      
+        let historyMetaData = {
+          nftId: `${result?.data?.data?._id}`,
+          userId:`${itemData.currentOwner}`,
+          action: 'Creation',
+          actionMeta: 'Default',
+          message:'nft created by ',}
+          //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+          //   currentUser.slice(0, 3) +
+          //   '...' +
+          //   currentUser.slice(39, 42)
+          // }`,
+          // created_ts: moment(new Date()).format(
+          //   'YYYY-MM-DD HH:mm:ss'
+          // ),
+        // };
+         console.log('history',historyMetaData)
+        let response = await instance
+        .post(
+          `/api/insertHistory`,
+          historyMetaData
+        ).then((res)=>console.log('res.....................',res))
+        
+
+          
+        // } catch (e) {
+        //   console.log('error in history api', e);
+        //   return;
+        // }
+        // try {
+          // let historyMetaData = {
+          //   nftId: '640ed81bebf9412da45f9ds8',
+          //   userId:'640ed81bebf9412da45f92f8',
+          //   action: 'create',
+          //   actionMeta: 'Default',
+          //   message:'nft created by ',}
+            //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+            //   currentUser.slice(0, 3) +
+            //   '...' +
+            //   currentUser.slice(39, 42)
+            // }`,
+            // created_ts: moment(new Date()).format(
+            //   'YYYY-MM-DD HH:mm:ss'
+            // ),
+          // };
+          //  console.log('history',historyMetaData)
+          // await createHistory(historyMetaData);
+        // const isJson = response.headers
+        //   .get('content-type')
+        //   ?.includes('application/json');
+        // const datas = isJson && (await response.json());
+        // return console.log('ajbbbhj',response,createHistory);
+      // } catch (err) {
+      //   return console.log('errrr');
+      // }
     // }
     // let data = '';
     // try {

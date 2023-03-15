@@ -25,14 +25,14 @@ export const logOut = () => {
 export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem('TokenData'));
+    const tokenData = JSON.parse(localStorage.getItem('TokenData')) ;
     setToken(tokenData);
   }, []);
 
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
   // console.info({user});
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || 'undefined';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotification] = useState([])

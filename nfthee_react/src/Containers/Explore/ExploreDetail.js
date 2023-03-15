@@ -204,12 +204,13 @@ function ExploreDetail() {
       }
     }
   };
+  const [fetchHistory,setFetchHistory]=useState([]);
 
   const [activeTab, setActiveTab] = useState('1');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
   const [contractAddress, setContractAddress] = useState('');
-
+  
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
 
@@ -264,7 +265,17 @@ function ExploreDetail() {
   const hasBidder = bidData.some(bid => {
     return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
   });
-  
+  useEffect(() => {
+   let fetch=  instance
+        .post(
+          `/api/fetchHistory?nftId=${id}`
+        )
+       .then((res)=>setFetchHistory(res.data.data[0].message))
+       console.log('fetch',fetch)
+
+
+  }, []);
+
   return (
     <>
       {isLoading ? (
@@ -693,8 +704,7 @@ function ExploreDetail() {
                             id='history'
                             role='tabpanel'
                             aria-labelledby='history-tab'
-                          >
-                            3
+                          >{fetchHistory}
                           </div>
 
                           {/* WETHtoETH */}
@@ -780,8 +790,7 @@ function ExploreDetail() {
                                                     </button>
                                                   </>
                                                 ) : null}
-                                                {data?.bidder?._id ===
-                                                userId._id ? (
+                                                {data?.bidder?._id === userId._id ? (
                                                   <button
                                                     type='button'
                                                     class='btn btn-danger'

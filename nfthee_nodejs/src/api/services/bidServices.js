@@ -4,49 +4,98 @@ const { signup, orderModel, nftIteams } = require("../../models");
 const { mailerLogin } = require("../../utils/email");
 const { credentials } = require("../../config").constantCredentials;
 
+// exports.createBidNft = async (req, res) => {
+//   try {
+//     // console.log(req.body);
+//     console.log("Checking Old Bids");
+//     let checkBid = await bidModel.findOne({
+//       // bidder: mongoose.Types.ObjectId(req.userId),
+//       owner: mongoose.Types.ObjectId(req.body.owner),
+//       nftId: mongoose.Types.ObjectId(req.body.nftId),
+//       orderId: mongoose.Types.ObjectId(req.body.orderId),
+//       bid_status: "Bid",
+//     });
+//     console.log(checkBid);
+//     if (checkBid === null) {
+//       let bid = await bidModel.findOneAndDelete({
+//         // bidder: mongoose.Types.ObjectId(req.userId),
+//         owner: mongoose.Types.ObjectId(req.body.owner),
+//         nftId: mongoose.Types.ObjectId(req.body.nftId),
+//         orderId: mongoose.Types.ObjectId(req.body.orderId),
+//         bid_status: 'Bid',
+//       });
+//     }
+
+//     let data = {
+//       // bidder: req.userId,
+//       bidder: req.body.bidder,
+//       owner: req.body.owner,
+//       bid_status: "Bid",
+//       bid_price: Number(req.body.bid_price),
+//       nftId: req.body.nftId,
+//       orderId: req.body.orderId,
+//       bid_quantity: req.body.bid_quantity,
+//       bid_deadline: req.body.bid_deadline,
+//     };
+//     const bidData = await bidModel.create(data);
+//     if (bidData) {
+//       let email = "mohit.lnwebworks@gmail.com";
+//       let Subject = "Created Bid";
+//       let message = `<h3>created your Bid successfully</h3><p>to check your bid nft<a href='${credentials.BASE_FRONTEND_URL}/exploredetail/${data.nftId}'><h4>Click here</h4></a></p>`;
+//       console.log("mkamkkkkkkkkkkkkkkkkkkkkkkkkk", message, email);
+//       mailerLogin(email, message, Subject);
+//     }
+//     return {
+//       message: "Bid Created Successfully",
+//       status: true,
+//       data: bidData,
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 exports.createBidNft = async (req, res) => {
   try {
-    // console.log(req.body);
     console.log("Checking Old Bids");
-    let checkBid = await bidModel.findOne({
-      // bidder: mongoose.Types.ObjectId(req.userId),
+    let existingBid = await bidModel.findOne({
       owner: mongoose.Types.ObjectId(req.body.owner),
       nftId: mongoose.Types.ObjectId(req.body.nftId),
       orderId: mongoose.Types.ObjectId(req.body.orderId),
       bid_status: "Bid",
+      bidder: mongoose.Types.ObjectId(req.body.bidder),
     });
-    console.log(checkBid);
-    if (checkBid === null) {
-      let bid = await bidModel.findOneAndDelete({
-        // bidder: mongoose.Types.ObjectId(req.userId),
-        owner: mongoose.Types.ObjectId(req.body.owner),
-        nftId: mongoose.Types.ObjectId(req.body.nftId),
-        orderId: mongoose.Types.ObjectId(req.body.orderId),
-        bid_status: 'Bid',
-      });
+    
+    let bidData;
+    if (existingBid) {
+      existingBid.bid_price = Number(req.body.bid_price);
+      existingBid.bid_quantity = req.body.bid_quantity;
+      existingBid.bid_deadline = req.body.bid_deadline;
+      bidData = await existingBid.save();
+    } else {
+      let data = {
+        bidder: req.body.bidder,
+        owner: req.body.owner,
+        bid_status: "Bid",
+        bid_price: Number(req.body.bid_price),
+        nftId: req.body.nftId,
+        orderId: req.body.orderId,
+        bid_quantity: req.body.bid_quantity,
+        bid_deadline: req.body.bid_deadline,
+      };
+      bidData = await bidModel.create(data);
     }
 
-    let data = {
-      // bidder: req.userId,
-      bidder: req.body.bidder,
-      owner: req.body.owner,
-      bid_status: "Bid",
-      bid_price: Number(req.body.bid_price),
-      nftId: req.body.nftId,
-      orderId: req.body.orderId,
-      bid_quantity: req.body.bid_quantity,
-      bid_deadline: req.body.bid_deadline,
-    };
-    const bidData = await bidModel.create(data);
     if (bidData) {
       let email = "mohit.lnwebworks@gmail.com";
       let Subject = "Created Bid";
-      let message = `<h3>created your Bid successfully</h3><p>to check your bid nft<a href='${credentials.BASE_FRONTEND_URL}/exploredetail/${data.nftId}'><h4>Click here</h4></a></p>`;
+      // let message = `<h3>created your Bid successfully</h3><p>to check your bid nft<a href='${credentials.BASE_FRONTEND_URL}/exploredetail/${existingBid.nftId}'><h4>Click here</h4></a></p>`;
+      let message = `<h3>created your Bid successfully</h3><p>to check your bid nft><h4>Click here</h4></a></p>`;
       console.log("mkamkkkkkkkkkkkkkkkkkkkkkkkkk", message, email);
       mailerLogin(email, message, Subject);
     }
+    
     return {
-      message: "Bid Created Successfully",
+      message: "Bid Created/Updated Successfully",
       status: true,
       data: bidData,
     };

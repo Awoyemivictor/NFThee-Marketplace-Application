@@ -31,38 +31,39 @@ exports.insertHistory = async (req, res) => {
 
 exports.fetchHistory = async (req, res) => {
   try {
-    let nftId = req.body.nftId;
+    let nftId = req.query.nftId;
     let userId = req.body.userId;
     let action = req.body.action;
     let actionMeta = req.body.actionMeta;
 
+    console.log("fetchhistory",nftId,userId)
 
-    let onftIDQuery = {};
-    let ouserIDQuery = {};
-    let oactionQuery = {};
-    let oactionMetaQuery = {};
+    // let onftIDQuery = {};
+    // let ouserIDQuery = {};
+    // let oactionQuery = {};
+    // let oactionMetaQuery = {};
 
-    if (nftId !== 'All') {
-      onftIDQuery = { nftId: mongoose.Types.ObjectId(nftId) };
-      if (userId !== 'All') {
-        ouserIDQuery = { userId: mongoose.Types.ObjectId(userId) };
-      }
-      if (action !== 'All') {
-        oactionQuery = { action: action };
-      }
-      if (actionMeta !== 'All') {
-        oactionMetaQuery = { actionMeta: actionMeta };
-      }
+    // if (nftId !== 'All') {
+    //   onftIDQuery = { nftId: mongoose.Types.ObjectId(nftId) };
+    //   if (userId !== 'All') {
+    //     ouserIDQuery = { userId: mongoose.Types.ObjectId(userId) };
+    //   }
+    //   if (action !== 'All') {
+    //     oactionQuery = { action: action };
+    //   }
+    //   if (actionMeta !== 'All') {
+    //     oactionMetaQuery = { actionMeta: actionMeta };
+    //   }
 
-      const searchObj = {
-        ...onftIDQuery,
-        ...ouserIDQuery,
-        ...oactionQuery,
-        ...oactionMetaQuery
-      };
+      // const searchObj = {
+      //   ...onftIDQuery,
+      //   ...ouserIDQuery,
+      //   ...oactionQuery,
+      //   ...oactionMetaQuery
+      // };
 
-      const count = await history.countDocuments(searchObj);
-      const results = await history.find(searchObj)
+      // const count = await history.countDocuments(searchObj);
+      const results = await history.find({nftId:nftId})
         .sort({ sCreated: -1 })
         .select({
           _id: 1,
@@ -77,11 +78,11 @@ exports.fetchHistory = async (req, res) => {
       return {
         message: 'History Details',
         status: true,
-        data: { results, count }
+        data:  results
 
       };
     }
-  } catch (error) {
+   catch (error) {
     throw error
   }
 };

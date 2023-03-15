@@ -155,32 +155,32 @@ export const handleCollectionCreation = async (
       //   Market.abi
       // );
 
-      let marketplaceInstance = await exportInstance(
-        contracts.polygonContracts.MARKETPLACE,
-        Market.abi
-      );
-      console.log(contractAddress, userAddress, royaltyPercentage, options);
+      // let marketplaceInstance = await exportInstance(
+      //   contracts.polygonContracts.MARKETPLACE,
+      //   Market.abi
+      // );
+      // console.log(contractAddress, userAddress, royaltyPercentage, options);
 
-      res1 = await marketplaceInstance.royalty(contractAddress);
+      // res1 = await marketplaceInstance.royalty(contractAddress);
 
-      res1 = await res1.wait();
-      console.log('res1 collection  ===>>>', res1);
+      // res1 = await res1.wait();
+      // console.log('res1 collection  ===>>>', res1);
 
-      if (res1.status === 0) {
-        console.log('Transaction Failed');
-      }
+      // if (res1.status === 0) {
+      //   console.log('Transaction Failed');
+      // }
 
-      res1 = await marketplaceInstance.setRoyalty(
-        contractAddress,
-        userAddress,
-        royaltyPercentage,
-        options
-      );
-      res1 = await res1.wait();
+      // res1 = await marketplaceInstance.setRoyalty(
+      //   contractAddress,
+      //   userAddress,
+      //   royaltyPercentage,
+      //   options
+      // );
+      // res1 = await res1.wait();
 
-      if (res1.status === 0) {
-        console.log('Transaction Failed');
-      }
+      // if (res1.status === 0) {
+      //   console.log('Transaction Failed');
+      // }
 
       return contractAddress;
     } catch (error) {
