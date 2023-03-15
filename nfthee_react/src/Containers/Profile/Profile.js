@@ -37,7 +37,7 @@ const Profile = () => {
 
   const history = useHistory();
   const token = JSON.parse(localStorage.getItem("TokenData"));
-  console.log(token === null ? window.location.href = "/walletlogin" : token);
+  // console.log(token === null ? window.location.href = "/walletlogin" : token);
   const LoginStatis = JSON.parse(localStorage.getItem("LoginInfo"));
   const [NameInfo] = useState(LoginStatis !== " " ? "Name" : LoginStatis);
   const [copySuccess, setCopySuccess] = useState("");

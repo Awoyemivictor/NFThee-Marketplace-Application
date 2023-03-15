@@ -22,6 +22,10 @@ const notification = new Schema(
     message:{
         type: String,
     },
+    nftId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'nft',
+    },
     created_by: {
       type: mongoose.Schema.ObjectId,
       ref: 'user',

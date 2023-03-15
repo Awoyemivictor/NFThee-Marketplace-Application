@@ -28,7 +28,7 @@ export const logOut = async ()  => {
 export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem('TokenData'));
+    const tokenData = JSON.parse(localStorage.getItem('TokenData')) ;
     setToken(tokenData);
   }, []);
 

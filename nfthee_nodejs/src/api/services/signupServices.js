@@ -639,12 +639,13 @@ exports.notificationSend = async (req, res) => {
     sender_token: req.body.sender_token,
     receiver_token: req.body.receiver_token,
     message: req.body.message,
+    nftId:req.body.nftId,
     status: "active",
   };
-
+console.log(payload_data)
   let result = "";
   if (r_users) {
-    result = await notificationModel.create(payload_data);
+    result = await (await notificationModel.create(payload_data)).populate('nftId');
     console.log("result-------", result);
   }
 
@@ -663,11 +664,13 @@ exports.notificationSend = async (req, res) => {
   }
 };
 exports.notificationFetch = async (req, res) => {
-  console.log(req.body, "firstsss sdjbjd--------------");
+  // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
-  let result = await notificationModel.find({receiver_id:id});
-  console.log('id',id)
+  // let result = await notificationModel.find({receiver_id:id});
+  let result = await notificationModel.find().populate('nftId');
+
+  // console.log('id',id)
 
   if (result) {
     return {
