@@ -36,7 +36,7 @@ exports.fetchHistory = async (req, res) => {
     let action = req.body.action;
     let actionMeta = req.body.actionMeta;
 
-    console.log("fetchhistory",nftId,userId)
+    console.log("fetchhistory",nftId)
 
     // let onftIDQuery = {};
     // let ouserIDQuery = {};
@@ -65,15 +65,16 @@ exports.fetchHistory = async (req, res) => {
       // const count = await history.countDocuments(searchObj);
       const results = await history.find({nftId:nftId})
         .sort({ sCreated: -1 })
-        .select({
-          _id: 1,
-          nftId: 1,
-          userId: 1,
-          action: 1,
-          actionMeta: 1,
-          message: 1,
-          sCreated: 1,
-        })
+        
+        // .select({
+        //   _id: 1,
+        //   nftId: 1,
+        //   userId: 1,
+        //   action: 1,
+        //   actionMeta: 1,
+        //   message: 1,
+        //   sCreated: 1,
+        // })
 
       return {
         message: 'History Details',

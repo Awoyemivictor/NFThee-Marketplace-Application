@@ -9,6 +9,6 @@ exports.signupServices = require('./signupServices');
 exports.blockchainService = require('./blockchainService');
 exports.searchServices = require('./searchService');
 exports.historyServices=require('./historyService')
-exports.likesServices=require('./likesService')
+exports.subscriptionService=require('./subscriptionService')
 exports.orderServices = require('./orderServices')
 exports.bidServices = require("./bidServices")

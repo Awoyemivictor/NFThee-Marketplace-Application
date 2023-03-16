@@ -264,18 +264,35 @@ function ExploreDetail() {
   };
 
   const handleTokenAcceptBid = async () => {
-    const userAddress = getUserAddress();
+    // const userAddress = getUserAddress();
 
-    let data = await getCollection(nftData.chooseCollection);
+    // let data = await getCollection(nftData.chooseCollection);
 
-    let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+    // let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
 
-    if(result.status===200){
-      await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount)
-
-    }
+    // if(result.status===200){
+    await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount,id)
+    //  let result=  await handleAcceptNotification()
+    
+    // console.log('result',{result})
+    // }
+    // console.log('data.........................result...........',data)
+    
+  
   };
 
+  // const handleTokenAcceptBid = async () => {
+  //   const userAddress = getUserAddress();
+
+  //   let data = await getCollection(nftData.chooseCollection);
+
+  //   // let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+
+  //   // if(result.status===200){
+  //     await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount)
+
+  //   // }
+  // };
   const withdrawTokenBid = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
 
@@ -313,17 +330,30 @@ function ExploreDetail() {
   });
   
   console.log({fixedPrice},{openForBids},{timedAuction})
+  // useEffect(() => {
+  //  let fetch=  instance
+  //       .post(
+  //         `/api/fetchHistory?nftId=${id}`
+  //       )
+  //      .then((res)=>console.log(res.data.data[0].message))
+  //     //  .then((res)=>setFetchHistory(res.data.data[0].message))
+  //      console.log('fetch',fetch)
+
+
+  // }, []);
+
   useEffect(() => {
-   let fetch=  instance
-        .post(
-          `/api/fetchHistory?nftId=${id}`
-        )
-       .then((res)=>setFetchHistory(res.data.data[0].message))
-       console.log('fetch',fetch)
-
-
+    instance
+      .post(`/api/fetchHistory?nftId=${id}`)
+      .then((res) => {
+        const history = res.data.data.map((item) => item.message);
+        setFetchHistory(history);
+      })
+      .catch((error) => {
+        console.error("Error fetching history", error);
+      });
   }, []);
-
+  
   return (
     <>
       {isLoading ? (
@@ -767,7 +797,10 @@ function ExploreDetail() {
                             id='history'
                             role='tabpanel'
                             aria-labelledby='history-tab'
-                          >{fetchHistory}
+                          >
+                          {fetchHistory.map((message) => (
+      <p key={message}>{message}</p>
+    ))}
                           </div>
 
                           {/* WETHtoETH */}

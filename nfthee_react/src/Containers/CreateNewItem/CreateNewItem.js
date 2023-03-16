@@ -844,40 +844,8 @@ const CreateNewItem = () => {
           `/api/insertHistory`,
           historyMetaData
         ).then((res)=>console.log('res.....................',res))
-        
-
-          
-        // } catch (e) {
-        //   console.log('error in history api', e);
-        //   return;
-        // }
-        // try {
-          // let historyMetaData = {
-          //   nftId: '640ed81bebf9412da45f9ds8',
-          //   userId:'640ed81bebf9412da45f92f8',
-          //   action: 'create',
-          //   actionMeta: 'Default',
-          //   message:'nft created by ',}
-            //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-            //   currentUser.slice(0, 3) +
-            //   '...' +
-            //   currentUser.slice(39, 42)
-            // }`,
-            // created_ts: moment(new Date()).format(
-            //   'YYYY-MM-DD HH:mm:ss'
-            // ),
-          // };
-          //  console.log('history',historyMetaData)
-          // await createHistory(historyMetaData);
-        // const isJson = response.headers
-        //   .get('content-type')
-        //   ?.includes('application/json');
-        // const datas = isJson && (await response.json());
-        // return console.log('ajbbbhj',response,createHistory);
-      // } catch (err) {
-      //   return console.log('errrr');
-      // }
-    // }
+    
+       
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
