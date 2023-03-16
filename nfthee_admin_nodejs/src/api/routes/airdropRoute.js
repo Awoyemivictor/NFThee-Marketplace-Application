@@ -1,8 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const { airdropSingleUser } = require('../controller').airdropController;
+const { airdropSingleUser,airdropNewUsers } = require('../controller').airdropController;
 
-router.get('/airdropSingleUser', airdropSingleUser);
+router.get('/airdropSingleUser', airdropNewUsers);
 
 module.exports = router;

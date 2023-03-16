@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 // Redux
 import { useAppSelector } from '../../hooks/useRedux';
+import { Magic } from 'magic-sdk';
 
 // Components
 import { MobileMenuSidebar } from './MobileMenuSideBar';
@@ -18,17 +19,17 @@ import { Modal } from './Modal';
 import { languages, link_menu_profile, link_main_menu } from './Data';
 import instance from '../../axios';
 
-export const logOut = async ()  => {
-  instance.post("/signup/logout").then(
-    localStorage.clear(),
-    window.location.href = '/'
-  ) ;  
+let magic = new Magic('pk_live_A57B8D59D07E9901');
+export const logOut = async () => {
+  await magic.user.logout();
+  localStorage.clear();
+  window.location.href = '/';
 };
 
 export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem('TokenData')) ;
+    const tokenData = JSON.parse(localStorage.getItem('TokenData'));
     setToken(tokenData);
   }, []);
 
@@ -38,16 +39,17 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notifications, setNotification] = useState([])
+  const [notifications, setNotification] = useState([]);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
 
-  let receiver_id = userId._id
+  let receiver_id = userId._id;
   useEffect(() => {
     if (receiver_id) {
-      instance.post('/api/notificationFetch', { receiver_id })
-        .then(res => setNotification(res.data.data.reverse()))
+      instance
+        .post('/api/notificationFetch', { receiver_id })
+        .then((res) => setNotification(res.data.data.reverse()));
     }
-  }, [checkChanges])
+  }, [checkChanges]);
 
   // const [fakeState, setFakeState] = useState(true)
   // useEffect(() => {
@@ -140,7 +142,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
     LoginStatis === null ? true : false && (window.location.href = '/')
   );
   // export const logOut = () => {
-  //   localStorage.removeItem('TokenData');    
+  //   localStorage.removeItem('TokenData');
   //   localStorage.removeItem('userLoggedIn');
 
   //   window.location.href = '/';
@@ -169,11 +171,9 @@ export const Navbar = ({ checkChanges, setChanges }) => {
     }
   }
 
-
-
   useEffect(() => {
     MobileSidebar();
-    setNewNotificationCount(notifications.length)
+    setNewNotificationCount(notifications.length);
   }, []);
 
   const MobileSidebar = () => {
@@ -208,8 +208,8 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-  const text = localStorage.getItem('search')
-  const [serachTextNav, setSerachTextNav] = useState(text || '')
+  const text = localStorage.getItem('search');
+  const [serachTextNav, setSerachTextNav] = useState(text || '');
   // console.log({serachTextNav})
 
   return (
@@ -217,81 +217,85 @@ export const Navbar = ({ checkChanges, setChanges }) => {
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
       <header>
         <div
-          id="sticky-header"
-          className="main-header transparent-header menu-area"
+          id='sticky-header'
+          className='main-header transparent-header menu-area'
         >
-          <nav className="navbar navbar-expand-lg">
-            <div className="container-fluid px-lg-0">
+          <nav className='navbar navbar-expand-lg'>
+            <div className='container-fluid px-lg-0'>
               <Link
                 className={
                   currentPath === '/' ? 'navbar-brand' : ' navbar-brand'
                 }
-                to="/"
+                to='/'
               >
                 <img
-                  src="/images/icons/light-logo.png"
-                  alt=""
-                  className="img-fluid light-logo"
+                  src='/images/icons/light-logo.png'
+                  alt=''
+                  className='img-fluid light-logo'
                 />
                 <img
-                  src="/images/icons/dark-logo.png"
-                  alt=""
-                  className="img-fluid dark-logo"
+                  src='/images/icons/dark-logo.png'
+                  alt=''
+                  className='img-fluid dark-logo'
                 />
               </Link>
-              <div className="d-lg-none d-flex">
-                <div className="switch-mode">
-                  <span className="dark-mode mode-control">
-                    <img src="/assets/images/icons/sun.png" alt="" />
+              <div className='d-lg-none d-flex'>
+                <div className='switch-mode'>
+                  <span className='dark-mode mode-control'>
+                    <img src='/assets/images/icons/sun.png' alt='' />
                   </span>
-                  <span className="light-mode mode-control d-none">
-                    <img src="/assets/images/icons/moon.png" alt="" />
+                  <span className='light-mode mode-control d-none'>
+                    <img src='/assets/images/icons/moon.png' alt='' />
                   </span>
                 </div>
                 <button
-                  className="navbar-toggler mobile-nav-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarToggler"
-                  aria-controls="navbarToggler"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
+                  className='navbar-toggler mobile-nav-toggler'
+                  type='button'
+                  data-bs-toggle='collapse'
+                  data-bs-target='#navbarToggler'
+                  aria-controls='navbarToggler'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
                 >
-                  <span className="navbar-toggler-icon ri-menu-3-line" />
+                  <span className='navbar-toggler-icon ri-menu-3-line' />
                 </button>
               </div>
               <div
-                className="collapse navbar-collapse main-menu d-none d-lg-block"
-                id="navbarToggler"
+                className='collapse navbar-collapse main-menu d-none d-lg-block'
+                id='navbarToggler'
               >
                 <form
-                  className="search-form-wrapper me-auto d-none d-md-block"
-                  action="explorenft"
+                  className='search-form-wrapper me-auto d-none d-md-block'
+                  action='explorenft'
                 >
                   <input
-                    type="text"
-                    name="str"
+                    type='text'
+                    name='str'
                     value={serachTextNav}
-                    onChange={e => setSerachTextNav(localStorage.setItem('search', e.target.value))}
+                    onChange={(e) =>
+                      setSerachTextNav(
+                        localStorage.setItem('search', e.target.value)
+                      )
+                    }
                     placeholder={t('navbar.Search')}
-                    className="form-control"
+                    className='form-control'
                   />
-                  <div className="search-icon">
-                    <button className="btn">
-                      <i className="bx bx-search-alt-2" />
+                  <div className='search-icon'>
+                    <button className='btn'>
+                      <i className='bx bx-search-alt-2' />
                     </button>
                   </div>
                 </form>
-                <ul className="navbar-nav ms-auto mb-2 mb-lg-0 navigation">
+                <ul className='navbar-nav ms-auto mb-2 mb-lg-0 navigation'>
                   {link_main_menu.map((item) => {
                     return (
                       <li
-                        className="nav-item dropdown header-dropdown"
+                        className='nav-item dropdown header-dropdown'
                         key={item.name}
                       >
                         <NavLink
-                          className="nav-link"
-                          activeClassName="active"
+                          className='nav-link'
+                          activeClassName='active'
                           to={item.path}
                           exact
                         >
@@ -304,21 +308,21 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                     );
                   })}
                 </ul>
-                <form className="d-flex align-items-center">
-                  <div className="dropdown language-dropdown d-none d-md-block">
-                    <span data-bs-toggle="dropdown" aria-expanded="false">
+                <form className='d-flex align-items-center'>
+                  <div className='dropdown language-dropdown d-none d-md-block'>
+                    <span data-bs-toggle='dropdown' aria-expanded='false'>
                       <img
                         src={langFlag(currentLanguageCode)}
-                        alt=""
-                        className="img-fluid"
+                        alt=''
+                        className='img-fluid'
                       />
                       {currentLanguageCode}
                     </span>
-                    <ul className="dropdown-menu">
+                    <ul className='dropdown-menu'>
                       {languages.map(({ code, name, flag, country_code }) => (
                         <li key={country_code}>
                           <a
-                            href="#"
+                            href='#'
                             className={classNames('dropdown-item', {
                               disabled: currentLanguageCode === code,
                             })}
@@ -326,7 +330,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                               i18next.changeLanguage(code);
                             }}
                           >
-                            <img src={flag} alt="" className="img-fluid" />
+                            <img src={flag} alt='' className='img-fluid' />
                             {name}
                           </a>
                         </li>
@@ -334,168 +338,183 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                     </ul>
                   </div>
 
+                  {token ? (
+                    <>
+                      <div>
+                        <button
+                          className='btn bg-transparent  position-relative'
+                          onClick={() => {
+                            setChanges(Math.random());
+                            setNewNotificationCount(0);
+                          }}
+                          data-bs-toggle='dropdown'
+                          data-bs-target='#notification'
+                        >
+                          {newNotificationCount > 0 ? (
+                            <span class='position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle'>
+                              <span class='visually-hidden'></span>
+                            </span>
+                          ) : null}
 
-                  {token ? <>
-                    <div>
-
-                      <button className='btn bg-transparent  position-relative'
-                        onClick={() => {setChanges(Math.random())
-                        setNewNotificationCount(0)
-                        }}
-                        data-bs-toggle="dropdown" data-bs-target="#notification"
-
-                      >
-                        {newNotificationCount>0?<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                          <span class="visually-hidden"></span>
-                        </span>:null}
-                        
-
-                        <img src='/images/icons/notification-bell-icon.png'></img>
-                      </button>
-                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="notification" style={{ maxHeight: '413px', minWidth: '479px', textAlign: 'center', overflowY: 'auto' }}>
-
-                        {notifications.length != 0 ? notifications.slice(0,5).map((notification, index) => (
-                          <div key={index} className='dropdown-item'>
-                          <Link to={`/exploredetail/${notification.nftId._id}`}>   <h6>{notification.message}</h6></Link>
-                            {/* <p>{notification.value}</p> */}
-                          </div>
-                        )) : <div className='dropdown-item'><h6>No Notification</h6></div>}
-
+                          <img src='/images/icons/notification-bell-icon.png'></img>
+                        </button>
+                        <div
+                          className='dropdown-menu dropdown-menu-end dropdown-menu-arrow'
+                          id='notification'
+                          style={{
+                            maxHeight: '413px',
+                            minWidth: '479px',
+                            textAlign: 'center',
+                            overflowY: 'auto',
+                          }}
+                        >
+                          {notifications.length != 0 ? (
+                            notifications
+                              .slice(0, 5)
+                              .map((notification, index) => (
+                                <div key={index} className='dropdown-item'>
+                                  <Link
+                                    // to={`/exploredetail/${notification.nftId._id}`}
+                                  >
+                                    {' '}
+                                    <h6>{notification.message}</h6>
+                                  </Link>
+                                  {/* <p>{notification.value}</p> */}
+                                </div>
+                              ))
+                          ) : (
+                            <div className='dropdown-item'>
+                              <h6>No Notification</h6>
+                            </div>
+                          )}
+                        </div>
                       </div>
-
-
-
-
-                    </div>
-
-                  </> : null}
+                    </>
+                  ) : null}
                   {token && userId._id ? (
-                    <div className="user-icon-box d-none d-md-block dropdown">
-                      <a href='#'
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                    <div className='user-icon-box d-none d-md-block dropdown'>
+                      <a
+                        href='#'
+                        type='button'
+                        data-bs-toggle='dropdown'
+                        aria-expanded='false'
                       >
                         <img
-                          src="/images/avatar1.png"
-                          alt="img"
-                          className="img-fluid user-avatar"
+                          src='/images/avatar1.png'
+                          alt='img'
+                          className='img-fluid user-avatar'
                         />
                       </a>
 
-                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <div className="drop-heading">
-                          <a href="#" style={{ width: '50px' }}>
+                      <div className='dropdown-menu dropdown-menu-end dropdown-menu-arrow'>
+                        <div className='drop-heading'>
+                          <a href='#' style={{ width: '50px' }}>
                             <img
-                              src="/images/avatar1.png"
-                              alt=""
-                              className="img-fluid user-avatar ms-0"
+                              src='/images/avatar1.png'
+                              alt=''
+                              className='img-fluid user-avatar ms-0'
                             />
                           </a>
-                          <div className="drop-heading-content">
-                            <div className="d-flex align-items-center mt-2">
-                              <span className="flag-name">
+                          <div className='drop-heading-content'>
+                            <div className='d-flex align-items-center mt-2'>
+                              <span className='flag-name'>
                                 <img
-                                  src="/assets/images/icons/eth-icon.png"
-                                  alt=""
-                                  className="me-2"
+                                  src='/assets/images/icons/eth-icon.png'
+                                  alt=''
+                                  className='me-2'
                                   style={{ width: '13px' }}
                                 />{' '}
                                 ETH
                               </span>
-                              <span className="price ms-2">$0.00</span>
+                              <span className='price ms-2'>$0.00</span>
                             </div>
                           </div>
                         </div>
-                        <div className="dropdown-divider m-0" />
-                        <Link to="/profile" className="dropdown-item">
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/profile-icon.png" />
+                        <div className='dropdown-divider m-0' />
+                        <Link to='/profile' className='dropdown-item'>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/profile-icon.png' />
                           </span>{' '}
                           Profile{' '}
                         </Link>{' '}
                         {/*
                                                 <ChildMenu data={link_menu_profile} /> */}
-                        <Link className="dropdown-item" to="/favorites">
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/heart-icon.png" />
+                        <Link className='dropdown-item' to='/favorites'>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/heart-icon.png' />
                           </span>{' '}
                           Favorites{' '}
                         </Link>
                         {/* <a className="dropdown-item" to="#" onClick={toggleModal} > */}
-                        <a className="dropdown-item" href="#">
-                          <span className="dropdown-icon ">
-                            <img src="/assets/images/icons/currency-rate-icon.png" />
+                        <a className='dropdown-item' href='#'>
+                          <span className='dropdown-icon '>
+                            <img src='/assets/images/icons/currency-rate-icon.png' />
                           </span>{' '}
                           Change Currency{' '}
                         </a>
-                        <Link className="dropdown-item" to="/mycollections">
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/grid-icon.png" />
+                        <Link className='dropdown-item' to='/mycollections'>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/grid-icon.png' />
                           </span>{' '}
                           My Collections{' '}
                         </Link>
-                        <Link className="dropdown-item" to="/profilesetting">
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/setting-icon.png" />
+                        <Link className='dropdown-item' to='/profilesetting'>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/setting-icon.png' />
                           </span>{' '}
                           Settings{' '}
                         </Link>
-                        <Link className="dropdown-item" to="#">
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/rewardblue.png" />
+                        <Link className='dropdown-item' to='#'>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/rewardblue.png' />
                           </span>{' '}
                           Rewards to collect{' '}
                         </Link>
-                        <Link
-                          className="dropdown-item"
-                          to="#"
-                          onClick={logOut}
-                        >
-                          <span className="dropdown-icon">
-                            <img src="/assets/images/icons/logout-icon.png" />
+                        <Link className='dropdown-item' to='#' onClick={logOut}>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}
                           Sign Out{' '}
                         </Link>
                       </div>
                     </div>
                   ) : (
-                    <div className="dropdown login-dropdown d-none d-md-block">
+                    <div className='dropdown login-dropdown d-none d-md-block'>
                       <a
-                        href="#"
-                        id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                        href='#'
+                        id='dropdownMenuButton2'
+                        data-bs-toggle='dropdown'
+                        aria-expanded='false'
                       >
                         <img
-                          src="/assets/images/icons/user-avatar.png"
-                          alt="img"
-                          className="img-fluid user-avatar-icon"
+                          src='/assets/images/icons/user-avatar.png'
+                          alt='img'
+                          className='img-fluid user-avatar-icon'
                         />
                       </a>
                       <ul
-                        className="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton2"
+                        className='dropdown-menu'
+                        aria-labelledby='dropdownMenuButton2'
                       >
                         <li>
-                          <Link className="dropdown-item" to="/login">
+                          <Link className='dropdown-item' to='/login'>
                             Login
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/register">
+                          <Link className='dropdown-item' to='/register'>
                             Registration
                           </Link>
                         </li>
                       </ul>
                     </div>
                   )}
-                  <div className="switch-mode">
-                    <span className="dark-mode mode-control">
-                      <img src="/images/icons/sun.png" alt="" />
+                  <div className='switch-mode'>
+                    <span className='dark-mode mode-control'>
+                      <img src='/images/icons/sun.png' alt='' />
                     </span>
-                    <span className="light-mode mode-control d-none">
-                      <img src="/images/icons/moon.png" alt="" />
+                    <span className='light-mode mode-control d-none'>
+                      <img src='/images/icons/moon.png' alt='' />
                     </span>
                   </div>
                 </form>

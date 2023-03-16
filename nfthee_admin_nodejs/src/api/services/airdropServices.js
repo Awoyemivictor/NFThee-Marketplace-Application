@@ -46,7 +46,8 @@ exports.airdropSingleUser = async (req, res) => {
     let userAddress = [];
     let numOfTokens = [];
     let tokenBalances = [];
-    const price = ethers.utils.parseEther('1').toString();
+    let formatToken;
+    const price = ethers.utils.parseEther('10').toString();
     let platformInstance = await platformTokenInstance();
 
     let userData = await signupModel.find({});
@@ -57,13 +58,62 @@ exports.airdropSingleUser = async (req, res) => {
       } else {
       }
     }
-    console.log(userAddress);
-    for (let i = 0; i <= userAddress.length; i++) {
-      platformInstance = await platformInstance.balanceOf(userAddress[i]);
-      tokenBalances.push(platformInstance);
+
+    console.log(userAddress.length);
+
+    for (let i = 0; i < userAddress.length; i++) {
+      console.log(userAddress[i]);
+      let userBalance = await platformInstance.balanceOf(userAddress[i]);
+      formatToken = ethers.utils.formatEther(userBalance);
+      tokenBalances.push(formatToken);
     }
-    tokenBalances.push(platformInstance);
+
     let result = await exportInstance();
+
+    result = await result.airdrop(userAddress, numOfTokens);
+    result = await result.wait();
+
+    return {
+      message: 'Tokens Airdrop Success',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+exports.airdropNewUsers = async (req, res) => {
+  try {
+    let userAddress = [];
+    let numOfTokens = [];
+    let tokenBalances = [];
+    let formatToken;
+    const price = ethers.utils.parseEther('10').toString();
+    let platformInstance = await platformTokenInstance();
+
+    let userData = await signupModel.find({
+      timestamps: { $gte: ISODate('2022-02-16T00:00:00.000Z') },
+    });
+
+    // let userData = await signupModel.find({});
+    // for (let i = 0; i <= userData.length; i++) {
+    //   if (userData[i] && userData[i].account_address) {
+    //     userAddress.push(userData[i].account_address);
+    //     numOfTokens.push(price);
+    //   }
+    // }
+
+    // console.log(userAddress.length);
+
+    // for (let i = 0; i < userAddress.length; i++) {
+    //   console.log(userAddress[i]);
+    //   let userBalance = await platformInstance.balanceOf(userAddress[i]);
+    //   formatToken = ethers.utils.formatEther(userBalance);
+    //   tokenBalances.push(formatToken);
+    // }
+
+    // let result = await exportInstance();
 
     // result = await result.airdrop(userAddress, numOfTokens);
     // result = await result.wait();
@@ -71,7 +121,7 @@ exports.airdropSingleUser = async (req, res) => {
     return {
       message: 'Tokens Airdrop Success',
       status: true,
-      data: tokenBalances,
+      data: [],
     };
   } catch (error) {
     return error;
