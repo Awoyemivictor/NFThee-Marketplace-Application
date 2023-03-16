@@ -110,7 +110,7 @@ function TopCollectionCard() {
     const categoriesArr = filterSearch.filter((obj) =>
       obj.hasOwnProperty('categories')
     );
-    let url = '/liveaction?';
+    let url = '/topcollectioncard?';
 
     const addQueryParam = (paramName, arr) => {
       if (arr.length === 0) return;
@@ -137,6 +137,8 @@ function TopCollectionCard() {
     setSearchButton(false);
     setQueryParamChanged(true);
 
+
+    
     // instance
     //   .get("api/all" + window.location.search)
     //   .then((response) => setNftData(response.data.data))
@@ -183,14 +185,14 @@ function TopCollectionCard() {
                             <div className='panel-title'>
                               {filter ? (
                                 <img
-                                  src='assets/images/icons/filter-icon.png'
+                                  src='/assets/images/icons/filter-icon.png'
                                   alt=''
                                   className='me-2 filter-icon'
                                   onClick={ToggleSidebar}
                                 />
                               ) : (
                                 <img
-                                  src='assets/images/icons/filter-icon.png'
+                                  src='/assets/images/icons/filter-icon.png'
                                   alt=''
                                   className='me-2 filter-icon'
                                   onClick={FilterClose}
@@ -550,8 +552,8 @@ function TopCollectionCard() {
                     style={{ width: `${isOpen ? '' : '94.666667%'}` }}
                   >
                     <div className='row'>
-                      {slice.map((item) => {
-                        return <Card item={item} />;
+                      {collections.map((coll,i) => {
+                        return <Card item={coll} index={i}  />;
                       })}
                     </div>
                     <div className='row mb-4'>

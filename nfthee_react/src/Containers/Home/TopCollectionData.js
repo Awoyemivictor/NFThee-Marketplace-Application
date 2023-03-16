@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from "react-i18next"; 
-function TopCollectionData() {
+import { Link } from 'react-router-dom';
+function TopCollectionData({data ,index}) {
     const { t } = useTranslation();  
     const TopCollectionData = [
       { number: '1',color:"red"  },
@@ -18,26 +19,28 @@ function TopCollectionData() {
   return (
      <>
         <div className="row"> 
-            {TopCollectionData.map((item) => {
+            {data.map((item ,i) => {
                     return (
                         <div className="col-lg-2 col-md-4">
                         <div className="collection-card grad-border">
-                          <div className="card-body">
+                          <div className="card-body" key={i}>
+                          <Link to={`/explorefilter/${item._id}`}>
                             <div className="d-flex justify-content-between align-items-center border-bottom mb-2 pb-2">
-                              <div className={`collection-id ${item.color}`}>#{item.number}</div>
+                              <div className={`collection-id green`}>#{i+1}</div>
                               <h5 className="collection-point">+ 41.51%</h5>
                             </div>
                             <div className="d-flex">
                               <a href="#">
-                                <img className="user_img" src="images/avatar2.png" alt="" />
+                                <img className="user_img" src={item.logo_image||"/images/avatar2.png"} alt="" />
                               </a>
                               <div className="ms-2">
-                                <h5 className="user_name">Crispin Berry</h5>
+                                <h5 className="user_name">{item.name}</h5>
                                 <p className="eth_price">
-                                  <img className="me-1" src="images/icons/ethereum.png" alt="" />25,368.18
+                                  <img className="me-1" src="/images/icons/ethereum.png" alt="" />25,368.18
                                 </p>
                               </div>
                             </div>
+                          </Link>
                           </div>
                         </div>
                       </div>
@@ -49,15 +52,15 @@ function TopCollectionData() {
 }
 function TopSellers (){
     const Topsellers = [
-        { image:"images/avt-5.jpg"  },
-        { image:"images/avt-2.jpg"  },
-        { image:"images/avt-3.jpg"  },
-        { image:"images/avt-4.jpg"  },
-        { image:"images/avt-1.jpg"  },
-        { image:"images/avt-5.jpg"  },
-        { image:"images/avt-2.jpg"  },
-        { image:"images/avt-3.jpg"  },
-        { image:"images/avt-4.jpg"  }, 
+        { image:"/images/avt-5.jpg"  },
+        { image:"/images/avt-2.jpg"  },
+        { image:"/images/avt-3.jpg"  },
+        { image:"/images/avt-4.jpg"  },
+        { image:"/images/avt-1.jpg"  },
+        { image:"/images/avt-5.jpg"  },
+        { image:"/images/avt-2.jpg"  },
+        { image:"/images/avt-3.jpg"  },
+        { image:"/images/avt-4.jpg"  }, 
        ] 
     return( 
         <>
@@ -69,7 +72,7 @@ function TopSellers (){
                           <div className="author-avatar">
                             <img src={item.image} alt="" className />
                             <div className="badge">
-                              <img src="images/icons/star-check.png" alt="" />
+                              <img src="/images/icons/star-check.png" alt="" />
                             </div>
                           </div>
                           <div className="author-information">

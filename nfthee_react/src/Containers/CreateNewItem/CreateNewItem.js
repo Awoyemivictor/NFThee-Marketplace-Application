@@ -523,6 +523,7 @@ const CreateNewItem = () => {
       { medium: collectionData.medium },
       { telegram: collectionData.telegram }
     ];
+    console.log(links,"mdsbkjhvsdjsbkbyt698r^%$#%")
 
     if (
       contractAddress.length === 42 &&
@@ -558,11 +559,12 @@ const CreateNewItem = () => {
         collectionData.explicit_sensitive_content
       );
       formData.append('contract_address', contractAddress);
+      formData.append('links', links);
 
-      for (const link of links) {
-        const [[key, value]] = Object.entries(link);
-        formData.append("links", JSON.stringify({[key]:`${value.toString()}`}));
-      }
+      // for (const link of links) {
+      //   const [[key, value]] = Object.entries(link);
+      //   formData.append("links", JSON.stringify({[key]:`${value.toString()}`}));
+      // }
       // symbol: '',
       // description: '',
       // chooseType: '',

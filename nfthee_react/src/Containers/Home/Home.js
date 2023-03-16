@@ -23,9 +23,12 @@ function Home(props) {
   // console.info(meta)
 
   const[users,setuser]=useState([])
-
+  const [collections, setCollections] = useState([]);
      useEffect(()=>{
 
+      instance
+      .get(`/api/getCollection`)
+      .then((response) => setCollections(response.data.data));
       instance
       .get(`/api/signUp/all`)
       .then(res=>( setuser(res.data.data)))
@@ -45,9 +48,9 @@ function Home(props) {
         },
       },
       images: [
-        'assets/images/bg-slide1-1.png',
-        'assets/images/user-bg1.png',
-        'assets/images/bg-slide1.png',
+        '/assets/images/bg-slide1-1.png',
+        '/assets/images/user-bg1.png',
+        '/assets/images/bg-slide1.png',
       ],
     },
     {
@@ -62,9 +65,9 @@ function Home(props) {
         },
       },
       images: [
-        'assets/images/bg-slide2-2.png',
-        'assets/images/user-bg2.png',
-        'assets/images/bg-slide2.png',
+        '/assets/images/bg-slide2-2.png',
+        '/assets/images/user-bg2.png',
+        '/assets/images/bg-slide2.png',
       ],
     },
   ]);
@@ -240,7 +243,7 @@ function Home(props) {
                   </div>
                   <div className="col-lg-6 position-relative">
                     <img
-                      src="assets/images/lines-box.png"
+                      src="/assets/images/lines-box.png"
                       alt=""
                       className="img-fluid d-none d-lg-block  position-absolute lines-image"
                     />
@@ -255,7 +258,7 @@ function Home(props) {
                             />
                           </div>
                           <img
-                            src="assets/images/frame-bg.png"
+                            src="/assets/images/frame-bg.png"
                             alt=""
                             className="img-fluid frame-img"
                           />
@@ -290,7 +293,7 @@ function Home(props) {
                         <h4>{t('CreativeArtCollection.Current Bid')}</h4>
                         <h5>
                           <img
-                            src="assets/images/icons/ethereum-pink.png"
+                            src="/assets/images/icons/ethereum-pink.png"
                             alt=""
                             className="me-1"
                           />{' '}
@@ -333,13 +336,13 @@ function Home(props) {
               </div>
             </div>
           </div>
-          {/*<div className="circle-lines d-none d-lg-block"> <img src="assets/images/Circle.png" alt="" className="img-fluid" /> </div>*/}
+          {/*<div className="circle-lines d-none d-lg-block"> <img src="/assets/images/Circle.png" alt="" className="img-fluid" /> </div>*/}
         </section>
         <section className="banner-area2 pt-pb-64">
           <div className="container">
             <div className="section-heading text-center mb-4 mb-lg-5">
               <SectionHeading heading={t('CreativeArtCollection.New Drops')} />
-              <img src="images/path1.png" className="img-fluid" />
+              <img src="/images/path1.png" className="img-fluid" />
             </div>
 
             <div className="col-lg-11 mx-auto">
@@ -349,7 +352,7 @@ function Home(props) {
               <SectionHeading
                 heading={t('CreativeArtCollection.Top Categories')}
               />
-              <img src="images/path1.png" className="img-fluid" />
+              <img src="/images/path1.png" className="img-fluid" />
             </div>
             <div className="col-lg-11 mx-auto p-0">
               <TopCategories />
@@ -378,12 +381,16 @@ function Home(props) {
                   <span>{t('CreativeArtCollection.See All')}</span>{' '}
                 </Link>
               </div>
-              <img src="images/path1.png" className="img-fluid" />
+              <img src="/images/path1.png" className="img-fluid" />
             </div>
             <div className="top-collection-over-section mb-4">
               <div className="row">
                 <div className="col-lg-12 col-md-12">
-                  <TopCollectionData />
+                
+
+
+                  <TopCollectionData data={collections}  />
+                
                 </div>
               </div>
               <div className="row d-lg-none mt-3">
@@ -402,7 +409,7 @@ function Home(props) {
                   <SectionHeading
                     heading={t('CreativeArtCollection.top_sellers')}
                   />
-                  <img src="images/path1.png" className="img-fluid" />
+                  <img src="/images/path1.png" className="img-fluid" />
                 </div>
                 <div>
                   <Link
@@ -420,9 +427,11 @@ function Home(props) {
                 className="row justify-content-center"
                 style={{ bsGutterX: '2.1rem' }}
               >
-                {/* {users.filter(res=>res._id!=_id).map((item, index) => (
+                {users.slice(0,6)
+                // .filter(res=>res._id!=_id)
+                .map((item, index) => (
                   <TopSeller {...item} index={index} />
-                ))} */}
+                ))}
               </div>
               <div className="row d-lg-none">
                 <Link
@@ -445,7 +454,7 @@ function Home(props) {
                     <SectionHeading
                       heading={'CreativeArtCollection.Live Auctions'}
                     />
-                    <img src="images/path1.png" className="img-fluid" />
+                    <img src="/images/path1.png" className="img-fluid" />
                   </div>
                   <Link
                     className="btn btn-violet btn-white-v d-none d-lg-block"
@@ -473,13 +482,13 @@ function Home(props) {
                 <SectionHeading
                   heading={'Createandsell.Create and sell your NFTs'}
                 />
-                <img src="images/path1.png" className="img-fluid" />
+                <img src="/images/path1.png" className="img-fluid" />
               </div>
               <div className="features-nft-area">
                 <div className="row">
                   <div className="col-lg-5 col-md-5">
                     <img
-                      src="images/featured-img1.png"
+                      src="/images/featured-img1.png"
                       alt=""
                       className="img-fluid"
                     />
@@ -490,7 +499,7 @@ function Home(props) {
                         <div className="featured-card mb-4 mb-lg-0">
                           <div className="img-box">
                             <img
-                              src="images/icons/wallet.png"
+                              src="/images/icons/wallet.png"
                               alt=""
                               className="img-fluid"
                             />
@@ -508,7 +517,7 @@ function Home(props) {
                         <div className="featured-card">
                           <div className="img-box">
                             <img
-                              src="images/icons/tag.png"
+                              src="/images/icons/tag.png"
                               alt=""
                               className="img-fluid"
                             />
@@ -533,7 +542,7 @@ function Home(props) {
                         <div className="featured-card">
                           <div className="img-box">
                             <img
-                              src="images/icons/picture.png"
+                              src="/images/icons/picture.png"
                               alt=""
                               className="img-fluid"
                             />
@@ -546,7 +555,7 @@ function Home(props) {
                         <div className="featured-card">
                           <div className="img-box">
                             <img
-                              src="images/icons/shapes.png"
+                              src="/images/icons/shapes.png"
                               alt=""
                               className="img-fluid"
                             />

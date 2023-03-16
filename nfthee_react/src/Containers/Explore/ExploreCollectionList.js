@@ -12,7 +12,7 @@ const ExploreCollectionList = ({ collections }) => {
         return (
           <>
             <div className="col-lg-4 col-md-4 my-1" key={index}>
-              <div className>
+              <div className='card-body'>
                 <div className="item-content">
                   <Link to={`/explorefilter/${collection._id}`}>
                     <div className="tabbable-card">
