@@ -1,12 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Card({ item }) {
+export default function Card({ item ,index}) {
   return (
+    
     <div className="col-lg-3 col-md-4">
       <div className="collection-card grad-border">
-        <div className="card-body">
+        <div className="card-body" key={index}>
+        <Link to={`/explorefilter/${item._id}`}>
+
           <div className="d-flex justify-content-between align-items-center border-bottom mb-2 pb-2">
-            <div className={`collection-id ${item.color}`}>#{item.number}</div>
+            <div className={`collection-id red`}>#{index+1}</div>
             <div className="collection-time-detail">
               <ul>
                 <li>
@@ -38,17 +42,17 @@ export default function Card({ item }) {
               {' '}
               <img
                 className="user_img"
-                src="assets/images/avatar2.png"
+                src={item.logo_image||"/assets/images/avatar2.png"}
                 alt=""
               />{' '}
             </a>
             <div className="ms-2">
-              <h5 className="user_name">Crispin Berry</h5>
+              <h5 className="user_name">{item.name}</h5>
               <div className="d-flex">
                 <p className="eth_price">
                   <img
                     className="me-1"
-                    src="assets/images/icons/ethereum.png"
+                    src="/assets/images/icons/ethereum.png"
                     alt=""
                   />
                   25,368.18
@@ -56,7 +60,7 @@ export default function Card({ item }) {
                 <p className="eth_volume ms-2">
                   <img
                     className="me-1"
-                    src="assets/images/icons/tag-black.png"
+                    src="/assets/images/icons/tag-black.png"
                     alt=""
                   />
                   25,368.18
@@ -89,6 +93,7 @@ export default function Card({ item }) {
               </li>
             </ul>
           </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -35,8 +35,15 @@ function ExploreFilter() {
     }
   };
   const slice = cardData.slice(0, noOfElement);
- 
-  
+ const pageUrl=window.location.href
+  function myFunction() {
+    navigator.clipboard.writeText(pageUrl);
+    var tooltip = document.getElementById("tooltip");
+    tooltip.classList.add('active');
+    setTimeout(() => {
+      tooltip.classList.remove('active');
+    }, 1500);
+  }
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   // const [FilterShow, setFilterShow] = useState(true);
   const [isOpen, setIsopen] = useState(true);
@@ -162,6 +169,7 @@ useEffect(async() => {
                       <div className="icon dropdown">
                         <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="/assets/images/icons/three-dots.png" alt="" /></a>
                         <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                          <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/url.png" /></span> Url </a>
                           <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/discord-icon.png" /></span> Discord </a>
                           <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/twitter-icon.png" /></span> Twitter </a>
                           <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/instagram-icon.png" /></span> Instagram </a>
@@ -198,11 +206,12 @@ useEffect(async() => {
                   <div className="explore-social-icon d-lg-flex d-none align-items-center justify-content-end">
                     <div className="border-end me-4 pe-4">
                       <ul>
-                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/discord-icon.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
-                        <li><a href="#" className="icon-box"><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
+                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Url"   ><img src="/assets/images/icons/url.png" alt="url" /></a></li>
+                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Discord"  ><img src="/assets/images/icons/discord-icon.png" alt="discord" /></a></li>
+                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Twitter" ><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Instagram" ><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Youtube"  ><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Email"  ><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
                         </li>
                       </ul>
                     </div>
@@ -210,8 +219,17 @@ useEffect(async() => {
                       <li>
                         <div className="user-more-detail">
                           <div className="more">
-                            <div className="icon" s>
-                              <a href="#"><img src="/assets/images/icons/etherscan-logo.png" alt="" style={{width: "19px"}} /></a>
+                            <div className="icon" >
+                              <span id="tooltip" className="tooltip ">Copied !</span>
+                              <a href="#" 
+                               type="button"
+                               onClick={myFunction}
+                              data-toggle="tooltip" 
+                              title="Share"
+                              >
+                                <img src="/assets/images/icons/share.png" alt="" style={{width: "19px"}} />
+                              
+                              </a>
                             </div>
                           </div>
                         </div>
@@ -220,7 +238,7 @@ useEffect(async() => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href="#"><img src="/assets/images/icons/rotate.png" alt="" style={{width: "19px"}}  /></a>
+                              <a href="#" data-toggle="tooltip" title="Reload"><img src="/assets/images/icons/rotate.png" alt="reload" style={{width: "19px"}}  /></a>
                             </div>
                           </div>
                         </div>
@@ -229,7 +247,7 @@ useEffect(async() => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon dropdown">
-                              <a href="#" data-bs-toggle="dropdown" aria-expanded="false" className><img src="/assets/images/icons/three-dots.png" alt="" /></a>
+                              <a href="#"  data-bs-toggle="dropdown" aria-expanded="false" className><img src="/assets/images/icons/three-dots.png" alt="more option" /></a>
                               <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 {/* <a class="dropdown-item" href="#"> <span class="dropdown-icon"><img
                                                    src="/assets/images/icons/share.png"></span> Share </a> */}

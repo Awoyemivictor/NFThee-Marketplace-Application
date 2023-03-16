@@ -1,9 +1,53 @@
-import {useEffect} from "react";
+import {useEffect,useState} from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import Swal from 'sweetalert2'
+import instance from "../../axios";
 export const Footer = () => {
   const { t } = useTranslation();
+
+  const [email, setEmail] = useState('');
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  const handleEmail = event => {
+    if (!isValidEmail(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Enter Valid Email!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    } else {
+      instance.post('/api/emailSubsription',{email})
+      .then(res=>{
+        console.log(res,'footer res')
+        if(res.status===200){
+          Swal.fire({
+            icon: 'success',
+            title: 'Subscribed Successfully',
+            showConfirmButton: false,
+            timer: 2500
+          }       
+          )
+          setEmail('')
+        }
+         else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Check your email again',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        }
+      })
+      
+    }
+
+    ;
+  };
   return (
     <>
       <section className="newsletter-section">
@@ -13,9 +57,9 @@ export const Footer = () => {
                 <div className="col-lg-8 col-md-8 mb-4 mb-lg-0">
                   <h4 className="head-title">{t("footer.Never Miss A Drop")}</h4>
                   <div className="email-form">
-                    <input type="text" className="email-input" placeholder={t("footer.Enter your email address")} />
+                    <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} className="email-input" placeholder={t("footer.Enter your email address")} />
                     <div className="email-button">
-                      <button className="btn"><span>{t("footer.Subscribe")}</span></button>
+                      <button className="btn" onClick={handleEmail}><span>{t("footer.Subscribe")}</span></button>
                     </div>
                   </div>
                 </div>
@@ -23,11 +67,11 @@ export const Footer = () => {
                   <h4 className="head-title">{t("footer.Join The Community")}</h4>
                   <div className="widget-social">
                   <ul>
-                    <li><a href="#"><img src="/assets/images/icons/discord-icon.png" alt="" /></a></li>
-                    <li><a href="#"><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                    <li><a href="#"><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
-                    <li><a href="#"><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
-                    <li><a href="#"><img src="/assets/images/icons/mail-icon.png" alt="" /></a></li>
+                    <li ><a href="#" data-toggle="tooltip" title="Discord"><img src="/assets/images/icons/discord-icon.png" alt="" /> </a></li>
+                    <li><a href="#" data-toggle="tooltip" title="twitter"><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
+                    <li><a href="#" data-toggle="tooltip" title="Instagram"><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                    <li><a href="#" data-toggle="tooltip" title="Youtube"><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
+                    <li><a href="#" data-toggle="tooltip" title="Email"><img src="/assets/images/icons/mail-icon.png" alt="" /></a></li>
                   </ul>
                   </div>
                 </div>
