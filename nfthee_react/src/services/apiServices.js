@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import instance from '../axios';
+import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL + '/api';
 
@@ -150,21 +151,45 @@ export const createBid = async ({
   const url = '/api/getOrdersByNftId';
   // http://192.168.1.147:8002/api/getOrdersByNftId
   // let all=bidData.nftId
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   let data;
   const order = await instance.post(url, { nftId: nftId });
-  if (order.data.data[0]._id) {
+  let orderId=order.data.data[0]._id
+  if (orderId) {
     let bidData = {
       bidder,
       owner,
       bid_status,
       bid_price: bid_price,
       nftId,
-      oderId: order.data.data[0]._id,
+      orderId: orderId,
       bid_quantity,
     };
     data = await instance.post(create, bidData);
   }
+  let historyMetaData = {
+    nftId: nftId,
+    userId:bidder,
+    action: 'Bids',
+    actionMeta: 'Default',
+    message:`Bid by ${ldata.user_name}  with ${bid_price} price `,}
+    //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+    //   currentUser.slice(0, 3) +
+    //   '...' +
+    //   currentUser.slice(39, 42)
+    // }`,
+    // created_ts: moment(new Date()).format(
+    //   'YYYY-MM-DD HH:mm:ss'
+    // ),
+  // };
+   console.log('history',historyMetaData)
+  let response = await instance
+  .post(
+    `/api/insertHistory`,
+    historyMetaData
+  ).then((res)=>console.log('res.....................',res))
+
   return data;
 };
 
@@ -240,6 +265,9 @@ export const handleBuyNotification = async (id) => {
 
 
 export const handleBidNotification = async (id,bidAmount,update,nftId) => {
+
+// const { id } = useParams();
+// console.log('nftId',id)
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
   let receiver_token =""
 console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
@@ -288,10 +316,16 @@ console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
 }
 
 
+export const handleAcceptNotification = async (id,bidAmount,nftId) => {
+  console.log('nftId',nftId)
+  
+  // const currentPath = window.location.pathname;
+  // console.log('nftIdsss',currentPath);
 
-export const handleAcceptNotification = async (id,bidAmount) => {
+
+
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
-  let receiver_token =""
+  let receiver_token ;
 console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
   axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
     console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
@@ -299,10 +333,10 @@ console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
   }).catch((e)=>{
     console.log("get user data with id error-----",e)
   })
-
+  let payload
   setTimeout(()=>{
 
-    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} accepted your offer`} 
+    payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} accepted your offer`} 
 
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
     console.log("notification api send receiver",res)
@@ -333,7 +367,29 @@ console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
 
      
   },3000);
-
+  console.log('console',ldata,receiver_token)
+  let historyMetaData = {
+      nftId: nftId,
+      userId:ldata._id,
+      action: 'Transfer',
+      actionMeta: 'Default',
+      message:`Accept Bid by ${ldata?.user_name} `,
+    }
+    //   //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+    //   //   currentUser.slice(0, 3) +
+    //   //   '...' +
+    //   //   currentUser.slice(39, 42)
+    //   // }`,
+    //   // created_ts: moment(new Date()).format(
+    //   //   'YYYY-MM-DD HH:mm:ss'
+    //   // ),
+    // // };
+     console.log('history',historyMetaData)
+    let response = await instance
+    .post(
+      `/api/insertHistory`,
+      historyMetaData
+    ).then((res)=>console.log('res.....................',res))
 
 }
 

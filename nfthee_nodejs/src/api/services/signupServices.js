@@ -190,12 +190,12 @@ exports.register = async (req, res) => {
 //         }
 //     });
 // }
-
 exports.login = async (req, res) => {
   try {
     const { email_address } = req.query;
     console.log(req.body, req.query);
-    let test_Message = "Test message";
+    let test_Message =`<h4>Thankyou for Login</h4>`
+    
 
     let test = await mailerLogin(email_address, test_Message);
     console.log(test);

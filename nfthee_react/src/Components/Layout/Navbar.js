@@ -356,7 +356,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
 
                         {notifications.length != 0 ? notifications.slice(0,5).map((notification, index) => (
                           <div key={index} className='dropdown-item'>
-                          <Link to={`/exploredetail/${notification.nftId._id}`}>   <h6>{notification.message}</h6></Link>
+                          {/* <Link to={`/exploredetail/${notification.nftId._id}`}>   <h6>{notification.message}</h6></Link> */}
                             {/* <p>{notification.value}</p> */}
                           </div>
                         )) : <div className='dropdown-item'><h6>No Notification</h6></div>}

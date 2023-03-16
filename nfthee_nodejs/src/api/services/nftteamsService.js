@@ -86,6 +86,7 @@ exports.nftStore = async (req) => {
       levels: req.body.levels,
       stats: req.body.stats,
       currentOwner:req.body.currentOwner,
+      created_by:req.body.created_by,
       explicitAndSensitiveContent: req.body.explicitAndSensitiveContent,
     };
 
