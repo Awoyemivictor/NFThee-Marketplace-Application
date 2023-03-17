@@ -42,7 +42,9 @@ exports.index = async (req) => {
         ...collection,
         ...categories,
         status: 'verified',
-      }).populate('currentOwner').sort({ id: -1 });
+      })
+      .populate('currentOwner')
+      .sort({ id: -1 });
     console.log(result);
     if (result) {
       return {
@@ -85,8 +87,8 @@ exports.nftStore = async (req) => {
       attribute: req.body.attribute,
       levels: req.body.levels,
       stats: req.body.stats,
-      currentOwner:req.body.currentOwner,
-      created_by:req.body.created_by,
+      currentOwner: req.body.currentOwner,
+      created_by: req.body.created_by,
       explicitAndSensitiveContent: req.body.explicitAndSensitiveContent,
     };
 
@@ -116,62 +118,25 @@ exports.getItemInfo = async (req, res) => {
   }
 };
 exports.getAllItemInfo = async (req, res) => {
-  
-    try {
-      let str = req.query.str
-        ? { name: { $regex: new RegExp(req.query.str, 'i') } }
-        : {};
-      // let blockChain = req.query.blockChain
-      //   ? {
-      //       chooseBlockchain: {
-      //         $regex: new RegExp(req.query.blockChain.split(',').join('|'), 'i'),
-      //       },
-      //     }
-      //   : {};
-      // let collection = req.query.collection
-      //   ? {
-      //       chooseCollection: {
-      //         $regex: new RegExp(req.query.collection.split(',').join('|'), 'i'),
-      //       },
-      //     }
-      //   : {};
-      // let categories = req.query.categories
-      //   ? {
-      //       chooseCategory: {
-      //         $regex: new RegExp(req.query.categories.split(',').join('|'), 'i'),
-      //       },
-      //     }
-      //   : {};
-  
-      //search by category
-  
-      let result = await nftIteams
-        .find({
-          ...str,
-          // ...blockChain,
-          // ...collection,
-          // ...categories,
-          // status: 'verified',
-        }).populate('currentOwner')
-        .sort({ id: -1 });
-      console.log('filter data:----',result);
-      if (result) {
-        return {
-          message: 'Data find successfully',
-          status: true,
-          data: result,
-        };
-      }
-    } catch (error) {
-      return error;
-    }
-  
+  try {
+    let result = await nftIteams.find({});
+
+    return {
+      message: 'data find successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
 };
 exports.read_getItemInfo = async (req, res) => {
   try {
     let userId = req.query.id;
 
-    let result = await nftIteams.findOne({ _id: userId }).populate('currentOwner');
+    let result = await nftIteams
+      .findOne({ _id: userId })
+      .populate('currentOwner');
 
     return {
       message: ' Data find successfully.',
@@ -187,29 +152,32 @@ exports.update_getItemInfo = async (req, res) => {
   try {
     let nftId = req.query.id;
     // let body = req.body
-    let action=req.query.action
-    console.log('snjnsjknssjn',nftId,action)
-  //  if (
-  //     req.body.action === 'verified'
-  //   ) 
-  //  await nftIteams.findOneAndUpdate(
-  //     { _id: nftId },
-  //     { $set: { status: 'verified' } }
-  //   );
-  //   if (
-  //     req.body.action === 'pending'
-  //   )
-  //  await nftIteams.findOneAndUpdate(
-  //     { _id: nftId },
-  //     { $set: { status: 'pending' } }
-  //   );
-  let result = ( action === 'verified')? await nftIteams.findOneAndUpdate(
-          { _id: nftId },
-          { $set: { status: 'verified' } }
-        ): await nftIteams.findOneAndUpdate(
-          { _id: nftId },
-          { $set: { status: 'pending' } }
-        )
+    let action = req.query.action;
+    console.log('snjnsjknssjn', nftId, action);
+    //  if (
+    //     req.body.action === 'verified'
+    //   )
+    //  await nftIteams.findOneAndUpdate(
+    //     { _id: nftId },
+    //     { $set: { status: 'verified' } }
+    //   );
+    //   if (
+    //     req.body.action === 'pending'
+    //   )
+    //  await nftIteams.findOneAndUpdate(
+    //     { _id: nftId },
+    //     { $set: { status: 'pending' } }
+    //   );
+    let result =
+      action === 'verified'
+        ? await nftIteams.findOneAndUpdate(
+            { _id: nftId },
+            { $set: { status: 'verified' } }
+          )
+        : await nftIteams.findOneAndUpdate(
+            { _id: nftId },
+            { $set: { status: 'pending' } }
+          );
     return {
       message: 'status update successfully.',
       status: true,
@@ -240,7 +208,9 @@ exports.update_getItemInfo = async (req, res) => {
 exports.read_nftStore = async (req) => {
   try {
     let userId = req.query.id;
-    let result =await nftIteams.findOne({ _id: userId }).populate('currentOwner');
+    let result = await nftIteams
+      .findOne({ _id: userId })
+      .populate('currentOwner');
     console.log(userId, result);
     return {
       message: 'Read Data Fetch.....',
@@ -256,7 +226,7 @@ exports.read_nftStore = async (req) => {
 //     let userId = req.query.id;
 //     // const user = await signup.findById(req.user.id);
 //     let result = await nftIteams.findOne({ _id: userId });
-    
+
 //     console.log(userId, result);
 //     return {
 //       message: 'buy Nft Data Fetch.....',
@@ -353,7 +323,7 @@ exports.userLikes = async (req) => {
   try {
     let id = req.query.id;
     console.log(':::::::>', id);
-  let userLikes = await nftIteams.find({likes:id});
+    let userLikes = await nftIteams.find({ likes: id });
     return {
       message: 'user liked posts',
       status: true,

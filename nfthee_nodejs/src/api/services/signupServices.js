@@ -1,27 +1,27 @@
-const mongoose = require("mongoose");
-const fs = require("fs");
-const { signup } = require("../../models");
-const nodemailer = require("nodemailer");
+const mongoose = require('mongoose');
+const fs = require('fs');
+const { signup } = require('../../models');
+const nodemailer = require('nodemailer');
 // const nodemailer = require("nodemailer");
 
-const { sign } = require("crypto");
-const { Mail, Email } = require("../../utils");
-const jwt = require("jsonwebtoken");
-const { createCollection } = require("../../models");
-const { nftIteams } = require("../../models");
-const { mailerLogin } = require("../../utils/email");
-const { notificationModel } = require("../../models");
+const { sign } = require('crypto');
+const { Mail, Email } = require('../../utils');
+const jwt = require('jsonwebtoken');
+const { createCollection } = require('../../models');
+const { nftIteams } = require('../../models');
+const { mailerLogin } = require('../../utils/email');
+const { notificationModel } = require('../../models');
 // const {signup} = require('../../models');
 
-const { credentials } = require("../../config").constantCredentials;
+const { credentials } = require('../../config').constantCredentials;
 
 exports.signupData = async (req, res) => {
   try {
     const token = jwt.sign(req.body, credentials.SIGNUP_TOKEN, {
-      expiresIn: "2h",
+      expiresIn: '2h',
     });
     // let checkUser = await signup.findOne({user_name:req.body.user_name});
-    console.log("tokennnn", token);
+    console.log('tokennnn', token);
     let signupDetails = {
       user_name: req.body.user_name,
       first_name: req.body.first_name,
@@ -30,7 +30,7 @@ exports.signupData = async (req, res) => {
     const isSigned = await signup.findOne({ email: req.query });
     if (isSigned) {
       return {
-        message: "User name already exists..........",
+        message: 'User name already exists..........',
         status: false,
         data: [],
       };
@@ -44,7 +44,7 @@ exports.signupData = async (req, res) => {
     );
     let result = await signup.create(signupDetails);
     return {
-      message: "Registration Data Save..........",
+      message: 'Registration Data Save..........',
       status: true,
       data: result,
     };
@@ -57,7 +57,7 @@ exports.signupDataAll = async (req) => {
   try {
     let result = await signup.find();
     return {
-      message: "Registration All Save Data..........",
+      message: 'Registration All Save Data..........',
       status: true,
       data: result,
     };
@@ -70,7 +70,7 @@ exports.signupData = async (req) => {
     let userId = req.query.id;
     let result = await signup.findOne({ _id: userId });
     return {
-      message: "Registration single Save Data..........",
+      message: 'Registration single Save Data..........',
       status: true,
       data: result,
     };
@@ -83,7 +83,7 @@ exports.loginOne = async (req) => {
     const email = req.query.email_address;
     if (!email) {
       return {
-        message: "Please Provide Email!!",
+        message: 'Please Provide Email!!',
         status: false,
         data: [],
       };
@@ -91,13 +91,13 @@ exports.loginOne = async (req) => {
       let result = await signup.findOne({ email_address: email });
       if (result) {
         return {
-          message: "Email Get............",
+          message: 'Email Get............',
           status: true,
           data: result,
         };
       } else {
         return {
-          message: "Email Get............",
+          message: 'Email Get............',
           status: false,
           data: [],
         };
@@ -138,16 +138,16 @@ exports.register = async (req, res) => {
 
       // console.log('tokennnnn',token)
       const result = await signup.create(upadate_data);
-      console.log("result", result);
+      console.log('result', result);
       return {
-        message: "Registration Data Save..........",
+        message: 'Registration Data Save..........',
         status: true,
         // data: isSigned,
         data: result,
       };
     } else {
       return {
-        message: "User already exists",
+        message: 'User already exists',
         status: false,
         data: null,
       };
@@ -194,8 +194,7 @@ exports.login = async (req, res) => {
   try {
     const { email_address } = req.query;
     console.log(req.body, req.query);
-    let test_Message =`<h4>Thankyou for Login</h4>`
-    
+    let test_Message = `<h4>Thankyou for Login</h4>`;
 
     let test = await mailerLogin(email_address, test_Message);
     console.log(test);
@@ -220,7 +219,7 @@ exports.login = async (req, res) => {
     //   );
     if (user) {
       return {
-        message: "Email Get............",
+        message: 'Email Get............',
         status: true,
         data: user,
       };
@@ -240,7 +239,7 @@ exports.updateAccountAdrs = async (req, res) => {
     // const { email_address } = req.;
     // console.log(req.body, req.query);
     const email_address = req.body.email_address;
-    const token_data = "0x1f9090aae28b8a3dceadf281b0f12828e676c327";
+    const token_data = '0x1f9090aae28b8a3dceadf281b0f12828e676c327';
     await signup.findOneAndUpdate(
       {
         email_address,
@@ -257,7 +256,7 @@ exports.updateAccountAdrs = async (req, res) => {
 
     if (user) {
       return {
-        message: "Email Get............",
+        message: 'Email Get............',
         status: true,
         data: user,
       };
@@ -273,11 +272,10 @@ exports.updateAccountAdrs = async (req, res) => {
   }
 };
 exports.updateProfile = async (req, res) => {
-  console.log(req.body, "first");
+  console.log(req.body, 'first');
   try {
-    //  console.log('req.files:::::::>', req.files);
-    const profile_image = `${req.files.profile_image[0].filename}`;
-    const banner_image = `${req.files.banner_image[0].filename}`;
+    const profile_image = req.files.profile_image[0].location;
+    const banner_image = req.files.banner_image[0].location;
     const upadate_data = {
       user_name: req.body.username,
       email_address: req.body.email,
@@ -289,13 +287,15 @@ exports.updateProfile = async (req, res) => {
       linkedin: req.body.linkedin,
       youtube: req.body.youtube,
     };
-    console.log("::::::>", upadate_data);
-    let result = await signup.findOneAndUpdate(
+
+    await signup.findOneAndUpdate(
       { email_address: req.body.email },
       { $set: upadate_data }
     );
+
+    let result = await signup.findOne({ email_address: req.body.email });
     return {
-      message: "profile updated successfully",
+      message: 'profile updated successfully',
       status: true,
       data: result,
     };
@@ -309,7 +309,7 @@ exports.updateAddress = async (req, res) => {
     const user = await signup.findOneAndUpdate({ id: req.body.id });
     if (user) {
       return {
-        message: "Address Updated Sucessfully",
+        message: 'Address Updated Sucessfully',
         status: true,
         data: user,
       };
@@ -331,13 +331,13 @@ exports.userCollections = async (req, res) => {
     // const user = await createCollection.find({ created_by: userId });
     const user = await createCollection.find({
       created_by: userId,
-      status: "verified",
+      status: 'verified',
     });
     // const user = await createCollection.find({ created_by: userId });
     // console.log(user)
     if (user) {
       return {
-        message: "data Updated Sucessfully",
+        message: 'data Updated Sucessfully',
         status: true,
         data: user,
       };
@@ -357,10 +357,10 @@ exports.userItems = async (req, res) => {
     let userId = req.query.id;
     // const user = await createCollection.find({ created_by: userId ,status:'pending'});
     const user = await nftIteams.find({ created_by: userId });
-    console.log("<><><><><><><><><><><><><><><><><><><><><><><><><><>", user);
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>', user);
     if (user) {
       return {
-        message: "data Updated Sucessfully",
+        message: 'data Updated Sucessfully',
         status: true,
         data: user,
       };
@@ -384,12 +384,12 @@ exports.followingList = async (req, res) => {
     // const user = await createCollection.find({ created_by: userId ,status:'pending'});
     const user = await signup
       .find({ _id: userId })
-      .select("following")
-      .populate("following");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><><><><><>", user);
+      .select('following')
+      .populate('following');
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>', user);
     if (user) {
       return {
-        message: "data Updated Sucessfully",
+        message: 'data Updated Sucessfully',
         status: true,
         data: user,
       };
@@ -451,16 +451,16 @@ exports.followingList = async (req, res) => {
 // follow user
 exports.userFollow = async (req, res) => {
   try {
-    console.log("njbadjajdjdajdbj", req.body);
+    console.log('njbadjajdjdajdbj', req.body);
     const { email_address } = req.body;
     const { user_name } = req.body;
     let userId = req.query.id;
     let username = req.query.username;
     let email = req.query.email;
-    console.log("sjjndjknjkdnnnnnnnnnn", userId, username);
+    console.log('sjjndjknjkdnnnnnnnnnn', userId, username);
     let message = `<h3>${username}</h3><p>follow you</p>`;
     console.log(
-      "mkamkkkkkkkkkkkkkkkkkkkkkkkkk",
+      'mkamkkkkkkkkkkkkkkkkkkkkkkkkk',
       message,
       username,
       userId,
@@ -477,7 +477,7 @@ exports.userFollow = async (req, res) => {
           { new: true }
         )) ||
         console.log(
-          "<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UserId:",
+          '<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UserId:',
           userId
         ),
       follow: await signup.findByIdAndUpdate(
@@ -492,7 +492,7 @@ exports.userFollow = async (req, res) => {
 
     if (data) {
       return {
-        message: "follow Sucessfully",
+        message: 'follow Sucessfully',
         status: true,
         data: data,
       };
@@ -511,10 +511,10 @@ exports.userFollow = async (req, res) => {
 // // unfollow user
 exports.userUnFollow = async (req, res) => {
   try {
-    console.log("njbadjajdjdajdbj", req.body);
+    console.log('njbadjajdjdajdbj', req.body);
 
     let userId = req.query.id;
-    console.log("sjjndjknjkdnnnnnnnnnn", userId);
+    console.log('sjjndjknjkdnnnnnnnnnn', userId);
 
     const data = {
       user:
@@ -526,31 +526,29 @@ exports.userUnFollow = async (req, res) => {
           { new: true }
         )) ||
         console.log(
-          "<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>User:",
+          '<><><><><<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>User:',
           user
         ),
-      follow: 
-      await signup.findByIdAndUpdate(
+      follow: await signup.findByIdAndUpdate(
         userId,
         {
           $pull: { following: req.body.id },
         },
         { new: true }
-      ) 
+      ),
       //  await notificationModel.findByIdAndDelete(
       //   userId)
-        // {
-        //   $pull: { receiver_id: req.body.id },
-        // },
-        // { new: true }
+      // {
+      //   $pull: { receiver_id: req.body.id },
+      // },
+      // { new: true }
       // )
-      
     };
     console.log(data);
 
     if (data) {
       return {
-        message: "unfollow Sucessfully",
+        message: 'unfollow Sucessfully',
         status: true,
         data: data,
       };
@@ -570,21 +568,17 @@ exports.messageDelete = async (req, res) => {
     // console.log("njbadjajdjdajdbj", req.body);
 
     let userId = req.query.id;
-    console.log("sjjndjknjkdnnnnnnnnnn", userId);
+    console.log('sjjndjknjkdnnnnnnnnnn', userId);
 
-    const data = 
-    await notificationModel.findOne(   
-      {sender_id:userId}
-        )
-    ;
-    console.log('data:::::::',data);
+    const data = await notificationModel.findOne({ sender_id: userId });
+    console.log('data:::::::', data);
 
-    const deletemsg=await notificationModel.deleteOne({_id:data._id})
-    console.log('datavdd:::::::',deletemsg);
+    const deletemsg = await notificationModel.deleteOne({ _id: data._id });
+    console.log('datavdd:::::::', deletemsg);
 
     if (data) {
       return {
-        message: "delete Sucessfully",
+        message: 'delete Sucessfully',
         status: true,
         data: deletemsg,
       };
@@ -597,11 +591,11 @@ exports.messageDelete = async (req, res) => {
     }
   } catch (error) {
     return error;
-  }}
-;
+  }
+};
 // addLoginToken to gernerate token with firebase
 exports.addLoginToken = async (req, res) => {
-  console.log(req.body, "firstsss");
+  console.log(req.body, 'firstsss');
   const email_address = req.body.email_address;
   let users = await signup.findOne({ email_address });
   if (users) {
@@ -614,7 +608,7 @@ exports.addLoginToken = async (req, res) => {
 
   if (users) {
     return {
-      message: "Token update ",
+      message: 'Token update ',
       status: true,
       data: users,
     };
@@ -628,7 +622,7 @@ exports.addLoginToken = async (req, res) => {
 };
 
 exports.notificationSend = async (req, res) => {
-  console.log(req.body, "firstsss sdjbjd--------------");
+  console.log(req.body, 'firstsss sdjbjd--------------');
 
   let id = req.body.receiver_id;
   let r_users = await signup.findById(id);
@@ -639,19 +633,21 @@ exports.notificationSend = async (req, res) => {
     sender_token: req.body.sender_token,
     receiver_token: req.body.receiver_token,
     message: req.body.message,
-    nftId:req.body.nftId,
-    status: "active",
+    nftId: req.body.nftId,
+    status: 'active',
   };
-console.log(payload_data)
-  let result = "";
+  console.log(payload_data);
+  let result = '';
   if (r_users) {
-    result = await (await notificationModel.create(payload_data)).populate('nftId');
-    console.log("result-------", result);
+    result = await (
+      await notificationModel.create(payload_data)
+    ).populate('nftId');
+    console.log('result-------', result);
   }
 
   if (result) {
     return {
-      message: "Notification update",
+      message: 'Notification update',
       status: true,
       data: result,
     };
@@ -674,7 +670,7 @@ exports.notificationFetch = async (req, res) => {
 
   if (result) {
     return {
-      message: "Notification fetch",
+      message: 'Notification fetch',
       status: true,
       data: result,
     };
