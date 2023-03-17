@@ -33,13 +33,12 @@ const orderSchema = new Schema({
   },
   auction_end_date: { type: Date },
   order_status: {
-    type: Number,
-    default: 1,
+    type:String,
     //0 - inactive
     //1 - active
     //2 - completed
     //3 - cancelled
-    enum: [0, 1, 2, 3],
+    enum: ['Bid', 'Cancelled', 'Accepted', 'Sold', 'Rejected'],
   },
   quantity_sold: { type: Number, default: 0 },
 });

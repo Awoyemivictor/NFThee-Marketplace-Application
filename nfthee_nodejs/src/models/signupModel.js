@@ -10,7 +10,9 @@ const signupInfo = new Schema(
     },
     token: {
       type: String,
-      
+    },
+    wallet_token: {
+      type: String,
     },
     first_name: {
       type: String,

@@ -18,7 +18,8 @@ const {
   followingList,
   updateAccountAdrs,
   notificationFetch,
-  messageDelete
+  messageDelete,
+  addWalletToken
 } = require('../controller').signupController;
 const {
   Multer: { upload, uploadS3 },
@@ -45,6 +46,7 @@ router.post('/addLoginToken', addLoginToken);
 router.post('/updateAccountAdrs', updateAccountAdrs);
 router.post('/notificationSend', notificationSend);
 router.post('/notificationFetch', notificationFetch);
+router.post('/addWalletToken', addWalletToken);
 /* Implement Logout Endpoint */
 router.post('/logout', async (req, res) => {
   if (req.isAuthenticated()) {

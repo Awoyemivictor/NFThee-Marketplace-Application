@@ -194,7 +194,41 @@ exports.login = async (req, res) => {
   try {
     const { email_address } = req.query;
     console.log(req.body, req.query);
-    let test_Message =`<h4>Thankyou for Login</h4>`
+    let test_Message =`<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Welcome!</title>
+        <style>
+       
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          
+          h1 {
+            color: #007bff;
+            text-align: center;
+          }
+          
+          p {
+            font-size: 18px;
+            text-align: center;
+          }
+          
+          img {
+            display: block;
+            margin:  auto;
+            max-width: 100%;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>ThankYou For Login!</h1>
+        <p>Thank you for visiting our Blockchain website. We hope you find everything you're looking for.</p>
+        <img src="https://informationage-staging.s3.amazonaws.com/uploads/2022/10/nft-use-cases-for-businesses.jpeg" alt="Welcome">
+      </body>
+    </html>
+    `
     
 
     let test = await mailerLogin(email_address, test_Message);
@@ -599,6 +633,34 @@ exports.messageDelete = async (req, res) => {
     return error;
   }}
 ;
+
+exports.addWalletToken = async (req, res) => {
+  console.log(req.body, "mkdjkdjn");
+  const email_address = req.body.email_address;
+  // const wallet_token = req.body.email_address;
+  let users = await signup.findOne({ email_address });
+  if (users) {
+    const result = await signup.findOneAndUpdate(
+      { email_address: email_address },
+      { $set: { wallet_token: req.body.wallet_token } }
+    );
+    users = await signup.findOne({ email_address });
+  }
+
+  if (users) {
+    return {
+      message: "Token update ",
+      status: true,
+      data: users,
+    };
+  } else {
+    return {
+      message: "User hasn't found",
+      status: false,
+      data: null,
+    };
+  }
+};
 // addLoginToken to gernerate token with firebase
 exports.addLoginToken = async (req, res) => {
   console.log(req.body, "firstsss");
@@ -628,7 +690,7 @@ exports.addLoginToken = async (req, res) => {
 };
 
 exports.notificationSend = async (req, res) => {
-  console.log(req.body, "firstsss sdjbjd--------------");
+  // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
   let r_users = await signup.findById(id);
@@ -646,7 +708,7 @@ console.log(payload_data)
   let result = "";
   if (r_users) {
     result = await (await notificationModel.create(payload_data)).populate('nftId');
-    console.log("result-------", result);
+    // console.log("result-------", result);
   }
 
   if (result) {
@@ -667,8 +729,8 @@ exports.notificationFetch = async (req, res) => {
   // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
-  // let result = await notificationModel.find({receiver_id:id});
-  let result = await notificationModel.find().populate('nftId');
+  let result = await notificationModel.find({receiver_id:id});
+  // let result = await notificationModel.find().populate('nftId');
 
   // console.log('id',id)
 
