@@ -145,6 +145,8 @@ const CollectionDetail = () => {
             name: "links",
             selector: 'links',
             sortable: true,
+            truncateText: true,
+            maxWidth: '1px',
         },
         {
             name: "Description",

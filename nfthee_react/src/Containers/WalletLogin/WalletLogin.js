@@ -33,7 +33,7 @@ import {
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-
+import instance from '../../axios'
 const { chains, provider } = configureChains(
   [polygonMumbai, optimismGoerli, goerli, bscTestnet, bsc, mainnet],
   [
@@ -117,6 +117,9 @@ if(data&&tok!=null){
             showConfirmButton: false,
             timer: 1500,
           });
+          const {email_address} = JSON.parse(localStorage.getItem('userLoggedIn'));
+          instance.post('api/addWalletToken',{email_address:email_address,wallet_token:accounts})
+          .then(res=> localStorage.setItem('userLoggedIn',JSON.stringify(res.data.data)))
           localStorage.setItem('TokenData', JSON.stringify(accounts));
 
           // history.push("/");
@@ -172,6 +175,11 @@ if(data&&tok!=null){
               showConfirmButton: false,
               timer: 1500,
             });
+            const {email_address} = JSON.parse(localStorage.getItem('userLoggedIn'));
+            instance.post('api/addWalletToken',{email_address:email_address,wallet_token:accounts[0]})
+            .then(res=> localStorage.setItem('userLoggedIn',JSON.stringify(res.data.data)))
+            
+
             localStorage.setItem('TokenData', JSON.stringify(accounts));
 
             // history.push('/');
