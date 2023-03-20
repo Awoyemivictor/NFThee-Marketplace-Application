@@ -8,6 +8,7 @@ const contractAddress = {
   WETH: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
   WBNB: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
   WMATIC: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+  WONE: '',
 };
 
 const exportInstance = async (SCAddress, ABI) => {
@@ -22,13 +23,26 @@ const exportInstance = async (SCAddress, ABI) => {
 };
 
 const contractAddresswithID = async () => {
-  console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
   if (window.ethereum.networkVersion === '5') {
     return contractAddress.WETH;
   } else if (window.ethereum.networkVersion === '97') {
     return contractAddress.WBNB;
   } else if (window.ethereum.networkVersion === '80001') {
     return contractAddress.WMATIC;
+  } else if (window.ethereum.networkVersion === '1666900000') {
+    return contractAddress.WONE;
+  }
+};
+
+const tokenAddressByChainId = async () => {
+  if (window.ethereum.networkVersion === '1') {
+    return contractAddress.WETH;
+  } else if (window.ethereum.networkVersion === '56') {
+    return contractAddress.WBNB;
+  } else if (window.ethereum.networkVersion === '137') {
+    return contractAddress.WMATIC;
+  } else if (window.ethereum.networkVersion === '1666600000') {
+    return contractAddress.WONE;
   }
 };
 
@@ -41,7 +55,8 @@ export const wrapPaymentTokens = async (priceOfEth) => {
   if (
     window.ethereum.networkVersion === '5' ||
     window.ethereum.networkVersion === '97' ||
-    window.ethereum.networkVersion === '80001'
+    window.ethereum.networkVersion === '80001' ||
+    window.ethereum.networkVersion === '1666900000'
   ) {
     const tokenContract = await contractAddresswithID();
     const userAccount = await getUserAddress();
@@ -61,8 +76,6 @@ export const wrapPaymentTokens = async (priceOfEth) => {
       gasLimit: Number(gasLimit) + 10,
       value: price,
     });
-
-    console.log(res);
 
     return res.status;
   } else {

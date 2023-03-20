@@ -8,7 +8,11 @@ import {
   SingleSlider,
 } from './ExploreFilterData';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
-import { ModalBuynft, ConvertModal, ListingModal } from '../../Components/Layout/Modal';
+import {
+  ModalBuynft,
+  ConvertModal,
+  ListingModal,
+} from '../../Components/Layout/Modal';
 
 import { useTranslation } from 'react-i18next';
 import Apexcharts from '../../Components/Apexcharts';
@@ -36,6 +40,7 @@ import {
   handleAcceptBid,
   handleDeListToken,
   handleWithdrawBidForToken,
+  
 } from '../../Config/sendFunctions';
 
 import { getUserAddress } from '../../Config/constants';
@@ -73,7 +78,7 @@ function ExploreDetail() {
   const [listingModalOpen, setlistingModalIsOpen] = useState(false);
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
   const [like, setliked] = useState();
- const [listing,setListing]=useState('0')
+  const [listing, setListing] = useState('0');
   const [openForBids, setOpenForBids] = useState({
     Bid_price: '',
   });
@@ -107,7 +112,6 @@ function ExploreDetail() {
     });
   };
 
-
   const toggleModal = () => {
     setModalIsOpen(!isModalOpen);
   };
@@ -132,7 +136,7 @@ function ExploreDetail() {
   };
   useEffect(async () => {
     setIsLoading(true);
-    handleBidData()
+    handleBidData();
     await instance
       .get(`/api/read?id=${id}`)
       .then((response) => {
@@ -207,7 +211,7 @@ function ExploreDetail() {
 
   const handleBidAmount = async (e) => {
     console.log({ bidAmount });
-    let update=e.target.id
+    let update = e.target.id;
     if (bidAmount != '' || undefined || null) {
       let bidData = {
         bidder: userId._id,
@@ -217,16 +221,20 @@ function ExploreDetail() {
         nftId: id,
         bid_quantity: 1,
       };
-      
+
       const data = await createBid(bidData);
-   if(data.status===200){
-      await handleBidNotification(nftData?.currentOwner?._id,bidAmount,update ,nftData._id)
-   }
+      if (data.status === 200) {
+        await handleBidNotification(
+          nftData?.currentOwner?._id,
+          bidAmount,
+          update,
+          nftData._id
+        );
+      }
     }
   };
 
-
-   const [diable, setDisaable] = useState(false);
+  const [diable, setDisaable] = useState(false);
 
   const handleAddFavorite = async (e, collection) => {
     const requestBody = {
@@ -245,13 +253,13 @@ function ExploreDetail() {
       }
     }
   };
-  const [fetchHistory,setFetchHistory]=useState([]);
+  const [fetchHistory, setFetchHistory] = useState([]);
 
-  const [activeTab,setActiveTab]=useState('0')
+  const [activeTab, setActiveTab] = useState('0');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
   const [contractAddress, setContractAddress] = useState('');
-  
+
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
 
@@ -264,35 +272,22 @@ function ExploreDetail() {
   };
 
   const handleTokenAcceptBid = async () => {
-    // const userAddress = getUserAddress();
+    const userAddress = getUserAddress();
 
-    // let data = await getCollection(nftData.chooseCollection);
+    let data = await getCollection(nftData.chooseCollection);
 
-    // let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+    let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
 
-    // if(result.status===200){
-    await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount,id)
-    //  let result=  await handleAcceptNotification()
-    
-    // console.log('result',{result})
-    // }
-    // console.log('data.........................result...........',data)
-    
-  
+    if (result.status === 200) {
+      await handleAcceptNotification(nftData?.currentOwner?._id, bidAmount, id);
+      let result = await handleAcceptNotification();
+
+      console.log('result', { result });
+    }
+    console.log('data.........................result...........', data);
   };
 
-  // const handleTokenAcceptBid = async () => {
-  //   const userAddress = getUserAddress();
 
-  //   let data = await getCollection(nftData.chooseCollection);
-
-  //   // let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
-
-  //   // if(result.status===200){
-  //     await handleAcceptNotification(nftData?.currentOwner?._id,bidAmount)
-
-  //   // }
-  // };
   const withdrawTokenBid = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
 
@@ -304,16 +299,18 @@ function ExploreDetail() {
 
   const removeFromAuction = async () => {
     console.log('Remove from auction');
-    // let result = handleRemoveFromAuction()
+    let collectionAddress = await getCollection(nftData.chooseCollection);
+
+    let result = await handleWithdrawBidForToken(
+      collectionAddress,
+      nftData.tokenId
+    );
   };
 
   const handleTokenDelisting = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
     console.log(collectionAddress);
-    let result = await handleDeListToken(
-      collectionAddress,
-      nftData.tokenId
-    );
+    let result = await handleDeListToken(collectionAddress, nftData.tokenId);
     console.log(result);
   };
 
@@ -325,11 +322,11 @@ function ExploreDetail() {
       $(this).toggleClass('btnColor-pink');
     });
   }, []);
-  const hasBidder = bidData.some(bid => {
+  const hasBidder = bidData.some((bid) => {
     return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
   });
-  
-  console.log({fixedPrice},{openForBids},{timedAuction})
+
+  console.log({ fixedPrice }, { openForBids }, { timedAuction });
   // useEffect(() => {
   //  let fetch=  instance
   //       .post(
@@ -338,7 +335,6 @@ function ExploreDetail() {
   //      .then((res)=>console.log(res.data.data[0].message))
   //     //  .then((res)=>setFetchHistory(res.data.data[0].message))
   //      console.log('fetch',fetch)
-
 
   // }, []);
 
@@ -350,10 +346,10 @@ function ExploreDetail() {
         setFetchHistory(history);
       })
       .catch((error) => {
-        console.error("Error fetching history", error);
+        console.error('Error fetching history', error);
       });
   }, []);
-  
+
   return (
     <>
       {isLoading ? (
@@ -399,18 +395,17 @@ function ExploreDetail() {
                     />
                   )}
 
-                  {listingModalOpen&&(
+                  {listingModalOpen && (
                     <ListingModal
-                    
-                    onRequestClose={listingToggleModal}
-                    setListing={setListing}
-                    handleFixedPriceChange={handleFixedPriceChange}
-                    handleTimedAuctionChange={handleTimedAuctionChange}
-                    fixedPrice={fixedPrice}
-                    handleBidPriceChange={handleBidPriceChange}
-                    openForBids={openForBids}
-                    timedAuction={timedAuction}
-                    setTimedAuction={setTimedAuction}
+                      onRequestClose={listingToggleModal}
+                      setListing={setListing}
+                      handleFixedPriceChange={handleFixedPriceChange}
+                      handleTimedAuctionChange={handleTimedAuctionChange}
+                      fixedPrice={fixedPrice}
+                      handleBidPriceChange={handleBidPriceChange}
+                      openForBids={openForBids}
+                      timedAuction={timedAuction}
+                      setTimedAuction={setTimedAuction}
                     />
                   )}
                   <div className='col-lg-6 col-md-6'>
@@ -567,7 +562,8 @@ function ExploreDetail() {
                       </div>
                       <div className='mb-3 d-flex d-lg-block flex-wrap'>
                         <a href='#' className='token-detail'>
-                          <span>{t('product.Token id')} : </span>#{nftData.tokenId}
+                          <span>{t('product.Token id')} : </span>#
+                          {nftData.tokenId}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
                           <span>{t('product.Token standard')} : </span>
@@ -586,9 +582,7 @@ function ExploreDetail() {
                           <span style={{ marginLeft: '0' }}>
                             {t('product.Blockchain')} :{' '}
                           </span>
-                          {nftData
-                            ? nftData.chooseBlockchain
-                            : 'undefined'}
+                          {nftData ? nftData.chooseBlockchain : 'undefined'}
                         </a>
                         <a href='#' className='token-detail ms-lg-3'>
                           <span>Creator Royalties : </span>0.5 %{' '}
@@ -769,8 +763,7 @@ function ExploreDetail() {
                                           {t('product.Minted By')}{' '}
                                           <span>
                                             {nftData?.currentOwner?.user_name
-                                              ? nftData?.currentOwner
-                                                  ?.user_name
+                                              ? nftData?.currentOwner?.user_name
                                               : 'HEROSTHENAME'}
                                           </span>
                                         </p>
@@ -798,9 +791,9 @@ function ExploreDetail() {
                             role='tabpanel'
                             aria-labelledby='history-tab'
                           >
-                          {fetchHistory.map((message) => (
-      <p key={message}>{message}</p>
-    ))}
+                            {fetchHistory.map((message) => (
+                              <p key={message}>{message}</p>
+                            ))}
                           </div>
 
                           {/* WETHtoETH */}
@@ -865,8 +858,8 @@ function ExploreDetail() {
                                                     : 'HEROSTHENAME'}
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
-                                                {nftData?.currentOwner
-                                                  ?._id === userId._id ? (
+                                                {nftData?.currentOwner?._id ===
+                                                userId._id ? (
                                                   <>
                                                     <button
                                                       type='button'
@@ -886,7 +879,8 @@ function ExploreDetail() {
                                                     </button>
                                                   </>
                                                 ) : null}
-                                                {data?.bidder?._id === userId._id ? (
+                                                {data?.bidder?._id ===
+                                                userId._id ? (
                                                   <button
                                                     type='button'
                                                     class='btn btn-danger'
@@ -978,8 +972,9 @@ function ExploreDetail() {
                         </div>
                       </div>
                       <div className='row'>
-                        {nftData?.currentOwner?._id === userId._id &&nftData?.listing ==='delisting'?
-                        <>
+                        {nftData?.currentOwner?._id === userId._id &&
+                        nftData?.listing === 'delisting' ? (
+                          <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button
                                 className='btn btn-outline-white1 w-100'
@@ -989,8 +984,9 @@ function ExploreDetail() {
                                 listing
                               </button>
                             </div>
-                          </>:nftData?.currentOwner?._id === userId._id &&
-                        nftData.putOnMarketplace.price ? (
+                          </>
+                        ) : nftData?.currentOwner?._id === userId._id &&
+                          nftData.putOnMarketplace.price ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button
@@ -1042,24 +1038,14 @@ function ExploreDetail() {
                           </>
                         )}
                         <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
-                          <button className='btn btn-outline-white1 w-100' onClick={listingToggleModal}>
+                          <button
+                            className='btn btn-outline-white1 w-100'
+                            onClick={listingToggleModal}
+                          >
                             <i className='bx bx-credit-card me-2' />{' '}
                             {t('product.Buy Card')}
                           </button>
-
-                          
-                        
-                          
-
-
-
                         </div>
-
-
-                        
-                            
-                         
-
 
                         {nftData?.putOnMarketplace?.price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
@@ -1157,37 +1143,38 @@ function ExploreDetail() {
                             </div> */}
                             </div>
                             <div className='modal-footer border-0'>
-                             {hasBidder?
-                             
-                             <button
-                             type='button'
-                             className='btn btn-violet shadow-none'
-                             data-bs-dismiss='modal'
-                             aria-label='Close'
-                             id='update'
-                             onClick={handleBidAmount}
-                           >
-                             {t('Update Offer')}
-                           </button>:<button
-                                type='button'
-                                className='btn btn-violet shadow-none'
-                                data-bs-dismiss='modal'
-                                aria-label='Close'
-                                onClick={handleBidAmount}
-                              >
-                                {t('product.Make Offer')}
-                              </button>
-                            }
-                             
-                            {/* //  <button */}
-                            {/* //     type='button' */}
-                            {/* //     className='btn btn-violet shadow-none' */}
-                            {/* //     data-bs-dismiss='modal' */}
-                            {/* //     aria-label='Close' */}
-                            {/* //     onClick={handleBidAmount} */}
-                            {/* //   > */}
-                            {/* //     {t('product.Make Offer')} */}
-                            {/* //   </button> */}
+                              {hasBidder ? (
+                                <button
+                                  type='button'
+                                  className='btn btn-violet shadow-none'
+                                  data-bs-dismiss='modal'
+                                  aria-label='Close'
+                                  id='update'
+                                  onClick={handleBidAmount}
+                                >
+                                  {t('Update Offer')}
+                                </button>
+                              ) : (
+                                <button
+                                  type='button'
+                                  className='btn btn-violet shadow-none'
+                                  data-bs-dismiss='modal'
+                                  aria-label='Close'
+                                  onClick={handleBidAmount}
+                                >
+                                  {t('product.Make Offer')}
+                                </button>
+                              )}
+
+                              {/* //  <button */}
+                              {/* //     type='button' */}
+                              {/* //     className='btn btn-violet shadow-none' */}
+                              {/* //     data-bs-dismiss='modal' */}
+                              {/* //     aria-label='Close' */}
+                              {/* //     onClick={handleBidAmount} */}
+                              {/* //   > */}
+                              {/* //     {t('product.Make Offer')} */}
+                              {/* //   </button> */}
                               <button
                                 type='button'
                                 className='btn btn-violet-outline ms-3'

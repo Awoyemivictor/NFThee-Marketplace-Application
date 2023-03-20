@@ -150,37 +150,33 @@ export const handleCollectionCreation = async (
       }
       contractAddress = await readReceipt(hash);
 
-      // let marketplaceInstance = await exportInstance(
-      //   contracts.polygonContracts.MARKETPLACE,
-      //   Market.abi
-      // );
+      let marketplaceInstance = await exportInstance(
+        contracts.polygonContracts.MARKETPLACE,
+        Market.abi
+      );
 
-      // let marketplaceInstance = await exportInstance(
-      //   contracts.polygonContracts.MARKETPLACE,
-      //   Market.abi
-      // );
-      // console.log(contractAddress, userAddress, royaltyPercentage, options);
+      console.log(contractAddress, userAddress, royaltyPercentage, options);
 
-      // res1 = await marketplaceInstance.royalty(contractAddress);
+      res1 = await marketplaceInstance.royalty(contractAddress);
 
-      // res1 = await res1.wait();
-      // console.log('res1 collection  ===>>>', res1);
+      res1 = await res1.wait();
+      console.log('res1 collection  ===>>>', res1);
 
-      // if (res1.status === 0) {
-      //   console.log('Transaction Failed');
-      // }
+      if (res1.status === 0) {
+        console.log('Transaction Failed');
+      }
 
-      // res1 = await marketplaceInstance.setRoyalty(
-      //   contractAddress,
-      //   userAddress,
-      //   royaltyPercentage,
-      //   options
-      // );
-      // res1 = await res1.wait();
+      res1 = await marketplaceInstance.setRoyalty(
+        contractAddress,
+        userAddress,
+        royaltyPercentage,
+        options
+      );
+      res1 = await res1.wait();
 
-      // if (res1.status === 0) {
-      //   console.log('Transaction Failed');
-      // }
+      if (res1.status === 0) {
+        console.log('Transaction Failed');
+      }
 
       return contractAddress;
     } catch (error) {
@@ -451,11 +447,6 @@ export const handleNFTBidListing = async (
   let res;
   const price = ethers.utils.parseEther(tokenPrice);
   const time = getUnixTimeAfterDays(100);
-  const options = {
-    gasPrice: 10000000000,
-    gasLimit: 9000000,
-  };
-
   const userAddress = getUserAddress();
 
   let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);
@@ -477,14 +468,28 @@ export const handleNFTBidListing = async (
     Market.abi
   );
 
-  console.info(collectionAddress, tokenId, price, time, 1, 2, options);
+  // let options = {
+  //   from: userAddress,
+  //   gasLimit: Number(gasLimit) + 1000,
+  // };
+
+  const options = {
+    gasPrice: 10000000000,
+    gasLimit: 9000000,
+  };
+
+  let tokenApproval = await approveTokens(userAddress, price * 2);
+  console.log(tokenApproval);
+
+  console.info(collectionAddress, tokenId, price, time, 1, 1, 1);
   res = await marketplaceInstance.enterBidForToken(
     collectionAddress,
     tokenId,
     price,
     time,
     1,
-    2,
+    1,
+    1,
     options
   );
 
@@ -492,7 +497,7 @@ export const handleNFTBidListing = async (
   if (res.status === 0) {
     console.log('Transaction Failed');
   }
-  return res;
+  return res.status;
 };
 
 export const handleDeListToken = async (contractAddress, tokenId) => {
@@ -503,15 +508,11 @@ export const handleDeListToken = async (contractAddress, tokenId) => {
   );
 
   res1 = marketplaceInstance.delistToken(contractAddress, tokenId);
-  let hash = res1;
 
   res1 = await res1.wait();
-
   if (res1.status === 0) {
     console.log('Transaction Failed');
   }
-  contractAddress = await readReceipt(hash);
-
   return res1.status;
 };
 
@@ -538,15 +539,10 @@ export const handleAcceptBid = async (
     price
   );
 
-  let hash = res1;
-
   res1 = await res1.wait();
-
   if (res1.status === 0) {
     console.log('Transaction Failed');
   }
-  contractAddress = await readReceipt(hash);
-
   return res1.status;
 };
 
@@ -565,14 +561,9 @@ export const handleWithdrawBidForToken = async (contractAddress, tokenId) => {
 
   res1 = marketplaceInstance.withdrawBidForToken(contractAddress, tokenId);
 
-  let hash = res1;
-
   res1 = await res1.wait();
-
   if (res1.status === 0) {
     console.log('Transaction Failed');
   }
-  contractAddress = await readReceipt(hash);
-
   return res1.status;
 };
