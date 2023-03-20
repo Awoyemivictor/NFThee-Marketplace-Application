@@ -127,33 +127,51 @@ const CollectionDetail = () => {
 
     const columns = [
         {
+            name: "Icon",
+            selector: 'logo_image',
+            sortable: true,
+      cell: (data) => <img src={data.logo_image} height='32px' width='32px' />,
+
+            width: "3rem",
+
+        },
+        {
             name: "Name",
             selector: 'name',
             sortable: true,
+            width: "13rem",
+
         },
         {
             name: "Blockchain",
             selector: 'blockchain',
             sortable: true,
+            width: "13rem",
+
         },
         {
             name: "Status",
             selector: 'status',
             sortable: true,
+            width: "13rem",
+
         },
         {
             name: "links",
             selector: 'links',
             sortable: true,
             truncateText: true,
-            maxWidth: '1px',
+            width: "13rem",
+
+            maxWidth: '16rem',
         },
         {
             name: "Description",
             selector: "description",
             sortable: true,
             truncateText: true,
-            maxWidth: '1px',
+            width: "13rem",
+            maxWidth: '13rem',
         },
         {
             name: "Action",

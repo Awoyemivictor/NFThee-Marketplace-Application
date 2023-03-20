@@ -35,33 +35,50 @@ const ItemDetail = () => {
 
   const columns = [
     {
+      name: "Icon",
+      selector: 'uploadFile',
+      sortable: true,
+cell: (data) => <img src={data.uploadFile} height='32px' width='32px' />,
+
+      width: "3rem",
+
+  },
+    {
       name: 'Name',
       selector: 'name',
       sortable: true,
+      width: "13rem",
     },
     {
       name: 'About',
       selector: 'about',
       sortable: true,
       truncateText: true,
-      maxWidth: '1px',
+      width: "25rem",
+
+      maxWidth: '110px',
+     center:true,
     },
-    {
-      name: 'Designation',
-      selector: 'designation',
-      sortable: true,
-      truncateText: true,
-      maxWidth: '1px',
-    },
+    // {
+    //   name: 'Designation',
+    //   selector: 'designation',
+    //   sortable: true,
+    //   truncateText: true,
+    //   maxWidth: '1px',
+    // },
     {
       name: 'Blockchain',
       selector: 'chooseBlockchain',
       sortable: true,
+      width: "13rem",
+
     },
     {
       name: 'Status',
       selector: 'status',
       sortable: true,
+      width: "10rem",
+
     },
     {
       name: 'Action',
