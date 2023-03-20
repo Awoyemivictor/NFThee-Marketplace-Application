@@ -601,8 +601,8 @@ exports.acceptBidNft = async (req, res) => {
     let bidID = req.body.bidID;
     let status = req.body.bid_status;
     let qty_sold = req.body.qty_sold;
-    let BidData = await bidModel.findById(bidID);
-    console.log(BidData);
+    let BidData = await bidModel.findById(bidID).populate('owner').populate('bidder');
+    console.log('Biddata',BidData);
     let data1;
     let response = {}
     if (BidData) {
@@ -610,7 +610,7 @@ exports.acceptBidNft = async (req, res) => {
       let orderId = BidData.orderId;
       let boughtQty = parseInt(BidData.bid_quantity);
       let oBidder = BidData.bidder;
-      let BuyerData = await signup.findById(oBidder);
+      let BuyerData = await signup.findById(oBidder);;
       let oBuyer = BuyerData.account_address;
       let oOwner = BidData.owner;
       let OwnerData = await signup.findById(oOwner);
@@ -808,6 +808,72 @@ exports.acceptBidNft = async (req, res) => {
       //comment
       // console.log(data);
       console.log("DATAAAA>::::::::::::::::::::6409b4d58c73a4b1c345e757:", data1,"--",response);
+    // console.log('Biddata>>>>>>>>>>>>>>>>>>>>>>>>',BidData);
+    // console.log('Biddata>>>>>>>>>>>>>>>>>>>>>>>>',BidData[0].owner,BidData[0].bidder,BidData[0].bidder.email_address,BidData[0].bidder.user_name);
+    console.log('Biddata>>>>>>>>>>>>>>>>>>>>>>>>',BidData.owner);
+
+
+
+      if (data1) {
+        let email = BidData.bidder.email_address;
+        // let email = 'mohit.lnwebworks@gmail.com';
+        let Subject = "Accepted  Bid";
+        let message = `<!DOCTYPE html>
+        <html>
+          <head>
+            <title>Thankyou For Bidding !!</title>
+            <style>
+           
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+              }
+              
+              h1 {
+                color: #007bff;
+                text-align: center;
+              }
+              h2 {
+                color: #007bff;
+                text-align: center;
+              }
+              h3 {
+                text-align: center;
+              }
+              p {
+                font-size: 18px;
+                text-align: center;
+              }
+              
+              img {
+                display: block;
+                margin:  auto;
+                max-width:50%;
+              }
+            </style>
+          </head>
+          <body>
+          <h1> Accepted Your Bid</h1>
+        <h3>Dear <h2>${BidData.bidder.user_name}</h2>,
+
+
+          I am writing to confirm that I have accepted your bid for my [Name/Title of NFT] NFT. I am pleased to accept your offer of [Bid amount].
+
+          I would like to thank you for your interest in my NFT, and I hope that you will enjoy it for many years to come. I will be transferring the NFT to your account as soon as possible.
+
+
+          Best regards,
+
+          <h2>${BidData.owner.user_name}</h2>
+
+        </h3>
+      
+        <img src="https://wallpaperaccess.com/full/8054247.jpg" alt="Thankyou">
+      </body>
+    </html`;
+        // let message = `<h3>created your Bid successfully</h3><p>to check your bid nft><h4>Click here</h4></a></p>`;
+        console.log("mkamkkkkkkkkkkkkkkkkkkkkkkkkk", message, email);
+        mailerLogin(email, message, Subject);}
       return {
         message: "Bid updated",
         status: true,

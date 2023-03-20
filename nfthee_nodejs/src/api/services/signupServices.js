@@ -194,7 +194,6 @@ exports.login = async (req, res) => {
   try {
     const { email_address } = req.query;
     console.log(req.body, req.query);
-<<<<<<< HEAD
     let test_Message =`<!DOCTYPE html>
     <html>
       <head>
@@ -231,9 +230,6 @@ exports.login = async (req, res) => {
     </html>
     `
     
-=======
-    let test_Message = `<h4>Thankyou for Login</h4>`;
->>>>>>> origin/dev
 
     let test = await mailerLogin(email_address, test_Message);
     console.log(test);
@@ -791,3 +787,72 @@ exports.notificationFetch = async (req, res) => {
 //       throw error;
 //   }
 // }
+
+exports.updateUserStatus = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    let action = req.query.action;
+    console.log('snjnsjknssjn', userId, action);
+        let result =
+     ( action === 'verified')
+        ? await signup.findOneAndUpdate(
+            { _id: userId },
+            { $set: { status: 'verified' } }
+          )
+        : await signup.findOneAndUpdate(
+            { _id: userId },
+            { $set: { status: 'pending' } }
+          );
+    return {
+      message: 'status update successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.readUser = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    // let action = req.query.action;
+    console.log('snjnsjknssjn', userId);
+        let result =
+
+        await signup.find(
+            { _id: userId }
+          )
+    return {
+      message: 'status update successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.checkWalletAddress = async (req, res) => {
+  try {
+    let resMsg
+    let wallet_token = req.body.wallet_token;
+    let id = req.body.id;
+    console.log('snjnsjknssjn', wallet_token,id);
+        let result =
+        await signup.findOne(
+            { _id: id, wallet_token: wallet_token }
+          )
+          console.log('result',result)
+    return {
+      message:'wallet matched successfully.',
+      status: true,
+      data:result,
+    }; 
+//  else
+//     return {
+//     message: ' wallet not matched ',
+//     status: false,
+//     data: []}
+  } catch (error) {
+    throw error;
+  }
+};

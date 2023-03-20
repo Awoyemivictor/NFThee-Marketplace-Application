@@ -164,8 +164,6 @@ exports.notificationSend = async (req, res, next) => {
     next(error);
   }
 };
-
-
 exports.notificationFetch = async (req, res, next) => {
   try {
     const data = await signupServices.notificationFetch(req);
@@ -195,6 +193,47 @@ exports.addWalletToken = async (req, res, next) => {
   try {
     const data = await signupServices.addWalletToken(req);
     console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+//user status
+exports.updateUserStatus = async (req, res, next) => {
+  try {
+    const data = await signupServices.updateUserStatus(req);
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.readUser = async (req, res, next) => {
+  try {
+    const data = await signupServices.readUser(req);
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.checkWalletAddress = async (req, res, next) => {
+  try {
+    const data = await signupServices.checkWalletAddress(req);
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {
