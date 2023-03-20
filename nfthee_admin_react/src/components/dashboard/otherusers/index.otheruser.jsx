@@ -107,7 +107,7 @@ export default function Otheruser() {
     const completeTask=async(collections,e)=>{
       setLoading(true)
    
- await axios.get(`http://192.168.29.147:8002/api/updateUserStatus?id=${collections._id}&&action=${e.target.id}`)
+ await backendInstance.get(`/api/updateUserStatus?id=${collections._id}&&action=${e.target.id}`)
   .then(response => console.log(response.data.data))
   .finally(() => setLoading(false))
   }

@@ -34,7 +34,7 @@ export default function SingleUser() {
   useEffect(() => {
         
     // backendInstance
-    axios.get(`http://192.168.29.147:8002/api/readUser?id=${_ID}`)
+    backendInstance.get(`/api/readUser?id=${_ID}`)
         .then(response => {setUser(response.data.data)
           console.log('0flpsmpdmlfb;m;glnmf;glmn;lmfglmfgmmpo',response.data.data)
     setLoading(false)
