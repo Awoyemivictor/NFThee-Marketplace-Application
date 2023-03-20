@@ -90,6 +90,9 @@ const[itemData,setItemData]=useState([])
 const[usersData,setUsersData]=useState([])
 const[addFavData,setFavData]=useState([])
 const [userBid,setUserBid]=useState([])
+const [bidRecieve,setBidRecieve]=useState([])
+const [activeTab, setActiveTab] = useState();
+
 
 
   useEffect(()=>{
@@ -119,6 +122,14 @@ const [userBid,setUserBid]=useState([])
     // console.log(data,'userBid')
 
   },[])
+  
+  useEffect(()=>{
+
+    instance
+    .post('/api/fetchOffer',{ownerId:_id})
+    .then(res=> setBidRecieve(res.data.data))
+    
+  },[])
 
   // useEffect(()=>{
 
@@ -127,6 +138,9 @@ const [userBid,setUserBid]=useState([])
   //   .then(res=>( setItemData(res.data.data)))
 
 
+  const handleLinkClick=( tabId)=> {
+    setActiveTab(tabId); // Show only the selected tab pane
+  }
   // },[])
 
   useEffect(()=>{
@@ -165,6 +179,11 @@ const [buttonLoading,setButtonLoading]=useState(false)
   };
 
 
+
+
+
+
+  console.log(activeTab)
   const handleUpload = async e => {
     e.preventDefault();
     const formData = new FormData();
@@ -318,7 +337,7 @@ setChanges(Math.floor(Math.random() * 10))
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href="#">
+                              <a href={`https://etherscan.io/address/${result1}`}  target="_blank">
                                 <img
                                   src="/assets/images/icons/etherscan-logo.png"
                                   alt=""
@@ -347,6 +366,7 @@ setChanges(Math.floor(Math.random() * 10))
                           <div className="more">
                             <div className="icon dropdown">
                               <a
+                                type="button"
                                 href="#"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
@@ -357,12 +377,12 @@ setChanges(Math.floor(Math.random() * 10))
                                 />
                               </a>
                               <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <a className="dropdown-item" href="#">
+                                {/* <a className="dropdown-item" href="#">
                                   <span className="dropdown-icon">
                                     <img src="/assets/images/icons/share.png" />
                                   </span>
                                   Share
-                                </a>
+                                </a> */}
                                 <a className="dropdown-item" href="#">
                                   <span className="dropdown-icon">
                                     <img src="/assets/images/icons/report.png" />
@@ -526,21 +546,19 @@ setChanges(Math.floor(Math.random() * 10))
                     <div className="dropdown-divider"></div>
                       <a className="dropdown-item" href="#">Separated link</a>
                     </div> */}
-
                     <button
-                      className="nav-link dropdown"
+                      className="nav-link dropdown "
                       id="offers-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#offers"
                       aria-selected="false"
-                     
                     >
-                      <a className="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+                      <a className="dropdown-toggle dropdown-toggle-split " data-toggle="dropdown"  href="#" role="button" aria-haspopup="true" aria-expanded="false" >
                         <img src="/assets/images/icons/percent-icon.png" alt="" />
-                        Offers ({userBid.length })</a>
-                      <div className="dropdown-menu offer-dropdown">
-                        <a className="dropdown-item" href="#">Offers received</a>
-                        <a className="dropdown-item" href="#">Offers made</a>
+                        Offers ({userBid.length + bidRecieve.length })</a>
+                      <div className="dropdown-menu " >
+                        <a className="dropdown-item" href="#" onClick={()=>handleLinkClick( 'offers-received')}  >Offers received</a>
+                        <a className="dropdown-item" href="#" onClick={()=>handleLinkClick( 'offers-made')}>Offers made</a>
                       </div>
                     </button>
                   </div>
@@ -1039,6 +1057,74 @@ setChanges(Math.floor(Math.random() * 10))
                         </div>
                       </div>
                     </div>
+
+
+
+                    <div className="container">
+                      <div className="col-lg-12 col-md-12">
+                        <div className="top-collection-over-section">
+                          <div className="row">
+                            <div className="profile-content-wrapper">
+                              <div className="row">
+                                <div className="col-6">
+                                  <h4 className="hd-title ">  Offer Received    </h4>
+                                </div>
+                                
+                              </div>
+                              <div style={{'display':'none'+'!important'}}   >
+                                <div className="activity-table-container table-responsive">
+                                  {bidRecieve.length >0?bidRecieve.map((data,i)=>(
+                                  <table className="table" key={i}>
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Offer Price</th>
+                                        <th scope="col">Expiration Date</th>
+                                        <th scope="col"> Accept</th>
+                                        <th scope="col"> Cancel</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <div className="d-flex align-items-center">
+                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div className="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div className="price-detail">
+                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
+                                            <h6>$52547.30</h6>
+                                          </div>
+                                        </td>
+                                        <td>  May 16, 2022</td>
+                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
+                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Cancel</a></td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>)):''}
+                                </div>
+
+                              </div>
+                              
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
                   </div>
                 </div>
               </div>

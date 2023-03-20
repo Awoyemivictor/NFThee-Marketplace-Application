@@ -45,6 +45,10 @@ import SmsSetting from './components/dashboard/smsSetting/smsSetting';
 
 // Dashboards
 import Default from "./components/dashboard/default/index.component";
+
+//otherUser
+import Otheruser from "./components/dashboard/otherusers/index.otheruser"
+
 // import View from "./components/dashboard/view/CreateItemDetail";
 import View from "./components/dashboard/view/index.component";
 import component from "./components/dashboard/view/index.component";
@@ -307,6 +311,11 @@ const Root = () => {
                 exact
                 path={`/dashboard/view/index.collection`}
                 component={collection}
+              />
+              <Route
+                exact
+                path={`/dashboard/view/index.otheruser`}
+                component={Otheruser}
               />
               <Route
                 exact
