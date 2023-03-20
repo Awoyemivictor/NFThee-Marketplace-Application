@@ -287,7 +287,26 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                   </div>
                 </form>
                 <ul className='navbar-nav ms-auto mb-2 mb-lg-0 navigation'>
-                  {link_main_menu.map((item) => {
+                  {!token?link_main_menu.filter(dt=>dt.name!='navbar.Create').map((item) => {
+                    return (
+                      <li
+                        className='nav-item dropdown header-dropdown'
+                        key={item.name}
+                      >
+                        <NavLink
+                          className='nav-link'
+                          activeClassName='active'
+                          to={item.path}
+                          exact
+                        >
+                          {t(item.name)}
+                        </NavLink>
+                        {item.children && (
+                          <OpenChildMenu data={item.children} />
+                        )}
+                      </li>
+                    );
+                  }):link_main_menu.map((item) => {
                     return (
                       <li
                         className='nav-item dropdown header-dropdown'

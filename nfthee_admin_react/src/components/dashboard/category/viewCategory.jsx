@@ -33,6 +33,8 @@ const Categories = () => {
       name: 'Name',
       selector: 'name',
       sortable: true,
+      width: "13rem",
+
     },
     {
       name: 'Icon',
@@ -44,11 +46,16 @@ const Categories = () => {
       name: 'Description',
       selector: 'description',
       sortable: true,
+      truncateText: true,
+      width: "13rem",
+
     },
     {
       name: 'Status',
       selector: 'status',
       sortable: true,
+      width: "13rem",
+
     },
     {
       name: 'Action',

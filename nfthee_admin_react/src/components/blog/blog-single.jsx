@@ -39,7 +39,7 @@ const BlogSingle = () => {
 	});
 	React.useEffect(() => {
 		instance
-			.get(`${process.env.REACT_APP_ADMIN_RENDER_BASE_URL}/api/singleBlog?id=${blog_id}`)
+			.get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/singleBlog?id=${blog_id}`)
 			.then((ress) => {
 				console.log(ress.data);
 				if (ress.data) {
@@ -72,6 +72,15 @@ const BlogSingle = () => {
 									<Row>
 										<Col md="12">
 											<Form className="theme-form">
+
+											<FormGroup className="form-row">
+													<h6 className="col-sm-3 col-form-label text-right f-w-700">
+														Uploaded File:
+													</h6>
+													<div className="col-xl-5 col-sm-9 col-form-label text-left">
+														<img alt="" src={blog.uploadFile} height="100px" width="100px"/>
+													</div>
+												</FormGroup>
 												<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Title:
@@ -167,14 +176,14 @@ const BlogSingle = () => {
 														<p>{blog.meta_title}</p>
 													</div>
 												</FormGroup>
-												<FormGroup className="form-row">
+												{blog.meta_tag?<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Meta Tag:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
 														<p>{blog.meta_tag}</p>
 													</div>
-												</FormGroup>
+												</FormGroup>:null}
 												<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Meta Description:
@@ -183,22 +192,15 @@ const BlogSingle = () => {
 														<p>{blog.meta_description}</p>
 													</div>
 												</FormGroup>
-												<FormGroup className="form-row">
+												{blog.status?<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Status:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
 														<p>{blog.status}</p>
 													</div>
-												</FormGroup>
-												<FormGroup className="form-row">
-													<h6 className="col-sm-3 col-form-label text-right f-w-700">
-														Upload File:
-													</h6>
-													<div className="col-xl-5 col-sm-9 col-form-label text-left">
-														<img alt="" src={blog.uploadFile} height="100px" width="100px"/>
-													</div>
-												</FormGroup>
+												</FormGroup>:null}
+												
 											</Form>
 										</Col>
 									</Row>
