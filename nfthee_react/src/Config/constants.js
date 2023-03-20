@@ -4,7 +4,7 @@ import contracts from './contracts';
 
 export const getFullYearTime = async () => {
   const days = 365;
-  return await getUnixTimeAfterDays(days);
+  return  getUnixTimeAfterDays(days);
 };
 
 export const GENERAL_TIMESTAMP = 2214189165;
@@ -18,12 +18,6 @@ export const options = [
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const MAX_FILE_SIZE = 50;
-// export const Network = {
-//   name: 'Mumbai',
-//   chainId: 80001,
-//   _defaultProvider: (providers) =>
-//     new providers.JsonRpcProvider(process.env.REACT_APP_RPC_URL),
-// };
 
 export const getUserAddress = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');

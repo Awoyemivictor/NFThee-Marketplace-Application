@@ -762,44 +762,44 @@ const CreateNewItem = () => {
         
       console.log('Marketplace Value', marketplace, typeof activeTab);
 
-      // if (marketplace === true) {
-      //   console.log('Inside Marketplace');
+      if (marketplace === true) {
+        console.log('Inside Marketplace');
 
-      //   if (activeTab === '0') {
-      //     console.log('Inside Tab1');
-      //     data = await handleListNFTSale(
-      //       itemData.chooseType,
-      //       tokenId,
-      //       fixedPrice.price,
-      //       collectionAddress
-      //     );
-      //     //price ,contractAddress, userAddress,nftCount
+        if (activeTab === '0') {
+          console.log('Inside Tab1');
+          data = await handleListNFTSale(
+            itemData.chooseType,
+            tokenId,
+            fixedPrice.price,
+            collectionAddress
+          );
+          //price ,contractAddress, userAddress,nftCount
 
-      //     console.log(data);
-      //   } else if (activeTab === '1') {
-      //     console.log('In AC2');
-      //     // tokenId ,price ,collectionName ,nftCount ,tokenType
+          console.log(data);
+        } else if (activeTab === '1') {
+          console.log('In AC2');
+          // tokenId ,price ,collectionName ,nftCount ,tokenType
 
-      //     console.log(tokenId, openForBids.Bid_price, collectionAddress);
-      //     data = await handleNFTBidListing(
-      //       tokenId,
-      //       openForBids.Bid_price,
-      //       collectionAddress
-      //     );
-      //     console.log(data);
-      //   } else if (activeTab === '2') {
-      //     console.log('In AC3');
-      //     // tokenId ,price ,collectionName ,nftCount ,tokenType
+          console.log(tokenId, openForBids.Bid_price, collectionAddress);
+          data = await handleNFTBidListing(
+            tokenId,
+            openForBids.Bid_price,
+            collectionAddress
+          );
+          console.log(data);
+        } else if (activeTab === '2') {
+          console.log('In AC3');
+          // tokenId ,price ,collectionName ,nftCount ,tokenType
 
-      //     console.log(tokenId, openForBids.Bid_price, collectionAddress);
-      //     data = await handleNFTBidListing(
-      //       tokenId,
-      //       openForBids.Bid_price,
-      //       collectionAddress
-      //     );
-      //     console.log(data);
-      //   }
-      // }
+          console.log(tokenId, openForBids.Bid_price, collectionAddress);
+          data = await handleNFTBidListing(
+            tokenId,
+            openForBids.Bid_price,
+            collectionAddress
+          );
+          console.log(data);
+        }
+      }
       console.log({ result });
       let reqParams = {
         nftId: result?.data?.data?._id,
