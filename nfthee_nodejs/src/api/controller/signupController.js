@@ -140,7 +140,6 @@ exports.userUnFollow = async (req, res, next) => {
 exports.addLoginToken = async (req, res, next) => {
   try {
     const data = await signupServices.addLoginToken(req);
-    console.log("req",data,"----------request-------")
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {
@@ -156,7 +155,6 @@ exports.addLoginToken = async (req, res, next) => {
 exports.notificationSend = async (req, res, next) => {
   try {
     const data = await signupServices.notificationSend(req);
-    console.log("req",data,"----------request-------")
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {
@@ -166,12 +164,9 @@ exports.notificationSend = async (req, res, next) => {
     next(error);
   }
 };
-
-
 exports.notificationFetch = async (req, res, next) => {
   try {
     const data = await signupServices.notificationFetch(req);
-    console.log("req",data,"----------request-------")
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {
@@ -185,6 +180,60 @@ exports.messageDelete = async (req, res, next) => {
   try {
     const data = await signupServices.messageDelete(req);
     console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.addWalletToken = async (req, res, next) => {
+  try {
+    const data = await signupServices.addWalletToken(req);
+    console.log("req",data,"----------request-------")
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+//user status
+exports.updateUserStatus = async (req, res, next) => {
+  try {
+    const data = await signupServices.updateUserStatus(req);
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.readUser = async (req, res, next) => {
+  try {
+    const data = await signupServices.readUser(req);
+    if (data.status == true) {
+      return successResponse(req, res, data.data, data.message);
+    } else {
+      return successErrorResponse(req, res, data.data, data.message);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.checkWalletAddress = async (req, res, next) => {
+  try {
+    const data = await signupServices.checkWalletAddress(req);
     if (data.status == true) {
       return successResponse(req, res, data.data, data.message);
     } else {

@@ -10,7 +10,9 @@ const signupInfo = new Schema(
     },
     token: {
       type: String,
-      
+    },
+    wallet_token: {
+      type: String,
     },
     first_name: {
       type: String,
@@ -56,6 +58,10 @@ const signupInfo = new Schema(
     },
     token_id: {
       type: String,
+    },
+    status: {
+      type: String,
+      default:'pending'
     },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }]
