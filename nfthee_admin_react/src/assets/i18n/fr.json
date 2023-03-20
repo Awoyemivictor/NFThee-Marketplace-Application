@@ -1,0 +1,193 @@
+{
+
+      "General":"General",
+      "Dashboard": "Tableau de bord",
+      "Default": "Défaut",
+      "E-Commerce":"E-Commerce",
+      "Business":"Affaires",
+      "CRM":"CRM",
+
+
+      "Widgets":"Widgets",
+      "General widget":"Widget général",
+      "Charts widget":"Widget graphique",
+
+      "Components": "CompComposantesonentes",
+      "Base": "Base",
+      "State color": "Couleur d'état",
+      "Typography": "Typographie",
+      "helper classes": "Classes d'assistants",
+      "Grid": "la grille",
+      "Tag & pills": "Tag et pilules",
+      "Progress": "Le progrès",
+      "Modal": "Modale",
+      "Alert": "Alerte",
+      "Popover": "Popover",
+      "Tooltip": "Info-bulle",
+      "Spinners": "Hilandero",
+      "Dropdown": "Desplegable",
+      "Reactstrap Tabs":"Onglets Reactstrap",
+      "Line Tabs":"Onglets de ligne",
+      "Accordian": "Accordian",
+      "Navs": "Navs",
+      "Shadow": "Ombre",
+      "List": "liste",
+
+      "Advance": "Avance",
+      "Scrollable": "Scrollable",
+      "Bootstrap Notify": "Bootstrap Notify",
+      "Rating": "Évaluation",
+      "Dropzone": "Zone de largage",
+      "Tour": "Excursión",
+      "SweetAlert": "SweetAlert",
+      "Carousel": "Carrousel",
+      "Ribbons": "Rubans",
+      "Pagination": "Pagination",
+      "Steps": "Pas",
+      "Breadcrumb": "Miette de pain",
+      "Range Slider": "Curseur de plage",
+      "Image Cropper": "Cropper d'image",
+      "Sticky": "Gluante",
+
+      "Icons": "Icônes",
+      "Flag Icon": "Icône de drapeau",
+      "Fontawesome Icon": "Icône Fontawesome",
+      "Ico Icon": "Icône Ico",
+      "Themify Icon": "Icône Themify",
+      "Feather Icon": "Icône de plume",
+      "Whether Icon": "Que l'icône",
+
+      "Buttons": " Boutons",
+      "Default Style": "Style par défaut",
+      "Flat Style": "Style plat",
+      "Edge Style": "Style de bord",
+      "Raised Style": "Style surélevé",
+      "Button Group": "Groupe de boutons",
+
+      "Forms": "Formes",
+
+      "Form Controls": "Contrôles de formulaire",
+      "Form Validation": "Validation de formulaire",
+      "Base Inputs": "Entrées de base",
+      "Checkbox & Radio": "Case à cocher et radio",
+      "Input Groups": "Groupes d'entrées",
+      "Mega Options": "Mega Options",
+
+      "Form Widgets":"Widgets de formulaire",
+      "Datepicker": "Sélecteur de date",
+      "Timepicker": "Timepicker",
+      "Typeahead": "Typeahead",
+
+      "Form Default": "Formulaire par défaut",
+      "Form Wizard": "Assistant de formulaire",
+
+
+      "Tables": "les tables",
+      "Reacstrap Table": "Tableau Reacstrap",
+      "Basic Table": "Table de base",
+      "Sizing Table": "Tableau de dimensionnement",
+      "Border Table": "Table de bordure",
+      "Styling Table": "Table de coiffure",
+      "Data Tables": "Tableaux de données",
+
+
+      "Cards": "Cartes",
+      "Basic Card": "Carte de base",
+      "Creative Card": "Carte créative",
+      "Tabbed Card": "Carte à onglets",
+      "Draggable Card": "Carte déplaçable",
+
+      "Timeline": "Chronologie",
+      "Timeline 1": "Chronologie 1",
+      "Timeline 2": "Chronologie 2",
+
+      "Charts": "Graphiques",
+      "Apex Chart": "Graphique Apex",
+      "Google Chart": "Graphique Google",
+      "Knob Chart": "Tableau des boutons",
+      "Chartjs": "Chartjs",
+      "Chartist": "Chartiste",
+
+      "Maps": "Plans",
+      "Google Maps": "Google Maps",
+      "Leaflet Maps": "Cartes des dépliants",
+
+      "Editor": "Éditrice",
+      "CK  Editor":"Éditeur CK",
+      "MDE Editor":"Éditeur MDE",
+      "ACE Code Editor":"Éditeur de code ACE",
+
+      "Users": "Utilisatrices",
+      "Users Profile": "Profil des utilisateurs",
+      "Users Edit": "Utilisateurs Modifier",
+      "Users Cards": "Cartes utilisateurs",
+
+      "Calendar": "Calendrier",
+      "Basic Calender": "Calendrier de base",
+      "Draggable Calender": "Calendrier déplaçable",
+
+      "Gallery": "Galerie",
+      "Image Gallery": "Galerie d'images",
+      "Gallery Grid With Desc": "Grille de galerie avec Desc",
+      "Masonry Gallery": "Galerie de maçonnerie",
+      "Masonry With Desc": "Maçonnerie avec Desc",
+      "Hover Efect": "Effet de survol",
+
+      
+      "Blog": "Blog",
+      "Blog Details": "Détails du blog",
+      "Blog Single": "Blog Single",
+      "Add Post": "Ajouter un message",
+
+      "Ecommerce": "Commerce électronique",
+      "Product": "Produit",
+      "Product Page": "Page produit",
+      "Product List": "Liste de produits",
+      "Payment Detail": "Détails de paiement",
+      "Order History": "Historique des commandes",
+
+      "EMAIL": "Email",
+      "Chat": "Bavarder",
+      "Contact": "Contact",
+      "TO-DO": "Faire",
+      "TO-DO Firebase": "TO-DO Firebase",
+      "Support Ticket": "Ticket d'assistance",
+      "Pricing": "Prix",
+
+
+      "Pages":"Pages",
+      "Sample Page": "Page d'exemple",
+      "Search Page": "Pages de recherche",
+
+      "Error Page": "Page d'erreur",
+      "Error 400": "Erreur 400",
+      "Error 401": "Erreur 401",
+      "Error 403": "Erreur 403",
+      "Error 404": "Erreur 404", 
+      "Error 500": "Erreur 500",
+      "Error 503": "Erreur 503",
+
+     
+
+      "Authentication": "Autenticación",
+      "Login Page": "Page de connexion",
+      "Login With Bg Image": "Connexion avec Bg Image",
+      "Login With Bg Video": "Connexion avec Bg video",
+      "Register Simple": "S'inscrire Simple",
+      "Register With Bg Image": "S'inscrire avec Bg Image",
+      "Register With Bg Video": "S'inscrire avec Bg video",
+      "Unlock-User": "Déverrouiller l'utilisateur",
+      "Forget Password": "Mot de passe oublié",
+      "Reset Password": "réinitialiser le mot de passe",
+
+      "Coming Soon": "Bientôt disponible",
+      "Coming Simple": "Venir simple",
+      "Coming With Bg Image": "Venir avec Bg Image",
+      "Coming With Bg Video": "Venir avec Bg video",
+
+      "Maintenance": "Entretien"
+
+
+
+
+}

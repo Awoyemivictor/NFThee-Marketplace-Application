@@ -1,0 +1,18 @@
+/**=====================
+    49. Badge CSS start
+==========================**/
+.badge {
+  padding: 0.44em 0.7em;
+  margin-right: 5px;
+}
+a {
+  &.badge {
+    color: $white;
+    &.badge-light {
+      color: $theme-font-color;
+    }
+  }
+}
+/**=====================
+    49. Badge CSS Ends
+==========================**/

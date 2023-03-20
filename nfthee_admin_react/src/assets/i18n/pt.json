@@ -1,0 +1,189 @@
+{
+    "General":"painel de controle",
+    "Dashboard": "painel de controle",
+    "Default": "Padrão",
+    "E-Commerce":"Comércio Eletrônico",
+    "Business":"O negócio",
+    "CRM":"CRM",
+
+    "Widgets":"Widgets",
+    "General widget":"Widget Geral",
+    "Charts widget":"Widget gráfico",
+
+    "Components": "Componentes",
+    "Base": "Base",
+    "State color": "Cor do estado",
+    "Typography": "Tipografia",
+    "helper classes": "aulas auxiliares",
+    "Grid": "Rede",
+    "Tag & pills": "Tag e pílulas",
+    "Progress": "Progresso",
+    "Modal": "Modelo",
+    "Alert": "Alerta",
+    "Popover": "Dar um pulo",
+    "Tooltip": "Sugestão",
+    "Spinners": "Spinners",
+    "Dropdown": "Suspensa",
+    "Reactstrap Tabs":"Guias Reactstrap",
+    "Line Tabs":"Guias de linha",
+    "Accordian": "Accordian",
+    "Navs": "Navs",
+    "Shadow": "Sombra",
+    "List": "Lista",
+
+    "Advance": "Avançar",
+    "Scrollable": "Rolável",
+    "Bootstrap Notify": "Notificação de inicialização",
+    "Rating": "Avaliação",
+    "Dropzone": "Ponto de largada",
+    "Tour": "Excursión",
+    "SweetAlert": "SweetAlert",
+    "Carousel": "Carrossel",
+    "Ribbons": "Fitas",
+    "Pagination": "Paginação",
+    "Steps": "Passos",
+    "Breadcrumb": "Migalhas de pão",
+    "Range Slider": "Controle deslizante de alcance",
+    "Image Cropper": "Image Cropper",
+    "Sticky": "Pegajosa",
+
+    "Icons": "Ícones",
+    "Flag Icon": "Bandeira, ícone",
+    "Fontawesome Icon": "Ícone do Fontawesome",
+    "Ico Icon": "Ícone Ico",
+    "Themify Icon": "Themify Icon",
+    "Feather Icon": "Ícone de penas",
+    "Whether Icon": "Se ícone",
+
+    "Buttons": " Boutons",
+    "Default Style": "Estilo Padrão",
+    "Flat Style": "Flat Style",
+    "Edge Style": "Estilo de borda",
+    "Raised Style": "Estilo levantado",
+    "Button Group": "Grupo de botões",
+
+    "Forms": "Formulários",
+
+    "Form Controls": "Controles de Formulário",
+    "Form Validation": "Validação de Formulário",
+    "Base Inputs": "Entradas Base",
+    "Checkbox & Radio": "Caixa de seleção e rádio",
+    "Input Groups": "Grupos de entrada",
+    "Mega Options": "Mega Opções",
+
+    "Form Widgets":"Widgets de formulário",
+    "Datepicker": "Datepicker",
+    "Timepicker": "Timepicker",
+    "Typeahead": "Typeahead",
+
+    "Form Default": "Padrão do formulário",
+    "Form Wizard": "Assistente de formulário",
+
+
+    "Tables": "Tabelas",
+    "Reacstrap Table": "Tabela Reacstrap",
+    "Basic Table": "Mesa Básica",
+    "Sizing Table": "Tabela de dimensionamento",
+    "Border Table": "Tabela de fronteira",
+    "Styling Table": "Tabela de denominação",
+    "Data Tables": "Tabelas de dados",
+
+
+    "Cards": "Postais",
+    "Basic Card": "Cartão Básico",
+    "Creative Card": "Cartão Criativo",
+    "Tabbed Card": "Cartão com abas",
+    "Draggable Card": "Cartão Draggable",
+
+    "Timeline": "Timeline",
+    "Timeline 1": "Linha do tempo 1",
+    "Timeline 2": "Linha do tempo 2",
+
+    "Charts": "Gráficos",
+    "Apex Chart": "Apex Chart",
+    "Google Chart": "Google Chart",
+    "Knob Chart": "Knob Chart",
+    "Chartjs": "Chartjs",
+    "Chartist": "Cartista",
+
+    "Maps": "Mapas",
+    "Google Maps": "Google Maps",
+    "Leaflet Maps": "Mapas de folhetos",
+
+    "Editor": "Editora",
+    "CK  Editor":"Editor CK",
+    "MDE Editor":"Editor MDE",
+    "ACE Code Editor":"Editor de código ACE",
+
+    "Users": "Comercial",
+    "Users Profile": "Perfil de Usuários",
+    "Users Edit": "Usuários Editar",
+    "Users Cards": "Cartões Usuários",
+
+    "Calendar": "Calendário",
+    "Basic Calender": "Calendário básico",
+    "Draggable Calender": "Calendário arrastável",
+
+    "Gallery": "Galeria",
+    "Image Gallery": "Galeria de imagens",
+    "Gallery Grid With Desc": "Grade da galeria com Desc",
+    "Masonry Gallery": "Galeria de alvenaria",
+    "Masonry With Desc": "Alvenaria Com Desc",
+    "Hover Effect": "Efeito de pairar",
+
+    
+    "Blog": "Blog",
+    "Blog Details": "Detalhes do Blog",
+    "Blog Single": "Único Blog",
+    "Add Post": "Ajouter un message",
+
+    "Ecommerce": "Comércio eletrônico",
+    "Product": "produtos",
+    "Product Page": "Página do produto",
+    "Product List": "Lista de produtos",
+    "Payment Detail": "Detalhes do pagamento",
+    "Order History": "Histórico de pedidos",
+
+    "EMAIL": "o email",
+    "Chat": "Bate-papo",
+    "Contact": "Contato",
+    "TO-DO": "FAÇAM",
+    "TO-DO Firebase": "TO-DO Firebase",
+    "Support Ticket": "Ticket de Suporte",
+    "Pricing": "Preços",
+
+
+    "Pages":"Páginas",
+    "Sample Page": "Página de exemplo",
+    "Search Page": "Páginas de pesquisa",
+
+    "Error Page": "Página de erro",
+    "Error 400": "Erro 400",
+    "Error 401": "Erro 401",
+    "Error 403": "Erro 403",
+    "Error 404": "Erro 404", 
+    "Error 500": "Erro 500",
+    "Error 503": "Erro 503",
+
+    
+
+    "Authentication": "Autenticação",
+    "Login Page": "Login simples",
+    "Login With Bg Image": "Faça o login com a imagem Bg",
+    "Login With Bg Video": "Entrar com vídeo Bg",
+    "Register Simple": "Cadastre-se simples",
+    "Register With Bg Image": "Registre-se com a imagem Bg",
+    "Register With Bg Video": "Registre-se com vídeo Bg",
+    "Unlock-User": "Desbloquear usuário",
+    "Forget Password": "Esqueceu a senha",
+    "Reset Password": "Redefinir senha",
+
+    "Coming Soon": "Em breve",
+    "Coming Simple": "Coming Simple",
+    "Coming With Bg Image": "Vindo com imagem Bg",
+    "Coming With Bg Video": "Coming With Bg Video",
+
+    "Maintenance": "Manutenção"
+
+    
+}
