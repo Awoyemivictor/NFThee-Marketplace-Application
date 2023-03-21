@@ -70,7 +70,7 @@ console.log('s;kbskvfsjkd bkjsdvjhsd',User)
                     Uploaded File:
                   </h6>
                   <div className="col-xl-5 col-sm-9 col-form-label text-left">
-                    <img alt="" src={User[0].profile_image?User[0].profile_image:'/assets/images/user/user.png'} height="100px" width="100px"/>
+                    <img alt="" src={User[0].profile_image?User[0].profile_image:require('../../../assets/images/user/avt-1.jpg')} height="100px" width="100px"/>
                   </div>
                 </FormGroup>
                 <FormGroup className="form-row">

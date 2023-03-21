@@ -35,6 +35,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
 
   const user = useAppSelector((state) => state.user.user);
   const metaToken = useAppSelector((state) => state.meta.meta);
+
   // console.info({user});
   const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
 
@@ -44,11 +45,17 @@ export const Navbar = ({ checkChanges, setChanges }) => {
 
   let receiver_id = userId._id;
   useEffect(() => {
-    if (receiver_id) {
+   let isComponentMounted = true
+    if (receiver_id&&isComponentMounted) {
       instance
         .post('/api/notificationFetch', { receiver_id })
         .then((res) => setNotification(res.data.data.reverse()));
     }
+
+    return () => {
+      isComponentMounted = false
+    }
+
   }, [checkChanges]);
 
   // const [fakeState, setFakeState] = useState(true)
@@ -393,10 +400,12 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                               .map((notification, index) => (
                                 <div key={index} className='dropdown-item'>
                                   <Link
-                                    // to={`/exploredetail/${notification.nftId._id}`}
+                                    to={notification?.nftId?._id?`/exploredetail/${notification.nftId._id}`:''}
                                   >
-                                    {' '}
-                                    <h6>{notification.message}</h6>
+                                    
+                                    <div class="aligned"><img src={notification?.nftId?.uploadFile||'/images/avatar1.png'} style={{marginRight: '24px'}} height='32px' width='32px' />
+                                    <span> {notification.message}</span>
+                                    </div>
                                   </Link>
                                   {/* <p>{notification.value}</p> */}
                                 </div>
@@ -419,7 +428,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         aria-expanded='false'
                       >
                         <img
-                          src='/images/avatar1.png'
+                          src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
                           alt='img'
                           className='img-fluid user-avatar'
                         />
@@ -429,7 +438,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         <div className='drop-heading'>
                           <a href='#' style={{ width: '50px' }}>
                             <img
-                              src='/images/avatar1.png'
+                              src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
                               alt=''
                               className='img-fluid user-avatar ms-0'
                             />
@@ -452,7 +461,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         <div className='dropdown-divider m-0' />
                         <Link to='/profile' className='dropdown-item'>
                           <span className='dropdown-icon'>
-                            <img src='/assets/images/icons/profile-icon.png' />
+                            <img src={'/assets/images/icons/profile-icon.png'} />
                           </span>{' '}
                           Profile{' '}
                         </Link>{' '}

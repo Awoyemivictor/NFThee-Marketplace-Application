@@ -72,7 +72,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
           {isModalOpen && (
             <ModalBuynft
               onRequestClose={toggleModal}
-              collectionData={slice[Buydata]}
+              nftData={slice[Buydata]}
             />
           )}
 

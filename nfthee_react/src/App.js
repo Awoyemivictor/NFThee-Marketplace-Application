@@ -16,8 +16,8 @@ function App() {
   const verifyWallet=async()=>{
   const address=await getUserAddress();
   if(isAuth()){
-   await instance.post('/api/checkWalletAddress',{wallet_token:address ,id:ldata._id})
-    .then(res=>console.log('appapaoapjodpjoadpjofafapjoiogeh',res.data))
+   await instance.post('/api/checkWalletAddress',{account_address:address ,id:ldata._id})
+    .then(res=>console.log('app'))
   }
 }
 

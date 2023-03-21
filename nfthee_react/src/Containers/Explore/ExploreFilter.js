@@ -17,6 +17,7 @@ function ExploreFilter() {
   console.log(id,"param id")
   const [show, setShow] = useState('hidden');
   const [collections, setCollections] = useState([]);
+  const [like, setliked] = useState();
 
   const { t } = useTranslation(); 
   const ShowResult = () =>{
@@ -130,7 +131,7 @@ useEffect(async() => {
         // }
       });
   }
-}, [collections]);
+}, [collections,like]);
 
   
 
@@ -432,7 +433,7 @@ useEffect(async() => {
                                            <div className="row gx-3 d-flex">
                                            {shownList.map((item) => {
                                               return(
-                                                <FilterCard {...item}/>
+                                                <FilterCard {...item} setliked={setliked}/>
                                               )
                                             })}
                                            </div>

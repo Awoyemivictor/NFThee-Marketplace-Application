@@ -96,8 +96,8 @@ export const insertHistory = async () => {
 // export const listNFT
 
 export const getCollection = async (name) => {
-  console.log(name);
-  // let requestOptions = { name: result };
+  // console.log(name)
+  // let requestOptions = { name: name };
 
   let datas = await instance
     .post('/api/getSingleCollectionByName', {name})
@@ -185,6 +185,24 @@ export const createBid = async ({
     .then((res) => console.log('res.....................', res));
 
   return data;
+};
+
+export const acceptBid = async (bidID) => {
+  const fetchUrl = '/api/acceptBidNft';
+  let data;
+
+  data = await instance.post(fetchUrl, { bidID });
+
+  return data.data;
+};
+
+export const deleteBid = async (bidID) => {
+  const fetchUrl = '/api/updateBidNft';
+  let data;
+
+  data = await instance.post(fetchUrl, { bidID ,action:'Delete'});
+
+  return data.data;
 };
 
 export const fetchBid = async (nftId) => {

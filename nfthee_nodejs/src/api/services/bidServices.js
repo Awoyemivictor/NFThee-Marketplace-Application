@@ -219,7 +219,7 @@ exports.updateBidNft = async (req, res) => {
 exports.userBids = async (req, res) => {
   try {
     let id = req.query.id;
-    let result = await bidModel.find({ bidder: id }).populate("nftId");
+    let result = await bidModel.find({ owner: id }).populate("nftId");
     // let result = await bidModel.find({bidder:id}).populate('bidder');
     console.log(result);
 

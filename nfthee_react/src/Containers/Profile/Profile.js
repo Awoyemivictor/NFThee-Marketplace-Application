@@ -8,7 +8,7 @@ import instance from "../../axios";
 import {messaging} from "../../firebase-config";
 import { async } from "@firebase/util";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
-import { fetchUserBid } from "../../services/apiServices";
+import { deleteBid, fetchUserBid } from "../../services/apiServices";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -83,8 +83,8 @@ const Profile = () => {
   //      tooltip.classList.remove('active');
   //   }, 1500);
   // }
-  const [image, setImage] = useState({ preview: "/assets/images/avt-5.jpg", raw: "" });
-const {_id,user_name,email_address}=JSON.parse(localStorage.getItem('userLoggedIn'))
+  const {_id,user_name,email_address,profile_image,banner_image}=JSON.parse(localStorage.getItem('userLoggedIn'))||''
+  const [image, setImage] = useState({ preview:profile_image|| "/assets/images/avt-5.jpg", raw: "" });
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
 const[usersData,setUsersData]=useState([])
@@ -92,6 +92,7 @@ const[addFavData,setFavData]=useState([])
 const [userBid,setUserBid]=useState([])
 const [bidRecieve,setBidRecieve]=useState([])
 const [activeTab, setActiveTab] = useState();
+const [bidchanges, setBidChanged] = useState();
 
 
 
@@ -121,7 +122,7 @@ const [activeTab, setActiveTab] = useState();
     // // setUserBid(data);
     // console.log(data,'userBid')
 
-  },[])
+  },[bidchanges])
   
   useEffect(()=>{
 
@@ -180,7 +181,23 @@ const [buttonLoading,setButtonLoading]=useState(false)
 
 
 
+  const withdrawTokenBid = async (bidid) => {
+    // let collectionAddress = await getCollection(nftData.chooseCollection);
 
+    // let result = await handleWithdrawBidForToken(
+    //   collectionAddress,
+    //   nftData.tokenId
+    // );
+
+     let r= await deleteBid(bidid)
+
+     if(r.success===true){
+      setBidChanged(Math.random());
+
+     }
+     console.log('delete',r)
+
+  };
 
 
   console.log(activeTab)
@@ -300,7 +317,7 @@ setChanges(Math.floor(Math.random() * 10))
           <section className="profile-banner-section">
             <div className="profile-banner-image">
               <img
-                src="/assets/images/Banner4.png"
+                src={banner_image?banner_image:"/assets/images/Banner4.png"}
                 alt=""
                 className="img-fluid w-100 profile-banner-img"
               />
@@ -1042,7 +1059,7 @@ setChanges(Math.floor(Math.random() * 10))
                                           </div>
                                         </td>
                                         <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
+                                        <td><a type="button" href="#" onClick={withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
                                       </tr>
 
                                     </tbody>
@@ -1106,7 +1123,7 @@ setChanges(Math.floor(Math.random() * 10))
                                         </td>
                                         <td>  May 16, 2022</td>
                                         <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Cancel</a></td>
+                                        <td><a type="button" href="#" onClick={()=>withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn">Cancel</a></td>
                                       </tr>
 
                                     </tbody>

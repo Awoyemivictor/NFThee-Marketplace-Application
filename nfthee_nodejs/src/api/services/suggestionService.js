@@ -28,6 +28,7 @@ exports.submitSuggestion = async (req, res) => {
             `Thank you for submitting request`,
         );
         let suggestionData = await suggestionModel.create(body);
+        console.log('suggestionData',suggestionData)
         return {
             message: "Mail sent successfully.",
             status: true,

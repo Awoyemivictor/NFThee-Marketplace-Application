@@ -516,14 +516,14 @@ const CreateNewItem = () => {
 
 
 
-    const links = [
-      { website: collectionData.website },
-      { discord: collectionData.discord },
-      { instagram: collectionData.instagram },
-      { medium: collectionData.medium },
-      { telegram: collectionData.telegram }
-    ];
-    console.log(links,"mdsbkjhvsdjsbkbyt698r^%$#%")
+    // const links = [
+    //   { website: collectionData.website },
+    //   { discord: collectionData.discord },
+    //   { instagram: collectionData.instagram },
+    //   { medium: collectionData.medium },
+    //   { telegram: collectionData.telegram }
+    // ];
+    // console.log(links,"mdsbkjhvsdjsbkbyt698r^%$#%")
 
     if (
       contractAddress.length === 42 &&
@@ -543,12 +543,12 @@ const CreateNewItem = () => {
       formData.append('url', collectionData.url);
      
       formData.append('category', collectionData.category);
-      // formData.append('website', collectionData.website);
-      // formData.append('discord', collectionData.discord);
-      // formData.append('instagram', collectionData.instagram);
+      formData.append('website', collectionData.website);
+      formData.append('discord', collectionData.discord);
+      formData.append('instagram', collectionData.instagram);
       formData.append('amount', collectionData?.amount);
-      // formData.append('medium', collectionData.medium);
-      // formData.append('telegram', collectionData.telegram);
+      formData.append('medium', collectionData.medium);
+      formData.append('telegram', collectionData.telegram);
       formData.append('creator_earnings', collectionData.creator_earnings);
       formData.append('currentOwner', collectionData.currentOwner);
       formData.append('blockchain', collectionData.blockchain);
@@ -559,7 +559,6 @@ const CreateNewItem = () => {
         collectionData.explicit_sensitive_content
       );
       formData.append('contract_address', contractAddress);
-      formData.append('links', links);
 
       // for (const link of links) {
       //   const [[key, value]] = Object.entries(link);

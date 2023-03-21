@@ -27,6 +27,7 @@ import {
   getCollection,
   handleBidNotification,
   handleAcceptNotification,
+  deleteBid,
 } from '../../services/apiServices';
 import '../../index.css';
 import instance from '../../axios';
@@ -283,7 +284,7 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const handleTokenAcceptBid = async (bidPrice, bidderAddress) => {
+  const handleTokenAcceptBid = async (bidPrice, bidderAddress,bidId) => {
     console.log(bidPrice, bidderAddress);
 
     let data = await getCollection(nftData.chooseCollection);
@@ -296,21 +297,36 @@ function ExploreDetail() {
     );
 
     if (result.status === 200) {
+      let ss=await acceptBid(bidId)
       await handleAcceptNotification(nftData?.currentOwner?._id, bidAmount, id);
       let result = await handleAcceptNotification();
-
+      
+      if(ss.success===true){
+        setliked(Math.random());
+  
+       }
       console.log('result', { result });
     }
     console.log('data.........................result...........', data);
   };
 
-  const withdrawTokenBid = async () => {
-    let collectionAddress = await getCollection(nftData.chooseCollection);
 
-    let result = await handleWithdrawBidForToken(
-      collectionAddress,
-      nftData.tokenId
-    );
+  const withdrawTokenBid = async (bidid) => {
+    // let collectionAddress = await getCollection(nftData.chooseCollection);
+
+    // let result = await handleWithdrawBidForToken(
+    //   collectionAddress,
+    //   nftData.tokenId
+    // );
+
+     let r= await deleteBid(bidid)
+
+     if(r.success===true){
+      setliked(Math.random());
+
+     }
+     console.log('delete',r)
+
   };
 
   const removeFromAuction = async () => {
@@ -884,7 +900,7 @@ function ExploreDetail() {
                                                         handleTokenAcceptBid(
                                                           data.bid_price,
                                                           data.bidder
-                                                            .account_address
+                                                            .account_address,data._id
                                                         )
                                                       }
                                                     >
@@ -893,7 +909,7 @@ function ExploreDetail() {
                                                     <button
                                                       type='button'
                                                       class='btn btn-danger'
-                                                      onClick={withdrawTokenBid}
+                                                      onClick={()=>withdrawTokenBid(data._id)}
                                                     >
                                                       Reject
                                                     </button>
@@ -903,8 +919,9 @@ function ExploreDetail() {
                                                 userId._id ? (
                                                   <button
                                                     type='button'
+                                                    id='Cancelled'
                                                     class='btn btn-danger'
-                                                    onClick={withdrawTokenBid}
+                                                    onClick={()=>withdrawTokenBid(data._id)}
                                                   >
                                                     Cancel
                                                   </button>
@@ -1043,7 +1060,7 @@ function ExploreDetail() {
                               </div>
                             )}
 
-                            {nftData?.putOnMarketplace?.price ? null : (
+                            {/* {nftData?.putOnMarketplace?.price &&nftData?.listing==='listing' ? null : (
                               <div className='col-lg-4 mb-4 mb-lg-0'>
                                 <button
                                   className='btn btn-outline-white1 w-100'
@@ -1054,18 +1071,31 @@ function ExploreDetail() {
                                   Make An Offer
                                 </button>
                               </div>
-                            )}
+                            )} */}
+                            { nftData?.putOnMarketplace?.Bid_price && nftData?.listing === 'listing' ? (
+  <div className='col-lg-4 mb-4 mb-lg-0'>
+    <button
+      className='btn btn-outline-white1 w-100'
+      data-bs-toggle='modal'
+      data-bs-target='#makeOfferModal'
+    >
+      <i className='bx bxs-purchase-tag me-2' /> Make An Offer
+    </button>
+  </div>
+) : null}
+{nftData?.listing==='delisting'?<p>Wait for Listing</p>:null}
+
                           </>
                         )}
-                        <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
+                      {nftData?.listing==='listing'?  <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
                           <button
                             className='btn btn-outline-white1 w-100'
-                            onClick={listingToggleModal}
+                            // onClick={listingToggleModal}
                           >
                             <i className='bx bx-credit-card me-2' />{' '}
                             {t('product.Buy Card')}
                           </button>
-                        </div>
+                        </div>:null}
 
                         {nftData?.putOnMarketplace?.price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
@@ -2111,7 +2141,7 @@ function ExploreDetail() {
                   {shownList
                     .filter((item) => item._id != id)
                     .map((item, index) => {
-                      return <SingleSlider key={index} {...item} />;
+                      return <SingleSlider key={index} {...item} setliked={setliked} />;
                     })}
                 </div>
               </div>
