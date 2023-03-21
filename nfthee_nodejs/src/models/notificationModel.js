@@ -26,7 +26,7 @@ const notification = new Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'nft',
     },
-    created_by: {
+    currentOwner: {
       type: mongoose.Schema.ObjectId,
       ref: 'user',
     },
