@@ -95,12 +95,12 @@ export const insertHistory = async () => {
 
 // export const listNFT
 
-export const getCollection = async (result) => {
-  console.log(result)
-  let requestOptions = { name: result };
+export const getCollection = async (name) => {
+  console.log(name);
+  // let requestOptions = { name: result };
 
   let datas = await instance
-    .post('/api/getSingleCollectionByName', requestOptions)
+    .post('/api/getSingleCollectionByName', {name})
     .then((response) => {
       let data = response.data.data.contract_address;
       console.log(data);
@@ -134,11 +134,6 @@ export const handleLikes = async (result, value, setDisaable) => {
   return data;
 };
 
-
-
-
-
-
 export const createBid = async ({
   nftId,
   bidder,
@@ -155,7 +150,7 @@ export const createBid = async ({
 
   let data;
   const order = await instance.post(url, { nftId: nftId });
-  let orderId=order.data.data[0]._id
+  let orderId = order.data.data[0]._id;
   if (orderId) {
     let bidData = {
       bidder,
@@ -170,25 +165,24 @@ export const createBid = async ({
   }
   let historyMetaData = {
     nftId: nftId,
-    userId:bidder,
+    userId: bidder,
     action: 'Bids',
     actionMeta: 'Default',
-    message:`Bid by ${ldata.user_name}  with ${bid_price} price `,}
-    //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-    //   currentUser.slice(0, 3) +
-    //   '...' +
-    //   currentUser.slice(39, 42)
-    // }`,
-    // created_ts: moment(new Date()).format(
-    //   'YYYY-MM-DD HH:mm:ss'
-    // ),
+    message: `Bid by ${ldata.user_name}  with ${bid_price} price `,
+  };
+  //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+  //   currentUser.slice(0, 3) +
+  //   '...' +
+  //   currentUser.slice(39, 42)
+  // }`,
+  // created_ts: moment(new Date()).format(
+  //   'YYYY-MM-DD HH:mm:ss'
+  // ),
   // };
-   console.log('history',historyMetaData)
+  console.log('history', historyMetaData);
   let response = await instance
-  .post(
-    `/api/insertHistory`,
-    historyMetaData
-  ).then((res)=>console.log('res.....................',res))
+    .post(`/api/insertHistory`, historyMetaData)
+    .then((res) => console.log('res.....................', res));
 
   return data;
 };
@@ -213,184 +207,224 @@ export const fetchBid = async (nftId) => {
 //   return data.data;
 // };
 
-
 export const handleBuyNotification = async (id) => {
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
-  let receiver_token =""
+  let receiver_token = '';
 
-  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
-    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
-    receiver_token = res.data.data.token_id;
-  }).catch((e)=>{
-    console.log("get user data with id error-----",e)
-  })
-
-  setTimeout(()=>{
-
-    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} bought your Nft`} 
-
-    axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
-    console.log("notification api send receiver",res)
-    }).catch((e)=>{
-      console.log("notification api receiver",e)
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`)
+    .then((res) => {
+      console.log('Sdvsdvsdsdvsdv', res.data.data.token_id);
+      receiver_token = res.data.data.token_id;
     })
+    .catch((e) => {
+      console.log('get user data with id error-----', e);
+    });
 
-    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
-   
+  setTimeout(() => {
+    let payload = {
+      sender_id: ldata._id,
+      receiver_id: id,
+      sender_token: ldata.token_id,
+      receiver_token: receiver_token,
+      sender_username: ldata.user_name,
+      message: `${ldata.user_name} bought your Nft`,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`, payload)
+      .then((res) => {
+        console.log('notification api send receiver', res);
+      })
+      .catch((e) => {
+        console.log('notification api receiver', e);
+      });
+
+    const server_key =
+      'AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS';
+
     const headers = {
-        'Authorization' : `key=${server_key}`,
-        'Content-Type'  : 'application/json',
+      Authorization: `key=${server_key}`,
+      'Content-Type': 'application/json',
     };
 
     let payloads = {
-      to   : receiver_token,
-      data : {body:`${ldata.user_name} bought your Nft`,title:'Firebase Notification'},
+      to: receiver_token,
+      data: {
+        body: `${ldata.user_name} bought your Nft`,
+        title: 'Firebase Notification',
+      },
     };
 
-    console.log("token---------------------",receiver_token)
-    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
-      headers: headers
-    }).then((res)=>{
-        console.log("FCM send method receiver",res)
-      }).catch((e)=>{
-        console.log("FCM api error receiver",e)
+    console.log('token---------------------', receiver_token);
+    axios
+      .post(`https://fcm.googleapis.com/fcm/send`, payloads, {
+        headers: headers,
       })
+      .then((res) => {
+        console.log('FCM send method receiver', res);
+      })
+      .catch((e) => {
+        console.log('FCM api error receiver', e);
+      });
+  }, 3000);
+};
 
-     
-  },3000);
-
-
-}
-
-
-
-export const handleBidNotification = async (id,bidAmount,update,nftId) => {
-
-// const { id } = useParams();
-// console.log('nftId',id)
+export const handleBidNotification = async (id, bidAmount, update, nftId) => {
+  // const { id } = useParams();
+  // console.log('nftId',id)
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
-  let receiver_token =""
-console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
-  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
-    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
-    receiver_token = res.data.data.token_id;
-  }).catch((e)=>{
-    console.log("get user data with id error-----",e)
-  })
-
-  setTimeout(()=>{
-
-    let payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,nftId:nftId,sender_username:ldata.user_name,message:`${ldata.user_name} ${typeof update==='string'?'updated bid':'bided'} on your Nft ${bidAmount}`} 
-
-    instance.post(`/api/notificationSend`,payload).then((res)=>{
-    console.log("notification api send receiver",res)
-    }).catch((e)=>{
-      console.log("notification api receiver",e)
+  let receiver_token = '';
+  console.log(bidAmount, 'djfjkdfgjdgdjfffjfkjfgn');
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`)
+    .then((res) => {
+      console.log('Sdvsdvsdsdvsdv', res.data.data.token_id);
+      receiver_token = res.data.data.token_id;
     })
+    .catch((e) => {
+      console.log('get user data with id error-----', e);
+    });
 
-    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
-   
+  setTimeout(() => {
+    let payload = {
+      sender_id: ldata._id,
+      receiver_id: id,
+      sender_token: ldata.token_id,
+      receiver_token: receiver_token,
+      nftId: nftId,
+      sender_username: ldata.user_name,
+      message: `${ldata.user_name} ${
+        typeof update === 'string' ? 'updated bid' : 'bided'
+      } on your Nft ${bidAmount}`,
+    };
+
+    instance
+      .post(`/api/notificationSend`, payload)
+      .then((res) => {
+        console.log('notification api send receiver', res);
+      })
+      .catch((e) => {
+        console.log('notification api receiver', e);
+      });
+
+    const server_key =
+      'AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS';
+
     const headers = {
-        'Authorization' : `key=${server_key}`,
-        'Content-Type'  : 'application/json',
+      Authorization: `key=${server_key}`,
+      'Content-Type': 'application/json',
     };
 
     let payloads = {
-      to   : receiver_token,
-      data : {body:`${ldata.user_name} ${typeof update==='string'?'updated bid':'bided'} on your Nft ${bidAmount}`,title:'Firebase Notification'},
+      to: receiver_token,
+      data: {
+        body: `${ldata.user_name} ${
+          typeof update === 'string' ? 'updated bid' : 'bided'
+        } on your Nft ${bidAmount}`,
+        title: 'Firebase Notification',
+      },
     };
 
-    console.log("token---------------------",receiver_token)
-    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
-      headers: headers
-    }).then((res)=>{
-        console.log("FCM send method receiver",res)
-      }).catch((e)=>{
-        console.log("FCM api error receiver",e)
+    console.log('token---------------------', receiver_token);
+    axios
+      .post(`https://fcm.googleapis.com/fcm/send`, payloads, {
+        headers: headers,
       })
+      .then((res) => {
+        console.log('FCM send method receiver', res);
+      })
+      .catch((e) => {
+        console.log('FCM api error receiver', e);
+      });
+  }, 3000);
+};
 
-     
-  },3000);
+export const handleAcceptNotification = async (id, bidAmount, nftId) => {
+  console.log('nftId', nftId);
 
-
-}
-
-
-export const handleAcceptNotification = async (id,bidAmount,nftId) => {
-  console.log('nftId',nftId)
-  
   // const currentPath = window.location.pathname;
   // console.log('nftIdsss',currentPath);
 
-
-
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
-  let receiver_token ;
-console.log(bidAmount,'djfjkdfgjdgdjfffjfkjfgn')
-  axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
-    console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
-    receiver_token = res.data.data.token_id;
-  }).catch((e)=>{
-    console.log("get user data with id error-----",e)
-  })
-  let payload
-  setTimeout(()=>{
-
-    payload = {sender_id:ldata._id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} accepted your offer`} 
-
-    axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
-    console.log("notification api send receiver",res)
-    }).catch((e)=>{
-      console.log("notification api receiver",e)
+  let receiver_token;
+  console.log(bidAmount, 'djfjkdfgjdgdjfffjfkjfgn');
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`)
+    .then((res) => {
+      console.log('Sdvsdvsdsdvsdv', res.data.data.token_id);
+      receiver_token = res.data.data.token_id;
     })
+    .catch((e) => {
+      console.log('get user data with id error-----', e);
+    });
+  let payload;
+  setTimeout(() => {
+    payload = {
+      sender_id: ldata._id,
+      receiver_id: id,
+      sender_token: ldata.token_id,
+      receiver_token: receiver_token,
+      sender_username: ldata.user_name,
+      message: `${ldata.user_name} accepted your offer`,
+    };
 
-    const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
-   
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`, payload)
+      .then((res) => {
+        console.log('notification api send receiver', res);
+      })
+      .catch((e) => {
+        console.log('notification api receiver', e);
+      });
+
+    const server_key =
+      'AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS';
+
     const headers = {
-        'Authorization' : `key=${server_key}`,
-        'Content-Type'  : 'application/json',
+      Authorization: `key=${server_key}`,
+      'Content-Type': 'application/json',
     };
 
     let payloads = {
-      to   : receiver_token,
-      data : {body:`${ldata.user_name} accepted your offer`,title:'Firebase Notification'},
+      to: receiver_token,
+      data: {
+        body: `${ldata.user_name} accepted your offer`,
+        title: 'Firebase Notification',
+      },
     };
 
-    console.log("token---------------------",receiver_token)
-    axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
-      headers: headers
-    }).then((res)=>{
-        console.log("FCM send method receiver",res)
-      }).catch((e)=>{
-        console.log("FCM api error receiver",e)
+    console.log('token---------------------', receiver_token);
+    axios
+      .post(`https://fcm.googleapis.com/fcm/send`, payloads, {
+        headers: headers,
       })
-
-     
-  },3000);
-  console.log('console',ldata,receiver_token)
+      .then((res) => {
+        console.log('FCM send method receiver', res);
+      })
+      .catch((e) => {
+        console.log('FCM api error receiver', e);
+      });
+  }, 3000);
+  console.log('console', ldata, receiver_token);
   let historyMetaData = {
-      nftId: nftId,
-      userId:ldata._id,
-      action: 'Transfer',
-      actionMeta: 'Default',
-      message:`Accept Bid by ${ldata?.user_name} `,
-    }
-    //   //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-    //   //   currentUser.slice(0, 3) +
-    //   //   '...' +
-    //   //   currentUser.slice(39, 42)
-    //   // }`,
-    //   // created_ts: moment(new Date()).format(
-    //   //   'YYYY-MM-DD HH:mm:ss'
-    //   // ),
-    // // };
-     console.log('history',historyMetaData)
-    let response = await instance
-    .post(
-      `/api/insertHistory`,
-      historyMetaData
-    ).then((res)=>console.log('res.....................',res))
-
-}
-
-
+    nftId: nftId,
+    userId: ldata._id,
+    action: 'Transfer',
+    actionMeta: 'Default',
+    message: `Accept Bid by ${ldata?.user_name} `,
+  };
+  //   //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+  //   //   currentUser.slice(0, 3) +
+  //   //   '...' +
+  //   //   currentUser.slice(39, 42)
+  //   // }`,
+  //   // created_ts: moment(new Date()).format(
+  //   //   'YYYY-MM-DD HH:mm:ss'
+  //   // ),
+  // // };
+  console.log('history', historyMetaData);
+  let response = await instance
+    .post(`/api/insertHistory`, historyMetaData)
+    .then((res) => console.log('res.....................', res));
+};
