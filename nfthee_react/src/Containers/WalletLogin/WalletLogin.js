@@ -176,7 +176,7 @@ if(data&&tok!=null){
               timer: 1500,
             });
             const {email_address} = JSON.parse(localStorage.getItem('userLoggedIn'));
-            instance.post('api/addWalletToken',{email_address:email_address,wallet_token:accounts[0]})
+            instance.post('api/addWalletToken',{email_address:email_address,account_address:accounts[0]})
             .then(res=> localStorage.setItem('userLoggedIn',JSON.stringify(res.data.data)))
             
 

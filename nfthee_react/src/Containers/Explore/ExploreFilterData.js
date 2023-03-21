@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { AccordionCard, CheckBox } from "../../Components";
 import {NavLink, Link } from 'react-router-dom'
 import { useTranslation, initReactI18next } from "react-i18next";
+import { handleLikes } from "../../services/apiServices";
 
 export const cardData =
      [
@@ -462,24 +463,50 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({_id, uploadFile,designation,title, name,putOnMarketplace,created_by}) => {
+  export const FilterCard = ({_id, uploadFile,designation,title,likes, setliked,putOnMarketplace,created_by}) => {
     const { t } = useTranslation();
+
+    const [diable, setDisaable] = useState(false);
+    const data = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
+
+    const handleAddFavorite = async (e, nft) => {
+
+      const requestBody = {
+        id: data._id,
+        postId: nft,
+      };
+      // console.log({ data._id });
+      if (data._id != '' || undefined) {
+        console.log('test==>>>>>if', requestBody, e.target.id);
+        const data = await handleLikes(requestBody, e.target.id, setDisaable);
+        if (!data) {
+          setDisaable(true);
+        }
+        if (data) {
+          // setDisaable(false)
+          
+            setliked(Math.random());
+        }
+      }
+    };
     return (
         <div className="col-12 col-sm-3">
         <div className="live-auction-area">
-            <Link to={`/exploredetail/${_id}`}>
             {/* {images.map((item,index)=>{
-                        return( */}
+            return( */}
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
                     <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {created_by?.user_name ? created_by?.user_name : '@Lorihart'}</span> </div>
+            <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media">
                        <img src={uploadFile} alt="" className="img-fluid" />
 
                        <img  alt="" className="img-fluid" />
 
                        </div>
+            </Link>
+
                     <div className="card-title mb-2 pb-2">
                         {/* <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5>  */}
                         <h5>{title}</h5>
@@ -490,7 +517,49 @@ const images = [
                             <div className="eth-price">
                                 <h6> <img src="/assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace?.price} </h6>
                             </div>
-                        </div> <button className="btn place-bid-btn"> { t('explore.Place Bid') }</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
+                        </div> <button className="btn place-bid-btn"> { t('explore.Place Bid') }</button> 
+                        
+                        
+                        {/* <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button> */}
+                        {likes.includes(data._id) ? (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='unliked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, _id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='unliked' className='ri-heart-fill me-1' />
+                              {likes
+                                ? likes.length === 0
+                                  ? ''
+                                  : likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        ) : (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='liked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, _id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='liked' className=' ri-heart-line me-1' />
+                              {likes
+                                ? likes.length === 0
+                                  ? ''
+                                  : likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -498,7 +567,6 @@ const images = [
 
           })} */}
 
-            </Link>
         </div>
     </div>
     );
@@ -556,16 +624,40 @@ const images = [
     );
   };
 
-  export const SingleSlider = ({ _id,name,uploadFile,title, bidInfo, putOnMarketplace}) => {
+  export const SingleSlider = ({ _id,name,uploadFile,likes, bidInfo, putOnMarketplace,setliked}) => {
     const { t } = useTranslation();
+    const [diable, setDisaable] = useState(false);
+    const data = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
+
+    const handleAddFavorite = async (e, nft) => {
+
+      const requestBody = {
+        id: data._id,
+        postId: nft,
+      };
+      // console.log({ data._id });
+      if (data._id != '' || undefined) {
+        console.log('test==>>>>>if', requestBody, e.target.id);
+        const data = await handleLikes(requestBody, e.target.id, setDisaable);
+        if (!data) {
+          setDisaable(true);
+        }
+        if (data) {
+          // setDisaable(false)
+          
+            setliked(Math.random());
+        }
+      }
+    };
     return (
   <div className="single-slide">
      <div className="live-auction-area">
-            <Link to={`/exploredetail/${_id}`}>
             <div className="auction-card-two mb-4 ">
                 <div className="card-body">
                     <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {name}</span> </div>
+            <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media"> <img src={uploadFile} alt="" className="img-fluid" /> </div>
+                        </Link>
                     <div className="card-title mb-2 pb-2">
                         <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5>
                         {/* <h5>{t(`CreativeArtCollection.title`)}</h5> */}
@@ -576,11 +668,53 @@ const images = [
                             <div className="eth-price">
                                 <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
                             </div>
-                        </div> <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}> <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button>
+                        </div>
+                         {/* <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}>
+                          
+                           <span className="number-like d-flex"> <i className="ri-heart-line me-1" /> 75 </span> </button> */}
+                            {likes.includes(data._id) ? (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='unliked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, _id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='unliked' className='ri-heart-fill me-1' />
+                              {likes
+                                ? likes.length === 0
+                                  ? ''
+                                  : likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        ) : (
+                          <button
+                            className='wishlist-button ms-auto'
+                            id='liked'
+                            disabled={diable}
+                            onClick={(e) =>
+                              handleAddFavorite(e, _id)
+                            }
+                            tabIndex={0}
+                          >
+                            <span className='number-like d-flex'>
+                              <i id='liked' className=' ri-heart-line me-1' />
+                              {likes
+                                ? likes.length === 0
+                                  ? ''
+                                  : likes.length
+                                : ''}
+                            </span>
+                          </button>
+                        )}
+                       
                     </div>
                 </div>
             </div>
-            </Link>
         </div>
   </div>
 

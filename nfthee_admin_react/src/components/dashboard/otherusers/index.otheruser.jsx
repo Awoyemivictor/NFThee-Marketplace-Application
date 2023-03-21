@@ -24,6 +24,15 @@ export default function Otheruser() {
 
     const columns = [
       {
+        name: "Icon",
+        selector: 'profile_image',
+        sortable: true,
+  cell: (data) => <img src={data.profile_image||require('../../../assets/images/user/avt-1.jpg')} height='32px' width='32px' />,
+
+        width: "3rem",
+
+    },
+      {
         name: 'Userame',
         selector: 'user_name',
         sortable: true,
@@ -47,8 +56,8 @@ export default function Otheruser() {
         width: "10rem",
       },
       {
-        name: 'Wallet Address',
-        selector: 'wallet_token',
+        name: 'Account Address',
+        selector: 'account_address',
         sortable: true,
         wrap:true,
       },
