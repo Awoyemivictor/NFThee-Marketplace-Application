@@ -83,7 +83,7 @@ const Profile = () => {
   //      tooltip.classList.remove('active');
   //   }, 1500);
   // }
-  const {_id,user_name,email_address,profile_image}=JSON.parse(localStorage.getItem('userLoggedIn'))
+  const {_id,user_name,email_address,profile_image,banner_image}=JSON.parse(localStorage.getItem('userLoggedIn'))||''
   const [image, setImage] = useState({ preview:profile_image|| "/assets/images/avt-5.jpg", raw: "" });
 const[collectionData,setCollectionData]=useState([])
 const[itemData,setItemData]=useState([])
@@ -317,7 +317,7 @@ setChanges(Math.floor(Math.random() * 10))
           <section className="profile-banner-section">
             <div className="profile-banner-image">
               <img
-                src="/assets/images/Banner4.png"
+                src={banner_image?banner_image:"/assets/images/Banner4.png"}
                 alt=""
                 className="img-fluid w-100 profile-banner-img"
               />
