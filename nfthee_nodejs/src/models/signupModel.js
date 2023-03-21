@@ -11,9 +11,9 @@ const signupInfo = new Schema(
     token: {
       type: String,
     },
-    wallet_token: {
-      type: String,
-    },
+    // wallet_token: {
+    //   type: String,
+    // },
     first_name: {
       type: String,
       required: true,
@@ -32,6 +32,7 @@ const signupInfo = new Schema(
       type: String,
       required: true,
     },
+    //wallet_token
     account_address: {
       type: String,
     },

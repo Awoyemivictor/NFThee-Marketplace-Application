@@ -632,12 +632,12 @@ exports.messageDelete = async (req, res) => {
 exports.addWalletToken = async (req, res) => {
   console.log(req.body, "mkdjkdjn");
   const email_address = req.body.email_address;
-  // const wallet_token = req.body.email_address;
+  // const account_address = req.body.email_address;
   let users = await signup.findOne({ email_address });
   if (users) {
     const result = await signup.findOneAndUpdate(
       { email_address: email_address },
-      { $set: { wallet_token: req.body.wallet_token } }
+      { $set: { account_address: req.body.account_address } }
     );
     users = await signup.findOne({ email_address });
   }
@@ -724,7 +724,7 @@ exports.notificationFetch = async (req, res) => {
   // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
-  let result = await notificationModel.find({receiver_id:id});
+  let result = await notificationModel.find({receiver_id:id}).populate('nftId');
   // let result = await notificationModel.find().populate('nftId');
 
   // console.log('id',id)
@@ -834,12 +834,12 @@ exports.readUser = async (req, res) => {
 exports.checkWalletAddress = async (req, res) => {
   try {
     let resMsg
-    let wallet_token = req.body.wallet_token;
+    let account_address = req.body.account_address;
     let id = req.body.id;
-    console.log('snjnsjknssjn', wallet_token,id);
+    console.log('snjnsjknssjn', account_address,id);
         let result =
         await signup.findOne(
-            { _id: id, wallet_token: wallet_token }
+            { _id: id, account_address: account_address }
           )
           console.log('result',result)
     return {

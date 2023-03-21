@@ -14,14 +14,14 @@ module.exports.mailerLogin =  (mail,testData,Subject)=>{
         port: 587,
         service: "gmail",
         auth: {
-          user: 'mohit.lnwebworks@gmail.com',
-          pass: 'elbwalaqodlvuzxi'
+          user: 'nfttest07@gmail.com',
+          pass: 'ghleanynsruwgerl'
         },
       });
   
       // Define the email
       var mailOptions = {
-          from: 'mohit.lnwebworks@gmail.com',
+          from: 'nfttest07@gmail.com',
           to: mail,
           subject: Subject,
           html: testData,
