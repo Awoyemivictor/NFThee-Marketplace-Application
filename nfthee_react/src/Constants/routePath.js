@@ -17,6 +17,9 @@ export const EXPLOREFILTER = "/explorefilter/:id"
 export const WALLETLOGIN = "/walletlogin"
 export const PROFILESETTING = "/profilesetting"
 export const BLOG = "/blog"
+//Wait fro Veriification
+export const WAIT = "/wait"
+
 // export const BLOGDETAIL = "/blogdetail"
 export const BLOGDETAIL = "/blogdetail/:id"
 export const LOGIN = "/login"

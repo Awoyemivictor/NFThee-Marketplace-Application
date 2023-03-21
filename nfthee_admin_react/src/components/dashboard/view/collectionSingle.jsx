@@ -64,6 +64,14 @@ const CollectionSingle = () => {
 									<Row>
 										<Col md="12">
 											<Form className="theme-form">
+											<FormGroup className="form-row">
+													<h6 className="col-sm-3 col-form-label text-right f-w-700">
+														Uploaded File:
+													</h6>
+													<div className="col-xl-5 col-sm-9 col-form-label text-left">
+														<img alt="" src={collection.logo_image} height="100px" width="100px"/>
+													</div>
+												</FormGroup>
 												<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Title:
@@ -137,25 +145,25 @@ const CollectionSingle = () => {
 														</p>
 													</div>
 												</FormGroup>
-												<FormGroup className="form-row">
+												{/* <FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Keyword Tag:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left ">
 														<p>{collection.keyword_tag}</p>
 													</div>
-												</FormGroup>
+												</FormGroup> */}
 											</Form>
 											{/* <h6>Seo</h6> */}
 											<Form className="theme-form">
-												<FormGroup className="form-row">
+												{/* <FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Meta Title:
 													</h6>
 													<div className="col-xl-5 col-sm-9 col-form-label text-left">
 														<p>{collection.meta_title}</p>
 													</div>
-												</FormGroup>
+												</FormGroup> */}
 												<FormGroup className="form-row">
 													<h6 className="col-sm-3 col-form-label text-right f-w-700">
 														Link:
@@ -180,14 +188,7 @@ const CollectionSingle = () => {
 														<p>{collection.status}</p>
 													</div>
 												</FormGroup>
-												<FormGroup className="form-row">
-													<h6 className="col-sm-3 col-form-label text-right f-w-700">
-														Uploaded File:
-													</h6>
-													<div className="col-xl-5 col-sm-9 col-form-label text-left">
-														<img alt="" src={collection.logo_image} height="100px" width="100px"/>
-													</div>
-												</FormGroup>
+												
 											</Form>
 										</Col>
 									</Row>

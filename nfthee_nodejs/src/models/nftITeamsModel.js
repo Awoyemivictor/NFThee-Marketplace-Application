@@ -22,17 +22,17 @@ const nftSchema = new Schema(
     nft_quantity: Number,
     nft_orders: [{ type: mongoose.Schema.ObjectId, ref: 'order' }],
     currentOwner: { type: mongoose.Schema.ObjectId, ref: 'user' },
-    // owned_by: [
-    //   {
-    //     address: {
-    //       type: String,
-    //       lowercase: true,
-    //     },
-    //     quantity: {
-    //       type: Number,
-    //     },
-    //   },
-    // ],
+    owned_by: [
+      {
+        address: {
+          type: String,
+          lowercase: true,
+        },
+        quantity: {
+          type: Number,
+        },
+      },
+    ],
     royalty_percentage: Number,
     chooseType: {
       type: String,
@@ -96,7 +96,7 @@ const nftSchema = new Schema(
       type: Object,
       default: {},
     },
-    created_by: {
+    currentOwner: {
       type: mongoose.Schema.ObjectId,
       ref: 'user',
       // type:String

@@ -40,7 +40,7 @@ import {
   handleAcceptBid,
   handleDeListToken,
   handleWithdrawBidForToken,
-  
+  handleNFTBidListing,
 } from '../../Config/sendFunctions';
 
 import { getUserAddress } from '../../Config/constants';
@@ -210,6 +210,18 @@ function ExploreDetail() {
   const [bidAmount, setBidAmount] = useState();
 
   const handleBidAmount = async (e) => {
+    let collectionContractAddress = await getCollection(
+      nftData.chooseCollection
+    );
+
+    console.log(nftData, parseFloat(bidAmount), collectionContractAddress);
+
+    const result = await handleNFTBidListing(
+      nftData.tokenId,
+      bidAmount,
+      collectionContractAddress
+    );
+    console.log(result);
     console.log({ bidAmount });
     let update = e.target.id;
     if (bidAmount != '' || undefined || null) {
@@ -271,12 +283,17 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const handleTokenAcceptBid = async () => {
-    const userAddress = getUserAddress();
+  const handleTokenAcceptBid = async (bidPrice, bidderAddress) => {
+    console.log(bidPrice, bidderAddress);
 
     let data = await getCollection(nftData.chooseCollection);
 
-    let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+    let result = await handleAcceptBid(
+      data,
+      nftData.tokenId,
+      bidderAddress,
+      JSON.stringify(bidPrice)
+    );
 
     if (result.status === 200) {
       await handleAcceptNotification(nftData?.currentOwner?._id, bidAmount, id);
@@ -286,7 +303,6 @@ function ExploreDetail() {
     }
     console.log('data.........................result...........', data);
   };
-
 
   const withdrawTokenBid = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
@@ -864,8 +880,12 @@ function ExploreDetail() {
                                                     <button
                                                       type='button'
                                                       class='btn btn-success'
-                                                      onClick={
-                                                        handleTokenAcceptBid
+                                                      onClick={() =>
+                                                        handleTokenAcceptBid(
+                                                          data.bid_price,
+                                                          data.bidder
+                                                            .account_address
+                                                        )
                                                       }
                                                     >
                                                       Accept

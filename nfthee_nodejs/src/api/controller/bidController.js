@@ -60,3 +60,12 @@ exports.userBids = async (req,res,next) => {
     next(error);
   }
 };
+exports.fetchOffer = async (req,res,next) => {
+  try {
+    const data = await bidServices.fetchOffer(req);
+
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};

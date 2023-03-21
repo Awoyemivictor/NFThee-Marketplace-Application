@@ -194,7 +194,42 @@ exports.login = async (req, res) => {
   try {
     const { email_address } = req.query;
     console.log(req.body, req.query);
-    let test_Message = `<h4>Thankyou for Login</h4>`;
+    let test_Message =`<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Welcome!</title>
+        <style>
+       
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          
+          h1 {
+            color: #007bff;
+            text-align: center;
+          }
+          
+          p {
+            font-size: 18px;
+            text-align: center;
+          }
+          
+          img {
+            display: block;
+            margin:  auto;
+            max-width: 100%;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>ThankYou For Login!</h1>
+        <p>Thank you for visiting our Blockchain website. We hope you find everything you're looking for.</p>
+        <img src="https://informationage-staging.s3.amazonaws.com/uploads/2022/10/nft-use-cases-for-businesses.jpeg" alt="Welcome">
+      </body>
+    </html>
+    `
+    
 
     let test = await mailerLogin(email_address, test_Message);
     console.log(test);
@@ -327,13 +362,13 @@ exports.updateAddress = async (req, res) => {
 exports.userCollections = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId , status:'verified'});
-    // const user = await createCollection.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId , status:'verified'});
+    // const user = await createCollection.find({ currentOwner: userId });
     const user = await createCollection.find({
-      created_by: userId,
+      currentOwner: userId,
       status: 'verified',
     });
-    // const user = await createCollection.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId });
     // console.log(user)
     if (user) {
       return {
@@ -355,8 +390,8 @@ exports.userCollections = async (req, res) => {
 exports.userItems = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'});
-    const user = await nftIteams.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId ,status:'pending'});
+    const user = await nftIteams.find({ currentOwner: userId });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>', user);
     if (user) {
       return {
@@ -381,7 +416,7 @@ exports.userItems = async (req, res) => {
 exports.followingList = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'});
+    // const user = await createCollection.find({ currentOwner: userId ,status:'pending'});
     const user = await signup
       .find({ _id: userId })
       .select('following')
@@ -591,6 +626,34 @@ exports.messageDelete = async (req, res) => {
     }
   } catch (error) {
     return error;
+  }}
+;
+
+exports.addWalletToken = async (req, res) => {
+  console.log(req.body, "mkdjkdjn");
+  const email_address = req.body.email_address;
+  // const wallet_token = req.body.email_address;
+  let users = await signup.findOne({ email_address });
+  if (users) {
+    const result = await signup.findOneAndUpdate(
+      { email_address: email_address },
+      { $set: { wallet_token: req.body.wallet_token } }
+    );
+    users = await signup.findOne({ email_address });
+  }
+
+  if (users) {
+    return {
+      message: "Token update ",
+      status: true,
+      data: users,
+    };
+  } else {
+    return {
+      message: "User hasn't found",
+      status: false,
+      data: null,
+    };
   }
 };
 // addLoginToken to gernerate token with firebase
@@ -622,7 +685,7 @@ exports.addLoginToken = async (req, res) => {
 };
 
 exports.notificationSend = async (req, res) => {
-  console.log(req.body, 'firstsss sdjbjd--------------');
+  // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
   let r_users = await signup.findById(id);
@@ -639,10 +702,8 @@ exports.notificationSend = async (req, res) => {
   console.log(payload_data);
   let result = '';
   if (r_users) {
-    result = await (
-      await notificationModel.create(payload_data)
-    ).populate('nftId');
-    console.log('result-------', result);
+    result = await (await notificationModel.create(payload_data)).populate('nftId');
+    // console.log("result-------", result);
   }
 
   if (result) {
@@ -663,8 +724,8 @@ exports.notificationFetch = async (req, res) => {
   // console.log(req.body, "firstsss sdjbjd--------------");
 
   let id = req.body.receiver_id;
-  // let result = await notificationModel.find({receiver_id:id});
-  let result = await notificationModel.find().populate('nftId');
+  let result = await notificationModel.find({receiver_id:id});
+  // let result = await notificationModel.find().populate('nftId');
 
   // console.log('id',id)
 
@@ -726,3 +787,72 @@ exports.notificationFetch = async (req, res) => {
 //       throw error;
 //   }
 // }
+
+exports.updateUserStatus = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    let action = req.query.action;
+    console.log('snjnsjknssjn', userId, action);
+        let result =
+     ( action === 'verified')
+        ? await signup.findOneAndUpdate(
+            { _id: userId },
+            { $set: { status: 'verified' } }
+          )
+        : await signup.findOneAndUpdate(
+            { _id: userId },
+            { $set: { status: 'pending' } }
+          );
+    return {
+      message: 'status update successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.readUser = async (req, res) => {
+  try {
+    let userId = req.query.id;
+    // let action = req.query.action;
+    console.log('snjnsjknssjn', userId);
+        let result =
+
+        await signup.find(
+            { _id: userId }
+          )
+    return {
+      message: 'status update successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.checkWalletAddress = async (req, res) => {
+  try {
+    let resMsg
+    let wallet_token = req.body.wallet_token;
+    let id = req.body.id;
+    console.log('snjnsjknssjn', wallet_token,id);
+        let result =
+        await signup.findOne(
+            { _id: id, wallet_token: wallet_token }
+          )
+          console.log('result',result)
+    return {
+      message:'wallet matched successfully.',
+      status: true,
+      data:result,
+    }; 
+//  else
+//     return {
+//     message: ' wallet not matched ',
+//     status: false,
+//     data: []}
+  } catch (error) {
+    throw error;
+  }
+};

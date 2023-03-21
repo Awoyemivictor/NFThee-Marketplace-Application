@@ -44,6 +44,8 @@ import ExploreEthereum from "../Containers/Explore/BlockchainsViews/ExploreEther
 import ExploreBinance from "../Containers/Explore/BlockchainsViews/ExploreBinance";
 import ExplorePolygon from "../Containers/Explore/BlockchainsViews/ExplorePolygon";
 import ExploreHarmony from "../Containers/Explore/BlockchainsViews/ExploreHarmony";
+//Wait for Verification
+import Wait from "../Containers/Wait/Wait";
 
 
 
@@ -51,6 +53,10 @@ export const routes = [
   {
     path: RoutePath.HOME,
     component: Home,
+  },
+  {
+    path:RoutePath.WAIT,
+    component:Wait
   },
   {
     path: RoutePath.EXPLORE,
@@ -71,6 +77,7 @@ export const routes = [
   {
     path: RoutePath.CREATENEWITEM,
     component: CreateNewItem,
+    protected: true
   },
   {
     path: RoutePath.PROFILE,
