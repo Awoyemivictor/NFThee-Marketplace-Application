@@ -104,8 +104,9 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
       nftData?.chooseCollection,
       nftData?.tokenId
     );
-    const getCollectioAddress = await getCollection(nftData?.chooseCollection);
-    console.log('Modal data', getCollectioAddress);
+    const getCollectioAddress = await getCollection(
+     nftData?.chooseCollection
+    );
     const price = nftData?.putOnMarketplace?.price;
     const price2 = nftData?.putOnMarketplace.Bid_price;
 

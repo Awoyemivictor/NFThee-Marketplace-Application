@@ -61,48 +61,74 @@ function ProfileSetting() {
   };
   
 // console.log("><<<><<<<>>>>>>>>>>>>>>>>>>>>>>>>>",userData.profile_image,userData.banner_image,";khsdkfgdiu ")
-  const handleData=(e)=>{
+const handleData = (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  const {
+    user_name,
+    email_address,
+    bio,
+    website,
+    facebook,
+    instagram,
+    linkedin,
+    youtube,
+    profile_image,
+    banner_image
+  } = userData;
 
-  
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("username", userData.user_name);
-      formData.append("email", userData.email_address);
-      formData.append("bio", userData.bio);
-      formData.append("website", userData.website);
-      formData.append("facebook", userData.facebook);
-      formData.append("instagram", userData.instagram);
-      formData.append("linkedin", userData.linkedin);
-      formData.append("youtube", userData.youtube);
-      formData.append("profile_image", userData.profile_image);
-      formData.append("banner_image", userData.banner_image);
-    
-      instance
-        .post(`/api/updateProfile`, formData)
-        .then((response) => {
-          if(response.status===200){
-            Swal.fire({
-              icon: 'success',
-              title: 'Profile Updated Successfully',
-              showConfirmButton: false,
-              timer: 2500
-            }       
-            )
-           
-          }
-          console.log(response.data);
-          setUserData(response.data.data)
-          localStorage.setItem(
-            'userLoggedIn',
-            JSON.stringify(response.data.data)
-          );
-        })
-          .catch((error) => {
-          console.error(error);
-        });
-    
-    
+  if (user_name) {
+    formData.append("username", user_name);
   }
+  if (email_address) {
+    formData.append("email", email_address);
+  }
+  if (bio) {
+    formData.append("bio", bio);
+  }
+  if (website) {
+    formData.append("website", website);
+  }
+  if (facebook) {
+    formData.append("facebook", facebook);
+  }
+  if (instagram) {
+    formData.append("instagram", instagram);
+  }
+  if (linkedin) {
+    formData.append("linkedin", linkedin);
+  }
+  if (youtube) {
+    formData.append("youtube", youtube);
+  }
+  if (profile_image) {
+    formData.append("profile_image", profile_image);
+  }
+  if (banner_image) {
+    formData.append("banner_image", banner_image);
+  }
+
+  instance
+    .post(`/api/updateProfile`, formData)
+    .then((response) => {
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated Successfully",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+      console.log(response.data);
+      // setUserData(response.data.data)
+
+      history.push("/profile");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
   console.log(userData)
   const result1 = token.toString();
    var result = result1.slice(0, 8) + ".." + result1.slice(38, 48);
