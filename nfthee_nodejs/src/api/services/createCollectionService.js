@@ -71,11 +71,12 @@ exports.createCollectionInfo = async (req, res) => {
       payment_token: req.body.payment_token,
       display_theme: req.body.display_theme,
       explicit_sensitive_content: req.body.explicit_sensitive_content,
-      created_by: req.body.created_by,
-      // website: req.body.website,
-      // facebook: req.body.facebook,
-      // linkedin: req.body.linkedin,
-      // youtube: req.body.youtube,
+      currentOwner: req.body.currentOwner,
+      website: req.body.website,
+      discord: req.body.discord,
+      instagram: req.body.instagram,
+      medium: req.body.medium,
+      telegram: req.body.telegram,
     };
     console.log('::::::>', upadate_data);
     let result = await createCollection.create(
@@ -103,7 +104,7 @@ exports.createCollectionInfo = async (req, res) => {
 };
 exports.getCollectionInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({ status: 'verified' }).populate('created_by');
+    let result = await createCollection.find({ status: 'verified' }).populate('currentOwner');
 
     return {
       message: 'data find successfully.',
@@ -116,7 +117,7 @@ exports.getCollectionInfo = async (req, res) => {
 };
 exports.getAllInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({}).populate('created_by');
+    let result = await createCollection.find({}).populate('currentOwner');
 
     return {
       message: 'data find successfully.',
@@ -166,7 +167,7 @@ exports.read_createCollectionInfo = async (req, res) => {
     // console.log(userId);
     let result = await createCollection
       .findOne({ _id: userId })
-      .populate('created_by');
+      .populate('currentOwner');
 
     // console.log(result)
     return {

@@ -362,13 +362,13 @@ exports.updateAddress = async (req, res) => {
 exports.userCollections = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId , status:'verified'});
-    // const user = await createCollection.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId , status:'verified'});
+    // const user = await createCollection.find({ currentOwner: userId });
     const user = await createCollection.find({
-      created_by: userId,
+      currentOwner: userId,
       status: 'verified',
     });
-    // const user = await createCollection.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId });
     // console.log(user)
     if (user) {
       return {
@@ -390,8 +390,8 @@ exports.userCollections = async (req, res) => {
 exports.userItems = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'});
-    const user = await nftIteams.find({ created_by: userId });
+    // const user = await createCollection.find({ currentOwner: userId ,status:'pending'});
+    const user = await nftIteams.find({ currentOwner: userId });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>', user);
     if (user) {
       return {
@@ -416,7 +416,7 @@ exports.userItems = async (req, res) => {
 exports.followingList = async (req, res) => {
   try {
     let userId = req.query.id;
-    // const user = await createCollection.find({ created_by: userId ,status:'pending'});
+    // const user = await createCollection.find({ currentOwner: userId ,status:'pending'});
     const user = await signup
       .find({ _id: userId })
       .select('following')

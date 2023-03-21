@@ -45,10 +45,21 @@ const create_collection = new Schema(
     royalty_percentage: {
       type: Number,
     },
-    links:[{
-      type:String,
-      default:'https://etherscan.io/'
-    }],
+    telegram: {
+      type: String,
+    },
+    discord: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+    medium: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
     creator_earnings: {
       type: String,
     },
@@ -64,7 +75,7 @@ const create_collection = new Schema(
     explicit_sensitive_content: {
       type: Boolean,
     },
-    created_by: {
+    currentOwner: {
       type: mongoose.Schema.ObjectId,
       ref: 'user',
     },

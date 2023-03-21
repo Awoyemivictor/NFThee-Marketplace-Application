@@ -96,7 +96,7 @@ const nftSchema = new Schema(
       type: Object,
       default: {},
     },
-    created_by: {
+    currentOwner: {
       type: mongoose.Schema.ObjectId,
       ref: 'user',
       // type:String
