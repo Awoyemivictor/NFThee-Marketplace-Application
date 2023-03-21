@@ -40,7 +40,7 @@ import {
   handleAcceptBid,
   handleDeListToken,
   handleWithdrawBidForToken,
-  
+  handleNFTBidListing,
 } from '../../Config/sendFunctions';
 
 import { getUserAddress } from '../../Config/constants';
@@ -210,6 +210,18 @@ function ExploreDetail() {
   const [bidAmount, setBidAmount] = useState();
 
   const handleBidAmount = async (e) => {
+    let collectionContractAddress = await getCollection(
+      nftData.chooseCollection
+    );
+
+    console.log(nftData, parseFloat(bidAmount), collectionContractAddress);
+
+    const result = await handleNFTBidListing(
+      nftData.tokenId,
+      bidAmount,
+      collectionContractAddress
+    );
+    console.log(result);
     console.log({ bidAmount });
     let update = e.target.id;
     if (bidAmount != '' || undefined || null) {
@@ -286,7 +298,6 @@ function ExploreDetail() {
     }
     console.log('data.........................result...........', data);
   };
-
 
   const withdrawTokenBid = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
