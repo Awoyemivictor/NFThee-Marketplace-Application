@@ -390,6 +390,23 @@ export const ListingModal = ({
   timedAuction,
   setTimedAuction,
 }) => {
+  const submitData = async (e) => {
+    e.preventDefault();
+
+    console.log(
+      onRequestClose,
+      setListing,
+      handleTimedAuctionChange,
+      handleFixedPriceChange,
+      fixedPrice,
+      handleBidPriceChange,
+      openForBids,
+      timedAuction,
+      setTimedAuction
+    );
+
+    let data = {};
+  };
   return (
     <div className='modal__backdrop'>
       <div className='modal__container1'>
@@ -628,6 +645,7 @@ export const ListingModal = ({
                 className='btn btn-violet shadow-none'
                 data-bs-dismiss='modal'
                 aria-label='Close'
+                onClick={submitData}
               >
                 Submit
               </button>
