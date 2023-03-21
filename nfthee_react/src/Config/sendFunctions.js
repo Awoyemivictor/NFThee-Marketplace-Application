@@ -157,14 +157,14 @@ export const handleCollectionCreation = async (
 
       console.log(contractAddress, userAddress, royaltyPercentage, options);
 
-      res1 = await marketplaceInstance.royalty(contractAddress);
+      // res1 = await marketplaceInstance.royalty(contractAddress);
 
-      res1 = await res1.wait();
-      console.log('res1 collection  ===>>>', res1);
+      // res1 = await res1.wait();
+      // console.log('res1 collection  ===>>>', res1);
 
-      if (res1.status === 0) {
-        console.log('Transaction Failed');
-      }
+      // if (res1.status === 0) {
+      //   console.log('Transaction Failed');
+      // }
 
       res1 = await marketplaceInstance.setRoyalty(
         contractAddress,
