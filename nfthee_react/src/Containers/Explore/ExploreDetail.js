@@ -283,12 +283,17 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const handleTokenAcceptBid = async () => {
-    const userAddress = getUserAddress();
+  const handleTokenAcceptBid = async (bidPrice, bidderAddress) => {
+    console.log(bidPrice, bidderAddress);
 
     let data = await getCollection(nftData.chooseCollection);
 
-    let result = await handleAcceptBid(data, nftData.tokenId, userAddress);
+    let result = await handleAcceptBid(
+      data,
+      nftData.tokenId,
+      bidderAddress,
+      JSON.stringify(bidPrice)
+    );
 
     if (result.status === 200) {
       await handleAcceptNotification(nftData?.currentOwner?._id, bidAmount, id);
@@ -875,8 +880,12 @@ function ExploreDetail() {
                                                     <button
                                                       type='button'
                                                       class='btn btn-success'
-                                                      onClick={
-                                                        handleTokenAcceptBid
+                                                      onClick={() =>
+                                                        handleTokenAcceptBid(
+                                                          data.bid_price,
+                                                          data.bidder
+                                                            .account_address
+                                                        )
                                                       }
                                                     >
                                                       Accept

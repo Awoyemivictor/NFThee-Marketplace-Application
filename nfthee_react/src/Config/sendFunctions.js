@@ -519,31 +519,36 @@ export const handleDeListToken = async (contractAddress, tokenId) => {
 export const handleAcceptBid = async (
   contractAddress,
   tokenId,
-  bidderAddress
+  bidderAddress,
+  priceOfNFT
 ) => {
-  let res1;
-  const price = ethers.utils.parseEther('0.01');
+  let res;
+  const price = ethers.utils.parseEther(priceOfNFT);
 
   let marketplaceInstance = await exportInstance(
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
 
-  res1 = marketplaceInstance.acceptBidForToken(
+  const options = {
+    gasPrice: 10000000000,
+    gasLimit: 9000000,
+  };
+  res = await marketplaceInstance.acceptBidForToken(
     contractAddress,
     tokenId,
     bidderAddress,
     1,
     1,
     1,
-    price
+    price,
+    options
   );
-
-  res1 = await res1.wait();
-  if (res1.status === 0) {
+  res = await res.wait();
+  if (res.status === 0) {
     console.log('Transaction Failed');
   }
-  return res1.status;
+  return res.status;
 };
 
 export const handleWithdrawBidForToken = async (contractAddress, tokenId) => {
@@ -559,7 +564,10 @@ export const handleWithdrawBidForToken = async (contractAddress, tokenId) => {
   );
   console.log(gasLimit);
 
-  res1 = marketplaceInstance.withdrawBidForToken(contractAddress, tokenId);
+  res1 = await marketplaceInstance.withdrawBidForToken(
+    contractAddress,
+    tokenId
+  );
 
   res1 = await res1.wait();
   if (res1.status === 0) {
