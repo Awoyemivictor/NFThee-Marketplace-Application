@@ -100,7 +100,7 @@ export const getCollection = async (name) => {
   // let requestOptions = { name: name };
 
   let datas = await instance
-    .post('/api/getSingleCollectionByName', {name})
+    .post('/api/getSingleCollectionByName', { name })
     .then((response) => {
       let data = response.data.data.contract_address;
       console.log(data);
@@ -200,7 +200,7 @@ export const deleteBid = async (bidID) => {
   const fetchUrl = '/api/updateBidNft';
   let data;
 
-  data = await instance.post(fetchUrl, { bidID ,action:'Delete'});
+  data = await instance.post(fetchUrl, { bidID, action: 'Delete' });
 
   return data.data;
 };
@@ -445,4 +445,19 @@ export const handleAcceptNotification = async (id, bidAmount, nftId) => {
   let response = await instance
     .post(`/api/insertHistory`, historyMetaData)
     .then((res) => console.log('res.....................', res));
+};
+
+export const getPriceConversion = async () => {
+  let res = 'MATIC';
+  let result = await axios
+    .get(`https://min-api.cryptocompare.com/data/price?fsym=${res}&tsyms=USD`)
+    .then((response) => {
+      let data = response.data.USD;
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return result;
 };

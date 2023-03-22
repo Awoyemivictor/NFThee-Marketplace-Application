@@ -415,3 +415,18 @@ exports.getPrice = async (req, res) => {
     throw error;
   }
 };
+
+exports.uploadData = async (req) => {
+  try {
+    let result = req.file.location;
+    console.log(result);
+
+    return {
+      message: 'Image URL range found successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};

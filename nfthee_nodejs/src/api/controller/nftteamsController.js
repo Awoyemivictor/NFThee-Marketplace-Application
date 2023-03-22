@@ -192,3 +192,12 @@ exports.getPrice = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.uploadData = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.uploadData(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
