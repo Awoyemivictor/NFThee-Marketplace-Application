@@ -18,6 +18,7 @@ function ExploreFilter() {
   const [show, setShow] = useState('hidden');
   const [collections, setCollections] = useState([]);
   const [like, setliked] = useState();
+  const [activityData,setActivityData]=useState([])
   const [activTab,setActivetab]=useState('1')
   const { t } = useTranslation(); 
   const ShowResult = () =>{
@@ -128,6 +129,7 @@ useEffect(async() => {
         //     });
         // } else {
           setShownList(response.data.data);
+          handleActive()
         // }
       });
   }
@@ -147,7 +149,17 @@ useEffect(async() => {
   //     y.style.display = "block";
   //   }
   // }
+const handleActive=()=>{
+  // setActivityData
+// axios
+instance
+.get(`/api/collectionNft?collection_name=${collections.name}`)
+.then(res=>setActivityData(res.data.data))
 
+
+
+
+}
 
   return (
     <> 
@@ -622,7 +634,25 @@ useEffect(async() => {
                                                        </div>
                                                    </td>
                                                </tr>
-                                               <tr>
+                                               {activityData?activityData.map((data,i)=>(<tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td>
+                                                    <Link to={`/exploredetail/${data._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.uploadFile?data.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.name}</span> </div>
+                                                       </Link>
+                                                   </td>
+                                                   <td>
+                                                       <div className="price-detail">
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data?.putOnMarketplace?data?.putOnMarketplace?.price|| data?.putOnMarketplace?.Bid_price:'' } </h5>
+                                                           <h6>$52547.30</h6>
+                                                       </div>
+                                                   </td>
+                                                   <td>1</td>
+                                                   <td> <span className="text-color-purple">{data.currentOwner?.user_name?data.currentOwner.user_name:'demo'}</span> </td>
+                                                   <td> <span className="text-color-purple">Pixel-Collection</span> </td>
+                                                   <td> <a href="#">{data?.createdAt} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                               </tr>)):'noting to show'}
+                                               {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
                                                        <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
@@ -637,24 +667,8 @@ useEffect(async() => {
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
                                                    <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
-                                               <tr>
-                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
-                                                   <td>
-                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
-                                                   </td>
-                                                   <td>
-                                                       <div className="price-detail">
-                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
-                                                           <h6>$52547.30</h6>
-                                                       </div>
-                                                   </td>
-                                                   <td>1</td>
-                                                   <td> <span className="text-color-purple">Speed_Spud</span> </td>
-                                                   <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
-                                               <tr>
+                                               </tr> */}
+                                               {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
                                                        <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
@@ -813,7 +827,7 @@ useEffect(async() => {
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
                                                    <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
+                                               </tr> */}
                                            </tbody>
                                        </table>
                                    </div>
