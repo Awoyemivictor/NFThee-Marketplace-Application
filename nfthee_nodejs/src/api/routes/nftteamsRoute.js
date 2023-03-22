@@ -22,7 +22,8 @@ const {
   insert_likes,
   remove_likes,
   userLikes,
-  getPrice
+  getPrice,
+  uploadData,
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
@@ -50,5 +51,6 @@ router.post('/uploadImageTest', imageUpload.single('fileName'));
 
 router.get('/getPrice', getPrice);
 
+router.post('/uploadData', uploadS3.single('img_url'), uploadData);
 
 module.exports = router;

@@ -23,7 +23,7 @@ const exportInstance = async (SCAddress, ABI) => {
 };
 
 const contractAddresswithID = async () => {
-  if (window.ethereum.networkVersion === '5') {
+  if (window.ethereum.networkVersion === '11155111') {
     return contractAddress.WETH;
   } else if (window.ethereum.networkVersion === '97') {
     return contractAddress.WBNB;

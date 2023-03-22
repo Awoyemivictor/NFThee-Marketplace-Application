@@ -24,11 +24,12 @@ import {
   wrapPaymentTokens,
   unwrapPaymentTokens,
 } from '../../Config/token-actions/wrap-token';
+import { getPriceConversion } from '../../services/apiServices';
 
 const CreateNewItem = () => {
   const user = useAppSelector((state) => state.user.user);
-  const address=getUserAddress()
-  console.log({address})
+  const address = getUserAddress();
+  console.log({ address });
   const { SingleValue, Option } = components;
   const history = useHistory();
   const [reset, setReset] = useState(false);
@@ -38,9 +39,8 @@ const CreateNewItem = () => {
     history.push('/');
     // logOut()
   }
-  if(!userId){
+  if (!userId) {
     history.push('/');
-    
   }
 
   const Blockchains = [
@@ -70,7 +70,7 @@ const CreateNewItem = () => {
       image: '/assets/images/icons/harmony.png',
     },
   ];
- 
+
   const categoryList = [
     { value: 'Art', label: 'Art' },
     { value: 'Collectibles', label: 'Collectibles' },
@@ -514,8 +514,6 @@ const CreateNewItem = () => {
     );
     console.log({ contractAddress });
 
-
-
     // const links = [
     //   { website: collectionData.website },
     //   { discord: collectionData.discord },
@@ -541,7 +539,7 @@ const CreateNewItem = () => {
       formData.append('featured_image', collectionData.featured_image);
       formData.append('banner_image', collectionData.banner_image);
       formData.append('url', collectionData.url);
-     
+
       formData.append('category', collectionData.category);
       formData.append('website', collectionData.website);
       formData.append('discord', collectionData.discord);
@@ -639,6 +637,11 @@ const CreateNewItem = () => {
     }
   };
 
+  const handlePriceConversion = async () => {
+    let result = await getPriceConversion();
+    let convertToUSD = (parseFloat(result) * 0.001);
+    console.log(convertToUSD.toFixed(5));
+  };
 
   const [openForBids, setOpenForBids] = useState({
     Bid_price: '',
@@ -674,8 +677,7 @@ const CreateNewItem = () => {
   const [validationCollection, setCollectionValidation] =
     useState('needs-validated');
 
-
-    const handleSubmitNewItem = async (e) => {
+  const handleSubmitNewItem = async (e) => {
     e.preventDefault();
     validateItemInputs();
 
@@ -694,13 +696,13 @@ const CreateNewItem = () => {
         break;
     }
     const post = itemData;
- const creatorAddress = await getUserAddress();
+    const creatorAddress = await getUserAddress();
     console.log(creatorAddress[0]);
     post.putOnMarketplace = data;
     if (post.chooseType === 'single') {
       post.amount = 1;
     }
-   
+
     console.log(activeTab);
     let result;
     let { tokenId, collectionAddress, res } = await handleNFTCreation(
@@ -712,11 +714,11 @@ const CreateNewItem = () => {
       '0xd0470ea874b3C6B3c009C5d19b023df85C7261B9'
     );
     console.log({ tokenId }, { collectionAddress }, { res }, { post });
-    let owned_by={
-      address:creatorAddress[0],
-      quantity:post.amount
-    }
-    post.owned_by=owned_by
+    let owned_by = {
+      address: creatorAddress[0],
+      quantity: post.amount,
+    };
+    post.owned_by = owned_by;
     if (
       tokenId &&
       collectionAddress &&
@@ -746,7 +748,7 @@ const CreateNewItem = () => {
           );
           result = response;
         })
-       
+
         .catch((err) => {
           Swal.fire({
             position: 'top-center',
@@ -758,7 +760,7 @@ const CreateNewItem = () => {
         });
       console.log({ result }, 'result');
       data = {};
-        
+
       console.log('Marketplace Value', marketplace, typeof activeTab);
 
       if (marketplace === true) {
@@ -815,36 +817,34 @@ const CreateNewItem = () => {
         validUpto: timeAfterDays,
         tokenId: tokenId,
       };
-    
+
       //  const nftOrder=
       await instance
         .post('/api/createOrder', reqParams)
         .then((res) => console.log('sucess', [res.data.data]));
     }
-      
-        let historyMetaData = {
-          nftId: `${result?.data?.data?._id}`,
-          userId:`${itemData.currentOwner}`,
-          action: 'Creation',
-          actionMeta: 'Default',
-          message:'nft created by ',}
-          //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-          //   currentUser.slice(0, 3) +
-          //   '...' +
-          //   currentUser.slice(39, 42)
-          // }`,
-          // created_ts: moment(new Date()).format(
-          //   'YYYY-MM-DD HH:mm:ss'
-          // ),
-        // };
-         console.log('history',historyMetaData)
-        let response = await instance
-        .post(
-          `/api/insertHistory`,
-          historyMetaData
-        ).then((res)=>console.log('res.....................',res))
-    
-       
+
+    let historyMetaData = {
+      nftId: `${result?.data?.data?._id}`,
+      userId: `${itemData.currentOwner}`,
+      action: 'Creation',
+      actionMeta: 'Default',
+      message: 'nft created by ',
+    };
+    //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+    //   currentUser.slice(0, 3) +
+    //   '...' +
+    //   currentUser.slice(39, 42)
+    // }`,
+    // created_ts: moment(new Date()).format(
+    //   'YYYY-MM-DD HH:mm:ss'
+    // ),
+    // };
+    console.log('history', historyMetaData);
+    let response = await instance
+      .post(`/api/insertHistory`, historyMetaData)
+      .then((res) => console.log('res.....................', res));
+
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -1986,6 +1986,13 @@ const CreateNewItem = () => {
                       </form>
 
                       {/*</form>*/}
+                      <button
+                        type='submit'
+                        className='btn btn-violet w-100'
+                        onClick={handlePriceConversion}
+                      >
+                        Test Price
+                      </button>
                     </div>
                   </div>
                 </div>
