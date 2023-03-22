@@ -86,7 +86,7 @@ module.exports = {
     //   harmony: '',
     // },
     // apiKey: POLYGON_API_KEY,
-    apiKey: BINANCE_API_KEY,
-    // apiKey: ETHEREUM_API_KEY,
+    // apiKey: BINANCE_API_KEY,
+    apiKey: ETHEREUM_API_KEY,
   },
 };
