@@ -83,6 +83,22 @@ exports.read_nftStore = async (req, res, next) => {
         next(error);
     }
 }
+exports.collectionNft = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.collectionNft(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+exports.collectionNftBid = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.collectionNftBid(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
 
 exports.upadte_nftStore = async (req, res, next) => {
     try {
@@ -187,6 +203,15 @@ exports.remove_likes= async (req, res, next) => {
 exports.getPrice = async (req, res, next) => {
     try {
         const data = await nftteamsService.getPrice(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.uploadData = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.uploadData(req);
         return successResponse(req, res, data.data, data.message);
     } catch (error) {
         next(error);

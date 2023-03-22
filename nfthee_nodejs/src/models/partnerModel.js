@@ -4,23 +4,23 @@ const Schema = mongoose.Schema;
 const partnerSchema = new Schema({
     project_name: {
         type: String,
-        required:true
+        // required:true
     },
     project_desc: {
         type: String,
-        required:true
+        // required:true
     },
     project_website: {
         type: String,
-        required:true
+        // required:true
     },
     project_status: {
         type: String,
-        required:true
+        // required:true
     },
     project_status_desc: {
         type: String,
-        required:true
+        // required:true
     },
     nft_artwork: {
         type: String,
@@ -28,7 +28,7 @@ const partnerSchema = new Schema({
     },
     minted_item_count: {
         type: String,
-        required:true
+        // required:true
     },
     blockchain_mint: {
         type: String,
@@ -40,7 +40,7 @@ const partnerSchema = new Schema({
     },
     is_minting_page: {
         type: Boolean,
-        default:true
+        // default:true
     },
     partnership: {
         type: String,
@@ -48,7 +48,7 @@ const partnerSchema = new Schema({
     },
     end_day: {
         type: String,
-        required:true
+        // required:true
     },
     banner_image: {
         type: String,

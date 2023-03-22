@@ -18,12 +18,13 @@ function ExploreFilter() {
   const [show, setShow] = useState('hidden');
   const [collections, setCollections] = useState([]);
   const [like, setliked] = useState();
-
+  const [activityData,setActivityData]=useState([])
+  const [activTab,setActivetab]=useState('1')
   const { t } = useTranslation(); 
   const ShowResult = () =>{
     setShow('show')
   }
-
+console.log('akfhvjavfjhav',activTab,typeof activTab)
   
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState("");
@@ -128,6 +129,7 @@ useEffect(async() => {
         //     });
         // } else {
           setShownList(response.data.data);
+          handleActive()
         // }
       });
   }
@@ -135,19 +137,29 @@ useEffect(async() => {
 
   
 
-  function myHandleHide() {
-    var x = document.getElementById("sectionHide");
-    var y = document.getElementById("sectionHide1");
+  // function setActivetab() {
+  //   var x = document.getElementById("sectionHide");
+  //   var y = document.getElementById("sectionHide1");
 
-    if (x.style.display === "none"||y.style.display === "block") {
-      x.style.display = "block";
-      y.style.display = "none";
-    } else {
-      x.style.display = "none";
-      y.style.display = "block";
-    }
-  }
+  //   if (x.style.display === "none"||y.style.display === "block") {
+  //     x.style.display = "block";
+  //     y.style.display = "none";
+  //   } else {
+  //     x.style.display = "none";
+  //     y.style.display = "block";
+  //   }
+  // }
+const handleActive=()=>{
+  // setActivityData
+// axios
+instance
+.get(`/api/collectionNft?collection_name=${collections.name}`)
+.then(res=>setActivityData(res.data.data))
 
+
+
+
+}
 
   return (
     <> 
@@ -317,7 +329,9 @@ useEffect(async() => {
                   <div className="col-lg-6 col-md-6 p-0"></div>
                 </div>
 
-                <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> {t("explore.Utility Token")} </p>
+                <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> 
+                {/* {t("explore.Utility Token")} */}
+                 </p>
                 {/* <div className="d-flex mb-3" >
                   <button className="btn btn-violetFilter d-flex likeBtn"><i className="ri-heart-line me-2 fw-light" />
                    {t("explore.Like")}</button>
@@ -344,8 +358,8 @@ useEffect(async() => {
         </div> 
         </div></div>  */}
 
-       <div className="tab-content" id="pills-tabContent">
-           <div className="tab-pane show active" id="sectionHide1" style={{display:"block"}} role="tabpanel">
+      {activTab==='1' ?<div className="tab-content" id="pills-tabContent">
+           <div className="tab-pane show active" id="sectionHide1"role="tabpanel">
                <div className="wrapper">
                    <div className="container-fluid">
                        <div className="row"> 
@@ -395,11 +409,11 @@ useEffect(async() => {
                                   <div className="explore-filter-tab-container mt-3">
                                   <ul className="nav nav-pills mb-3 px-lg-4" id="pills-tab" role="tablist">
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
+                                      <button onClick={()=>setActivetab('1')} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
-                                    {/* ref={ref} onClick={myHandleHide} */}
+                                      <button onClick={()=>setActivetab('2')} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
+                                    {/* ref={ref} onClick={()=>setActivetab} */}
                                     </li>
                                   </ul>
                                   </div>
@@ -503,12 +517,13 @@ useEffect(async() => {
 
            {/* Activity */}
 
-       </div>
+       </div>:null}
        </div> 
 </section> 
 
-<section id="sectionHide" style={{display:"none"}}>
-  <div className="tab-pane" id="explore-activity" role="tabpanel">
+{activTab==='2'?
+<section id="sectionHide" >
+  <div className="tab-pane" id="explore-activity" role="tabpanel" style={{display:"block"}}>
                <div className="wrapper">
                    <div className="container-fluid">
                        <div className="row">
@@ -555,11 +570,11 @@ useEffect(async() => {
                                   <div className="explore-filter-tab-container mt-3">
                                   <ul className="nav nav-pills mb-3 px-lg-4" id="pills-tab" role="tablist">
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
+                                      <button onClick={()=>setActivetab('1')} className="nav-link  ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="false">{t("explore.item")}</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
-                                    {/* ref={ref} onClick={myHandleHide} */}
+                                      <button onClick={()=>setActivetab('2')} className="nav-link active" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="true">{t("explore.Activity")}</button>
+                                    {/* ref={ref} onClick={setActivetab} */}
                                     </li>
                                   </ul>
                                   </div>
@@ -619,7 +634,25 @@ useEffect(async() => {
                                                        </div>
                                                    </td>
                                                </tr>
-                                               <tr>
+                                               {activityData?activityData.map((data,i)=>(<tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {t("explore.sale")} </td>
+                                                   <td>
+                                                    <Link to={`/exploredetail/${data._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.uploadFile?data.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.name}</span> </div>
+                                                       </Link>
+                                                   </td>
+                                                   <td>
+                                                       <div className="price-detail">
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data?.putOnMarketplace?data?.putOnMarketplace?.price|| data?.putOnMarketplace?.Bid_price:'' } </h5>
+                                                           <h6>$52547.30</h6>
+                                                       </div>
+                                                   </td>
+                                                   <td>1</td>
+                                                   <td> <span className="text-color-purple">{data.currentOwner?.user_name?data.currentOwner.user_name:'demo'}</span> </td>
+                                                   <td> <span className="text-color-purple">Pixel-Collection</span> </td>
+                                                   <td> <a href="#">{data?.createdAt} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                               </tr>)):'noting to show'}
+                                               {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
                                                        <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
@@ -634,24 +667,8 @@ useEffect(async() => {
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
                                                    <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
-                                               <tr>
-                                                   <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
-                                                   <td>
-                                                       <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
-                                                   </td>
-                                                   <td>
-                                                       <div className="price-detail">
-                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> 2.59 </h5>
-                                                           <h6>$52547.30</h6>
-                                                       </div>
-                                                   </td>
-                                                   <td>1</td>
-                                                   <td> <span className="text-color-purple">Speed_Spud</span> </td>
-                                                   <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
-                                               <tr>
+                                               </tr> */}
+                                               {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>
                                                    <td>
                                                        <div className="d-flex align-items-center"> <img src="/assets/images/avt-5.jpg" alt="" className="user-img" /> <span className="ms-2">Monster Ape #6044</span> </div>
@@ -810,7 +827,7 @@ useEffect(async() => {
                                                    <td> <span className="text-color-purple">Speed_Spud</span> </td>
                                                    <td> <span className="text-color-purple">Pixel-Collection</span> </td>
                                                    <td> <a href="#">43 {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
-                                               </tr>
+                                               </tr> */}
                                            </tbody>
                                        </table>
                                    </div>
@@ -823,7 +840,7 @@ useEffect(async() => {
                    </div>
                </div>
            </div>
-</section>
+</section>:null}
 
 
  </main>}

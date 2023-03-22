@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const multer = require('multer');
 
-const { nftIteams, signup } = require('../../models');
+const { nftIteams, signup, bidModel } = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
 
@@ -147,7 +147,45 @@ exports.read_getItemInfo = async (req, res) => {
     throw error;
   }
 };
+exports.collectionNft = async (req, res) => {
+  try {
+    let collectionName = req.query.collection_name;
 
+    let result = await nftIteams
+    .find({ chooseCollection: collectionName ,status:'verified'}).populate('currentOwner')
+      // .populate('currentOwner');
+
+    return {
+      message: ' Data find successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+exports.collectionNftBid = async (req, res) => {
+  try {
+    let collectionName = req.query.collection_name;
+
+    let nfts = await nftIteams
+    .find({ chooseCollection: collectionName ,status:'verified'},{ _id:1})
+      // .populate('currentOwner');
+      // console.log('nftsid',nfts.id)
+      // let nftID= nfts.forEach(nft => (nft._id))
+      console.log('nftID',nfts)
+      let result = await bidModel
+      .find({ nftId: nfts})
+      console.log('result',result)
+    return {
+      message: ' Data find successfully.',
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 exports.update_getItemInfo = async (req, res) => {
   try {
     let nftId = req.query.id;
@@ -410,6 +448,21 @@ exports.getPrice = async (req, res) => {
       message: 'Price range found successfully.',
       status: true,
       data: data,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.uploadData = async (req) => {
+  try {
+    let result = req.file.location;
+    console.log(result);
+
+    return {
+      message: 'Image URL range found successfully.',
+      status: true,
+      data: result,
     };
   } catch (error) {
     throw error;

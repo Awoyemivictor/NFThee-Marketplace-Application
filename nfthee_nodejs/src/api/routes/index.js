@@ -5,6 +5,7 @@ const apiV1Prefix = credentials.API_ROUTE_PREFIX;
 module.exports = (app) => {
   app.use(apiV1Prefix, require('./blogRoute')),
     app.use(apiV1Prefix, require('./partnerRoute')),
+    app.use(apiV1Prefix, require('./verificationRoute')),
     app.use(apiV1Prefix, require('./categoryRoute')),
     app.use(apiV1Prefix, require('./suggestionRoute')),
     app.use(apiV1Prefix, require('./nftteamsRoute')),

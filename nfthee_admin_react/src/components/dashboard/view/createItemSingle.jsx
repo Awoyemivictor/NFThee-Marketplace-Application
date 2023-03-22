@@ -5,10 +5,8 @@ import "react-data-table-component-extensions/dist/index.css";
 // import {Container} from "reactstrap";
 import moment from 'moment';
 
-import Swal from "sweetalert2";
-import Loader from "./loader";
-import {toast} from "react-toastify";
-import axios from "axios";
+
+
 import backendInstance from "../../../backendInstance";
 import {
 	Container,

@@ -12,8 +12,8 @@ let uploadMultiple = uploadS3.fields([
 ]);
 
 // router.post("/addPartner",auth, uploadMultiple, addPartner);
-router.post("/addPartner", uploadMultiple, addPartner);
-
-router.get("/getPartner", auth,getPartner);
+router.post("/addPartner",uploadMultiple, addPartner);
+router.get("/getPartner",getPartner);
+// router.get("/getPartner", auth,getPartner);
 router.post("/createPageToken", createPageToken);
 module.exports = router;

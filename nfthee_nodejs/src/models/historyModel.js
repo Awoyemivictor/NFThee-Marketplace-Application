@@ -22,6 +22,12 @@ const historySchema = new Schema(
     message: {
       type: String,
     },
+    from: {
+      type: String,
+    },
+    bid_price: {
+      type: Number,
+    },
     sCreated: {
       type: Date,
       default: Date.now,

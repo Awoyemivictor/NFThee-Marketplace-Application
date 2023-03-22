@@ -26,32 +26,55 @@ function Partners() {
 
   let name, value;
 
-  const handleIconImg = (e) => {
-    const file = e.target.files;
+  // const handleIconImg = (e) => {
+  //   const file = e.target.files;
 
-    setFormData({
-      ...formData,
-      icon_image: file.length === 0 ? "abc.png" : file,
-    });
-  };
+  //   setFormData({
+  //     ...formData,
+  //     icon_image: file.length === 0 ? "abc.png" : file,
+  //   });
+  // };
 
+  // const handleNftART = (e) => {
+  //   const file = e.target.files;
+
+  //   setFormData({
+  //     ...formData,
+  //     nft_artwork: file.length === 0 ? "abc.png" : file,
+  //   });
+  // };
+  // const handleBanner = (e) => {
+  //   const file = e.target.files;
+
+  //   setFormData({
+  //     ...formData,
+  //     banner_image: file.length === 0 ? "abc.png" : file,
+  //   });
+  // };
   const handleNftART = (e) => {
-    const file = e.target.files;
-
+    const file = e.target.files[0];
+    // setArtImg(URL.createObjectURL(file))
     setFormData({
       ...formData,
       nft_artwork: file.length === 0 ? "abc.png" : file,
     });
   };
   const handleBanner = (e) => {
-    const file = e.target.files;
-
+    const file = e.target.files[0];
+    // setArtImg(URL.createObjectURL(file))
     setFormData({
       ...formData,
       banner_image: file.length === 0 ? "abc.png" : file,
     });
   };
-
+  const handleIconImg = (e) => {
+    const file = e.target.files[0];
+    // setArtImg(URL.createObjectURL(file))
+    setFormData({
+      ...formData,
+      icon_image: file.length === 0 ? "abc.png" : file,
+    });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -76,7 +99,6 @@ function Partners() {
     formdataN.append("project_website", formData.project_website);
     formdataN.append("project_status", formData.project_status);
     formdataN.append("project_status_desc", formData.project_status_desc);
-
     formdataN.append("nft_artwork", formData.nft_artwork);
     formdataN.append("minted_item_count", formData.minted_item_count);
     formdataN.append("blockchain_mint", formData.blockchain_mint);
