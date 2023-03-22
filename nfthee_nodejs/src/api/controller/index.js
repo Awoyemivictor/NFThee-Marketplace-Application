@@ -1,5 +1,6 @@
 exports.adminController = require('./adminController');
 exports.partnerController = require('./partnerController');
+exports.verificationController = require('./verificationController');
 exports.categoryController = require('./categoryController');
 exports.suggestionController = require('./suggestionController');
 exports.nftteamsController = require('./nftteamsController');

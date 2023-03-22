@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const fs = require('fs');
-const { createCollection } = require('../../models');
+const mongoose = require("mongoose");
+const fs = require("fs");
+const { createCollection } = require("../../models");
 
-const { credentials } = require('../../config').constantCredentials;
+const { credentials } = require("../../config").constantCredentials;
 
 // craete collection item
 
@@ -11,7 +11,7 @@ exports.indexAll = async (req, res) => {
     let result = await createCollection.find({});
     if (result) {
       return {
-        message: 'All Create Collection Item Data Fetch.....',
+        message: "All Create Collection Item Data Fetch.....",
         status: true,
         data: result,
       };
@@ -78,7 +78,7 @@ exports.createCollectionInfo = async (req, res) => {
       medium: req.body.medium,
       telegram: req.body.telegram,
     };
-    console.log('::::::>', upadate_data);
+    console.log("::::::>", upadate_data);
     let result = await createCollection.create(
       upadate_data
       // { $set: upadate_data }
@@ -93,7 +93,7 @@ exports.createCollectionInfo = async (req, res) => {
       // let addCreateItem = await createCollection.create(result);
       // console.log(addCreateItem)
       return {
-        message: 'create item added successfully.',
+        message: "create item added successfully.",
         status: true,
         data: result,
       };
@@ -104,10 +104,12 @@ exports.createCollectionInfo = async (req, res) => {
 };
 exports.getCollectionInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({ status: 'verified' }).populate('currentOwner');
+    let result = await createCollection
+      .find({ status: "verified" })
+      .populate("currentOwner");
 
     return {
-      message: 'data find successfully.',
+      message: "data find successfully.",
       status: true,
       data: result,
     };
@@ -117,10 +119,10 @@ exports.getCollectionInfo = async (req, res) => {
 };
 exports.getAllInfo = async (req, res) => {
   try {
-    let result = await createCollection.find({}).populate('currentOwner');
+    let result = await createCollection.find({}).populate("currentOwner");
 
     return {
-      message: 'data find successfully.',
+      message: "data find successfully.",
       status: true,
       data: result,
     };
@@ -133,7 +135,7 @@ exports.read_getCollectionInfo = async (req, res) => {
     let userId = req.query.id;
     let result = await createCollection.findOne({ _id: userId });
     return {
-      message: 'data find successfully.',
+      message: "data find successfully.",
       status: true,
       data: result,
     };
@@ -144,16 +146,19 @@ exports.read_getCollectionInfo = async (req, res) => {
 exports.update_getCollectionInfo = async (req, res) => {
   try {
     let collectionId = req.query.id;
-    let action=req.query.action;
-    let result = ( action === 'verified')? await createCollection.findOneAndUpdate(
-      { _id: collectionId },
-      { $set: { status: 'verified' } }
-    ): await createCollection.findOneAndUpdate(
-      { _id: collectionId },
-      { $set: { status: 'pending' } }
-    )
+    let action = req.query.action;
+    let result =
+      action === "verified"
+        ? await createCollection.findOneAndUpdate(
+            { _id: collectionId },
+            { $set: { status: "verified" } }
+          )
+        : await createCollection.findOneAndUpdate(
+            { _id: collectionId },
+            { $set: { status: "pending" } }
+          );
     return {
-      message: 'status updated successfully.',
+      message: "status updated successfully.",
       status: true,
       data: result,
     };
@@ -167,11 +172,11 @@ exports.read_createCollectionInfo = async (req, res) => {
     // console.log(userId);
     let result = await createCollection
       .findOne({ _id: userId })
-      .populate('currentOwner');
+      .populate("currentOwner");
 
     // console.log(result)
     return {
-      message: 'Read Collection Data Fetch.....',
+      message: "Read Collection Data Fetch.....",
       status: true,
       data: result,
     };
@@ -211,7 +216,7 @@ exports.update_createCollectionInfo = async (req, res) => {
       { $set: upadte_data }
     );
     return {
-      message: 'creation item Data Updated..........',
+      message: "creation item Data Updated..........",
       status: true,
       data: result,
     };
@@ -245,19 +250,19 @@ exports.delete_createCollectionInfo = async (req, res) => {
     if (userIdData) {
       const trunk = userIdDataValue.toString();
       fs.unlink(trunk, () => {
-        console.log('Delete Data');
+        console.log("Delete Data");
       });
       let result = await createCollection.findOneAndRemove({
         _id: mongoose.Types.ObjectId(nftId),
       });
       return {
-        message: 'Create New Item Data deleted..........',
+        message: "Create New Item Data deleted..........",
         status: true,
         data: result,
       };
     } else {
       return {
-        message: 'Not found this Create New Item Data..',
+        message: "Not found this Create New Item Data..",
         status: false,
         data: [],
       };
@@ -271,7 +276,7 @@ exports.upload_image = async (req) => {
   try {
     if (req.file) {
       return {
-        message: 'Image uploaded.....',
+        message: "Image uploaded.....",
         status: true,
         data: req.file,
       };
@@ -292,7 +297,7 @@ exports.getCollectionByAddress = async (req) => {
 
     // createCollection.save({ nextId: nextId });
     return {
-      message: 'Collection  Found successfully.',
+      message: "Collection  Found successfully.",
       status: true,
       data: result,
     };
@@ -309,7 +314,7 @@ exports.getSingleCollectionByName = async (req) => {
     });
 
     return {
-      message: 'Collection  Found successfully.',
+      message: "Collection  Found successfully.",
       status: true,
       data: result,
     };

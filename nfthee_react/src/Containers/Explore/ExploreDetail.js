@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   // FilterCard,
   // filter_card,
   // AccordionCards,
   // cardData,
   SingleSlider,
-} from './ExploreFilterData';
-import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
+} from "./ExploreFilterData";
+import { NavLink, Link, useParams, useHistory } from "react-router-dom";
 import {
   ModalBuynft,
   ConvertModal,
   ListingModal,
-} from '../../Components/Layout/Modal';
+} from "../../Components/Layout/Modal";
 
-import { useTranslation } from 'react-i18next';
-import Apexcharts from '../../Components/Apexcharts';
-import Loader from '../../Components/Loader/Loader';
-import $ from 'jquery';
-import { MultiSelect } from 'react-multi-select-component';
+import { useTranslation } from "react-i18next";
+import Apexcharts from "../../Components/Apexcharts";
+import Loader from "../../Components/Loader/Loader";
+import $ from "jquery";
+import { MultiSelect } from "react-multi-select-component";
 import {
   acceptBid,
   fetchBid,
@@ -36,23 +36,23 @@ import { handleLikes } from '../../services/apiServices';
 import {
   wrapPaymentTokens,
   unwrapPaymentTokens,
-} from '../../Config/token-actions/wrap-token';
+} from "../../Config/token-actions/wrap-token";
 
 import {
   handleAcceptBid,
   handleDeListToken,
   handleWithdrawBidForToken,
   handleNFTBidListing,
-} from '../../Config/sendFunctions';
+} from "../../Config/sendFunctions";
 
-import { getUserAddress } from '../../Config/constants';
+import { getUserAddress } from "../../Config/constants";
 
 const options = [
-  { label: 'Mint', value: 'mint' },
-  { label: 'Transfer', value: 'Transfer' },
-  { label: 'Sale', value: 'Sale' },
-  { label: 'Cancel Listing', value: 'Cancel Listing' },
-  { label: 'Offer', value: 'Offer', disabled: true },
+  { label: "Mint", value: "mint" },
+  { label: "Transfer", value: "Transfer" },
+  { label: "Sale", value: "Sale" },
+  { label: "Cancel Listing", value: "Cancel Listing" },
+  { label: "Offer", value: "Offer", disabled: true },
 ];
 // const mystyle = {
 //   display: "block",
@@ -71,23 +71,23 @@ const options = [
 function ExploreDetail() {
   const { id } = useParams();
   const history = useHistory();
-  console.log('id of /ExploreDetails', id);
+  console.log("id of /ExploreDetails", id);
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [convertModalOpen, setconvertModalIsOpen] = useState(false);
   const [listingModalOpen, setlistingModalIsOpen] = useState(false);
-  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
+  const userId = JSON.parse(localStorage.getItem("userLoggedIn")) || "";
   const [like, setliked] = useState();
   const [listing, setListing] = useState('0');
   const [priceInUSD, setPriceInUSD] = useState(0);
   const [openForBids, setOpenForBids] = useState({
-    Bid_price: '',
+    Bid_price: "",
   });
 
   const [fixedPrice, setFixedPrice] = useState({
-    price: '',
+    price: "",
   });
   const [timedAuction, setTimedAuction] = useState({
     minimumBid: 0,
@@ -106,7 +106,7 @@ function ExploreDetail() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log('======>', openForBids);
+  console.log("======>", openForBids);
 
   const handleTimedAuctionChange = (e) => {
     setTimedAuction({
@@ -144,7 +144,7 @@ function ExploreDetail() {
       .get(`/api/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
-        console.log(response.data, '<><><>><>><><><><><><><');
+        console.log(response.data, "<><><>><>><><><><><><><");
         setNftData(response.data.data);
 
         setIsLoading(false);
@@ -180,13 +180,13 @@ function ExploreDetail() {
   // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
-      $('.explore-collection-slider').slick({
+      $(".explore-collection-slider").slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
         dots: false,
         arrows: true,
-        cssEase: 'linear',
+        cssEase: "linear",
         adaptiveHeight: true,
         prevArrow:
           '<button class="slide-arrow prev-arrow"><i class="ri-arrow-left-s-line"></i></button>',
@@ -246,11 +246,11 @@ function ExploreDetail() {
     console.log(result);
     console.log({ bidAmount });
     let update = e.target.id;
-    if (bidAmount != '' || undefined || null) {
+    if (bidAmount != "" || undefined || null) {
       let bidData = {
         bidder: userId._id,
         owner: nftData?.currentOwner?._id,
-        bid_status: 'Bid',
+        bid_status: "Bid",
         bid_price: bidAmount,
         nftId: id,
         bid_quantity: 1,
@@ -275,8 +275,8 @@ function ExploreDetail() {
       id: userId._id,
       postId: collection,
     };
-    if (userId._id != '' || undefined) {
-      console.log('test==>>>>>if', requestBody, e.target.id);
+    if (userId._id != "" || undefined) {
+      console.log("test==>>>>>if", requestBody, e.target.id);
       const data = await handleLikes(requestBody, e.target.id, setDisaable);
       if (!data) {
         setDisaable(true);
@@ -288,11 +288,15 @@ function ExploreDetail() {
     }
   };
   const [fetchHistory, setFetchHistory] = useState([]);
+  const [itemEvent, setItemEvent] = useState([]);
+  const [itemPrice, setItemPrice] = useState([]);
+  const [itemFrom, setItemFrom] = useState([]);
+  const [itemDate, setItemDate] = useState([]);
 
-  const [activeTab, setActiveTab] = useState('0');
+  const [activeTab, setActiveTab] = useState("0");
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
-  const [contractAddress, setContractAddress] = useState('');
+  const [contractAddress, setContractAddress] = useState("");
 
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
@@ -327,7 +331,7 @@ function ExploreDetail() {
       }
       console.log('result', { result });
     }
-    console.log('data.........................result...........', data);
+    console.log("data.........................result...........", data);
   };
 
   const withdrawTokenBid = async (bidid) => {
@@ -347,7 +351,7 @@ function ExploreDetail() {
   };
 
   const removeFromAuction = async () => {
-    console.log('Remove from auction');
+    console.log("Remove from auction");
     let collectionAddress = await getCollection(nftData.chooseCollection);
 
     let result = await handleWithdrawBidForToken(
@@ -365,37 +369,39 @@ function ExploreDetail() {
 
   useEffect(() => {
     function openGraph(divId) {
-      $('#' + divId).toggle();
+      $("#" + divId).toggle();
     }
-    $('.graph-icon img').click(function () {
-      $(this).toggleClass('btnColor-pink');
+    $(".graph-icon img").click(function () {
+      $(this).toggleClass("btnColor-pink");
     });
   }, []);
   const hasBidder = bidData.some((bid) => {
-    return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
+    return bid.bidder.hasOwnProperty("_id") && bid.bidder._id === userId._id;
   });
 
   console.log({ fixedPrice }, { openForBids }, { timedAuction });
-  // useEffect(() => {
-  //  let fetch=  instance
-  //       .post(
-  //         `/api/fetchHistory?nftId=${id}`
-  //       )
-  //      .then((res)=>console.log(res.data.data[0].message))
-  //     //  .then((res)=>setFetchHistory(res.data.data[0].message))
-  //      console.log('fetch',fetch)
+  useEffect(() => {
+    let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
+      //  console.log('resItem',res.data.data[0].action))
+      const action = res.data.data.map((item) => item);
+      console.log("action", action);
+      setItemEvent(action);
+    });
 
-  // }, []);
+    //  .then((res)=>setItemActivity(res.data.data.action))
+  }, []);
 
   useEffect(() => {
     instance
       .post(`/api/fetchHistory?nftId=${id}`)
       .then((res) => {
+        // console.log('resHistory',res.data.data);
+
         const history = res.data.data.map((item) => item.message);
         setFetchHistory(history);
       })
       .catch((error) => {
-        console.error('Error fetching history', error);
+        console.error("Error fetching history", error);
       });
   }, []);
 
@@ -405,25 +411,25 @@ function ExploreDetail() {
         <Loader />
       ) : (
         <main>
-          <section className='explore-detail-bg-section'>
-            <div className='container-fluid px-lg-5'>
-              <div className='row mb-3'>
-                <div className='col-lg-12 col-md-12'>
+          <section className="explore-detail-bg-section">
+            <div className="container-fluid px-lg-5">
+              <div className="row mb-3">
+                <div className="col-lg-12 col-md-12">
                   <button
                     onClick={() => {
                       history.goBack();
                     }}
                   >
-                    <span className='back-text'>
-                      {' '}
-                      <i className='ri-arrow-left-s-line' />
-                      {t('product.Back')}
+                    <span className="back-text">
+                      {" "}
+                      <i className="ri-arrow-left-s-line" />
+                      {t("product.Back")}
                     </span>
                   </button>
                 </div>
               </div>
-              <div className='explore-item-detail mb-lg-5 mb-3'>
-                <div className='row'>
+              <div className="explore-item-detail mb-lg-5 mb-3">
+                <div className="row">
                   {isModalOpen && (
                     <ModalBuynft
                       onRequestClose={toggleModal}
@@ -457,88 +463,88 @@ function ExploreDetail() {
                       setTimedAuction={setTimedAuction}
                     />
                   )}
-                  <div className='col-lg-6 col-md-6'>
-                    <div className='item-image'>
+                  <div className="col-lg-6 col-md-6">
+                    <div className="item-image">
                       <img
                         src={nftData?.uploadFile}
-                        alt=''
-                        className='img-fluid'
+                        alt=""
+                        className="img-fluid"
                       />
                     </div>
                   </div>
-                  <div className='col-lg-6 col-md-6'>
-                    <div className='explore-item-detail-content'>
-                      <div className='d-flex justify-content-between align-items-center mb-3'>
-                        <h3 className='heading-title mb-0'>
+                  <div className="col-lg-6 col-md-6">
+                    <div className="explore-item-detail-content">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h3 className="heading-title mb-0">
                           {nftData
                             ? nftData.name
-                            : t('product.The Fantasy Flower Illustration')}
+                            : t("product.The Fantasy Flower Illustration")}
                         </h3>
-                        <div className='user-more-detail'>
-                          <div className='explore-social-icon d-flex align-items-center'>
+                        <div className="user-more-detail">
+                          <div className="explore-social-icon d-flex align-items-center">
                             <ul>
                               <li>
-                                <div className='user-more-detail'>
-                                  <div className='more'>
-                                    <div className='icon'>
-                                      {' '}
+                                <div className="user-more-detail">
+                                  <div className="more">
+                                    <div className="icon">
+                                      {" "}
                                       <a href={`/exploredetail/${id}`}>
-                                        {' '}
+                                        {" "}
                                         <img
                                           src={
-                                            '/assets/images/icons/rotate.png'
+                                            "/assets/images/icons/rotate.png"
                                           }
-                                          alt=''
-                                        />{' '}
-                                      </a>{' '}
+                                          alt=""
+                                        />{" "}
+                                      </a>{" "}
                                     </div>
                                   </div>
                                 </div>
                               </li>
                               <li>
-                                <div className='user-more-detail'>
-                                  <div className='more'>
-                                    <div className='icon dropdown'>
+                                <div className="user-more-detail">
+                                  <div className="more">
+                                    <div className="icon dropdown">
                                       <a
-                                        href='#'
-                                        data-bs-toggle='dropdown'
-                                        aria-expanded='false'
+                                        href="#"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
                                       >
-                                        <i className='ri-more-fill' />
+                                        <i className="ri-more-fill" />
                                       </a>
-                                      <div className='dropdown-menu dropdown-menu-end dropdown-menu-arrow'>
-                                        <a className='dropdown-item' href='#'>
-                                          {' '}
-                                          <span className='dropdown-icon'>
+                                      <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <a className="dropdown-item" href="#">
+                                          {" "}
+                                          <span className="dropdown-icon">
                                             <img
                                               src={
-                                                '/assets/images/icons/share.png'
+                                                "/assets/images/icons/share.png"
                                               }
                                             />
-                                          </span>{' '}
-                                          {t('product.share')}{' '}
+                                          </span>{" "}
+                                          {t("product.share")}{" "}
                                         </a>
-                                        <a className='dropdown-item' href='#'>
-                                          {' '}
-                                          <span className='dropdown-icon'>
+                                        <a className="dropdown-item" href="#">
+                                          {" "}
+                                          <span className="dropdown-icon">
                                             <img
                                               src={
-                                                '/assets/images/icons/report.png'
+                                                "/assets/images/icons/report.png"
                                               }
                                             />
-                                          </span>{' '}
-                                          {t('product.report')}{' '}
+                                          </span>{" "}
+                                          {t("product.report")}{" "}
                                         </a>
-                                        <a className='dropdown-item' href='#'>
-                                          {' '}
-                                          <span className='dropdown-icon'>
+                                        <a className="dropdown-item" href="#">
+                                          {" "}
+                                          <span className="dropdown-icon">
                                             <img
                                               src={
-                                                '/assets/images/icons/home.png'
+                                                "/assets/images/icons/home.png"
                                               }
                                             />
-                                          </span>{' '}
-                                          {t('product.website')}{' '}
+                                          </span>{" "}
+                                          {t("product.website")}{" "}
                                         </a>
                                       </div>
                                     </div>
@@ -549,10 +555,10 @@ function ExploreDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className='mb-3'>
-                        <div className='d-flex align-items-center'>
-                          <a href='#' className='view'>
-                            <i className='ri-eye-line icon' /> 100
+                      <div className="mb-3">
+                        <div className="d-flex align-items-center">
+                          <a href="#" className="view">
+                            <i className="ri-eye-line icon" /> 100
                           </a>
 
                           {/* <i className='ri-heart-line icon' />{' '}
@@ -560,102 +566,102 @@ function ExploreDetail() {
                               ? nftData.likes.length
                               : ''}
                             100 */}
-                          <span className='like ms-3'>
+                          <span className="like ms-3">
                             {nftData.likes.includes(userId._id) ? (
                               <button
-                                className='wishlist-button ms-auto'
-                                id='unliked'
+                                className="wishlist-button ms-auto"
+                                id="unliked"
                                 disabled={diable}
                                 onClick={(e) =>
                                   handleAddFavorite(e, nftData._id)
                                 }
                                 tabIndex={0}
                               >
-                                <span className='number-like d-flex'>
+                                <span className="number-like d-flex">
                                   <i
-                                    id='unliked'
-                                    className='ri-heart-fill me-1'
+                                    id="unliked"
+                                    className="ri-heart-fill me-1"
                                   />
                                   {nftData.likes
                                     ? nftData.likes.length === 0
-                                      ? ''
+                                      ? ""
                                       : nftData.likes.length
-                                    : ''}
+                                    : ""}
                                 </span>
                               </button>
                             ) : (
                               <button
-                                className='wishlist-button ms-auto'
-                                id='liked'
+                                className="wishlist-button ms-auto"
+                                id="liked"
                                 disabled={diable}
                                 onClick={(e) =>
                                   handleAddFavorite(e, nftData._id)
                                 }
                                 tabIndex={0}
                               >
-                                <span className='number-like d-flex'>
+                                <span className="number-like d-flex">
                                   <i
-                                    id='liked'
-                                    className=' ri-heart-line me-1'
+                                    id="liked"
+                                    className=" ri-heart-line me-1"
                                   />
                                   {nftData.likes
                                     ? nftData.likes.length === 0
-                                      ? ''
+                                      ? ""
                                       : nftData.likes.length
-                                    : ''}
+                                    : ""}
                                 </span>
                               </button>
                             )}
                           </span>
                         </div>
                       </div>
-                      <div className='mb-3 d-flex d-lg-block flex-wrap'>
-                        <a href='#' className='token-detail'>
-                          <span>{t('product.Token id')} : </span>#
+                      <div className="mb-3 d-flex d-lg-block flex-wrap">
+                        <a href="#" className="token-detail">
+                          <span>{t("product.Token id")} : </span>#
                           {nftData.tokenId}
                         </a>
-                        <a href='#' className='token-detail ms-lg-3'>
-                          <span>{t('product.Token standard')} : </span>
-                          {nftData.chooseType === 'single' ? (
+                        <a href="#" className="token-detail ms-lg-3">
+                          <span>{t("product.Token standard")} : </span>
+                          {nftData.chooseType === "single" ? (
                             <span>ERC721 </span>
                           ) : (
                             <span>ERC1155 </span>
                           )}
                         </a>
-                        <a href='#' className='token-detail ms-lg-3'>
+                        <a href="#" className="token-detail ms-lg-3">
                           <span>Contract: </span> Test
                           {/* {contractAddress.substring(0, 5)} */}
-                        </a>{' '}
+                        </a>{" "}
                         <br />
-                        <a href='#' className='token-detail '>
-                          <span style={{ marginLeft: '0' }}>
-                            {t('product.Blockchain')} :{' '}
+                        <a href="#" className="token-detail ">
+                          <span style={{ marginLeft: "0" }}>
+                            {t("product.Blockchain")} :{" "}
                           </span>
-                          {nftData ? nftData.chooseBlockchain : 'undefined'}
+                          {nftData ? nftData.chooseBlockchain : "undefined"}
                         </a>
-                        <a href='#' className='token-detail ms-lg-3'>
-                          <span>Creator Royalties : </span>0.5 %{' '}
-                          <i class='las la-info-circle'></i>
+                        <a href="#" className="token-detail ms-lg-3">
+                          <span>Creator Royalties : </span>0.5 %{" "}
+                          <i class="las la-info-circle"></i>
                         </a>
                       </div>
-                      <div className='row mb-4 gx-lg-3'>
-                        <div className='col-lg-5 col-md-5'>
-                          <a href='#'>
-                            <div className='creator-card mb-4 mb-lg-0'>
-                              <div className='card-body'>
-                                <div className='avatars'>
-                                  <div className='media'>
+                      <div className="row mb-4 gx-lg-3">
+                        <div className="col-lg-5 col-md-5">
+                          <a href="#">
+                            <div className="creator-card mb-4 mb-lg-0">
+                              <div className="card-body">
+                                <div className="avatars">
+                                  <div className="media">
                                     <img
-                                      src='/assets/images/avt-1.jpg'
-                                      alt=''
-                                      className='avatar'
+                                      src="/assets/images/avt-1.jpg"
+                                      alt=""
+                                      className="avatar"
                                     />
                                   </div>
-                                  <div className='ms-3'>
-                                    <p className='text1'>Owned By</p>
-                                    <span className='text2'>
+                                  <div className="ms-3">
+                                    <p className="text1">Owned By</p>
+                                    <span className="text2">
                                       {nftData?.currentOwner?.user_name ||
-                                        'Abstract Paint'}
+                                        "Abstract Paint"}
                                     </span>
                                   </div>
                                 </div>
@@ -664,27 +670,27 @@ function ExploreDetail() {
                           </a>
                         </div>
 
-                        <div className='col-lg-5 col-md-5'>
-                          <a href='#'>
-                            <div className='creator-card'>
-                              <div className='card-body'>
-                                <div className='avatars'>
-                                  <div className='media'>
-                                    <a href='#'>
-                                      {' '}
+                        <div className="col-lg-5 col-md-5">
+                          <a href="#">
+                            <div className="creator-card">
+                              <div className="card-body">
+                                <div className="avatars">
+                                  <div className="media">
+                                    <a href="#">
+                                      {" "}
                                       <img
-                                        src='/assets/images/icons/tezoz.png'
-                                        alt=''
-                                        className='avatar'
+                                        src="/assets/images/icons/tezoz.png"
+                                        alt=""
+                                        className="avatar"
                                       />
                                     </a>
                                   </div>
-                                  <div className='ms-3'>
-                                    <p className='text1'>Collection By</p>
-                                    <span className='text2'>
+                                  <div className="ms-3">
+                                    <p className="text1">Collection By</p>
+                                    <span className="text2">
                                       {nftData
                                         ? nftData.chooseCollection
-                                        : 'undefined'}
+                                        : "undefined"}
                                     </span>
                                   </div>
                                 </div>
@@ -693,130 +699,130 @@ function ExploreDetail() {
                           </a>
                         </div>
                       </div>
-                      <div className='mb-3'>
-                        <ul className='nav nav-tabs' id='myTab' role='tablist'>
-                          <li className='nav-item' role='presentation'>
+                      <div className="mb-3">
+                        <ul className="nav nav-tabs" id="myTab" role="tablist">
+                          <li className="nav-item" role="presentation">
                             <button
-                              className='nav-link active'
-                              id='description-tab'
-                              data-bs-toggle='tab'
-                              data-bs-target='#description'
-                              type='button'
-                              role='tab'
-                              aria-controls='home'
-                              aria-selected='true'
+                              className="nav-link active"
+                              id="description-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#description"
+                              type="button"
+                              role="tab"
+                              aria-controls="home"
+                              aria-selected="true"
                             >
-                              {t('product.Description')}
+                              {t("product.Description")}
                             </button>
                           </li>
-                          <li className='nav-item' role='presentation'>
+                          <li className="nav-item" role="presentation">
                             <button
-                              className='nav-link'
-                              id='about-tab'
-                              data-bs-toggle='tab'
-                              data-bs-target='#about'
-                              type='button'
-                              role='tab'
-                              aria-controls='about'
-                              aria-selected='false'
+                              className="nav-link"
+                              id="about-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#about"
+                              type="button"
+                              role="tab"
+                              aria-controls="about"
+                              aria-selected="false"
                             >
-                              {t('product.about project')}
+                              {t("product.about project")}
                             </button>
                           </li>
-                          <li className='nav-item' role='presentation'>
+                          <li className="nav-item" role="presentation">
                             <button
-                              className='nav-link'
-                              id='history-tab'
-                              data-bs-toggle='tab'
-                              data-bs-target='#history'
-                              type='button'
-                              role='tab'
-                              aria-controls='history'
-                              aria-selected='false'
+                              className="nav-link"
+                              id="history-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#history"
+                              type="button"
+                              role="tab"
+                              aria-controls="history"
+                              aria-selected="false"
                             >
                               History
                             </button>
                           </li>
-                          <li className='nav-item' role='presentation'>
+                          <li className="nav-item" role="presentation">
                             <button
-                              className='nav-link'
-                              id='attribute-tab'
-                              data-bs-toggle='tab'
-                              data-bs-target='#attribute'
-                              type='button'
-                              role='tab'
-                              aria-controls='attribute'
-                              aria-selected='false'
+                              className="nav-link"
+                              id="attribute-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#attribute"
+                              type="button"
+                              role="tab"
+                              aria-controls="attribute"
+                              aria-selected="false"
                             >
-                              {t('product.Attributes')}
+                              {t("product.Attributes")}
                             </button>
                           </li>
                           {nftData.putOnMarketplace.Bid_price ? (
-                            <li className='nav-item' role='presentation'>
+                            <li className="nav-item" role="presentation">
                               <button
-                                className='nav-link'
-                                id='Bid-tab'
-                                data-bs-toggle='tab'
-                                data-bs-target='#Bid'
-                                type='button'
-                                role='tab'
+                                className="nav-link"
+                                id="Bid-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#Bid"
+                                type="button"
+                                role="tab"
                                 onClick={handleBidData}
-                                aria-controls='Bid'
-                                aria-selected='false'
+                                aria-controls="Bid"
+                                aria-selected="false"
                               >
-                                {t('Bid')}
+                                {t("Bid")}
                               </button>
                             </li>
                           ) : (
-                            ''
+                            ""
                           )}
                         </ul>
 
                         <div
-                          className='tab-content custom-scrollbar'
-                          id='myTabContent'
+                          className="tab-content custom-scrollbar"
+                          id="myTabContent"
                         >
                           <div
-                            className='tab-pane fade show active'
-                            id='description'
-                            role='tabpanel'
-                            aria-labelledby='description-tab'
+                            className="tab-pane fade show active"
+                            id="description"
+                            role="tabpanel"
+                            aria-labelledby="description-tab"
                           >
-                            <div className='card-body'>
-                              <p className='para1'>
+                            <div className="card-body">
+                              <p className="para1">
                                 {nftData
                                   ? nftData.designation
-                                  : t('product.detail_description')}
+                                  : t("product.detail_description")}
                               </p>
-                              <div className='col-lg-6 col-md-6 px-lg-0'>
-                                <div className='creator-card creator-card-two mb-lg-4'>
-                                  <div className='card-body'>
-                                    <div className='avatars'>
-                                      <div className='media'>
-                                        <div className='badge'>
+                              <div className="col-lg-6 col-md-6 px-lg-0">
+                                <div className="creator-card creator-card-two mb-lg-4">
+                                  <div className="card-body">
+                                    <div className="avatars">
+                                      <div className="media">
+                                        <div className="badge">
                                           <img
-                                            src='/assets/images/icons/star-check.png'
-                                            alt=''
+                                            src="/assets/images/icons/star-check.png"
+                                            alt=""
                                           />
                                         </div>
-                                        <a href='#'>
+                                        <a href="#">
                                           <img
-                                            src='/assets/images/avt-1.jpg'
-                                            alt=''
-                                            className='avatar'
+                                            src="/assets/images/avt-1.jpg"
+                                            alt=""
+                                            className="avatar"
                                           />
                                         </a>
                                       </div>
-                                      <div className='ms-3'>
-                                        <p className='text1'>
-                                          {t('product.Minted By')}{' '}
+                                      <div className="ms-3">
+                                        <p className="text1">
+                                          {t("product.Minted By")}{" "}
                                           <span>
                                             {nftData?.currentOwner?.user_name
                                               ? nftData?.currentOwner?.user_name
-                                              : 'HEROSTHENAME'}
+                                              : "HEROSTHENAME"}
                                           </span>
                                         </p>
-                                        <span className='text2'>
+                                        <span className="text2">
                                           3 hours ago
                                         </span>
                                       </div>
@@ -827,18 +833,18 @@ function ExploreDetail() {
                             </div>
                           </div>
                           <div
-                            className='tab-pane fade'
-                            id='about'
-                            role='tabpanel'
-                            aria-labelledby='about-tab'
+                            className="tab-pane fade"
+                            id="about"
+                            role="tabpanel"
+                            aria-labelledby="about-tab"
                           >
-                            {nftData ? nftData.about : 'lorem35'}
+                            {nftData ? nftData.about : "lorem35"}
                           </div>
                           <div
-                            className='tab-pane fade'
-                            id='history'
-                            role='tabpanel'
-                            aria-labelledby='history-tab'
+                            className="tab-pane fade"
+                            id="history"
+                            role="tabpanel"
+                            aria-labelledby="history-tab"
                           >
                             {fetchHistory.map((message) => (
                               <p key={message}>{message}</p>
@@ -848,71 +854,71 @@ function ExploreDetail() {
                           {/* WETHtoETH */}
                           {/* {nftData.putOnMarketplace.Bid_price &&nftData.currentOwner ===id? */}
                           <div
-                            className='tab-pane fade'
-                            id='Bid'
-                            role='tabpanel'
-                            aria-labelledby='Bid-tab'
+                            className="tab-pane fade"
+                            id="Bid"
+                            role="tabpanel"
+                            aria-labelledby="Bid-tab"
                           >
                             4
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
                               .map((data, i) => (
-                                <div className='card-body'>
-                                  <div className='col-lg-6 col-md-6 px-lg-0'>
-                                    <div className='creator-card creator-card-two mb-lg-4'>
-                                      <div className='card-body' key={i}>
-                                        <div className='avatars'>
-                                          <div className='media'>
-                                            <div className='badge'>
+                                <div className="card-body">
+                                  <div className="col-lg-6 col-md-6 px-lg-0">
+                                    <div className="creator-card creator-card-two mb-lg-4">
+                                      <div className="card-body" key={i}>
+                                        <div className="avatars">
+                                          <div className="media">
+                                            <div className="badge">
                                               <img
-                                                src='/assets/images/icons/star-check.png'
-                                                alt=''
+                                                src="/assets/images/icons/star-check.png"
+                                                alt=""
                                               />
                                             </div>
-                                            <a href='#'>
+                                            <a href="#">
                                               <img
                                                 src={
                                                   data?.bidder?.profile_image
                                                     ? data.bidder.profile_image
-                                                    : '/assets/images/avt-1.jpg'
+                                                    : "/assets/images/avt-1.jpg"
                                                 }
-                                                alt=''
-                                                className='avatar'
+                                                alt=""
+                                                className="avatar"
                                               />
                                             </a>
                                           </div>
-                                          <div className='ms-3'>
-                                            <p className='text2'>
-                                              <div className='input-group-prepend'>
-                                                <span className='input-group-text'>
+                                          <div className="ms-3">
+                                            <p className="text2">
+                                              <div className="input-group-prepend">
+                                                <span className="input-group-text">
                                                   <img
-                                                    src='/assets/images/icons/ethereum-pink.png'
-                                                    alt=''
-                                                    className='me-1 eth-icon'
-                                                  />{' '}
+                                                    src="/assets/images/icons/ethereum-pink.png"
+                                                    alt=""
+                                                    className="me-1 eth-icon"
+                                                  />{" "}
                                                   {data.bid_price
                                                     ? data.bid_price
-                                                    : ''}
+                                                    : ""}
                                                   WETH
                                                 </span>
                                                 &nbsp;&nbsp;
                                                 <span
-                                                  style={{ maxWidth: '175px' }}
+                                                  style={{ maxWidth: "175px" }}
                                                 >
                                                   {/* <br/> */}
                                                   &nbsp;&nbsp; Bided
-                                                  &nbsp;&nbsp;By&nbsp;&nbsp;{' '}
+                                                  &nbsp;&nbsp;By&nbsp;&nbsp;{" "}
                                                   {data?.bidder?.user_name
                                                     ? data?.bidder?.user_name
-                                                    : 'HEROSTHENAME'}
+                                                    : "HEROSTHENAME"}
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
                                                 {nftData?.currentOwner?._id ===
                                                 userId._id ? (
                                                   <>
                                                     <button
-                                                      type='button'
-                                                      class='btn btn-success'
+                                                      type="button"
+                                                      class="btn btn-success"
                                                       onClick={() =>
                                                         handleTokenAcceptBid(
                                                           data.bid_price,
@@ -952,7 +958,7 @@ function ExploreDetail() {
                                                 ) : null}
                                               </div>
                                             </p>
-                                            <span className='text2'>
+                                            <span className="text2">
                                               3 hours ago
                                             </span>
                                           </div>
@@ -966,24 +972,24 @@ function ExploreDetail() {
                           {/* :''} */}
 
                           <div
-                            className='tab-pane fade'
-                            id='attribute'
-                            role='tabpanel'
-                            aria-labelledby='attribute-tab'
+                            className="tab-pane fade"
+                            id="attribute"
+                            role="tabpanel"
+                            aria-labelledby="attribute-tab"
                           >
-                            <div className='explore-attribute-card-section'>
-                              <div className='row'>
+                            <div className="explore-attribute-card-section">
+                              <div className="row">
                                 {nftData?.attribute?.map((attri, i) => (
-                                  <div className='col-lg-4' key={i}>
-                                    <div className='card'>
-                                      <div className='card-body'>
-                                        <h3 className='card-title'>
-                                          Attribute{' '}
+                                  <div className="col-lg-4" key={i}>
+                                    <div className="card">
+                                      <div className="card-body">
+                                        <h3 className="card-title">
+                                          Attribute{" "}
                                         </h3>
-                                        <h4 className='card-text'>
+                                        <h4 className="card-text">
                                           Attribute Name:{attri.attrName}
                                         </h4>
-                                        <p className='card-subtext'>
+                                        <p className="card-subtext">
                                           Attribute Type:{attri.attrType}
                                         </p>
                                       </div>
@@ -995,24 +1001,24 @@ function ExploreDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className='mb-3'>
-                        <div className='col-lg-6 col-md-6 px-lg-0'>
-                          <div className='pricing-area'>
-                            <h3 className='pricing-title'>Pricing</h3>
-                            <div className='pricing-card'>
-                              <div className='card-body'>
-                                <div className='d-flex align-items-center'>
-                                  <div className='media'>
+                      <div className="mb-3">
+                        <div className="col-lg-6 col-md-6 px-lg-0">
+                          <div className="pricing-area">
+                            <h3 className="pricing-title">Pricing</h3>
+                            <div className="pricing-card">
+                              <div className="card-body">
+                                <div className="d-flex align-items-center">
+                                  <div className="media">
                                     {/* <a href="#"><img src="/assets/images/avatar3.png" alt="" /></a> */}
                                   </div>
-                                  <div className='pricing-detail'>
+                                  <div className="pricing-detail">
                                     {/* <h4> {t("product.Highest Bid By")} Kohaku Tora</h4> */}
-                                    <div className='d-flex align-items-center'>
-                                      <span className='d-flex'>
-                                        <a href='#' className='value1'>
+                                    <div className="d-flex align-items-center">
+                                      <span className="d-flex">
+                                        <a href="#" className="value1">
                                           <img
-                                            src='/assets/images/icons/ethereum-big.png'
-                                            alt=''
+                                            src="/assets/images/icons/ethereum-big.png"
+                                            alt=""
                                           />
                                           {nftData?.putOnMarketplace
                                             ? nftData?.putOnMarketplace
@@ -1034,16 +1040,16 @@ function ExploreDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className='row'>
+                      <div className="row">
                         {nftData?.currentOwner?._id === userId._id &&
-                        nftData?.listing === 'delisting' ? (
+                        nftData?.listing === "delisting" ? (
                           <>
-                            <div className='col-lg-4 mb-4 mb-lg-0'>
+                            <div className="col-lg-4 mb-4 mb-lg-0">
                               <button
-                                className='btn btn-outline-white1 w-100'
+                                className="btn btn-outline-white1 w-100"
                                 onClick={listingToggleModal}
                               >
-                                <i className='bx bxs-purchase-tag me-2' />
+                                <i className="bx bxs-purchase-tag me-2" />
                                 listing
                               </button>
                             </div>
@@ -1051,37 +1057,37 @@ function ExploreDetail() {
                         ) : nftData?.currentOwner?._id === userId._id &&
                           nftData.putOnMarketplace.price ? (
                           <>
-                            <div className='col-lg-4 mb-4 mb-lg-0'>
+                            <div className="col-lg-4 mb-4 mb-lg-0">
                               <button
-                                className='btn btn-outline-white1 w-100'
+                                className="btn btn-outline-white1 w-100"
                                 onClick={handleTokenDelisting}
                               >
-                                <i className='bx bxs-purchase-tag me-2' />
+                                <i className="bx bxs-purchase-tag me-2" />
                                 Delisting
                               </button>
                             </div>
                           </>
                         ) : nftData?.currentOwner?._id === userId._id &&
                           nftData.putOnMarketplace.Bid_price ? (
-                          <div className='col-lg-4 mb-4 mb-lg-0'>
+                          <div className="col-lg-4 mb-4 mb-lg-0">
                             <button
-                              className='btn btn-outline-white1 w-100'
+                              className="btn btn-outline-white1 w-100"
                               onClick={removeFromAuction}
                             >
-                              <i className='bx bx-credit-card me-2' /> Remove
+                              <i className="bx bx-credit-card me-2" /> Remove
                               From Auction
                             </button>
                           </div>
                         ) : (
                           <>
                             {nftData?.putOnMarketplace?.Bid_price ? null : (
-                              <div className='col-lg-4 mb-4 mb-lg-0'>
+                              <div className="col-lg-4 mb-4 mb-lg-0">
                                 <button
-                                  className='btn btn-violet btn-shadow w-100'
+                                  className="btn btn-violet btn-shadow w-100"
                                   onClick={toggleModal}
                                 >
-                                  <i className='bx bxs-basket me-2' />
-                                  {t('product.Buy now')}
+                                  <i className="bx bxs-basket me-2" />
+                                  {t("product.Buy now")}
                                 </button>
                               </div>
                             )}
@@ -1129,74 +1135,74 @@ function ExploreDetail() {
                         ) : null}
 
                         {nftData?.putOnMarketplace?.price ? (
-                          <div className='col-lg-4 mb-4 mb-lg-0'>
+                          <div className="col-lg-4 mb-4 mb-lg-0">
                             <button
-                              className='btn btn-outline-white1 w-100'
+                              className="btn btn-outline-white1 w-100"
                               onClick={convertToggleModal}
                             >
-                              <i className='bx bx-credit-card me-2' />{' '}
-                              {t('Convert')}
+                              <i className="bx bx-credit-card me-2" />{" "}
+                              {t("Convert")}
                             </button>
                           </div>
                         ) : null}
                       </div>
                       <div
-                        className='modal fade'
-                        id='makeOfferModal'
+                        className="modal fade"
+                        id="makeOfferModal"
                         tabIndex={-1}
-                        role='dialog'
-                        aria-labelledby='exampleModalLabel'
-                        aria-hidden='true'
+                        role="dialog"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
                       >
-                        <div className='modal-dialog modal-dialog-centered modal-lg make-offer-modal-section'>
-                          <div className='modal-content'>
-                            <div className='modal-header text-center d-block'>
-                              <h5 className='modal-title d-inline-block'>
-                                {t('product.Make an offer')}
+                        <div className="modal-dialog modal-dialog-centered modal-lg make-offer-modal-section">
+                          <div className="modal-content">
+                            <div className="modal-header text-center d-block">
+                              <h5 className="modal-title d-inline-block">
+                                {t("product.Make an offer")}
                               </h5>
                               <button
-                                type='button'
-                                className='close'
-                                data-bs-dismiss='modal'
-                                aria-label='Close'
+                                type="button"
+                                className="close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
                               >
-                                <span aria-hidden='true'>×</span>
+                                <span aria-hidden="true">×</span>
                               </button>
                             </div>
-                            <div className='modal-body'>
-                              <div className='offer-price'>
-                                <label htmlFor className='form-label'>
-                                  {t('product.Price')}
+                            <div className="modal-body">
+                              <div className="offer-price">
+                                <label htmlFor className="form-label">
+                                  {t("product.Price")}
                                 </label>
-                                <div className='input-group mb-3'>
-                                  <div className='input-group-prepend'>
-                                    <span className='input-group-text'>
+                                <div className="input-group mb-3">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
                                       <img
-                                        src='/assets/images/icons/ethereum-pink.png'
-                                        alt=''
-                                        className='me-1 eth-icon'
-                                      />{' '}
+                                        src="/assets/images/icons/ethereum-pink.png"
+                                        alt=""
+                                        className="me-1 eth-icon"
+                                      />{" "}
                                       WETH
                                     </span>
                                   </div>
                                   <input
-                                    type='number'
-                                    className='form-control'
-                                    placeholder={t('product.amount')}
+                                    type="number"
+                                    className="form-control"
+                                    placeholder={t("product.amount")}
                                     value={bidAmount}
                                     onChange={(e) =>
                                       setBidAmount(e.target.value)
                                     }
                                   />
-                                  <div className='input-group-append'>
-                                    <span className='input-group-text'>
+                                  <div className="input-group-append">
+                                    <span className="input-group-text">
                                       $0.00
                                     </span>
                                   </div>
                                 </div>
-                                <div className='mt-2 text-end'>
-                                  <h6 className='balance-value'>
-                                    {t('product.Balance')} :{' '}
+                                <div className="mt-2 text-end">
+                                  <h6 className="balance-value">
+                                    {t("product.Balance")} :{" "}
                                     <span>0.000 WETH</span>
                                   </h6>
                                 </div>
@@ -1223,27 +1229,27 @@ function ExploreDetail() {
                               </div>
                             </div> */}
                             </div>
-                            <div className='modal-footer border-0'>
+                            <div className="modal-footer border-0">
                               {hasBidder ? (
                                 <button
-                                  type='button'
-                                  className='btn btn-violet shadow-none'
-                                  data-bs-dismiss='modal'
-                                  aria-label='Close'
-                                  id='update'
+                                  type="button"
+                                  className="btn btn-violet shadow-none"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                  id="update"
                                   onClick={handleBidAmount}
                                 >
-                                  {t('Update Offer')}
+                                  {t("Update Offer")}
                                 </button>
                               ) : (
                                 <button
-                                  type='button'
-                                  className='btn btn-violet shadow-none'
-                                  data-bs-dismiss='modal'
-                                  aria-label='Close'
+                                  type="button"
+                                  className="btn btn-violet shadow-none"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
                                   onClick={handleBidAmount}
                                 >
-                                  {t('product.Make Offer')}
+                                  {t("product.Make Offer")}
                                 </button>
                               )}
 
@@ -1257,154 +1263,154 @@ function ExploreDetail() {
                               {/* //     {t('product.Make Offer')} */}
                               {/* //   </button> */}
                               <button
-                                type='button'
-                                className='btn btn-violet-outline ms-3'
-                                data-bs-toggle='modal'
-                                data-bs-target='#convertEth'
+                                type="button"
+                                className="btn btn-violet-outline ms-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#convertEth"
                               >
-                                {t('product.Convert ETH')}
+                                {t("product.Convert ETH")}
                               </button>
                             </div>
 
                             {/* //convert modal */}
                             <div
-                              className='modal fade'
-                              id='convertEth'
+                              className="modal fade"
+                              id="convertEth"
                               tabIndex={-1}
-                              role='modal-dialog'
-                              aria-labelledby='convertEth'
-                              aria-hidden='true'
+                              role="modal-dialog"
+                              aria-labelledby="convertEth"
+                              aria-hidden="true"
                             >
-                              <div className='modal-dialog modal-dialog-centered modal-lg make-offer-modal-section'>
-                                <div className='modal-content'>
-                                  <div className='modal-header text-center d-block'>
-                                    <h5 className='modal-title d-inline-block'>
-                                      {t('Convert ETH  ')}
+                              <div className="modal-dialog modal-dialog-centered modal-lg make-offer-modal-section">
+                                <div className="modal-content">
+                                  <div className="modal-header text-center d-block">
+                                    <h5 className="modal-title d-inline-block">
+                                      {t("Convert ETH  ")}
                                     </h5>
                                     <button
-                                      type='button'
-                                      className='close'
-                                      data-bs-toggle='modal'
-                                      data-bs-dismiss='modal'
+                                      type="button"
+                                      className="close"
+                                      data-bs-toggle="modal"
+                                      data-bs-dismiss="modal"
                                     >
-                                      <span aria-hidden='true'>×</span>
+                                      <span aria-hidden="true">×</span>
                                     </button>
                                   </div>
-                                  <div className='modal-body'>
-                                    <div className='offer-price'>
+                                  <div className="modal-body">
+                                    <div className="offer-price">
                                       <div
-                                        className='tab-content custom-scrollbar'
-                                        id='myTabContent'
+                                        className="tab-content custom-scrollbar"
+                                        id="myTabContent"
                                       >
                                         <ul
-                                          className='nav nav-tabs'
-                                          id='myTab'
-                                          role='tablist'
+                                          className="nav nav-tabs"
+                                          id="myTab"
+                                          role="tablist"
                                         >
                                           <li
-                                            className='nav-item'
-                                            role='presentation'
+                                            className="nav-item"
+                                            role="presentation"
                                           >
                                             <button
-                                              className='nav-link active'
-                                              id='ETHtoWETH-tab'
-                                              data-bs-toggle='tab'
-                                              data-bs-target='#ETHtoWETH'
-                                              type='button'
-                                              role='tab'
-                                              aria-controls='ETHtoWETH'
-                                              aria-selected='true'
+                                              className="nav-link active"
+                                              id="ETHtoWETH-tab"
+                                              data-bs-toggle="tab"
+                                              data-bs-target="#ETHtoWETH"
+                                              type="button"
+                                              role="tab"
+                                              aria-controls="ETHtoWETH"
+                                              aria-selected="true"
                                               value={1}
                                               onClick={(e) =>
                                                 setActiveTab(e.target.value)
                                               }
                                             >
-                                              {t(' ETH to WETH')}
+                                              {t(" ETH to WETH")}
                                             </button>
                                           </li>
                                           <li
-                                            className='nav-item'
-                                            role='presentation'
+                                            className="nav-item"
+                                            role="presentation"
                                           >
                                             <button
-                                              className='nav-link'
-                                              id='WETHtoETH-tab'
-                                              data-bs-toggle='tab'
-                                              data-bs-target='#WETHtoETH'
-                                              type='button'
-                                              role='tab'
-                                              aria-controls='WETHtoETH'
-                                              aria-selected='false'
+                                              className="nav-link"
+                                              id="WETHtoETH-tab"
+                                              data-bs-toggle="tab"
+                                              data-bs-target="#WETHtoETH"
+                                              type="button"
+                                              role="tab"
+                                              aria-controls="WETHtoETH"
+                                              aria-selected="false"
                                               value={2}
                                               onClick={(e) =>
                                                 setActiveTab(e.target.value)
                                               }
                                             >
-                                              {t('WETH to ETH')}
+                                              {t("WETH to ETH")}
                                             </button>
                                           </li>
                                         </ul>
                                         <div
-                                          className='tab-pane fade show active'
-                                          id='ETHtoWETH'
-                                          role='tabpanel'
-                                          aria-labelledby='ETHtoWETH-tab'
+                                          className="tab-pane fade show active"
+                                          id="ETHtoWETH"
+                                          role="tabpanel"
+                                          aria-labelledby="ETHtoWETH-tab"
                                         >
-                                          <div className='input-group mb-3'>
-                                            <div className='input-group-prepend'>
-                                              <span className='input-group-text'>
+                                          <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                              <span className="input-group-text">
                                                 <img
-                                                  src='/assets/images/icons/ethereum-pink.png'
-                                                  alt=''
-                                                  className='me-1 eth-icon'
-                                                />{' '}
+                                                  src="/assets/images/icons/ethereum-pink.png"
+                                                  alt=""
+                                                  className="me-1 eth-icon"
+                                                />{" "}
                                                 Eth
                                               </span>
                                             </div>
                                             <input
-                                              type='number'
-                                              className='form-control'
-                                              placeholder={t('Enter Amount')}
+                                              type="number"
+                                              className="form-control"
+                                              placeholder={t("Enter Amount")}
                                               value={eth}
                                               onChange={(e) =>
                                                 setEth(e.target.value)
                                               }
                                             />
-                                            <div className='input-group-append'>
-                                              <span className='input-group-text'>
+                                            <div className="input-group-append">
+                                              <span className="input-group-text">
                                                 $0.00
                                               </span>
                                             </div>
                                           </div>
                                         </div>
                                         <div
-                                          className='tab-pane fade'
-                                          id='WETHtoETH'
-                                          role='tabpanel'
-                                          aria-labelledby='WETHtoETH-tab'
+                                          className="tab-pane fade"
+                                          id="WETHtoETH"
+                                          role="tabpanel"
+                                          aria-labelledby="WETHtoETH-tab"
                                         >
-                                          <div className='input-group mb-3'>
-                                            <div className='input-group-prepend'>
-                                              <span className='input-group-text'>
+                                          <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                              <span className="input-group-text">
                                                 <img
-                                                  src='/assets/images/icons/ethereum-pink.png'
-                                                  alt=''
-                                                  className='me-1 eth-icon'
-                                                />{' '}
+                                                  src="/assets/images/icons/ethereum-pink.png"
+                                                  alt=""
+                                                  className="me-1 eth-icon"
+                                                />{" "}
                                                 WETH
                                               </span>
                                             </div>
                                             <input
-                                              type='number'
-                                              className='form-control'
-                                              placeholder={t('Enter Amount')}
+                                              type="number"
+                                              className="form-control"
+                                              placeholder={t("Enter Amount")}
                                               value={wth}
                                               onChange={(e) =>
                                                 setWth(e.target.value)
                                               }
                                             />
-                                            <div className='input-group-append'>
-                                              <span className='input-group-text'>
+                                            <div className="input-group-append">
+                                              <span className="input-group-text">
                                                 $0.00
                                               </span>
                                             </div>
@@ -1412,32 +1418,32 @@ function ExploreDetail() {
                                         </div>
                                       </div>
 
-                                      <div className='mt-2 text-end'>
-                                        <h6 className='balance-value'>
-                                          {t('product.Balance')} :{' '}
+                                      <div className="mt-2 text-end">
+                                        <h6 className="balance-value">
+                                          {t("product.Balance")} :{" "}
                                           <span>0.000 WETH</span>
                                         </h6>
                                       </div>
-                                      <div className='modal-footer border-0'>
-                                        {activeTab === '1' ? (
+                                      <div className="modal-footer border-0">
+                                        {activeTab === "1" ? (
                                           <button
-                                            type='button'
-                                            className='btn btn-violet shadow-none'
-                                            data-bs-toggle='modal'
-                                            data-bs-dismiss='modal'
+                                            type="button"
+                                            className="btn btn-violet shadow-none"
+                                            data-bs-toggle="modal"
+                                            data-bs-dismiss="modal"
                                             onClick={handleEth}
                                           >
-                                            {t('Wrap')}
+                                            {t("Wrap")}
                                           </button>
                                         ) : (
                                           <button
-                                            type='button'
-                                            className='btn btn-violet shadow-none'
-                                            data-bs-toggle='modal'
-                                            data-bs-dismiss='modal'
+                                            type="button"
+                                            className="btn btn-violet shadow-none"
+                                            data-bs-toggle="modal"
+                                            data-bs-dismiss="modal"
                                             onClick={handleWth}
                                           >
-                                            {t('Unwrap')}
+                                            {t("Unwrap")}
                                           </button>
                                         )}
                                       </div>
@@ -1457,55 +1463,55 @@ function ExploreDetail() {
                   </div>
                 </div>
               </div>
-              <div className='row mb-lg-5 mb-0'>
-                <div className='col-lg-6 col-md-6 mb-4 mb-lg-0'>
-                  <div className='explore-detail-accordion'>
-                    <div className='accordion accordion1'>
-                      <div className='accordion-item'>
-                        <h2 className='accordion-header'>
+              <div className="row mb-lg-5 mb-0">
+                <div className="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                  <div className="explore-detail-accordion">
+                    <div className="accordion accordion1">
+                      <div className="accordion-item">
+                        <h2 className="accordion-header">
                           <button
-                            className='accordion-button'
-                            type='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#collapseOne'
-                            aria-expanded='true'
+                            className="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="true"
                           >
-                            {t('product.Listing')}
+                            {t("product.Listing")}
                           </button>
                         </h2>
                         <div
-                          id='collapseOne'
-                          className='accordion-collapse collapse show'
+                          id="collapseOne"
+                          className="accordion-collapse collapse show"
                         >
-                          <div className='accordion-body'>
-                            <div className='table-responsive'>
-                              <table className='table table1'>
+                          <div className="accordion-body">
+                            <div className="table-responsive">
+                              <table className="table table1">
                                 <thead>
                                   <tr>
-                                    <th scope='col'>{t('product.Price')}</th>
-                                    <th scope='col'>
-                                      {t('product.USD Price')}
+                                    <th scope="col">{t("product.Price")}</th>
+                                    <th scope="col">
+                                      {t("product.USD Price")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Expiration')}
+                                    <th scope="col">
+                                      {t("product.Expiration")}
                                     </th>
-                                    <th scope='col'>{t('product.from')}</th>
+                                    <th scope="col">{t("product.from")}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
                                     <td>
                                       <img
-                                        src='/assets/images/icons/ethereum.png'
-                                        alt=''
-                                        className='me-1'
-                                      />{' '}
+                                        src="/assets/images/icons/ethereum.png"
+                                        alt=""
+                                        className="me-1"
+                                      />{" "}
                                       0.3 WETH
                                     </td>
                                     <td>$959.13</td>
                                     <td>In 5 days</td>
                                     <td>
-                                      <a href='#'>Shreepadgaonkar</a>
+                                      <a href="#">Shreepadgaonkar</a>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1517,58 +1523,58 @@ function ExploreDetail() {
                     </div>
                   </div>
                 </div>
-                <div className='col-lg-6 col-md-6 mb-4 mb-lg-0'>
-                  <div className='explore-detail-accordion'>
-                    <div className='accordion accordion2'>
-                      <div className='accordion-item'>
-                        <h2 className='accordion-header'>
+                <div className="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                  <div className="explore-detail-accordion">
+                    <div className="accordion accordion2">
+                      <div className="accordion-item">
+                        <h2 className="accordion-header">
                           <button
-                            className='accordion-button'
-                            type='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#collapseTwo'
-                            aria-expanded='true'
+                            className="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo"
+                            aria-expanded="true"
                           >
-                            {t('product.Offering')}
+                            {t("product.Offering")}
                           </button>
                         </h2>
                         <div
-                          id='collapseTwo'
-                          className='accordion-collapse collapse show'
+                          id="collapseTwo"
+                          className="accordion-collapse collapse show"
                         >
-                          <div className='accordion-body'>
-                            <div className='table-responsive'>
-                              <table className='table table2'>
+                          <div className="accordion-body">
+                            <div className="table-responsive">
+                              <table className="table table2">
                                 <thead>
                                   <tr>
-                                    <th scope='col'>{t('product.Price')}</th>
-                                    <th scope='col'>
-                                      {t('product.USD Price')}
+                                    <th scope="col">{t("product.Price")}</th>
+                                    <th scope="col">
+                                      {t("product.USD Price")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Floor Difference')}
+                                    <th scope="col">
+                                      {t("product.Floor Difference")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Expiration')}
+                                    <th scope="col">
+                                      {t("product.Expiration")}
                                     </th>
-                                    <th scope='col'>{t('product.from')}</th>
+                                    <th scope="col">{t("product.from")}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
                                     <td>
                                       <img
-                                        src='/assets/images/icons/ethereum.png'
-                                        alt=''
-                                        className='me-1'
-                                      />{' '}
+                                        src="/assets/images/icons/ethereum.png"
+                                        alt=""
+                                        className="me-1"
+                                      />{" "}
                                       0.3 WETH
                                     </td>
                                     <td>$959.13</td>
                                     <td>48.3% Below</td>
                                     <td>In 5 days</td>
                                     <td>
-                                      <a href='#'>John Deo</a>
+                                      <a href="#">John Deo</a>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1581,48 +1587,48 @@ function ExploreDetail() {
                   </div>
                 </div>
               </div>
-              <div className='row'>
-                <div className='col-lg-6 col-md-6 mb-4 mb-lg-0'>
-                  <div className='explore-detail-accordion'>
-                    <div className='accordion accordion3'>
-                      <div className='accordion-item'>
-                        <h2 className='accordion-header'>
+              <div className="row">
+                <div className="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                  <div className="explore-detail-accordion">
+                    <div className="accordion accordion3">
+                      <div className="accordion-item">
+                        <h2 className="accordion-header">
                           <button
-                            className='accordion-button'
-                            type='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#collapseThree'
-                            aria-expanded='true'
+                            className="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree"
+                            aria-expanded="true"
                           >
                             {/* {t("product.Listing")} */}
                             Pricing History
                           </button>
                         </h2>
                         <div
-                          id='collapseThree'
-                          className='accordion-collapse collapse show'
+                          id="collapseThree"
+                          className="accordion-collapse collapse show"
                         >
-                          <div className='accordion-body'>
-                            <div className='table-responsive'>
-                              <table className='table table3'>
+                          <div className="accordion-body">
+                            <div className="table-responsive">
+                              <table className="table table3">
                                 <thead>
                                   <tr>
-                                    <th scope='col'>
-                                      {t('product.Lowest Listing')}
+                                    <th scope="col">
+                                      {t("product.Lowest Listing")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Suggested Price')}
+                                    <th scope="col">
+                                      {t("product.Suggested Price")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Highest Sale')}
+                                    <th scope="col">
+                                      {t("product.Highest Sale")}
                                     </th>
-                                    <th scope='col'>
-                                      {t('product.Total Sales')}
+                                    <th scope="col">
+                                      {t("product.Total Sales")}
                                     </th>
-                                    <th scope='col'>
+                                    <th scope="col">
                                       <select
-                                        className='form-select'
-                                        style={{ width: '108px' }}
+                                        className="form-select"
+                                        style={{ width: "108px" }}
                                       >
                                         <option selected>All Time</option>
                                         <option value={1}>One</option>
@@ -1655,35 +1661,35 @@ function ExploreDetail() {
                     </div>
                   </div>
                 </div>
-                <div className='col-lg-6 col-md-6 mb-4 mb-lg-0'>
-                  <div className='explore-detail-accordion'>
-                    <div className='accordion accordion4'>
-                      <div className='accordion-item'>
-                        <h2 className='accordion-header'>
+                <div className="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                  <div className="explore-detail-accordion">
+                    <div className="accordion accordion4">
+                      <div className="accordion-item">
+                        <h2 className="accordion-header">
                           <button
-                            className='accordion-button'
-                            type='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#collapseFour'
-                            aria-expanded='true'
+                            className="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour"
+                            aria-expanded="true"
                           >
-                            {t('product.Item Activity')}
+                            {t("product.Item Activity")}
                           </button>
                         </h2>
                         <div
-                          id='collapseFour'
-                          className='accordion-collapse collapse show'
+                          id="collapseFour"
+                          className="accordion-collapse collapse show"
                         >
-                          <div className='accordion-body custom-scrollbar'>
-                            <div className='col-lg-12 col-md-12 category-filter-search-bar'>
-                              <div className='row align-items-center'>
-                                <div className='col-lg-2 col-md-2'>
-                                  <h3 className='filter-label'>
-                                    {t('product.Filter By')}
+                          <div className="accordion-body custom-scrollbar">
+                            <div className="col-lg-12 col-md-12 category-filter-search-bar">
+                              <div className="row align-items-center">
+                                <div className="col-lg-2 col-md-2">
+                                  <h3 className="filter-label">
+                                    {t("product.Filter By")}
                                   </h3>
                                 </div>
-                                <div className='col-lg-10 col-md-10'>
-                                  <div className='d-flex'>
+                                <div className="col-lg-10 col-md-10">
+                                  <div className="d-flex">
                                     {/* <select className="form-select" aria-label="Default select example">
                                     <option selected>Choose Category</option>
                                     <option value={1}>One</option>
@@ -1691,16 +1697,16 @@ function ExploreDetail() {
                                     <option value={3}>Three</option>
                                   </select> */}
                                     {/* <pre>{JSON.stringify(selected)}</pre> */}
-                                    <div className='w-75'>
+                                    <div className="w-75">
                                       <MultiSelect
                                         options={options}
                                         value={selected}
                                         onChange={setSelected}
-                                        labelledBy='Select'
+                                        labelledBy="Select"
                                         //  className="form-select"
                                       />
                                     </div>
-                                    <button className='btn btn-search'>
+                                    <button className="btn btn-search">
                                       Search
                                     </button>
                                   </div>
@@ -1708,55 +1714,90 @@ function ExploreDetail() {
                               </div>
                             </div>
                             <div
-                              className='table-responsive'
-                              style={{ overflowY: 'hidden' }}
+                              className="table-responsive"
+                              style={{ overflowY: "hidden" }}
                             >
-                              <table className='table table4'>
+                              <table className="table table4">
                                 <thead>
                                   <tr>
-                                    <th scope='col'>Event</th>
-                                    <th scope='col'>{t('product.Price')}</th>
-                                    <th scope='col'>{t('product.from')}</th>
-                                    <th scope='col'>To</th>
-                                    <th scope='col'>Date</th>
+                                    <th scope="col">Event</th>
+                                    <th scope="col">{t("product.Price")}</th>
+                                    <th scope="col">{t("product.from")}</th>
+                                    <th scope="col">To</th>
+                                    <th scope="col">Date</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
                                     <td>
-                                      <span className='d-flex align-items-center'>
-                                        <i className='bx bxs-purchase-tag me-1' />{' '}
-                                        list
-                                      </span>
+                                      {/* <span className='d-flex align-items-center'> */}
+                                      {/* <i className='bx bxs-purchase-tag me-1' />{' '} */}
+                                      {/* </span>  */}
+                                      {itemEvent.map((event) => (
+                                        <p key={event}>
+                                          <i className="bx bxs-purchase-tag me-1" />
+                                          {event.action}
+                                        </p>
+                                      ))}
+                                    </td>
+                                    {/* <td>
+                                    <span className='d-flex align-items-center'>
+                                      <i className='bx bxs-purchase-tag me-1' />{' '}
+                                      list
+                                    </span> 
+                                     {itemEvent.map((event) => (
+                                    <p key={event}>{event.bid_price}</p>
+                                    ))}
+                                  </td> */}
+                                    <td>
+                                      {itemEvent.map((event) => (
+                                        <p key={event}>
+                                          <img
+                                            src="/assets/images/icons/ethereum.png"
+                                            alt=""
+                                            className="me-1"
+                                          />
+                                          {event.bid_price}
+                                        </p>
+                                      ))}
+                                      {/* $959.13 */}
                                     </td>
                                     <td>
-                                      <img
-                                        src='/assets/images/icons/ethereum.png'
-                                        alt=''
-                                        className='me-1'
-                                      />
-                                      $959.13
+                                      {/* <a href='#'> */}
+                                      {itemEvent.map((event) => (
+                                        <p key={event}>{event.from}</p>
+                                      ))}
+                                      {/* </a> */}
                                     </td>
                                     <td>
-                                      <a href='#'>John Doe</a>
+                                      <a href="#"></a>
                                     </td>
                                     <td>
-                                      <a href='#'>John Doe</a>
-                                    </td>
-                                    <td>
-                                      <a href='#' className='tooltip-wrapper'>
-                                        <img
+                                      {/* <a href='#' className='tooltip-wrapper'> */}
+                                      {/* <img
                                           src='/assets/images/icons/share-blue-icon.png'
                                           alt=''
                                           className='me-1'
-                                        />{' '}
-                                        2 Days Ago
-                                        <span className='tooltip'>
+                                        />{' '} */}
+                                      {/* 2 Days Ago */}
+                                      {itemEvent.map((event) => (
+                                        <p key={event}>
+                                          {" "}
+                                          <img
+                                            src="/assets/images/icons/share-blue-icon.png"
+                                            alt=""
+                                            className="me-1"
+                                          />{" "}
+                                          {event.sCreated}
+                                        </p>
+                                      ))}
+                                      {/* <span className='tooltip'>
                                           March 22 2021, 5:10 Pm
-                                        </span>
-                                      </a>
+                                        </span> */}
+                                      {/* </a> */}
                                     </td>
                                   </tr>
+                                  {/* </tr>
                                   <tr>
                                     <td>
                                       <span className='d-flex align-items-center'>
@@ -2106,7 +2147,7 @@ function ExploreDetail() {
                                         </span>
                                       </a>
                                     </td>
-                                  </tr>
+                                  </tr> */}
                                 </tbody>
                               </table>
                             </div>
@@ -2120,24 +2161,24 @@ function ExploreDetail() {
             </div>
           </section>
 
-          <section className='explore-collection-card-area py-lg-5 py-4'>
-            <div className='container'>
-              <div className='section-heading text-center mb-4'>
+          <section className="explore-collection-card-area py-lg-5 py-4">
+            <div className="container">
+              <div className="section-heading text-center mb-4">
                 <div>
-                  <h2 className='section-title mb-1'>
-                    {t('product.More from this collection')}
+                  <h2 className="section-title mb-1">
+                    {t("product.More from this collection")}
                   </h2>
                   <span>
                     <img
-                      src='/assets/images/path1.png'
-                      alt=''
-                      className='img-fluid'
+                      src="/assets/images/path1.png"
+                      alt=""
+                      className="img-fluid"
                     />
                   </span>
                 </div>
               </div>
-              <div className='col-lg-11 col-md-11 mx-auto p-0'>
-                <div className='explore-collection-slider'>
+              <div className="col-lg-11 col-md-11 mx-auto p-0">
+                <div className="explore-collection-slider">
                   {/* <div className="single-slide">
                   <div className="live-auction-area">
                     <div className="auction-card-two">
