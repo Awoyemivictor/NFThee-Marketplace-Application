@@ -169,16 +169,17 @@ export const createBid = async ({
     action: 'Bids',
     actionMeta: 'Default',
     message: `Bid by ${ldata.user_name}  with ${bid_price} price `,
-  };
+    bid_price:`${bid_price}`,
+    from:`${ldata.user_name}`,
+  // };
   //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
   //   currentUser.slice(0, 3) +
   //   '...' +
   //   currentUser.slice(39, 42)
   // }`,
-  // created_ts: moment(new Date()).format(
-  //   'YYYY-MM-DD HH:mm:ss'
+  // created_ts:  Moment(new Date()).format("YYYY-MM-DD HH:mm:ss"
   // ),
-  // };
+  };
   console.log('history', historyMetaData);
   let response = await instance
     .post(`/api/insertHistory`, historyMetaData)

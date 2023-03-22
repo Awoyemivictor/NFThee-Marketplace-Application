@@ -1,7 +1,7 @@
 exports.adminService = require('./adminService');
 exports.categoryService = require('./categoryService');
 exports.suggestionService = require('./suggestionService');
-
+exports.verificationServices = require('./verificationServices');
 exports.partnerServices = require('./partnerServices');
 exports.nftteamsService = require('./nftteamsService');
 exports.createCollectionService = require('./createCollectionService');

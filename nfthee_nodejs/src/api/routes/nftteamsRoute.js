@@ -22,19 +22,23 @@ const {
   insert_likes,
   remove_likes,
   userLikes,
-  getPrice
+  getPrice,
+  collectionNft,
+  collectionNftBid
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
   { name: 'logo_image', maxCount: 1 },
   { name: 'featured_image', maxCount: 1 },
   { name: 'banner_image', maxCount: 1 },
-]);
+]); 
 
 router.get('/all', index);
 router.post('/store', nftStore);
 router.post('/image', uploadS3.single('fileName'), upload_image);
 router.get('/read', read_nftStore);
+router.get('/collectionNft', collectionNft);
+router.get('/collectionNftBid', collectionNftBid);
 router.post('/update', uploadS3.single('uploadFile'), upadte_nftStore);
 router.post('/delete', delete_nftStore);
 router.get('/admin/getAllItem', getAllItemInfo);

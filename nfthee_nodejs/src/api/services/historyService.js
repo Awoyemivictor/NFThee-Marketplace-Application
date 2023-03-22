@@ -15,8 +15,11 @@ exports.insertHistory = async (req, res) => {
       action: req.body.action,
       actionMeta: req.body.actionMeta,
       message: req.body.message,
+      from: req.body.from,
+      bid_price: req.body.bid_price,
       sCreated: req.body.created_ts,
     });
+    console.log('insertData',insertData)
     return insertData.save().then((results) => {
       return {
         message: 'History Added Successfully ',
