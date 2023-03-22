@@ -137,9 +137,9 @@ export default function Projects() {
             showCancelButton: true,
         }).then(function (result) {
             if (result.value) {
-                // instance
-                axios
-                .post(`http://192.168.29.147:8002/api/deleteVerification`,{id:collections._id})
+                // axios
+                backendInstance
+                .post(`/api/deleteVerification`,{id:collections._id})
                     .then(response => {if(response.status===200)setChanges(Math.random())})
             }
         });
