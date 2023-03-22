@@ -18,12 +18,12 @@ function ExploreFilter() {
   const [show, setShow] = useState('hidden');
   const [collections, setCollections] = useState([]);
   const [like, setliked] = useState();
-
+  const [activTab,setActivetab]=useState('1')
   const { t } = useTranslation(); 
   const ShowResult = () =>{
     setShow('show')
   }
-
+console.log('akfhvjavfjhav',activTab,typeof activTab)
   
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState("");
@@ -135,18 +135,18 @@ useEffect(async() => {
 
   
 
-  function myHandleHide() {
-    var x = document.getElementById("sectionHide");
-    var y = document.getElementById("sectionHide1");
+  // function setActivetab() {
+  //   var x = document.getElementById("sectionHide");
+  //   var y = document.getElementById("sectionHide1");
 
-    if (x.style.display === "none"||y.style.display === "block") {
-      x.style.display = "block";
-      y.style.display = "none";
-    } else {
-      x.style.display = "none";
-      y.style.display = "block";
-    }
-  }
+  //   if (x.style.display === "none"||y.style.display === "block") {
+  //     x.style.display = "block";
+  //     y.style.display = "none";
+  //   } else {
+  //     x.style.display = "none";
+  //     y.style.display = "block";
+  //   }
+  // }
 
 
   return (
@@ -317,7 +317,9 @@ useEffect(async() => {
                   <div className="col-lg-6 col-md-6 p-0"></div>
                 </div>
 
-                <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> {t("explore.Utility Token")} </p>
+                <p className="desc" >{collections.description?`${collections.description}`:t("explore.Metroverse_title")} <br/> 
+                {/* {t("explore.Utility Token")} */}
+                 </p>
                 {/* <div className="d-flex mb-3" >
                   <button className="btn btn-violetFilter d-flex likeBtn"><i className="ri-heart-line me-2 fw-light" />
                    {t("explore.Like")}</button>
@@ -344,8 +346,8 @@ useEffect(async() => {
         </div> 
         </div></div>  */}
 
-       <div className="tab-content" id="pills-tabContent">
-           <div className="tab-pane show active" id="sectionHide1" style={{display:"block"}} role="tabpanel">
+      {activTab==='1' ?<div className="tab-content" id="pills-tabContent">
+           <div className="tab-pane show active" id="sectionHide1"role="tabpanel">
                <div className="wrapper">
                    <div className="container-fluid">
                        <div className="row"> 
@@ -395,11 +397,11 @@ useEffect(async() => {
                                   <div className="explore-filter-tab-container mt-3">
                                   <ul className="nav nav-pills mb-3 px-lg-4" id="pills-tab" role="tablist">
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
+                                      <button onClick={()=>setActivetab('1')} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
-                                    {/* ref={ref} onClick={myHandleHide} */}
+                                      <button onClick={()=>setActivetab('2')} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
+                                    {/* ref={ref} onClick={()=>setActivetab} */}
                                     </li>
                                   </ul>
                                   </div>
@@ -503,12 +505,13 @@ useEffect(async() => {
 
            {/* Activity */}
 
-       </div>
+       </div>:null}
        </div> 
 </section> 
 
-<section id="sectionHide" style={{display:"none"}}>
-  <div className="tab-pane" id="explore-activity" role="tabpanel">
+{activTab==='2'?
+<section id="sectionHide" >
+  <div className="tab-pane" id="explore-activity" role="tabpanel" style={{display:"block"}}>
                <div className="wrapper">
                    <div className="container-fluid">
                        <div className="row">
@@ -555,11 +558,11 @@ useEffect(async() => {
                                   <div className="explore-filter-tab-container mt-3">
                                   <ul className="nav nav-pills mb-3 px-lg-4" id="pills-tab" role="tablist">
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link active ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="true">{t("explore.item")}</button>
+                                      <button onClick={()=>setActivetab('1')} className="nav-link  ps-0" id="explore-item-tab" data-bs-toggle="pill" data-bs-target="#explore-item" type="button" role="tab" aria-selected="false">{t("explore.item")}</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                      <button onClick={myHandleHide} className="nav-link" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="false">{t("explore.Activity")}</button>
-                                    {/* ref={ref} onClick={myHandleHide} */}
+                                      <button onClick={()=>setActivetab('2')} className="nav-link active" id="explore-activity-tab" data-bs-toggle="pill" data-bs-target="#explore-activity" type="button" role="tab" aria-selected="true">{t("explore.Activity")}</button>
+                                    {/* ref={ref} onClick={setActivetab} */}
                                     </li>
                                   </ul>
                                   </div>
@@ -823,7 +826,7 @@ useEffect(async() => {
                    </div>
                </div>
            </div>
-</section>
+</section>:null}
 
 
  </main>}

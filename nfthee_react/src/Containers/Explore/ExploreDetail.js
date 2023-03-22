@@ -136,7 +136,6 @@ function ExploreDetail() {
     setBidData(data.data);
   };
   useEffect(async () => {
-    setIsLoading(true);
     handleBidData();
     await instance
       .get(`/api/read?id=${id}`)
@@ -1090,7 +1089,7 @@ function ExploreDetail() {
                       {nftData?.listing==='listing'?  <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
                           <button
                             className='btn btn-outline-white1 w-100'
-                            // onClick={listingToggleModal}
+                            onClick={listingToggleModal}
                           >
                             <i className='bx bx-credit-card me-2' />{' '}
                             {t('product.Buy Card')}
