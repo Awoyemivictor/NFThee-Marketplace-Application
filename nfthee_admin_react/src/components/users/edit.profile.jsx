@@ -6,7 +6,7 @@ import backendInstance from "../../backendInstance";
 
 
 const EditProfile = () => {
-const[user,setUser]=useState([])
+// const[user,setUser]=useState([])
 const data=JSON.parse(localStorage.getItem('adminLoggedin'))
 // console.log(username,lastName)
 useEffect(()=>{

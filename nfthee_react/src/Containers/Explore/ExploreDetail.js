@@ -139,7 +139,6 @@ function ExploreDetail() {
   };
 
   useEffect(async () => {
-    setIsLoading(true);
     handleBidData();
     await instance
       .get(`/api/read?id=${id}`)

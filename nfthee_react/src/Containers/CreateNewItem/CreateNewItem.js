@@ -319,7 +319,12 @@ const CreateNewItem = () => {
       amount: collectionData.chooseType === 1 ? 1 : e.target.value,
     });
   };
+  const handleEarning = e => {
+    const limit = 2;
 
+    // 👇️ only take first N characters
+    setCollectionData({...collectionData,[e.target.name]:e.target.value.slice(0, limit)});
+  };
   const handleItemChange = (e) => {
     setItemData({
       ...itemData,
@@ -387,7 +392,9 @@ const CreateNewItem = () => {
       setCollectionValidation('was-validated');
       bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    if (collectionData.creator_earnings === null || '') {
+    if (collectionData.creator_earnings === null || ''||collectionData.creator_earnings<80||collectionData.creator_earnings>20) {
+      toast.error('Earning must be in 20 to 80');
+
       setCollectionValidation('was-validated');
       bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -528,7 +535,8 @@ const CreateNewItem = () => {
       collectionData.name &&
       collectionData.symbol &&
       collectionData.blockchain &&
-      collectionData.chooseType
+      collectionData.chooseType &&
+      collectionData.creator_earnings<80||collectionData.creator_earnings>20
     ) {
       const formData = new FormData();
       formData.append('name', collectionData.name);
@@ -2275,7 +2283,7 @@ const CreateNewItem = () => {
                         </div>
                       </div>
                     </div>
-                    <div className='create-item-content border-bottom pb-3 mb-3'>
+                    {/* <div className='create-item-content border-bottom pb-3 mb-3'>
                       <div className='row'>
                         <div className='col-lg-9 col-md-9'>
                           <div className='d-flex justify-content-between align-items-center'>
@@ -2288,7 +2296,7 @@ const CreateNewItem = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <div className='create-item-content border-bottom pb-3 mb-3'>
                       <h4 className='create-item-title'>Add Category</h4>
                       <div className='row'>
@@ -2383,8 +2391,8 @@ const CreateNewItem = () => {
                           <input
                             name='creator_earnings'
                             value={collectionData.creator_earnings}
-                            onChange={handleCollectionChange}
-                            type='text'
+                            onChange={handleEarning}
+                            type='number'
                             className='form-control'
                             placeholder='e.g 25'
                             required
