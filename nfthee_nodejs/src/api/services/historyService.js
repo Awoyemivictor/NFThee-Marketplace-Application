@@ -16,7 +16,9 @@ exports.insertHistory = async (req, res) => {
       actionMeta: req.body.actionMeta,
       message: req.body.message,
       from: req.body.from,
-      bid_price: req.body.bid_price,
+      to: req.body.to,
+      price: req.body.price,
+      collection_name:req.body.collection_name,
       sCreated: req.body.created_ts,
     });
     console.log('insertData',insertData)
@@ -92,7 +94,64 @@ exports.fetchHistory = async (req, res) => {
 };
 
 
+exports.fetchAllHistory = async (req, res) => {
+  try {
+    // let nftId = req.query.nftId;
+    // let userId = req.body.userId;
+    // let action = req.body.action;
+    // let actionMeta = req.body.actionMeta;
 
+    // console.log("fetchhistory",nftId)
+
+    // let onftIDQuery = {};
+    // let ouserIDQuery = {};
+    // let oactionQuery = {};
+    // let oactionMetaQuery = {};
+
+    // if (nftId !== 'All') {
+    //   onftIDQuery = { nftId: mongoose.Types.ObjectId(nftId) };
+    //   if (userId !== 'All') {
+    //     ouserIDQuery = { userId: mongoose.Types.ObjectId(userId) };
+    //   }
+    //   if (action !== 'All') {
+    //     oactionQuery = { action: action };
+    //   }
+    //   if (actionMeta !== 'All') {
+    //     oactionMetaQuery = { actionMeta: actionMeta };
+    //   }
+
+      // const searchObj = {
+      //   ...onftIDQuery,
+      //   ...ouserIDQuery,
+      //   ...oactionQuery,
+      //   ...oactionMetaQuery
+      // };
+
+      // const count = await history.countDocuments(searchObj);
+      const results = await history.find().populate('nftId')
+        .sort({ sCreated: -1 })
+        
+        // .select({
+        //   _id: 1,
+        //   nftId: 1,
+        //   userId: 1,
+        //   action: 1,
+        //   actionMeta: 1,
+        //   message: 1,
+        //   sCreated: 1,
+        // })
+console.log('fetchAllHistory',results)
+      return {
+        message: 'History Details',
+        status: true,
+        data:  results
+
+      };
+    }
+   catch (error) {
+    throw error
+  }
+};
 
 
 

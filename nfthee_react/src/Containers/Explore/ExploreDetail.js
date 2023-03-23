@@ -254,6 +254,7 @@ function ExploreDetail() {
         bid_price: bidAmount,
         nftId: id,
         bid_quantity: 1,
+        collectionName: nftData.chooseCollection
       };
 
       const data = await createBid(bidData);
@@ -262,7 +263,8 @@ function ExploreDetail() {
           nftData?.currentOwner?._id,
           bidAmount,
           update,
-          nftData._id
+          nftData._id,
+        
         );
       }
     }
@@ -1757,7 +1759,7 @@ function ExploreDetail() {
                                             alt=""
                                             className="me-1"
                                           />
-                                          {event.bid_price}
+                                          {event.price}
                                         </p>
                                       ))}
                                       {/* $959.13 */}
