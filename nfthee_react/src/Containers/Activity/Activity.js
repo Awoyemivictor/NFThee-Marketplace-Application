@@ -5,6 +5,7 @@ import Apexcharts from '../../Components/Apexcharts'
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { getPriceConversion } from "../../services/apiServices";
+import instance from "../../axios";
 function Activity() { 
   const [noOfElement, setNoOfElement] = useState(6);
   const [activityData,setActivityData]=useState([])
@@ -41,7 +42,7 @@ function Activity() {
   };
 
 useEffect(async() => {
-axios.get('http://192.168.29.147:8003/api/fetchAllHistory')
+  instance.get('/api/fetchAllHistory')
 .then(res=> setActivityData(res.data.data))
 .finally(res=>setLoading(false))
 
