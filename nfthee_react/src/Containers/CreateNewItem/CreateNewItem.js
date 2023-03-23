@@ -319,11 +319,14 @@ const CreateNewItem = () => {
       amount: collectionData.chooseType === 1 ? 1 : e.target.value,
     });
   };
-  const handleEarning = e => {
+  const handleEarning = (e) => {
     const limit = 2;
 
     // 👇️ only take first N characters
-    setCollectionData({...collectionData,[e.target.name]:e.target.value.slice(0, limit)});
+    setCollectionData({
+      ...collectionData,
+      [e.target.name]: e.target.value.slice(0, limit),
+    });
   };
   const handleItemChange = (e) => {
     setItemData({
@@ -392,7 +395,12 @@ const CreateNewItem = () => {
       setCollectionValidation('was-validated');
       bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    if (collectionData.creator_earnings === null || ''||collectionData.creator_earnings<80||collectionData.creator_earnings>20) {
+    if (
+      collectionData.creator_earnings === null ||
+      '' ||
+      collectionData.creator_earnings < 80 ||
+      collectionData.creator_earnings > 20
+    ) {
       toast.error('Earning must be in 20 to 80');
 
       setCollectionValidation('was-validated');
@@ -531,12 +539,13 @@ const CreateNewItem = () => {
     // console.log(links,"mdsbkjhvsdjsbkbyt698r^%$#%")
 
     if (
-      contractAddress.length === 42 &&
-      collectionData.name &&
-      collectionData.symbol &&
-      collectionData.blockchain &&
-      collectionData.chooseType &&
-      collectionData.creator_earnings<80||collectionData.creator_earnings>20
+      (contractAddress.length === 42 &&
+        collectionData.name &&
+        collectionData.symbol &&
+        collectionData.blockchain &&
+        collectionData.chooseType &&
+        collectionData.creator_earnings < 80) ||
+      collectionData.creator_earnings > 20
     ) {
       const formData = new FormData();
       formData.append('name', collectionData.name);
@@ -647,7 +656,7 @@ const CreateNewItem = () => {
 
   const handlePriceConversion = async () => {
     let result = await getPriceConversion();
-    let convertToUSD = (parseFloat(result) * 0.001);
+    let convertToUSD = parseFloat(result) * 0.001;
     console.log(convertToUSD.toFixed(5));
   };
 
@@ -904,19 +913,21 @@ const CreateNewItem = () => {
   };
 
   const getChains = async (getChainValues) => {
-    let eth = 'Ethereum Testnet';
+    let eth = 'Ethereum Sepolia Testnet';
     let poly = 'Polygon Testnet';
-    let bsc = 'Binance Smart Chain';
-    let harmony = 'Harmony Testnet';
-    console.log(getChainValues, poly);
+    let bsc = 'BSC Testnet';
+    let harmony = 'Harmony  Testnet';
+    console.log(getChainValues, eth, bsc, harmony, poly);
 
     if (eth === getChainValues) {
       ethTest();
     } else if (poly === getChainValues) {
       polyTest();
     } else if (bsc === getChainValues) {
+      console.log('bsc');
       bscTest();
     } else if (harmony === getChainValues) {
+      console.log("Har")
       harmonyTest();
     }
   };

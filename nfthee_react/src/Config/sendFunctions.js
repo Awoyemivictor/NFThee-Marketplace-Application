@@ -37,6 +37,7 @@ const readReceipt = async (hash) => {
 
 export const approveTokens = async (ownerAddress, amount) => {
   const tokens = ethers.utils.parseEther('1000000000');
+  const tokenAmount = ethers.utils.parseEther(amount)
 
   let res1;
   let hash;
@@ -44,7 +45,7 @@ export const approveTokens = async (ownerAddress, amount) => {
     contracts.polygonContracts.TESTERC20,
     ERC20.abi
   );
-  res1 = await tokenInstance.mint(amount, { from: ownerAddress });
+  res1 = await tokenInstance.mint(tokenAmount);
 
   hash = res1;
 
@@ -467,6 +468,7 @@ export const handleNFTBidListing = async (
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
+  console.log(marketplaceInstance)
 
   // let options = {
   //   from: userAddress,
@@ -478,7 +480,8 @@ export const handleNFTBidListing = async (
     gasLimit: 9000000,
   };
 
-  let tokenApproval = await approveTokens(userAddress, price * 2);
+  let tokenApproval = await approveTokens(userAddress, tokenPrice);
+  
   console.log(tokenApproval);
 
   console.info(collectionAddress, tokenId, price, time, 1, 1, 1);

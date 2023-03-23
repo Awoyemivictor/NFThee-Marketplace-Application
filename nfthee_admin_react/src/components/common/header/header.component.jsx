@@ -92,9 +92,9 @@ const Header = () => {
                     </div>
                     <div className="nav-right col">
                         <ul className={"nav-menus " + (navMenus ? 'open' : '')} >
-                            {/* <li>
-                                <Search />
-                            </li> */}
+                            <li>
+                          Connect Wallet
+                            </li>
                             <li>
                                 <a onClick={goFull} className="text-dark" href="#javaScript">
                                     <img className="align-self-center pull-right mr-2" src={require('../../../assets/images/dashboard/browser.png')} alt="header-browser" />

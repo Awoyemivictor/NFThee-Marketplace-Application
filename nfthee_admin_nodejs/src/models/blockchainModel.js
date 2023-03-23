@@ -1,20 +1,26 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const blockchainSchema = new Schema({
+const blockchainSchema = new Schema(
+  {
     name: {
-        type: String,
-        unique: true
-      },
+      type: String,
+      unique: true,
+    },
     description: {
-        type: String
+      type: String,
     },
     icon: {
-        type: String
+      type: String,
     },
     status: {
-        type: String
-    }
-}, { timestamps: true });
+      type: String,
+    },
+    chainId: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("blockchain", blockchainSchema);
+module.exports = mongoose.model('blockchain', blockchainSchema);
