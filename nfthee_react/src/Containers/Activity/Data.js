@@ -201,7 +201,7 @@ export const filter_card = [
   },
 ];
 
-export const List = ({ activity, name, price, price_constantc, from, to }) => {
+export const List = ({ activity, name, price, nftId, from, to }) => {
   return (
     <tr>
       <td>
@@ -224,7 +224,7 @@ export const List = ({ activity, name, price, price_constantc, from, to }) => {
             />
             {price}
           </h5>
-          <h6>{price_constantc}</h6>
+          <h6>{'price_constantc'}</h6>
         </div>
       </td>
       <td>1</td>

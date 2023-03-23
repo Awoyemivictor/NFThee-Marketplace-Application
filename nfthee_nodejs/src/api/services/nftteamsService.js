@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const multer = require('multer');
 
-const { nftIteams, signup, bidModel } = require('../../models');
+const { nftIteams, signup, bidModel ,history} = require('../../models');
 
 const { credentials } = require('../../config').constantCredentials;
 
@@ -11,6 +11,9 @@ exports.index = async (req) => {
     let str = req.query.str
       ? { name: { $regex: new RegExp(req.query.str, 'i') } }
       : {};
+      // let user = req.query.user
+      // ? { user_name: { $regex: new RegExp(req.query.user, 'i') } }
+      // : {};
     let blockChain = req.query.blockChain
       ? {
           chooseBlockchain: {
@@ -32,7 +35,7 @@ exports.index = async (req) => {
           },
         }
       : {};
-
+//  let users=await signup.find({user_name:user})
     //search by category
 
     let result = await nftIteams
@@ -43,8 +46,21 @@ exports.index = async (req) => {
         ...categories,
         status: 'verified',
       })
-      .populate('currentOwner')
+      // .populate('currentOwner')
       .sort({ id: -1 });
+// let result=
+//   str&&collection&& blockChain &&categories?  await nftIteams
+//       .find({
+//         ...str,
+//         ...blockChain,
+//         ...collection,
+//         ...categories,
+//         status: 'verified',
+//       })
+//       .populate('currentOwner')
+//       .sort({ id: -1 }) : await signup.find({user_name:user})
+  //  let users=await signup.find({user_name:user})
+
     console.log(result);
     if (result) {
       return {
@@ -93,6 +109,7 @@ exports.nftStore = async (req) => {
     };
 
     let result = await nftIteams.create(create_user);
+    // let pop= await result.save()
     console.log(result);
     return {
       message: 'Create Item Data Save..........',
@@ -164,19 +181,16 @@ exports.collectionNft = async (req, res) => {
     throw error;
   }
 };
-exports.collectionNftBid = async (req, res) => {
+exports.collectionActivity = async (req, res) => {
   try {
     let collectionName = req.query.collection_name;
 
-    let nfts = await nftIteams
-    .find({ chooseCollection: collectionName ,status:'verified'},{ _id:1})
-      // .populate('currentOwner');
-      // console.log('nftsid',nfts.id)
-      // let nftID= nfts.forEach(nft => (nft._id))
-      console.log('nftID',nfts)
-      let result = await bidModel
-      .find({ nftId: nfts})
-      console.log('result',result)
+    // let nfts = await nftIteams.find({ chooseCollection: collectionName },{ _id:1})
+    
+      // console.log('nftID',nfts)
+      let result = await history
+      .find({ collection_name: collectionName}).populate('nftId').sort({ sCreated: -1 })
+      
     return {
       message: ' Data find successfully.',
       status: true,

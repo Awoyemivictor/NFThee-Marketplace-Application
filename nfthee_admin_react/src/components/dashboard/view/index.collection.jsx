@@ -16,14 +16,21 @@ import backendInstance from "../../../backendInstance";
 const CollectionDetail = () => {
     let history = useHistory();
     const [loading, setLoading] = useState(true);
+  const [changes,setChanges]=useState()
 
     const [data, setdata] = useState([]);
     useEffect(() => {
         backendInstance.get(`api/getAll`)
-             .then(response => setdata(response.data.data))
+             .then(response => {
+                if(response.status===200)
+                {
+                    setdata(response.data.data)
+                setLoading(false)
+            }
+        })
              .finally(() => setLoading(false))
      
-     }, [loading]);
+     }, [loading,changes]);
      
 
     console.log("dsfsdfsf",data)
@@ -192,7 +199,7 @@ const CollectionDetail = () => {
             <button
             id='pending'
             class="btn btn-warning"
-              onClick={(e) => completeTask(data,e)}
+              onClick={(e) => completeTask(collections,e)}
             >
              
               <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -234,11 +241,12 @@ const CollectionDetail = () => {
 
 
 const completeTask=(collections,e)=>{
-    setLoading(true)
+    // setLoading(true)
  
 backendInstance.get(`api/getCollection/update?id=${collections._id}&&action=${e.target.id}`)
-.then(response => console.log(response.data.data))
-.finally(() => setLoading(false))
+.then(response => {if(response.status===200){
+    setChanges(Math.random())
+}})
 }
 
 
@@ -260,7 +268,9 @@ backendInstance.get(`api/getCollection/update?id=${collections._id}&&action=${e.
         }).then(function (result) {
             if (result.value) {
                 instance.post(`/api/deleteCollection/?id=${collections._id}`)
-                    .then(response => console.info(response.data.data))
+                    .then(response => {if(response.status===200){
+                        setChanges(Math.random())
+                    }})
             }
         });
     }

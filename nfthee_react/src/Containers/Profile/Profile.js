@@ -1063,12 +1063,12 @@ setChanges(Math.floor(Math.random() * 10))
                                       </tr>
 
                                     </tbody>
-                                  </table>)):''}
+                                  </table>)):'Nothing yet'}
                                 </div>
 
                               </div>
                               
-
+<br/>
                             </div>
                           </div>
                         </div>
@@ -1127,7 +1127,7 @@ setChanges(Math.floor(Math.random() * 10))
                                       </tr>
 
                                     </tbody>
-                                  </table>)):''}
+                                  </table>)):'Nothing yet'}
                                 </div>
 
                               </div>

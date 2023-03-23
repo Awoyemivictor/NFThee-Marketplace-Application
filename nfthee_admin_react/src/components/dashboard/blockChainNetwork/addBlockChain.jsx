@@ -80,6 +80,7 @@ const addBlockChain = () => {
 			description: text,
 			icon: selectedFile,
 			status: status,
+			chainId:"0x800001"
 		};
 		console.log(body);
 

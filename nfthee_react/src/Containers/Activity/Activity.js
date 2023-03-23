@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 import { SectionHeading, CheckBox } from "../../Components";
-import { activity, event_type, chains, AccordionCards1, List } from "./Data";
+import {  event_type, chains, AccordionCards1, List } from "./Data";
 import Apexcharts from '../../Components/Apexcharts'
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { getPriceConversion } from "../../services/apiServices";
+import instance from "../../axios";
 function Activity() { 
   const [noOfElement, setNoOfElement] = useState(6);
+  const [activityData,setActivityData]=useState([])
+  const [loading,setLoading]=useState(true)
   const [message, setMessage] = useState("");
   const loadMore = () => {
     setNoOfElement(noOfElement + 6);
-    if (noOfElement > activity.length) {
+    if (noOfElement > activityData.length) {
       const Msg = "--No Content--";
       setMessage(Msg);
       console.log(Msg);
     }
   };
-  const slice = activity.slice(0, noOfElement);
+  const [priceCov,setPriceCon]=useState()
+
+  const slice = activityData.slice(0, noOfElement);
   const [show, setShow] = useState("hidden");
   const ShowResult = () => {
     setShow("show");
@@ -33,6 +41,18 @@ function Activity() {
     filter === "filterClose" ? setfilter("") : setfilter("filterClose");    
   };
 
+useEffect(async() => {
+  instance.get('/api/fetchAllHistory')
+.then(res=> setActivityData(res.data.data))
+.finally(res=>setLoading(false))
+
+let result = await getPriceConversion()
+setPriceCon(result)
+
+}, [])
+
+
+
   return (
     <>
       <main>
@@ -49,10 +69,10 @@ function Activity() {
                     <div className="panel">
                     <div className="panel-heading d-flex justify-content-between align-items-center mb-4">
                         <div className="panel-title">
-                            {filter ? <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} />
-                            : <img src="assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} />} Filter </div> 
-                            <span> {filter ? <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
-                            : <img src="assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
+                            {filter ? <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={ToggleSidebar} />
+                            : <img src="/assets/images/icons/filter-icon.png" alt="" className="me-2 filter-icon" onClick={FilterClose} />} Filter </div> 
+                            <span> {filter ? <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={ToggleSidebar} />
+                            : <img src="/assets/images/icons/close.png" alt="" className="img-fluid close-icon" onClick={FilterClose} /> } </span>
                     </div> 
                       {isOpen ? (
                         <div className="panel-body">
@@ -84,7 +104,7 @@ function Activity() {
                           onClick={ToggleSidebar}
                         >
                           <img
-                            src="assets/images/icons/filter-icon.png"
+                            src="/assets/images/icons/filter-icon.png"
                             alt=""
                             className="filter-icon"
                           />
@@ -96,7 +116,7 @@ function Activity() {
               )}
              {filter ?  
             <div className="col-lg-12 filter-mobile-wrapper"> 
-            <button onClick={FilterClose} className="filter_button"><img src="assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
+            <button onClick={FilterClose} className="filter_button"><img src="/assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
             </div> : ""}
               <div
                 className={`${isOpen ? "col-lg-9" : "col-lg-11"} px-lg-0 collection-filter-card overflow-hidden ExtraSpaceMobileview`}
@@ -124,7 +144,7 @@ function Activity() {
                             }
                           >
                             <img
-                              src="assets/images/icons/graph-icon.png"
+                              src="/assets/images/icons/graph-icon.png"
                               alt=""
                               className="img-fluid"
                               id="btnColor"
@@ -174,9 +194,32 @@ function Activity() {
                           </div>
                         </td>
                       </tr>
-                      {slice.map((item) => {
+                      {loading?
+                      <div class="text-center">	
+                      <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                      :activityData?.map((data,i) => {
                         return(
-                          <List {...item}/>
+                          <tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
+                                                   <td>
+                                                    <Link to={`/exploredetail/${data?.nftId?._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.nftId?.uploadFile?data.nftId.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.nftId?.name}</span> </div>
+                                                       </Link>
+                                                   </td>
+                                                   <td>
+                                                       <div className="price-detail">
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.price } </h5>
+                                                           <h6>${( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}</h6>
+                                                       </div>
+                                                   </td>
+                                                   <td>1</td>
+                                                   <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
+                                                   <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
+                                                   <td> <a href="#">{data?.sCreated} seconds ago <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                               </tr>
                         )
                       })}
                     </tbody>

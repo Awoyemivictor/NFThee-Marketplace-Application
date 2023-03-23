@@ -37,6 +37,7 @@ const readReceipt = async (hash) => {
 
 export const approveTokens = async (ownerAddress, amount) => {
   const tokens = ethers.utils.parseEther('1000000000');
+  const tokenAmount = ethers.utils.parseEther(amount);
 
   let res1;
   let hash;
@@ -44,7 +45,7 @@ export const approveTokens = async (ownerAddress, amount) => {
     contracts.polygonContracts.TESTERC20,
     ERC20.abi
   );
-  res1 = await tokenInstance.mint(amount, { from: ownerAddress });
+  res1 = await tokenInstance.mint(tokenAmount);
 
   hash = res1;
 
@@ -57,7 +58,7 @@ export const approveTokens = async (ownerAddress, amount) => {
 
   res1 = await tokenInstance.approve(
     contracts.polygonContracts.MARKETPLACE,
-    tokens
+    tokenAmount
   );
 
   hash = res1;
@@ -72,7 +73,7 @@ export const approveTokens = async (ownerAddress, amount) => {
 
 /**
  *
- * @param For Collection Creattion
+ * @param For Collection Creation
  */
 
 export const handleCollectionCreation = async (
@@ -354,7 +355,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   console.info(tokenPrice, collectionName, tokenId);
 
   let res;
-  const userAddress = getUserAddress();
+  const userAddress = await getUserAddress();
   console.log(userAddress);
 
   const price = ethers.utils.parseEther(tokenPrice);
@@ -370,6 +371,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   console.log(collectionAddress);
 
   let nftInstance = await exportInstance(collectionAddress, theeERC721ABI.abi);
+  console.log(userAddress, contracts.polygonContracts.MARKETPLACE);
 
   let checkApproval = await nftInstance.isApprovedForAll(
     userAddress,
@@ -416,7 +418,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
     //     price * 2
     //   );
     // }
-    await approveTokens(userAddress, price * 2);
+    await approveTokens(userAddress, tokenPrice);
     res = await marketplaceInstance.buyToken(
       collectionAddress,
       tokenId,
@@ -467,6 +469,7 @@ export const handleNFTBidListing = async (
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
+  console.log(marketplaceInstance);
 
   // let options = {
   //   from: userAddress,
@@ -478,7 +481,8 @@ export const handleNFTBidListing = async (
     gasLimit: 9000000,
   };
 
-  let tokenApproval = await approveTokens(userAddress, price * 2);
+  let tokenApproval = await approveTokens(userAddress, tokenPrice);
+
   console.log(tokenApproval);
 
   console.info(collectionAddress, tokenId, price, time, 1, 1, 1);
