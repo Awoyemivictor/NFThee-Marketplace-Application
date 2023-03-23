@@ -58,7 +58,7 @@ export const approveTokens = async (ownerAddress, amount) => {
 
   res1 = await tokenInstance.approve(
     contracts.polygonContracts.MARKETPLACE,
-    tokens
+    tokenAmount
   );
 
   hash = res1;
