@@ -8,7 +8,7 @@ import { setFavorite } from '../../redux/favoriteSlice';
 import instance from '../../axios';
 import { handleLikes } from '../../services/apiServices';
 const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
- 
+
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   // const [like,setLike]=useState([])
@@ -79,7 +79,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
           {slice.map((nft, index) => {
             return (
               <div className='col-12 col-sm-3 ' key={index}>
-                <div className='live-auction-area'>
+                <div className='live-auction-area '>
                   <div className='auction-card-two mb-4 '>
                     <div className='card-body'>
                       <div className='auction-create-by'>
@@ -129,7 +129,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                             />
                             {nft?.putOnMarketplace
                               ? nft?.putOnMarketplace.price ||
-                                nft?.putOnMarketplace.Bid_price
+                              nft?.putOnMarketplace.Bid_price
                               : 'Bid'}
                           </h6>
                         </div>

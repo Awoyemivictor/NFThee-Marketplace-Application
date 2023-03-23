@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import $ from "jquery";
-import {useAppSelector} from "../../hooks/useRedux";
+import { useAppSelector } from "../../hooks/useRedux";
 import axios from "axios";
 import instance from "../../axios";
-import {messaging} from "../../firebase-config";
+import { messaging } from "../../firebase-config";
 import { async } from "@firebase/util";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
 import { deleteBid, fetchUserBid } from "../../services/apiServices";
@@ -83,54 +83,54 @@ const Profile = () => {
   //      tooltip.classList.remove('active');
   //   }, 1500);
   // }
-  const {_id,user_name,email_address,profile_image,banner_image}=JSON.parse(localStorage.getItem('userLoggedIn'))||''
-  const [image, setImage] = useState({ preview:profile_image|| "/assets/images/avt-5.jpg", raw: "" });
-const[collectionData,setCollectionData]=useState([])
-const[itemData,setItemData]=useState([])
-const[usersData,setUsersData]=useState([])
-const[addFavData,setFavData]=useState([])
-const [userBid,setUserBid]=useState([])
-const [bidRecieve,setBidRecieve]=useState([])
-const [activeTab, setActiveTab] = useState();
-const [bidchanges, setBidChanged] = useState();
+  const { _id, user_name, email_address, profile_image, banner_image } = JSON.parse(localStorage.getItem('userLoggedIn')) || ''
+  const [image, setImage] = useState({ preview: profile_image || "/assets/images/avt-5.jpg", raw: "" });
+  const [collectionData, setCollectionData] = useState([])
+  const [itemData, setItemData] = useState([])
+  const [usersData, setUsersData] = useState([])
+  const [addFavData, setFavData] = useState([])
+  const [userBid, setUserBid] = useState([])
+  const [bidRecieve, setBidRecieve] = useState([])
+  const [activeTab, setActiveTab] = useState();
+  const [bidchanges, setBidChanged] = useState();
 
 
 
-  useEffect(()=>{
-
-    instance
-    .get(`/api/userCollections?id=${_id}`)
-    .then(res=>( setCollectionData(res.data.data)))
-
-  },[])
-  
-  useEffect(()=>{
+  useEffect(() => {
 
     instance
-    .get(`/api/userItems?id=${_id}`)
-    .then(res=>( setItemData(res.data.data)))
-    .finally(()=>setLoadingFilter(false))
+      .get(`/api/userCollections?id=${_id}`)
+      .then(res => (setCollectionData(res.data.data)))
 
-  },[like])
-  const fetchUrl=`/api/userBids?id=${_id}`
-  useEffect(()=>{
+  }, [])
+
+  useEffect(() => {
 
     instance
-    .post(fetchUrl)
-    .then(res=> setUserBid(res.data.data))
+      .get(`/api/userItems?id=${_id}`)
+      .then(res => (setItemData(res.data.data)))
+      .finally(() => setLoadingFilter(false))
+
+  }, [like])
+  const fetchUrl = `/api/userBids?id=${_id}`
+  useEffect(() => {
+
+    instance
+      .post(fetchUrl)
+      .then(res => setUserBid(res.data.data))
     // const data =  fetchUserBid(_id);
     // // setUserBid(data);
     // console.log(data,'userBid')
 
-  },[bidchanges])
-  
-  useEffect(()=>{
+  }, [bidchanges])
+
+  useEffect(() => {
 
     instance
-    .post('/api/fetchOffer',{ownerId:_id})
-    .then(res=> setBidRecieve(res.data.data))
-    
-  },[])
+      .post('/api/fetchOffer', { ownerId: _id })
+      .then(res => setBidRecieve(res.data.data))
+
+  }, [])
 
   // useEffect(()=>{
 
@@ -139,31 +139,31 @@ const [bidchanges, setBidChanged] = useState();
   //   .then(res=>( setItemData(res.data.data)))
 
 
-  const handleLinkClick=( tabId)=> {
+  const handleLinkClick = (tabId) => {
     setActiveTab(tabId); // Show only the selected tab pane
   }
   // },[])
 
-  useEffect(()=>{
+  useEffect(() => {
     // http://192.168.1.143:8002/api/userLikes?id=63fc56b0e0637d62e0f6d3ec
     instance
-    .get(`/api/userLikes?id=${_id}`)
-    .then(res=>( setFavData(res.data.data)))
-    .finally(()=>setLoadingFilter(false))
+      .get(`/api/userLikes?id=${_id}`)
+      .then(res => (setFavData(res.data.data)))
+      .finally(() => setLoadingFilter(false))
 
-  },[like])
+  }, [like])
 
 
-  const [changes,setChanges]=useState()
-const [buttonLoading,setButtonLoading]=useState(false)
-  useEffect(()=>{
+  const [changes, setChanges] = useState()
+  const [buttonLoading, setButtonLoading] = useState(false)
+  useEffect(() => {
     // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
     instance
-    .get(`/api/followingList?id=${_id}`)
-    .then(res=>  setUsersData(res.data.data[0].following))
-    .finally(setButtonLoading(false))
+      .get(`/api/followingList?id=${_id}`)
+      .then(res => setUsersData(res.data.data[0].following))
+      .finally(setButtonLoading(false))
 
-  },[changes])
+  }, [changes])
 
   const handleChange = e => {
     if (e.target.files.length) {
@@ -189,13 +189,13 @@ const [buttonLoading,setButtonLoading]=useState(false)
     //   nftData.tokenId
     // );
 
-     let r= await deleteBid(bidid)
+    let r = await deleteBid(bidid)
 
-     if(r.success===true){
+    if (r.success === true) {
       setBidChanged(Math.random());
 
-     }
-     console.log('delete',r)
+    }
+    console.log('delete', r)
 
   };
 
@@ -214,19 +214,19 @@ const [buttonLoading,setButtonLoading]=useState(false)
       body: formData
     });
   };
-  console.log("key pass",process.env.SERVICE_KEY);
-  const handlleFollow= async(id,e)=>{
+  console.log("key pass", process.env.SERVICE_KEY);
+  const handlleFollow = async (id, e) => {
     // setChanges(true)
     setButtonLoading(true)
-    if(e.target.value==="follow"){
-      const formData=new FormData()
+    if (e.target.value === "follow") {
+      const formData = new FormData()
       formData.append("id", id);
       console.log(id)
-      const { data } =  await axios({
+      const { data } = await axios({
         method: 'put',
         url: `${process.env.REACT_APP_BASE_URL}/api/userFollow?id=${_id}&&username=${user_name}&&email=${email_address}`,
         data: {
-            id: id,
+          id: id,
         }
       });
 
@@ -234,82 +234,83 @@ const [buttonLoading,setButtonLoading]=useState(false)
       const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
       // console.log("ldata lcal",ldata,"---",ldata.user_name)
 
-     
-      let receiver_token =""
 
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res)=>{
-        console.log("Sdvsdvsdsdvsdv",res.data.data.token_id)
+      let receiver_token = ""
+
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/signup/read?id=${id}`).then((res) => {
+        console.log("Sdvsdvsdsdvsdv", res.data.data.token_id)
         receiver_token = res.data.data.token_id;
-      }).catch((e)=>{
-        console.log("get user data with id error-----",e)
+      }).catch((e) => {
+        console.log("get user data with id error-----", e)
       })
 
-      setTimeout(()=>{
+      setTimeout(() => {
 
-        let payload = {sender_id:_id,receiver_id:id,sender_token:ldata.token_id,receiver_token:receiver_token,sender_username:ldata.user_name,message:`${ldata.user_name} follow you`} 
+        let payload = { sender_id: _id, receiver_id: id, sender_token: ldata.token_id, receiver_token: receiver_token, sender_username: ldata.user_name, message: `${ldata.user_name} follow you` }
 
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`,payload).then((res)=>{
-        console.log("notification api send receiver",res)
-        }).catch((e)=>{
-          console.log("notification api receiver",e)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/notificationSend`, payload).then((res) => {
+          console.log("notification api send receiver", res)
+        }).catch((e) => {
+          console.log("notification api receiver", e)
         })
 
         const server_key = "AAAAkW3_zTk:APA91bGGi7WzQuFoyXb_e3Kv7LL4IKhab5dAfrKQpqBuGB69akF05Nisqcxc5aly1nsKqj-pgYlvWL_J6gLFx5IdwIaAe53JVYuUp602KIdyMfyy98eK2B8lAvzrBjTl2BEN723ySonS";
 
         const headers = {
-            'Authorization' : 'key='+server_key,
-            'Content-Type'  : 'application/json',
+          'Authorization': 'key=' + server_key,
+          'Content-Type': 'application/json',
         };
 
         let payloads = {
-          to   : receiver_token,
-          data : {body:`${ldata.user_name} follow you`,title:'Firebase Notification'},
+          to: receiver_token,
+          data: { body: `${ldata.user_name} follow you`, title: 'Firebase Notification' },
         };
 
-        console.log("token---------------------",receiver_token)
-        axios.post(`https://fcm.googleapis.com/fcm/send`,payloads,{
+        console.log("token---------------------", receiver_token)
+        axios.post(`https://fcm.googleapis.com/fcm/send`, payloads, {
           headers: headers
-        }).then((res)=>{
-            console.log("FCM send method receiver",res)
-          }).catch((e)=>{
-            console.log("FCM api error receiver",e)
-          })
+        }).then((res) => {
+          console.log("FCM send method receiver", res)
+        }).catch((e) => {
+          console.log("FCM api error receiver", e)
+        })
 
-          const message = {
-            data: {
-             body:`${ldata.user_name} follow you`,
-             title:'Firebase Notification',
-            },
-            token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
-          };
-          
-          // Send a message to the device corresponding to the provided
-          // registration token.
-          // console.log("messaging message active on profile page---",messaging)
-          // messaging.send(message)
-          //   .then((response) => {
-          //     // Response is a message ID string.
-          //     console.log('Successfully sent message:', response);
-          //   })
-          //   .catch((error) => {
-          //     console.log('Error sending message:', error);
-          //   });
+        const message = {
+          data: {
+            body: `${ldata.user_name} follow you`,
+            title: 'Firebase Notification',
+          },
+          token: "dpicgr-mSX5sK4VbAiH_pU:APA91bGTMFcQDIcX0ZP12riZK71EK8HXDELKt-lGPO7NvExUU2KbCSKFs97_FJbyoacPTt0BA-45ZfbNnEyZwU69O9_w35-I2BUcF49ScMO5RLJwUuXf8-7oTcKPR9d0db1Uy_apSYBW"
+        };
 
-      },3000);
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        // console.log("messaging message active on profile page---",messaging)
+        // messaging.send(message)
+        //   .then((response) => {
+        //     // Response is a message ID string.
+        //     console.log('Successfully sent message:', response);
+        //   })
+        //   .catch((error) => {
+        //     console.log('Error sending message:', error);
+        //   });
 
+      }, 3000);
+
+
+    }
+    if (e.target.value === "unfollow") {
+
+
+      const { data } = await instance.put(`/api/userUnFollow?id=${_id}&& username=${user_name}`,
+        {
+          id
+        }
+      );
+    }
+    setChanges(Math.floor(Math.random() * 10))
 
   }
-  if(e.target.value==="unfollow"){
-
-
- const { data } = await  instance.put(`/api/userUnFollow?id=${_id}&& username=${user_name}`,
- {
-      id}
-);
-}
-setChanges(Math.floor(Math.random() * 10))
-
-}
   return (
     <>
       <main>
@@ -317,7 +318,7 @@ setChanges(Math.floor(Math.random() * 10))
           <section className="profile-banner-section">
             <div className="profile-banner-image">
               <img
-                src={banner_image?banner_image:"/assets/images/Banner4.png"}
+                src={banner_image ? banner_image : "/assets/images/Banner4.png"}
                 alt=""
                 className="img-fluid w-100 profile-banner-img"
               />
@@ -354,7 +355,7 @@ setChanges(Math.floor(Math.random() * 10))
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href={`https://etherscan.io/address/${result1}`}  target="_blank">
+                              <a href={`https://etherscan.io/address/${result1}`} target="_blank">
                                 <img
                                   src="/assets/images/icons/etherscan-logo.png"
                                   alt=""
@@ -570,12 +571,12 @@ setChanges(Math.floor(Math.random() * 10))
                       data-bs-target="#offers"
                       aria-selected="false"
                     >
-                      <a className="dropdown-toggle dropdown-toggle-split " data-toggle="dropdown"  href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+                      <a className="dropdown-toggle dropdown-toggle-split " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
                         <img src="/assets/images/icons/percent-icon.png" alt="" />
-                        Offers ({userBid.length + bidRecieve.length })</a>
+                        Offers ({userBid.length + bidRecieve.length})</a>
                       <div className="dropdown-menu " >
-                        <a className="dropdown-item" href="#" onClick={()=>handleLinkClick( 'offers-received')}  >Offers received</a>
-                        <a className="dropdown-item" href="#" onClick={()=>handleLinkClick( 'offers-made')}>Offers made</a>
+                        <a className="dropdown-item" href="#" onClick={() => handleLinkClick('offers-received')}  >Offers received</a>
+                        <a className="dropdown-item" href="#" onClick={() => handleLinkClick('offers-made')}>Offers made</a>
                       </div>
                     </button>
                   </div>
@@ -644,45 +645,45 @@ setChanges(Math.floor(Math.random() * 10))
                               </div>
                               <div id="option1" className="size_chart" >
                                 <div className="activity-table-container table-responsive">
-                                 {
-                                  itemData.lenght>0?itemData.map((data,i)=>(
-                                  <table className="table" key={i}>
-                                    <thead>
-                                      <tr>
+                                  {
+                                    itemData.lenght > 0 ? itemData.map((data, i) => (
+                                      <table className="table" key={i}>
+                                        <thead>
+                                          <tr>
 
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Unit Price</th>
-                                        <th scope="col">Floor Difference</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="d-flex align-items-center">
-                                            <img src={data.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
-                                            <span className="ms-2">{data.name}</span>
-                                          </div>
-                                        </td>
-                                        <td > {data.putOnMarketplace.Bid_price?'Bid':''}{data.putOnMarketplace.price?'Fixed ':''}  </td>
+                                            <th scope="col">Item</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Unit Price</th>
+                                            <th scope="col">Floor Difference</th>
+                                            <th scope="col">Expiration Date</th>
+                                            <th scope="col"> </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td>
+                                              <div className="d-flex align-items-center">
+                                                <img src={data.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                                <span className="ms-2">{data.name}</span>
+                                              </div>
+                                            </td>
+                                            <td > {data.putOnMarketplace.Bid_price ? 'Bid' : ''}{data.putOnMarketplace.price ? 'Fixed ' : ''}  </td>
 
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.putOnMarketplace.Bid_price?data.putOnMarketplace.Bid_price:''}{data.putOnMarketplace.price?data.putOnMarketplace.price:''} </h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td >   At Floor   </td>
-                                        <td>  {data.updatedAt}</td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
-                                      </tr>
+                                            <td>
+                                              <div className="price-detail">
+                                                <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.putOnMarketplace.Bid_price ? data.putOnMarketplace.Bid_price : ''}{data.putOnMarketplace.price ? data.putOnMarketplace.price : ''} </h5>
+                                                <h6>$52547.30</h6>
+                                              </div>
+                                            </td>
+                                            <td >   At Floor   </td>
+                                            <td>  {data.updatedAt}</td>
+                                            <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
+                                          </tr>
 
-                                    </tbody>
-                                  </table>
-                                  ))
-                                   :`Create Nft's`
+                                        </tbody>
+                                      </table>
+                                    ))
+                                      : `Create Nft's`
                                   }
                                 </div>
 
@@ -880,92 +881,92 @@ setChanges(Math.floor(Math.random() * 10))
                     </div>
                   </div>
                   <div className="tab-pane fade" id="following">
-                    
-                   {usersData.length!=0?usersData.map((data,i)=>( 
-                   
-                   <table className="table table-borderless" key={i}>
-                   <thead>
-                     <tr>
-                       <th scope="col">UserName</th>
-                       <th scope="col">Action</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     <tr>
-                      
-                       <td><Link to={`/users/${data._id}`}><div className="d-flex align-items-center">
-                                           <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
-                                           <span className="ms-2">{data.user_name}</span>
-                                         </div> </Link></td>
-                       <td> {buttonLoading?<button className="btn btn-primary" type="button" disabled>
-  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  WAIT...
-</button>:data.followers.includes(_id)? <button
-                                     value="unfollow"
-                                     className="btn btn-secondary"
-                                       onClick={(e)=>handlleFollow(data._id,e)}
-                                       >
-                                        unfollow
-                                        </button>:<button
-                                        className="btn btn-primary"
-                                     value="follow"
-                                 
-                                       onClick={(e)=>handlleFollow(data._id,e)}
-                                       >
-                                        follow
-                                        </button>}</td>
-                     </tr>
-                    
-                   </tbody>
-                 </table>
-                                  )):'Following No One'}
+
+                    {usersData.length != 0 ? usersData.map((data, i) => (
+
+                      <table className="table table-borderless" key={i}>
+                        <thead>
+                          <tr>
+                            <th scope="col">UserName</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+
+                            <td><Link to={`/users/${data._id}`}><div className="d-flex align-items-center">
+                              <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
+                              <span className="ms-2">{data.user_name}</span>
+                            </div> </Link></td>
+                            <td> {buttonLoading ? <button className="btn btn-primary" type="button" disabled>
+                              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              WAIT...
+                            </button> : data.followers.includes(_id) ? <button
+                              value="unfollow"
+                              className="btn btn-secondary"
+                              onClick={(e) => handlleFollow(data._id, e)}
+                            >
+                              unfollow
+                            </button> : <button
+                              className="btn btn-primary"
+                              value="follow"
+
+                              onClick={(e) => handlleFollow(data._id, e)}
+                            >
+                              follow
+                            </button>}</td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    )) : 'Following No One'}
                   </div>
                   <div className="tab-pane fade" id="created">
-                   
-                   <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked}/>
+
+                    <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked} />
 
                   </div>
                   <div className="tab-pane fade" id="collections">
                     4<div className="row">
-                    {collectionData.map((collection, index) => {
-        return (
-          <div className="col-12 col-sm-3 " key={index}>
-              <div className="live-auction-area">
-                <div className="auction-card-two mb-4 ">
-                  <div className="card-body">
-                    <div className="auction-create-by">
-                      <img
-                        src="/assets/images/img2.png"
-                        alt=""
-                        className="avatar-icon img-fluid"
-                      />
-                      <span className="creator-name">
-                        Created By @
-                        {user_name ? user_name : 'undefined'}
-                      </span>
-                    </div>
-                    <div className="card-media">
-              <Link to={`/explorefilter/${collection._id}`}>
+                      {collectionData.map((collection, index) => {
+                        return (
+                          <div className="col-12 col-sm-3 " key={index}>
+                            <div className="live-auction-area">
+                              <div className="auction-card-two mb-4 ">
+                                <div className="card-body">
+                                  <div className="auction-create-by">
+                                    <img
+                                      src="/assets/images/img2.png"
+                                      alt=""
+                                      className="avatar-icon img-fluid"
+                                    />
+                                    <span className="creator-name">
+                                      Created By @
+                                      {user_name ? user_name : 'undefined'}
+                                    </span>
+                                  </div>
+                                  <div className="card-media">
+                                    <Link to={`/explorefilter/${collection._id}`}>
 
-                        <img
-                          // src={'/assets/images/featured-img7.jpg'}
-                          src={collection?.logo_image|| '/assets/images/featured-img7.jpg'
-                          }
-                          alt=""
-                          className="img-fluid"
-                        />
-          </Link>
-                    </div>
-                    <div className="card-title mb-2 pb-2 border-bottom-0">
-                      <div className='c-card-detail'>
-                        <h5>
-                          <a href="#">{collection?.name}</a>
-                        </h5>
-                        <h6>
-                          {collection?.description ? collection?.description : 'undefined'}
-                        </h6>
-                      </div>
-                      {/* <div className="eth-price">
+                                      <img
+                                        // src={'/assets/images/featured-img7.jpg'}
+                                        src={collection?.logo_image || '/assets/images/featured-img7.jpg'
+                                        }
+                                        alt=""
+                                        className="img-fluid"
+                                      />
+                                    </Link>
+                                  </div>
+                                  <div className="card-title mb-2 pb-2 border-bottom-0">
+                                    <div className='c-card-detail'>
+                                      <h5>
+                                        <a href="#">{collection?.name}</a>
+                                      </h5>
+                                      <h6>
+                                        {collection?.description ? collection?.description : 'undefined'}
+                                      </h6>
+                                    </div>
+                                    {/* <div className="eth-price">
                         <div className="bid-title">
                           <span></span>
                         </div>
@@ -987,10 +988,10 @@ setChanges(Math.floor(Math.random() * 10))
                           )}
                         </h6>
                       </div> */}
-                    </div>
-                    <div className="meta-info">
-                        {/* Buy Now */}
-                      {/* <button className="wishlist-button ms-auto" tabIndex={0}>
+                                  </div>
+                                  <div className="meta-info">
+                                    {/* Buy Now */}
+                                    {/* <button className="wishlist-button ms-auto" tabIndex={0}>
                         <span
                           className="number-like d-flex"
                           onClick={() => handleAddFavorite(collection)}
@@ -998,24 +999,24 @@ setChanges(Math.floor(Math.random() * 10))
                           <i className="ri-heart-line me-1" /> 25
                         </span>
                       </button> */}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-        );
-      })}
-      </div>
-                  </div>
                   <div className="tab-pane fade" id="liked">
-               
-                    <ExploreNftListRow data={addFavData} loadingFilter={loadingFilter} setliked={setliked}/>
+
+                    <ExploreNftListRow data={addFavData} loadingFilter={loadingFilter} setliked={setliked} />
                   </div>
                   <div className="tab-pane fade" id="activity">
                     6
                   </div>
                   <div className="tab-pane fade" id="offers">
-                     <div className="container">
+                    <div className="container">
                       <div className="col-lg-12 col-md-12">
                         <div className="top-collection-over-section">
                           <div className="row">
@@ -1024,50 +1025,50 @@ setChanges(Math.floor(Math.random() * 10))
                                 <div className="col-6">
                                   <h4 className="hd-title ">  Offer Made    </h4>
                                 </div>
-                                
-                              </div>
-                              <div style={{'display':'none'+'!important'}}   >
-                                <div className="activity-table-container table-responsive">
-                                  {userBid.length >0?userBid.map((data,i)=>(
-                                  <table className="table" key={i}>
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Offer Price</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="d-flex align-items-center">
-                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
-                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" onClick={withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
-                                      </tr>
 
-                                    </tbody>
-                                  </table>)):''}
+                              </div>
+                              <div style={{ 'display': 'none' + '!important' }}   >
+                                <div className="activity-table-container table-responsive">
+                                  {userBid.length > 0 ? userBid.map((data, i) => (
+                                    <table className="table" key={i}>
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Item</th>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Offer Price</th>
+                                          <th scope="col">Expiration Date</th>
+                                          <th scope="col"> </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div className="d-flex align-items-center">
+                                              <img src={data.nftId.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                              <span className="ms-2">{data.nftId.name ? data.nftId.name : 'tiger'}</span>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace ? data.nftId.putOnMarketplace.Bid_price : ''}</h5>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
+                                              <h6>$52547.30</h6>
+                                            </div>
+                                          </td>
+                                          <td>  May 16, 2022</td>
+                                          <td><a type="button" href="#" onClick={withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
+                                        </tr>
+
+                                      </tbody>
+                                    </table>)) : ''}
                                 </div>
 
                               </div>
-                              
+
 
                             </div>
                           </div>
@@ -1086,52 +1087,52 @@ setChanges(Math.floor(Math.random() * 10))
                                 <div className="col-6">
                                   <h4 className="hd-title ">  Offer Received    </h4>
                                 </div>
-                                
-                              </div>
-                              <div style={{'display':'none'+'!important'}}   >
-                                <div className="activity-table-container table-responsive">
-                                  {bidRecieve.length >0?bidRecieve.map((data,i)=>(
-                                  <table className="table" key={i}>
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Offer Price</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> Accept</th>
-                                        <th scope="col"> Cancel</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="d-flex align-items-center">
-                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
-                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
-                                        <td><a type="button" href="#" onClick={()=>withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn">Cancel</a></td>
-                                      </tr>
 
-                                    </tbody>
-                                  </table>)):''}
+                              </div>
+                              <div style={{ 'display': 'none' + '!important' }}   >
+                                <div className="activity-table-container table-responsive">
+                                  {bidRecieve.length > 0 ? bidRecieve.map((data, i) => (
+                                    <table className="table" key={i}>
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Item</th>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Offer Price</th>
+                                          <th scope="col">Expiration Date</th>
+                                          <th scope="col"> Accept</th>
+                                          <th scope="col"> Cancel</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div className="d-flex align-items-center">
+                                              <img src={data.nftId.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                              <span className="ms-2">{data.nftId.name ? data.nftId.name : 'tiger'}</span>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace ? data.nftId.putOnMarketplace.Bid_price : ''}</h5>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
+                                              <h6>$52547.30</h6>
+                                            </div>
+                                          </td>
+                                          <td>  May 16, 2022</td>
+                                          <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
+                                          <td><a type="button" href="#" onClick={() => withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn">Cancel</a></td>
+                                        </tr>
+
+                                      </tbody>
+                                    </table>)) : ''}
                                 </div>
 
                               </div>
-                              
+
 
                             </div>
                           </div>

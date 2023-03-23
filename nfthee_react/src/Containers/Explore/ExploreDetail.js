@@ -284,7 +284,7 @@ function ExploreDetail() {
     await unwrapPaymentTokens(wth);
   };
 
-  const handleTokenAcceptBid = async (bidPrice, bidderAddress,bidId) => {
+  const handleTokenAcceptBid = async (bidPrice, bidderAddress, bidId) => {
     console.log(bidPrice, bidderAddress);
 
     let data = await getCollection(nftData.chooseCollection);
@@ -297,14 +297,14 @@ function ExploreDetail() {
     );
 
     if (result.status === 200) {
-      let ss=await acceptBid(bidId)
+      let ss = await acceptBid(bidId)
       await handleAcceptNotification(nftData?.currentOwner?._id, bidAmount, id);
       let result = await handleAcceptNotification();
-      
-      if(ss.success===true){
+
+      if (ss.success === true) {
         setliked(Math.random());
-  
-       }
+
+      }
       console.log('result', { result });
     }
     console.log('data.........................result...........', data);
@@ -319,13 +319,13 @@ function ExploreDetail() {
     //   nftData.tokenId
     // );
 
-     let r= await deleteBid(bidid)
+    let r = await deleteBid(bidid)
 
-     if(r.success===true){
+    if (r.success === true) {
       setliked(Math.random());
 
-     }
-     console.log('delete',r)
+    }
+    console.log('delete', r)
 
   };
 
@@ -393,6 +393,7 @@ function ExploreDetail() {
               <div className='row mb-3'>
                 <div className='col-lg-12 col-md-12'>
                   <button
+                    className='rounded-pill'
                     onClick={() => {
                       history.goBack();
                     }}
@@ -651,7 +652,7 @@ function ExploreDetail() {
                           <a href='#'>
                             <div className='creator-card'>
                               <div className='card-body'>
-                                <div className='avatars'>
+                                <div className='avatars align-items-start'>
                                   <div className='media'>
                                     <a href='#'>
                                       {' '}
@@ -774,7 +775,7 @@ function ExploreDetail() {
                               <div className='col-lg-6 col-md-6 px-lg-0'>
                                 <div className='creator-card creator-card-two mb-lg-4'>
                                   <div className='card-body'>
-                                    <div className='avatars'>
+                                    <div className='avatars '>
                                       <div className='media'>
                                         <div className='badge'>
                                           <img
@@ -814,8 +815,9 @@ function ExploreDetail() {
                             id='about'
                             role='tabpanel'
                             aria-labelledby='about-tab'
-                          >
-                            {nftData ? nftData.about : 'lorem35'}
+                          ><div className='card-body'>
+                              <p className='para1'>{nftData ? nftData.about : 'lorem35'}</p>
+                            </div>
                           </div>
                           <div
                             className='tab-pane fade'
@@ -823,9 +825,19 @@ function ExploreDetail() {
                             role='tabpanel'
                             aria-labelledby='history-tab'
                           >
-                            {fetchHistory.map((message) => (
-                              <p key={message}>{message}</p>
-                            ))}
+                            <div className='card-body'>
+                              {fetchHistory.map((message) => (
+                                <div className='history-content mb-2'>
+                                  <div className='card-body  p-1'>
+                                    <p className='card-text para1 m-0' key={message}>{message}</p>
+                                  </div>
+
+
+
+                                </div>
+                              ))}
+                            </div>
+
                           </div>
 
                           {/* WETHtoETH */}
@@ -844,7 +856,7 @@ function ExploreDetail() {
                                   <div className='col-lg-6 col-md-6 px-lg-0'>
                                     <div className='creator-card creator-card-two mb-lg-4'>
                                       <div className='card-body' key={i}>
-                                        <div className='avatars'>
+                                        <div className='avatars align-items-start'>
                                           <div className='media'>
                                             <div className='badge'>
                                               <img
@@ -891,7 +903,7 @@ function ExploreDetail() {
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
                                                 {nftData?.currentOwner?._id ===
-                                                userId._id ? (
+                                                  userId._id ? (
                                                   <>
                                                     <button
                                                       type='button'
@@ -900,7 +912,7 @@ function ExploreDetail() {
                                                         handleTokenAcceptBid(
                                                           data.bid_price,
                                                           data.bidder
-                                                            .account_address,data._id
+                                                            .account_address, data._id
                                                         )
                                                       }
                                                     >
@@ -909,19 +921,19 @@ function ExploreDetail() {
                                                     <button
                                                       type='button'
                                                       class='btn btn-danger'
-                                                      onClick={()=>withdrawTokenBid(data._id)}
+                                                      onClick={() => withdrawTokenBid(data._id)}
                                                     >
                                                       Reject
                                                     </button>
                                                   </>
                                                 ) : null}
                                                 {data?.bidder?._id ===
-                                                userId._id ? (
+                                                  userId._id ? (
                                                   <button
                                                     type='button'
                                                     id='Cancelled'
                                                     class='btn btn-danger'
-                                                    onClick={()=>withdrawTokenBid(data._id)}
+                                                    onClick={() => withdrawTokenBid(data._id)}
                                                   >
                                                     Cancel
                                                   </button>
@@ -992,9 +1004,9 @@ function ExploreDetail() {
                                           />
                                           {nftData?.putOnMarketplace
                                             ? nftData?.putOnMarketplace
-                                                ?.price ||
-                                              nftData?.putOnMarketplace
-                                                ?.Bid_price
+                                              ?.price ||
+                                            nftData?.putOnMarketplace
+                                              ?.Bid_price
                                             : ''}{' '}
                                           ETH
                                         </a>
@@ -1010,7 +1022,7 @@ function ExploreDetail() {
                       </div>
                       <div className='row'>
                         {nftData?.currentOwner?._id === userId._id &&
-                        nftData?.listing === 'delisting' ? (
+                          nftData?.listing === 'delisting' ? (
                           <>
                             <div className='col-lg-4 mb-4 mb-lg-0'>
                               <button
@@ -1072,30 +1084,30 @@ function ExploreDetail() {
                                 </button>
                               </div>
                             )} */}
-                            { nftData?.putOnMarketplace?.Bid_price && nftData?.listing === 'listing' ? (
-  <div className='col-lg-4 mb-4 mb-lg-0'>
-    <button
-      className='btn btn-outline-white1 w-100'
-      data-bs-toggle='modal'
-      data-bs-target='#makeOfferModal'
-    >
-      <i className='bx bxs-purchase-tag me-2' /> Make An Offer
-    </button>
-  </div>
-) : null}
-{nftData?.listing==='delisting'?<p>Wait for Listing</p>:null}
+                            {nftData?.putOnMarketplace?.Bid_price && nftData?.listing === 'listing' ? (
+                              <div className='col-lg-4 mb-4 mb-lg-0'>
+                                <button
+                                  className='btn btn-outline-white1 w-100'
+                                  data-bs-toggle='modal'
+                                  data-bs-target='#makeOfferModal'
+                                >
+                                  <i className='bx bxs-purchase-tag me-2' /> Make An Offer
+                                </button>
+                              </div>
+                            ) : null}
+                            {nftData?.listing === 'delisting' ? <p>Wait for Listing</p> : null}
 
                           </>
                         )}
-                      {nftData?.listing==='listing'?  <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
+                        {nftData?.listing === 'listing' ? <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
                           <button
                             className='btn btn-outline-white1 w-100'
-                            // onClick={listingToggleModal}
+                            onClick={listingToggleModal}
                           >
                             <i className='bx bx-credit-card me-2' />{' '}
                             {t('product.Buy Card')}
                           </button>
-                        </div>:null}
+                        </div> : null}
 
                         {nftData?.putOnMarketplace?.price ? (
                           <div className='col-lg-4 mb-4 mb-lg-0'>
@@ -1666,7 +1678,7 @@ function ExploreDetail() {
                                         value={selected}
                                         onChange={setSelected}
                                         labelledBy='Select'
-                                        //  className="form-select"
+                                      //  className="form-select"
                                       />
                                     </div>
                                     <button className='btn btn-search'>
