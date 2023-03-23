@@ -323,10 +323,7 @@ const CreateNewItem = () => {
     const limit = 2;
 
     // 👇️ only take first N characters
-    setCollectionData({
-      ...collectionData,
-      [e.target.name]: e.target.value.slice(0, limit),
-    });
+    setCollectionData({...collectionData,[e.target.name]:parseInt(e.target.value.slice(0, limit))});
   };
   const handleItemChange = (e) => {
     setItemData({
@@ -381,6 +378,13 @@ const CreateNewItem = () => {
       toast.error('Please Upload Image');
     }
   };
+  // function (x) {
+  //   return ((x-20)*(x-80) <= 0);
+  // }
+  const inRange = (n, start, end = null) => {
+    if (end && start > end) [end, start] = [start, end];
+    return end == null ? n >= 0 && n < start : n >= start && n < end;
+  };
   const validateCollectionInputs = () => {
     if (collectionData.name === '' || collectionData.name.length > 3) {
       setCollectionValidation('was-validated');
@@ -395,12 +399,7 @@ const CreateNewItem = () => {
       setCollectionValidation('was-validated');
       bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    if (
-      collectionData.creator_earnings === null ||
-      '' ||
-      collectionData.creator_earnings < 80 ||
-      collectionData.creator_earnings > 20
-    ) {
+    if(isNaN(collectionData.creator_earnings) || inRange(collectionData.creator_earnings,20,81)==false) {
       toast.error('Earning must be in 20 to 80');
 
       setCollectionValidation('was-validated');
@@ -539,13 +538,12 @@ const CreateNewItem = () => {
     // console.log(links,"mdsbkjhvsdjsbkbyt698r^%$#%")
 
     if (
-      (contractAddress.length === 42 &&
-        collectionData.name &&
-        collectionData.symbol &&
-        collectionData.blockchain &&
-        collectionData.chooseType &&
-        collectionData.creator_earnings < 80) ||
-      collectionData.creator_earnings > 20
+      contractAddress.length === 42 &&
+      collectionData.name &&
+      collectionData.symbol &&
+      collectionData.blockchain &&
+      collectionData.chooseType &&
+      inRange(collectionData.creator_earnings,20,81)
     ) {
       const formData = new FormData();
       formData.append('name', collectionData.name);

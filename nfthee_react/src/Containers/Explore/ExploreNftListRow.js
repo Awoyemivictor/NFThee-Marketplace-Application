@@ -84,7 +84,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                     <div className='card-body'>
                       <div className='auction-create-by'>
                         <img
-                          src='/assets/images/img2.png'
+                          src={nft?.currentOwner?.profile_image?nft?.currentOwner?.profile_image:'/assets/images/img2.png'}
                           alt=''
                           className='avatar-icon img-fluid'
                         />
@@ -119,7 +119,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                         </div>
                         <div className='eth-price'>
                           <div className='bid-title'>
-                            <span></span>
+                            <span> </span>
                           </div>
                           <h6>
                             <img
@@ -127,10 +127,13 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                               alt=''
                               className='me-1'
                             />
-                            {nft?.putOnMarketplace
-                              ? nft?.putOnMarketplace.price ||
-                                nft?.putOnMarketplace.Bid_price
-                              : 'Bid'}
+                            {nft?.putOnMarketplace.price
+                              ? nft?.putOnMarketplace.price 
+                                
+                              : null}
+                              {nft?.putOnMarketplace.Bid_price
+                              ?nft?.putOnMarketplace.Bid_price
+                            :null}
                           </h6>
                         </div>
                       </div>

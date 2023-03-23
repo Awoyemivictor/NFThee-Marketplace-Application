@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { handleNFTBuy, handleNFTBidListing } from '../../Config/sendFunctions';
 import {
   getCollection,
+  getPriceConversion,
   handleBuyNotification,
 } from '../../services/apiServices';
 
@@ -98,6 +99,8 @@ export const Modal = ({ onRequestClose }) => {
 };
 
 export const ModalBuynft = ({ onRequestClose, nftData }) => {
+  const [priceCov,setPriceCon]=useState()
+
   const buyNFT = async () => {
     console.log(
       nftData?.putOnMarketplace?.price,
@@ -123,9 +126,14 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
     }
   };
   // Use useEffect to add an event listener to the document
-  useEffect(() => {
+  useEffect(async() => {
+    let result = await getPriceConversion()
+    setPriceCon(result)
+    
     function onKeyDown(event) {
       onRequestClose();
+
+     
     }
 
     // Prevent scolling
@@ -138,7 +146,7 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
       document.removeEventListener('keydown', onKeyDown);
     };
   });
-
+// {( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}
   return (
     <div className='modal__backdrop'>
       <div className='modal__container1'>
@@ -194,12 +202,11 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
                             class='me-1'
                             style={{ fontSize: '18px' }}
                           />
-                          {nftData?.putOnMarketplace
-                            ? nftData?.putOnMarketplace?.price ||
-                              nftData?.putOnMarketplace?.Bid_price
-                            : ''}
+                          {nftData?.putOnMarketplace?.price 
+                            ? nftData?.putOnMarketplace?.price : null}
+                            {nftData?.putOnMarketplace?.Bid_price?nftData?.putOnMarketplace?.Bid_price:null}
                         </h5>
-                        <h6>$52547.30</h6>
+                        <h6>${( parseFloat(priceCov) * parseFloat(nftData?.putOnMarketplace?.price ||nftData?.putOnMarketplace?.Bid_price)).toFixed(5)}</h6>
                       </div>
                     </td>
                   </tr>
