@@ -18,13 +18,14 @@ const ItemDetail = () => {
   let history = useHistory();
   const [loading, setLoading] = useState(true);
   const [data, setdata] = useState([]);
+  const [changes,setChanges]=useState()
   useEffect(() => {
     backendInstance
       .get(`api/admin/getAllItem`)
 
       .then((response) => setdata(response.data.data))
       .finally(() => setLoading(false));
-  }, [loading]);
+  }, [loading,changes]);
   const handleSort=(column) => {
     backendInstance
       .get(`api/admin/getAllItem?id=${column.sortField}`)
@@ -141,8 +142,10 @@ console.log(tableData,tableData.filterPlaceholder)
    
     backendInstance
       .get(`api/getItem/update?id=${collections._id}&&action=${e.target.id}`)
-      .then((response) => console.log(response.data.data))
-      .finally(() => setLoading(false));
+      .then((response) => {if(response.status===200){
+        setChanges(Math.random())
+    }})
+      // .finally(() => setLoading(false));
   };
 
   const handleViewItems = (data) => {
@@ -169,7 +172,9 @@ console.log(tableData,tableData.filterPlaceholder)
       if (result.value) {
         backendInstance
           .post(`/api/delete`, body)
-          .then((response) => console.info(response.data.data));
+          .then((response) => {if(response.status===200){
+            setChanges(Math.random())
+        }});
       }
     });
   };
