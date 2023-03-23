@@ -758,7 +758,7 @@ const CreateNewItem = () => {
               showConfirmButton: false,
               timer: 1500,
             },
-
+            
             setItemValidation('needs-validated')
           );
           result = response;
@@ -780,7 +780,21 @@ const CreateNewItem = () => {
 
       if (marketplace === true) {
         console.log('Inside Marketplace');
-
+        let historyMetaData = {
+          nftId: `${result?.data?.data?._id}`,
+          userId: `${itemData.currentOwner}`,
+          collection_name:`${itemData.chooseCollection}`,
+          action: 'Creation',
+          actionMeta: 'Default',
+          message: `nft created by ${userId.user_name} `,
+          price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+          to:' ',
+          from:`${userId.user_name}`,
+        };
+      console.log('history', {historyMetaData});
+        let response = await instance
+          .post(`/api/insertHistory`, historyMetaData)
+          .then((res) => console.log('res.....................', res));
         if (activeTab === '0') {
           console.log('Inside Tab1');
           data = await handleListNFTSale(
@@ -792,6 +806,21 @@ const CreateNewItem = () => {
           //price ,contractAddress, userAddress,nftCount
 
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Sale',
+            actionMeta: 'Default',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
         } else if (activeTab === '1') {
           console.log('In AC2');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
@@ -802,7 +831,24 @@ const CreateNewItem = () => {
             openForBids.Bid_price,
             collectionAddress
           );
+
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Offer',
+            actionMeta: 'Listed',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
+      
         } else if (activeTab === '2') {
           console.log('In AC3');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
@@ -814,6 +860,30 @@ const CreateNewItem = () => {
             collectionAddress
           );
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Auction',
+            actionMeta: 'Default',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+          //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+          //   currentUser.slice(0, 3) +
+          //   '...' +
+          //   currentUser.slice(39, 42)
+          // }`,
+          // created_ts: moment(new Date()).format(
+          //   'YYYY-MM-DD HH:mm:ss'
+          // ),
+          // };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
         }
       }
       console.log({ result });
@@ -832,34 +902,14 @@ const CreateNewItem = () => {
         validUpto: timeAfterDays,
         tokenId: tokenId,
       };
-
+console.log({reqParams})
       //  const nftOrder=
       await instance
         .post('/api/createOrder', reqParams)
         .then((res) => console.log('sucess', [res.data.data]));
     }
-
-    let historyMetaData = {
-      nftId: `${result?.data?.data?._id}`,
-      userId: `${itemData.currentOwner}`,
-      action: 'Creation',
-      actionMeta: 'Default',
-      message: 'nft created by ',
-    };
-    //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-    //   currentUser.slice(0, 3) +
-    //   '...' +
-    //   currentUser.slice(39, 42)
-    // }`,
-    // created_ts: moment(new Date()).format(
-    //   'YYYY-MM-DD HH:mm:ss'
-    // ),
-    // };
-    console.log('history', historyMetaData);
-    let response = await instance
-      .post(`/api/insertHistory`, historyMetaData)
-      .then((res) => console.log('res.....................', res));
-
+console.log({itemData},itemData.putOnMarketplace.Bid_price)
+  
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -2003,13 +2053,13 @@ const CreateNewItem = () => {
                       </form>
 
                       {/*</form>*/}
-                      <button
+                      {/* <button
                         type='submit'
                         className='btn btn-violet w-100'
                         onClick={handlePriceConversion}
                       >
                         Test Price
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

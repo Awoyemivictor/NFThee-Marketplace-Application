@@ -91,9 +91,9 @@ exports.collectionNft = async (req, res, next) => {
         next(error);
     }
 }
-exports.collectionNftBid = async (req, res, next) => {
+exports.collectionActivity = async (req, res, next) => {
     try {
-        const data = await nftteamsService.collectionNftBid(req);
+        const data = await nftteamsService.collectionActivity(req);
         return successResponse(req, res, data.data, data.message);
     } catch (error) {
         next(error);
