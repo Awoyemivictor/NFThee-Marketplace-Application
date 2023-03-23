@@ -9,6 +9,7 @@ import  Apexcharts from "../../Components/Apexcharts"
 import instance from '../../axios';
 import axios from 'axios';
 import Loader from '../../Components/Loader/Loader';
+import { getPriceConversion } from '../../services/apiServices';
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -99,7 +100,8 @@ console.log('akfhvjavfjhav',activTab,typeof activTab)
   //   };
   // }, []);
   const [loading,setLoading]=useState(true)
- 
+  const [priceCov,setPriceCon]=useState()
+  // let convertToUSD = (parseFloat(result) * parseFloat(nftPrice)).toFixed(5);
   useEffect(async () => {
     await axios
       .get(`${process.env.REACT_APP_BASE_URL}/api/createCollection/read?id=${id}`)
@@ -109,6 +111,9 @@ console.log('akfhvjavfjhav',activTab,typeof activTab)
         setCollections(response.data.data);
         setLoading(false);
       })
+     let result = await getPriceConversion()
+     setPriceCon(result)
+     
       .catch((e) => {
         // setLoading(true);
       });
@@ -149,13 +154,14 @@ useEffect(async() => {
   //     y.style.display = "block";
   //   }
   // }
-const handleActive=()=>{
+const handleActive=async()=>{
   // setActivityData
 // axios
-instance
-.get(`/api/collectionNft?collection_name=${collections.name}`)
+await
+// instance
+axios
+.get(`http://192.168.29.147:8003/api/collectionActivity?collection_name=${collections.name}`)
 .then(res=>setActivityData(res.data.data))
-
 
 
 
@@ -634,23 +640,24 @@ instance
                                                        </div>
                                                    </td>
                                                </tr>
-                                               {activityData?activityData.map((data,i)=>(<tr>
-                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {t("explore.sale")} </td>
+                                               {activityData.length>0?activityData.map((data,i)=>(
+                                               <tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
                                                    <td>
-                                                    <Link to={`/exploredetail/${data._id}`}>
-                                                       <div className="d-flex align-items-center"> <img src={data.uploadFile?data.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.name}</span> </div>
+                                                    <Link to={`/exploredetail/${data?.nftId?._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.nftId?.uploadFile?data.nftId.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.nftId?.name}</span> </div>
                                                        </Link>
                                                    </td>
                                                    <td>
                                                        <div className="price-detail">
-                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data?.putOnMarketplace?data?.putOnMarketplace?.price|| data?.putOnMarketplace?.Bid_price:'' } </h5>
-                                                           <h6>$52547.30</h6>
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.price } </h5>
+                                                           <h6>${( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}</h6>
                                                        </div>
                                                    </td>
                                                    <td>1</td>
-                                                   <td> <span className="text-color-purple">{data.currentOwner?.user_name?data.currentOwner.user_name:'demo'}</span> </td>
-                                                   <td> <span className="text-color-purple">Pixel-Collection</span> </td>
-                                                   <td> <a href="#">{data?.createdAt} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
+                                                   <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
+                                                   <td> <a href="#">{data?.sCreated} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>)):'noting to show'}
                                                {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>

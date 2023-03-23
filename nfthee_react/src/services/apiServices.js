@@ -141,6 +141,7 @@ export const createBid = async ({
   bid_status,
   bid_price,
   bid_quantity,
+  collectionName
 }) => {
   const create = '/api/createBidNft';
   const url = '/api/getOrdersByNftId';
@@ -166,10 +167,11 @@ export const createBid = async ({
   let historyMetaData = {
     nftId: nftId,
     userId: bidder,
+    collection_name:`${collectionName}`,
     action: 'Bids',
     actionMeta: 'Default',
     message: `Bid by ${ldata.user_name}  with ${bid_price} price `,
-    bid_price:`${bid_price}`,
+    price:`${bid_price}`,
     from:`${ldata.user_name}`,
   // };
   //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${

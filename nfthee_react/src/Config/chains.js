@@ -118,10 +118,31 @@ export async function ethTest() {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x5' }],
+        params: [{ chainId: '0xaa36a7' }],
       });
     } catch (switchError) {
-      console.log('Wallet Not Connected');
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: '0xaa36a7',
+                chainName: 'Sepolia test network',
+                nativeCurrency: {
+                  name: 'ETH',
+                  symbol: 'SepoliaETH',
+                  decimals: 18,
+                },
+                rpcUrls: ['https://rpc.sepolia.org'],
+                blockExplorerUrls: ['https://sepolia.etherscan.io'],
+              },
+            ],
+          });
+        } catch (addError) {
+          console.log('Error adding Chain');
+        }
+      }
     }
   }
 }
@@ -165,7 +186,7 @@ export async function harmonyTest() {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x1666600000' }],
+        params: [{ chainId: '0x6357d2e0' }],
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
@@ -174,16 +195,15 @@ export async function harmonyTest() {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0x1666600000',
-                chainName: 'Harmony One',
+                chainId: '0x6357d2e0',
+                chainName: 'Harmony Testnet Shard 0',
                 nativeCurrency: {
                   name: 'ONE',
                   symbol: 'ONE',
                   decimals: 18,
                 },
-                rpcUrls: ['https://api.harmony.one'],
-
-                blockExplorerUrls: ['https://explorer.harmony.one/'],
+                rpcUrls: ['https://api.s0.b.hmny.io'],
+                blockExplorerUrls: ['https://explorer.pops.one'],
               },
             ],
           });

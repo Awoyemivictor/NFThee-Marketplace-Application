@@ -13,7 +13,7 @@ const historySchema = new Schema(
     },
     action: {
       type: String,
-      enum: ['Bids', 'Purchase', 'Transfer', 'Marketplace', 'Creation'],
+      enum: ['Bids', 'Purchase', 'Transfer', 'Marketplace', 'Creation','Sale','Offer','Auction'],
     },
     actionMeta: {
       type: String,
@@ -22,10 +22,17 @@ const historySchema = new Schema(
     message: {
       type: String,
     },
+    collection_name: {
+      type: String,
+    },
     from: {
       type: String,
     },
-    bid_price: {
+    to: {
+      type: String,
+      default:''
+    },
+    price: {
       type: Number,
     },
     sCreated: {

@@ -25,7 +25,7 @@ const {
   getPrice,
   uploadData,
   collectionNft,
-  collectionNftBid
+  collectionActivity
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
@@ -39,7 +39,7 @@ router.post('/store', nftStore);
 router.post('/image', uploadS3.single('fileName'), upload_image);
 router.get('/read', read_nftStore);
 router.get('/collectionNft', collectionNft);
-router.get('/collectionNftBid', collectionNftBid);
+router.get('/collectionActivity', collectionActivity);
 router.post('/update', uploadS3.single('uploadFile'), upadte_nftStore);
 router.post('/delete', delete_nftStore);
 router.get('/admin/getAllItem', getAllItemInfo);

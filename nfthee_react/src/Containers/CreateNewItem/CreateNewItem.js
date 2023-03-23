@@ -319,11 +319,11 @@ const CreateNewItem = () => {
       amount: collectionData.chooseType === 1 ? 1 : e.target.value,
     });
   };
-  const handleEarning = e => {
+  const handleEarning = (e) => {
     const limit = 2;
 
     // 👇️ only take first N characters
-    setCollectionData({...collectionData,[e.target.name]:e.target.value.slice(0, limit)});
+    setCollectionData({...collectionData,[e.target.name]:parseInt(e.target.value.slice(0, limit))});
   };
   const handleItemChange = (e) => {
     setItemData({
@@ -378,6 +378,13 @@ const CreateNewItem = () => {
       toast.error('Please Upload Image');
     }
   };
+  // function (x) {
+  //   return ((x-20)*(x-80) <= 0);
+  // }
+  const inRange = (n, start, end = null) => {
+    if (end && start > end) [end, start] = [start, end];
+    return end == null ? n >= 0 && n < start : n >= start && n < end;
+  };
   const validateCollectionInputs = () => {
     if (collectionData.name === '' || collectionData.name.length > 3) {
       setCollectionValidation('was-validated');
@@ -392,7 +399,7 @@ const CreateNewItem = () => {
       setCollectionValidation('was-validated');
       bannerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    if (collectionData.creator_earnings === null || ''||collectionData.creator_earnings<80||collectionData.creator_earnings>20) {
+    if(isNaN(collectionData.creator_earnings) || inRange(collectionData.creator_earnings,20,81)==false) {
       toast.error('Earning must be in 20 to 80');
 
       setCollectionValidation('was-validated');
@@ -536,7 +543,7 @@ const CreateNewItem = () => {
       collectionData.symbol &&
       collectionData.blockchain &&
       collectionData.chooseType &&
-      collectionData.creator_earnings<80||collectionData.creator_earnings>20
+      inRange(collectionData.creator_earnings,20,81)
     ) {
       const formData = new FormData();
       formData.append('name', collectionData.name);
@@ -647,7 +654,7 @@ const CreateNewItem = () => {
 
   const handlePriceConversion = async () => {
     let result = await getPriceConversion();
-    let convertToUSD = (parseFloat(result) * 0.001);
+    let convertToUSD = parseFloat(result) * 0.001;
     console.log(convertToUSD.toFixed(5));
   };
 
@@ -751,7 +758,7 @@ const CreateNewItem = () => {
               showConfirmButton: false,
               timer: 1500,
             },
-
+            
             setItemValidation('needs-validated')
           );
           result = response;
@@ -773,7 +780,21 @@ const CreateNewItem = () => {
 
       if (marketplace === true) {
         console.log('Inside Marketplace');
-
+        let historyMetaData = {
+          nftId: `${result?.data?.data?._id}`,
+          userId: `${itemData.currentOwner}`,
+          collection_name:`${itemData.chooseCollection}`,
+          action: 'Creation',
+          actionMeta: 'Default',
+          message: `nft created by ${userId.user_name} `,
+          price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+          to:' ',
+          from:`${userId.user_name}`,
+        };
+      console.log('history', {historyMetaData});
+        let response = await instance
+          .post(`/api/insertHistory`, historyMetaData)
+          .then((res) => console.log('res.....................', res));
         if (activeTab === '0') {
           console.log('Inside Tab1');
           data = await handleListNFTSale(
@@ -785,6 +806,21 @@ const CreateNewItem = () => {
           //price ,contractAddress, userAddress,nftCount
 
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Sale',
+            actionMeta: 'Default',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
         } else if (activeTab === '1') {
           console.log('In AC2');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
@@ -795,7 +831,24 @@ const CreateNewItem = () => {
             openForBids.Bid_price,
             collectionAddress
           );
+
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Offer',
+            actionMeta: 'Listed',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
+      
         } else if (activeTab === '2') {
           console.log('In AC3');
           // tokenId ,price ,collectionName ,nftCount ,tokenType
@@ -807,6 +860,30 @@ const CreateNewItem = () => {
             collectionAddress
           );
           console.log(data);
+          let historyMetaData = {
+            nftId: `${result?.data?.data?._id}`,
+            userId: `${itemData.currentOwner}`,
+            collection_name:`${itemData.chooseCollection}`,
+            action: 'Auction',
+            actionMeta: 'Default',
+            message: `nft created by ${userId.user_name} `,
+            price:`${itemData.putOnMarketplace.Bid_price || itemData.putOnMarketplace.price}`,
+            to:' ',
+            from:`${userId.user_name}`,
+          };
+          //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
+          //   currentUser.slice(0, 3) +
+          //   '...' +
+          //   currentUser.slice(39, 42)
+          // }`,
+          // created_ts: moment(new Date()).format(
+          //   'YYYY-MM-DD HH:mm:ss'
+          // ),
+          // };
+        console.log('history', {historyMetaData});
+          let response = await instance
+            .post(`/api/insertHistory`, historyMetaData)
+            .then((res) => console.log('res.....................', res));
         }
       }
       console.log({ result });
@@ -825,34 +902,14 @@ const CreateNewItem = () => {
         validUpto: timeAfterDays,
         tokenId: tokenId,
       };
-
+console.log({reqParams})
       //  const nftOrder=
       await instance
         .post('/api/createOrder', reqParams)
         .then((res) => console.log('sucess', [res.data.data]));
     }
-
-    let historyMetaData = {
-      nftId: `${result?.data?.data?._id}`,
-      userId: `${itemData.currentOwner}`,
-      action: 'Creation',
-      actionMeta: 'Default',
-      message: 'nft created by ',
-    };
-    //  `${buyQuantity} Quantity For ${currentOrderMinBid} ${CURRENCY} by ${
-    //   currentUser.slice(0, 3) +
-    //   '...' +
-    //   currentUser.slice(39, 42)
-    // }`,
-    // created_ts: moment(new Date()).format(
-    //   'YYYY-MM-DD HH:mm:ss'
-    // ),
-    // };
-    console.log('history', historyMetaData);
-    let response = await instance
-      .post(`/api/insertHistory`, historyMetaData)
-      .then((res) => console.log('res.....................', res));
-
+console.log({itemData},itemData.putOnMarketplace.Bid_price)
+  
     // let data = '';
     // try {
     //   data = await createOrder(reqParams);
@@ -904,19 +961,21 @@ const CreateNewItem = () => {
   };
 
   const getChains = async (getChainValues) => {
-    let eth = 'Ethereum Testnet';
+    let eth = 'Ethereum Sepolia Testnet';
     let poly = 'Polygon Testnet';
-    let bsc = 'Binance Smart Chain';
-    let harmony = 'Harmony Testnet';
-    console.log(getChainValues, poly);
+    let bsc = 'BSC Testnet';
+    let harmony = 'Harmony  Testnet';
+    console.log(getChainValues, eth, bsc, harmony, poly);
 
     if (eth === getChainValues) {
       ethTest();
     } else if (poly === getChainValues) {
       polyTest();
     } else if (bsc === getChainValues) {
+      console.log('bsc');
       bscTest();
     } else if (harmony === getChainValues) {
+      console.log("Har")
       harmonyTest();
     }
   };
@@ -1994,13 +2053,13 @@ const CreateNewItem = () => {
                       </form>
 
                       {/*</form>*/}
-                      <button
+                      {/* <button
                         type='submit'
                         className='btn btn-violet w-100'
                         onClick={handlePriceConversion}
                       >
                         Test Price
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
