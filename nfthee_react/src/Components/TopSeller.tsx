@@ -21,17 +21,13 @@ export const TopSeller = ({
   number,
   className,
 }: TopSellerProps) => {
+  const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+
   return (
     <div className={`col-2 ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
-          <Link to={`/users/${_id}`}>
-            <img
-              src={profile_image || "/images/avt-2.jpg"}
-              alt=""
-              className=""
-            />
-          </Link>
+          <Link to={_id===ldata._id?`/profile`:`/users/${_id}`}><img src={profile_image||"/images/avt-2.jpg"} alt="" className="" /></Link>
           <div className="badge">
             <img src="/images/icons/star-check.png" alt="" />
           </div>

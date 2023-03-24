@@ -164,8 +164,8 @@ const CollectionDetail = () => {
 
         },
         {
-            name: "links",
-            selector: 'links',
+            name: "Url",
+            selector: 'url',
             sortable: true,
             truncateText: true,
             width: "13rem",
