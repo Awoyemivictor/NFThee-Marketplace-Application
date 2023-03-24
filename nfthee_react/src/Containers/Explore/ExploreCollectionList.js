@@ -11,9 +11,9 @@ const ExploreCollectionList = ({ collections }) => {
       {slice.map((collection, index) => {
         return (
           <>
-            <div className="col-lg-4 col-md-4 my-1" key={index}>
-              <div className='card-body'>
-                <div className="item-content">
+            <div className="col-lg-4 col-md-4 my-1" >
+              <div className='card-body'key={index}>
+                <div className="item-content" >
                   <Link to={`/explorefilter/${collection._id}`}>
                     <div className="tabbable-card">
                       <div className="card-img-block">
