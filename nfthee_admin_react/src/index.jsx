@@ -53,6 +53,8 @@ import SingleUser from "./components/dashboard/otherusers/usersSingle";
 import Projects from "./components/dashboard/projects/index.projects";
 import SingleProject from "./components/dashboard/projects/projectSingle";
 
+//market place
+import MarketPlace from "./components/dashboard/marketplace/index.marketplace";
 // import View from "./components/dashboard/view/CreateItemDetail";
 import View from "./components/dashboard/view/index.component";
 import component from "./components/dashboard/view/index.component";
@@ -320,6 +322,11 @@ const Root = () => {
                 exact
                 path={`/dashboard/view/index.otheruser`}
                 component={Otheruser}
+              />
+               <Route
+                exact
+                path={`/dashboard/view/index.marketplace`}
+                component={MarketPlace}
               />
               <Route
                 exact
