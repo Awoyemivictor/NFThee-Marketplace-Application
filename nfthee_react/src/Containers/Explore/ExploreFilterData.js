@@ -502,7 +502,7 @@ const images = [
                     <div className="card-media">
                        <img src={uploadFile} alt="" className="img-fluid" />
 
-                       <img  alt="" className="img-fluid" />
+                       {/* <img  alt="" className="img-fluid" /> */}
 
                        </div>
             </Link>

@@ -68,6 +68,7 @@ exports.createCollectionInfo = async (req, res) => {
       links: req.body.links,
       creator_earnings: req.body.creator_earnings,
       blockchain: req.body.blockchain,
+      category: req.body.category,
       payment_token: req.body.payment_token,
       display_theme: req.body.display_theme,
       explicit_sensitive_content: req.body.explicit_sensitive_content,
@@ -283,6 +284,23 @@ exports.upload_image = async (req) => {
     }
   } catch (error) {
     return error;
+  }
+};
+exports.deleteCollection = async (req) => {
+  try {
+    // console.log(req.body.contractAddress);
+    let collectionId=req.query.id
+    let result = await createCollection.findByIdAndDelete({_id:collectionId});
+    
+console.log('result',result)
+    // createCollection.save({ nextId: nextId });
+    return {
+      message: "Collection  Delete successfully.",
+      status: true,
+      data: result,
+    };
+  } catch (error) {
+    throw error;
   }
 };
 

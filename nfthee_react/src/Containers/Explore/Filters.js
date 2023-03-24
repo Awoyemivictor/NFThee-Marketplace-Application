@@ -10,10 +10,25 @@ const Filters = ({
   searchText,
   setSearchText,
   handlePriceInput,
+  // value,onChange
 }) => {
   const [collections, setCollections] = useState([]);
   const [blockchains, setBlockchains] = useState([]);
   const [categories, setCategories] = useState([]);
+  // const priceRanges = [
+  //   { label: 'Any Price', value: '' },
+  //   { label: '$0 - $1', value: '0-1' },
+  //   { label: '$100 - $500', value: '100-500' },
+  //   { label: '$500 - $1000', value: '500-1000' },
+  //   { label: '$1000+', value: '1000+' },
+  // ];
+  // useEffect(() => {
+  //   instance(`/api/data?price_range=${priceRange}`)
+  //     .then(response => response.json())
+  //     .then(data => setData(data))
+  //     .catch(error => console.error(error));
+  // }, [priceRange]);
+
   useEffect(() => {
     instance
       .get("/api/getCollection")
@@ -79,6 +94,16 @@ const Filters = ({
           />
         ))}
       </AccordionCard>
+      {/* <AccordionCard title={"Price"}>
+      <div>
+      <label htmlFor="price-range">Price Range:</label>
+      <select id="price-range" value={value} onChange={onChange}>
+        {priceRanges.map(range => (
+          <option key={range.value} value={range.value}>{range.label}</option>
+        ))}
+      </select>
+    </div>
+      </AccordionCard> */}
 
       <AccordionCard title={"Price"}>
         <div className="accordion-body ">
