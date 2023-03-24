@@ -418,6 +418,7 @@ function ExploreDetail() {
               <div className="row mb-3">
                 <div className="col-lg-12 col-md-12">
                   <button
+                    className='rounded-pill'
                     onClick={() => {
                       history.goBack();
                     }}
@@ -672,14 +673,14 @@ function ExploreDetail() {
                           </a>
                         </div>
 
-                        <div className="col-lg-5 col-md-5">
-                          <a href="#">
-                            <div className="creator-card">
-                              <div className="card-body">
-                                <div className="avatars">
-                                  <div className="media">
-                                    <a href="#">
-                                      {" "}
+                        <div className='col-lg-5 col-md-5'>
+                          <a href='#'>
+                            <div className='creator-card'>
+                              <div className='card-body'>
+                                <div className='avatars align-items-start'>
+                                  <div className='media'>
+                                    <a href='#'>
+                                      {' '}
                                       <img
                                         src="/assets/images/icons/tezoz.png"
                                         alt=""
@@ -796,12 +797,12 @@ function ExploreDetail() {
                                   ? nftData.designation
                                   : t("product.detail_description")}
                               </p>
-                              <div className="col-lg-6 col-md-6 px-lg-0">
-                                <div className="creator-card creator-card-two mb-lg-4">
-                                  <div className="card-body">
-                                    <div className="avatars">
-                                      <div className="media">
-                                        <div className="badge">
+                              <div className='col-lg-6 col-md-6 px-lg-0'>
+                                <div className='creator-card creator-card-two mb-lg-4'>
+                                  <div className='card-body'>
+                                    <div className='avatars '>
+                                      <div className='media'>
+                                        <div className='badge'>
                                           <img
                                             src="/assets/images/icons/star-check.png"
                                             alt=""
@@ -835,12 +836,13 @@ function ExploreDetail() {
                             </div>
                           </div>
                           <div
-                            className="tab-pane fade"
-                            id="about"
-                            role="tabpanel"
-                            aria-labelledby="about-tab"
-                          >
-                            {nftData ? nftData.about : "lorem35"}
+                            className='tab-pane fade'
+                            id='about'
+                            role='tabpanel'
+                            aria-labelledby='about-tab'
+                          ><div className='card-body'>
+                              <p className='para1'>{nftData ? nftData.about : 'lorem35'}</p>
+                            </div>
                           </div>
                           <div
                             className="tab-pane fade"
@@ -848,9 +850,19 @@ function ExploreDetail() {
                             role="tabpanel"
                             aria-labelledby="history-tab"
                           >
-                            {fetchHistory.map((message) => (
-                              <p key={message}>{message}</p>
-                            ))}
+                            <div className='card-body'>
+                              {fetchHistory.map((message) => (
+                                <div className='history-content mb-2'>
+                                  <div className='card-body  p-1'>
+                                    <p className='card-text para1 m-0' key={message}>{message}</p>
+                                  </div>
+
+
+
+                                </div>
+                              ))}
+                            </div>
+
                           </div>
 
                           {/* WETHtoETH */}
@@ -865,13 +877,13 @@ function ExploreDetail() {
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
                               .map((data, i) => (
-                                <div className="card-body">
-                                  <div className="col-lg-6 col-md-6 px-lg-0">
-                                    <div className="creator-card creator-card-two mb-lg-4">
-                                      <div className="card-body" key={i}>
-                                        <div className="avatars">
-                                          <div className="media">
-                                            <div className="badge">
+                                <div className='card-body'>
+                                  <div className='col-lg-6 col-md-6 px-lg-0'>
+                                    <div className='creator-card creator-card-two mb-lg-4'>
+                                      <div className='card-body' key={i}>
+                                        <div className='avatars align-items-start'>
+                                          <div className='media'>
+                                            <div className='badge'>
                                               <img
                                                 src="/assets/images/icons/star-check.png"
                                                 alt=""
@@ -916,7 +928,7 @@ function ExploreDetail() {
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
                                                 {nftData?.currentOwner?._id ===
-                                                userId._id ? (
+                                                  userId._id ? (
                                                   <>
                                                     <button
                                                       type="button"
@@ -946,7 +958,7 @@ function ExploreDetail() {
                                                   </>
                                                 ) : null}
                                                 {data?.bidder?._id ===
-                                                userId._id ? (
+                                                  userId._id ? (
                                                   <button
                                                     type='button'
                                                     id='Cancelled'
@@ -1024,9 +1036,9 @@ function ExploreDetail() {
                                           />
                                           {nftData?.putOnMarketplace
                                             ? nftData?.putOnMarketplace
-                                                ?.price ||
-                                              nftData?.putOnMarketplace
-                                                ?.Bid_price
+                                              ?.price ||
+                                            nftData?.putOnMarketplace
+                                              ?.Bid_price
                                             : ''}{' '}
                                           MATIC
                                           <> $ {priceInUSD} </>
@@ -1704,8 +1716,8 @@ function ExploreDetail() {
                                         options={options}
                                         value={selected}
                                         onChange={setSelected}
-                                        labelledBy="Select"
-                                        //  className="form-select"
+                                        labelledBy='Select'
+                                      //  className="form-select"
                                       />
                                     </div>
                                     <button className="btn btn-search">

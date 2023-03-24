@@ -19,6 +19,7 @@ const {
   getAllInfo,
   getCollectionByAddress,
   getSingleCollectionByName,
+  deleteCollection
 } = require('../controller').createCollectionController;
 
 let uploadMultiple = uploadS3.fields([
@@ -36,6 +37,7 @@ router.post(
   uploadMultiple,
   update_createCollectionInfo
 );
+router.post('/deleteCollection', deleteCollection);
 router.post('/createCollection/delete', delete_createCollectionInfo);
 router.get('/getAll', getAllInfo);
 router.get('/getCollection', getCollectionInfo);

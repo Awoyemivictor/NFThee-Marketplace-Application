@@ -19,6 +19,9 @@ const passport = require('passport')
 const winston = require('winston')
 const pkg = require('../../package')
 const xss = require('xss')
+const UserModel = require('../models/user')
+const SettingSchema = require('../models/setting'); 
+const url = require('url');				   
 const RateLimiterMemory = require('rate-limiter-flexible').RateLimiterMemory
 
 const limiterSlowBruteByIP = new RateLimiterMemory({
@@ -32,6 +35,18 @@ const mainController = {}
 
 mainController.content = {}
 
+function decryptObject(o, salt) {
+  o = decodeURI(o);
+  if (salt && o.indexOf(salt) != 0)
+    throw new Error('object cannot be decrypted');
+  o = o.substring(salt.length).split('');
+  for (var i = 0, l = o.length; i < l; i++)
+    if (o[i] == '{')
+      o[i] = '}';
+    else if (o[i] == '}')
+      o[i] = '{';
+  return JSON.parse(o.join(''));
+}
 mainController.index = function (req, res) {
   const content = {}
   content.title = 'Login'
@@ -174,6 +189,76 @@ mainController.loginPost = async function (req, res, next) {
   }
 }
 
+mainController.authtokenLogin = async function (req, res, next) {
+  const queryGetUserData = req.query['user_detail'];
+  const secret = '123456'; // secret key for encryption
+  var decryptGet = await decryptObject(queryGetUserData, secret);
+  if (!decryptGet) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+
+  const decryptedObject = JSON.parse(decryptGet.trim()); // decrypts the string
+  if (!decryptedObject.user_name) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+  var username = decryptedObject?.user_name;   
+  console.log("decrypted", decryptedObject );
+
+  let ipAddress = req.ip
+
+  // var username = req.body.username;
+  if (process.env.USE_XFORWARDIP == 'true')
+    ipAddress = req.headers["x-forwarded-for"]
+
+  if (process.env.USE_USERRATELIMIT == 'true')
+    ipAddress = ipAddress + username
+
+  const [resEmailAndIP] = await Promise.all([limiterSlowBruteByIP.get(ipAddress)])
+
+  let retrySecs = 0
+  if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 2) {
+    retrySecs = Math.round(resEmailAndIP.msBeforeNext / 1000) || 1
+  }
+
+  if (retrySecs > 0) {
+    res.set('Retry-After', retrySecs.toString())
+    res.status(429).render('429', { timeout: retrySecs.toString(), layout: false })
+  } else {
+    var email = decryptedObject?.email_address
+    var userGet = await UserModel.findOne({
+      email: email.toLowerCase()
+    });
+
+    if (!userGet) {      
+      const roleDefault = await SettingSchema.getSetting('role:user:default'); 
+      const hashedPassword = 'abcd@12345' ;
+      const userData = {
+        username: username.toLowerCase(),
+        password: hashedPassword,
+        fullname: decryptedObject?.first_name+" "+ decryptedObject?.last_name,
+        email: decryptedObject?.email_address,
+        role: roleDefault.value
+      };
+      const newUser = new UserModel(userData);
+      const savedUser = await newUser.save();
+      userGet = savedUser;
+
+    }
+
+    req.logIn(userGet, function (err) {
+      if (err) {
+        winston.debug(err)
+        return next(err)
+      }
+      return res.redirect('/tickets')
+    })
+  }
+
+}
 mainController.l2AuthPost = function (req, res, next) {
   if (!req.user) {
     return res.redirect('/')

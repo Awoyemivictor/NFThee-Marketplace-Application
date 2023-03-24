@@ -127,15 +127,44 @@ const Header = () => {
             <li>
               <Account />
             </li>
-            <li>
+           
+                <li className="onhover-dropdown">
               <a onClick={serviceFees} className='text-dark' href='#javaScript'>
                 <img
                   className='align-self-center pull-right mr-2'
                   src={require('../../../assets/images/dashboard/browser.png')}
                   alt='header-browser'
                 />
+      
+      <ul className="profile-dropdown onhover-show-div p-20">
+        <li>
+          {/* <Link */}
+            {/* to={`${process.env.PUBLIC_URL}/applications/users/edit-profile`} */}
+          {/* > */}
+            <i className="icon-user"></i>
+            Demo 1
+          {/* </Link> */}
+        </li>
+        <li>
+          {/* <Link to={`${process.env.PUBLIC_URL}/applications/email-app`}> */}
+            <i className="icon-email"></i>
+           Demo 2
+          
+        </li>
+        {/* <li>
+          <Link to={`${process.env.PUBLIC_URL}/applications/todo-app`}>
+            <i className="icon-check-box"></i>
+            Task
+          </Link>
+        </li> */}
+        <li >
+          <i className="icon-power-off"></i>
+         Demo 3
+        </li>
+      </ul>
               </a>
-            </li>
+    </li>
+      
             {/* <Language />
                             <Notification /> */}
             {/* <li onClick={ToogleRightSidebar}>

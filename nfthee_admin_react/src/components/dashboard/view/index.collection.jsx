@@ -133,15 +133,61 @@ const CollectionDetail = () => {
     // ];
 
     const columns = [
-        {
-            name: "Icon",
-            selector: 'logo_image',
-            sortable: true,
-      cell: (data) => <img src={data.logo_image} height='32px' width='32px' />,
+    //     {
+    //         name: "Icon",
+    //         selector: 'logo_image',
+    //         sortable: true,
+    //   cell: (data) => <img src={data.logo_image} height='32px' width='32px' />,
 
-            width: "3rem",
+    //         width: "3rem",
 
-        },
+    //     },
+    {
+        name: "Icon",
+        selector: 'logo_image',
+        sortable: true,
+        cell: (data) => {
+          const [modalIsOpen, setModalIsOpen] = useState(false);
+    
+          const handleOpenModal = () => {
+            setModalIsOpen(true);
+          };
+    
+          const handleCloseModal = () => {
+            setModalIsOpen(false);
+          };
+    
+          return (
+            <>
+              <img
+                src={data.logo_image}
+                height="32px"
+                width="32px"
+                onClick={handleOpenModal}
+                style={{ cursor: "pointer" }}
+              />
+              {modalIsOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    zIndex: 9999,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  onClick={handleCloseModal}
+                >
+                  <img src={data.logo_image} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+                </div>
+              )}
+            </>
+          );
+                }},
         {
             name: "Name",
             selector: 'name',
@@ -164,8 +210,8 @@ const CollectionDetail = () => {
 
         },
         {
-            name: "links",
-            selector: 'links',
+            name: "Url",
+            selector: 'url',
             sortable: true,
             truncateText: true,
             width: "13rem",

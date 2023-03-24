@@ -66,6 +66,9 @@ const create_collection = new Schema(
     blockchain: {
       type: String,
     },
+    category: {
+      type: String,
+    },
     payment_token: {
       type: String,
     },

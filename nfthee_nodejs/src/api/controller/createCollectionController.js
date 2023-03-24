@@ -97,7 +97,14 @@ exports.delete_createCollectionInfo = async (req, res, next) => {
     next(error);
   }
 };
-
+exports.deleteCollection = async (req, res, next) => {
+  try {
+    const data = await createCollectionService.deleteCollection(req);
+    return successResponse(req, res, data.data, data.message);
+  } catch (error) {
+    next(error);
+  }
+};
 exports.getCollectionByAddress = async (req, res, next) => {
   try {
     const data = await createCollectionService.getCollectionByAddress(req);

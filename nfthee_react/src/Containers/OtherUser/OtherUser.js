@@ -95,7 +95,6 @@ export default function OtherUser() {
 
 
   console.log("id of /ExploreDetails",id)
-    const [image, setImage] = useState({ preview: "/assets/images/avt-5.jpg", raw: "" });
   const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
   const[collectionData,setCollectionData]=useState([])
   const[itemData,setItemData]=useState([])
@@ -235,7 +234,7 @@ export default function OtherUser() {
             <section className="profile-banner-section">
               <div className="profile-banner-image">
                 <img
-                  src="/assets/images/Banner4.png"
+                  src={users.banner_image?users.banner_image:"/assets/images/Banner4.png"}
                   alt=""
                   className="img-fluid w-100 profile-banner-img"
                 />
@@ -352,7 +351,7 @@ export default function OtherUser() {
                         <div className="user-box">
                           <img
                             // src="/assets/images/avt-5.jpg"
-                            src={image.preview}
+                            src={users.profile_image?users.profile_image:"/assets/images/avt-5.jpg"}
                             alt=""
                             className="img-fluid user-img"
                           />
@@ -860,14 +859,14 @@ export default function OtherUser() {
                     <div className="card-body">
                       <div className="auction-create-by">
                         <img
-                          src="/assets/images/img2.png"
+                          src={collection?.currentOwner?.uploadFile ?collection?.currentOwner?.uploadFile :"/assets/images/img2.png"}
                           alt=""
                           className="avatar-icon img-fluid"
                         />
                         <span className="creator-name">
                           {console.log({ collection })}
                           Created By @
-                          {collection?.name ? collection?.name : 'undefined'}
+                          {collection?.currentOwner?.user_name ?collection?.currentOwner?.user_name  : 'undefined'}
                         </span>
                       </div>
                       <div className="card-media">
@@ -876,8 +875,8 @@ export default function OtherUser() {
                           <img
                             // src={'//assets/images/featured-img7.jpg'}
                             src={
-                              collection?.uploadFile
-                                ? `${process.env.REACT_APP_BASE_URL}/fileUpload/${collection?.uploadFile?.filename}`
+                              collection?.logo_image
+                                ? collection?.logo_image
                                 : '/assets/images/featured-img7.jpg'
                             }
                             alt=""
