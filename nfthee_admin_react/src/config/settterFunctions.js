@@ -42,6 +42,29 @@ export const getServiceFeesAmount = async () => {
   console.log(serviceFees);
 };
 
+export const getMarketplaceOwner = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
+  let ownerAddress = await marketplaceInstance.owner();
+
+  console.log(ownerAddress);
+  return ownerAddress;
+};
+export const getUpperRoyaltyLimit = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
+  let maxRoyalty = await marketplaceInstance.royaltyUpperLimit();
+
+  console.log(maxRoyalty);
+  return maxRoyalty;
+};
+
+//*--------------------Function which alters blockchain state------
+
 export const handleChangeServiceFees = async (serviceFeesAmount) => {
   console.log(serviceFeesAmount);
   const userAddress = await getUserAddress();
@@ -69,12 +92,31 @@ export const handleChangeServiceFees = async (serviceFeesAmount) => {
   return setServiceFees.status;
 };
 
-export const getMarketplaceOwner = async () => {
+export const handleChangeMarketplaceStatus = async () => {
   let marketplaceInstance = await exportInstance(
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
-  let ownerAddress = await marketplaceInstance.owner();
-  console.log(ownerAddress);
-  return ownerAddress;
+
+  //!pass arguments to the fuction //* true/false to change marketplaceStatus
+  let marketplaceStatus = await marketplaceInstance.handleChangeMarketplaceStatus();
+  if (marketplaceStatus.status === 0) {
+    console.log('Transaction Failed');
+  }
+
+  return marketplaceStatus.status;
+};
+
+export const handleSetRoyaltyUpperLimit = async () => {
+  let marketplaceInstance = await exportInstance(
+    contracts.polygonContracts.MARKETPLACE,
+    Market.abi
+  );
+  //*value should be not less than 20
+  let royaltyUpeerLimit = await marketplaceInstance.updateRoyaltyUpperLimit();
+  if (royaltyUpeerLimit.status === 0) {
+    console.log('Transaction Failed');
+  }
+
+  return royaltyUpeerLimit.status;
 };

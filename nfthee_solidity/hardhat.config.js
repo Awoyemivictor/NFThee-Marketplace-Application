@@ -80,13 +80,22 @@ module.exports = {
   },
   etherscan: {
     // apiKey: {
-    //   goerli: ETHEREUM_API_KEY || '',
-    //   polygon: POLYGON_API_KEY || '',
-    //   binance: '',
-    //   harmony: '',
+    //   ethereumMainnet: ETHEREUM_API_KEY || '',
+    //   goerliTestnet: POLYGON_API_KEY || '',
+    //   harmonyMainnet: '',
+    //   harmonyTestnet: '',
+    //   bscTestnet: '',
+    //   bscMainnet: '',
+    //   polygonTestnet: POLYGON_API_KEY,
+    //   polygonTestnet: BINANCE_API_KEY,
     // },
-    // apiKey: POLYGON_API_KEY,
-    // apiKey: BINANCE_API_KEY,
+
     apiKey: ETHEREUM_API_KEY,
+  },
+  gasReporter: {
+    currency: 'USD',
+    enabled: process.env.REPORT_GAS ? true : false,
+    excludeContracts: [],
+    src: './contracts',
   },
 };
