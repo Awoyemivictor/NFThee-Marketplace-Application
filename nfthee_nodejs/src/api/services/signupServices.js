@@ -367,7 +367,7 @@ exports.userCollections = async (req, res) => {
     const user = await createCollection.find({
       currentOwner: userId,
       status: 'verified',
-    });
+    }).populate('currentOwner')
     // const user = await createCollection.find({ currentOwner: userId });
     // console.log(user)
     if (user) {
@@ -391,7 +391,7 @@ exports.userItems = async (req, res) => {
   try {
     let userId = req.query.id;
     // const user = await createCollection.find({ currentOwner: userId ,status:'pending'});
-    const user = await nftIteams.find({ currentOwner: userId });
+    const user = await nftIteams.find({ currentOwner: userId }).populate('currentOwner');
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><>', user);
     if (user) {
       return {
