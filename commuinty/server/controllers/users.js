@@ -4,6 +4,19 @@ const { body, validationResult } = require('express-validator');
 
 const { createToken, hashPassword, verifyPassword } = require('../utils/authentication');
 
+function decryptObject(o, salt) {
+  o = decodeURI(o);
+  if (salt && o.indexOf(salt) != 0)
+    throw new Error('object cannot be decrypted');
+  o = o.substring(salt.length).split('');
+  for (var i = 0, l = o.length; i < l; i++)
+    if (o[i] == '{')
+      o[i] = '}';
+    else if (o[i] == '}')
+      o[i] = '{';
+  return JSON.parse(o.join(''));
+}
+
 exports.signup = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -111,6 +124,55 @@ exports.authenticate = async (req, res) => {
   }
 };
 
+
+
+exports.authenticatetoekn = async (req, res) => {
+  try {
+    var token = '';
+    const { encryptedget } = req.body;
+
+    const secret = '123456'; // secret key for encryption
+    const decryptedObject = JSON.parse(decryptObject(encryptedget, secret)); // decrypts the string
+    if(!decryptedObject.user_name) {
+      return res.status(400).json({
+        message: "some error occured!"
+      });
+    }
+    var username = decryptedObject.user_name;
+    var userGet = await User.findOne({
+      username: username.toLowerCase()
+    });
+
+    if (!userGet) {
+      const hashedPassword = await hashPassword('abcd@12345');
+      const userData = {
+        username: username.toLowerCase(),
+        password: hashedPassword
+      };
+      const newUser = new User(userData);
+      const savedUser = await newUser.save(); 
+      userGet =  savedUser ;  
+    } 
+
+    token = createToken(userGet);
+    const decodedToken = jwtDecode(token);
+    const expiresAt = decodedToken.exp;
+    const { role, id, created, profilePhoto } = userGet;
+    const userInfo = { username, role, id, created, profilePhoto };
+    res.json({
+      message: 'Authentication successful! jwtToken',
+      token,
+      userInfo,
+      expiresAt,
+      success: true, 
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      message: error
+    });
+  }
+};
 exports.listUsers = async (req, res, next) => {
   try {
     const { sortType = '-created' } = req.body;
