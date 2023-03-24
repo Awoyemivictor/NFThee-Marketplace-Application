@@ -3,13 +3,13 @@ import React from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 interface TopSellerProps {
-  _id:string,
+  _id: string;
   user_name: string;
   price: string;
   profile_image: string;
   index: number;
   number?: string;
-  className?: string
+  className?: string;
 }
 
 export const TopSeller = ({
@@ -19,12 +19,12 @@ export const TopSeller = ({
   price,
   index,
   number,
-  className
+  className,
 }: TopSellerProps) => {
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   return (
-    <div className={`col ${className}`} key={index}>
+    <div className={`col-2 ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
           <Link to={_id===ldata._id?`/profile`:`/users/${_id}`}><img src={profile_image||"/images/avt-2.jpg"} alt="" className="" /></Link>
