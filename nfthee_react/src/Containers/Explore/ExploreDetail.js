@@ -290,6 +290,12 @@ function ExploreDetail() {
     }
   };
   const [fetchHistory, setFetchHistory] = useState([]);
+
+  const [xaxis,setxaxis]=useState()
+  const [avgPrice,setAvgPrice]=useState()
+  const [volume,setVolume]=useState()
+
+
   const [itemEvent, setItemEvent] = useState([]);
   const [itemPrice, setItemPrice] = useState([]);
   const [itemFrom, setItemFrom] = useState([]);
@@ -401,6 +407,12 @@ function ExploreDetail() {
 
         const history = res.data.data.map((item) => item.message);
         setFetchHistory(history);
+        const newAxis=res.data.data.map(data=>data.sCreated)
+        const vol=res.data.data.map(data=>data.action)
+        const newprice=res.data.data.map(data=>data.price)
+        setxaxis(newAxis)
+        setAvgPrice(newprice)
+        setVolume(vol)
       })
       .catch((error) => {
         console.error("Error fetching history", error);
@@ -1667,7 +1679,9 @@ function ExploreDetail() {
                             </div>
                             <div>
                               {/* <div id="chart" /> */}
-                              <Apexcharts />
+                              {volume&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={volume}/>:null}
+
+
                             </div>
                           </div>
                         </div>

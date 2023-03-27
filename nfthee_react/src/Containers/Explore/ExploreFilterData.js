@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AccordionCard, CheckBox } from "../../Components";
-import {NavLink, Link } from 'react-router-dom'
-import { useTranslation, initReactI18next } from "react-i18next";
+import { Link } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 import { handleLikes } from "../../services/apiServices";
 
 export const cardData =
@@ -296,68 +296,68 @@ export const cardData =
   );
 };
 
-const images = [
-  {
-    id: 1,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 2,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 3,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 4,
-    img: "/assets/images/nft3.png"
-  },
-  {
-    id: 5,
-    img: "/assets/images/icons/bear.png"
-  },
-  {
-    id: 6,
-    img: "/assets/images/icons/fomo.png"
-  },
-  {
-    id: 7,
-    img: "/assets/images/icons/doddles.png"
-  },
-  {
-    id: 8,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 9,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 10,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 11,
-    img: "/assets/images/nft3.png"
-  },
-  {
-    id: 12,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 13,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 14,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 15,
-    img: "/assets/images/nft3.png"
-  },
-];
+// const images = [
+//   {
+//     id: 1,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 2,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 3,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 4,
+//     img: "/assets/images/nft3.png"
+//   },
+//   {
+//     id: 5,
+//     img: "/assets/images/icons/bear.png"
+//   },
+//   {
+//     id: 6,
+//     img: "/assets/images/icons/fomo.png"
+//   },
+//   {
+//     id: 7,
+//     img: "/assets/images/icons/doddles.png"
+//   },
+//   {
+//     id: 8,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 9,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 10,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 11,
+//     img: "/assets/images/nft3.png"
+//   },
+//   {
+//     id: 12,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 13,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 14,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 15,
+//     img: "/assets/images/nft3.png"
+//   },
+// ];
   const price_caontainer = () => {
     return (
       <div className="accordion-body ">
@@ -476,7 +476,7 @@ const images = [
         postId: nft,
       };
       // console.log({ data._id });
-      if (data._id != '' || undefined) {
+      if (data._id !== '' || undefined) {
         console.log('test==>>>>>if', requestBody, e.target.id);
         const data = await handleLikes(requestBody, e.target.id, setDisaable);
         if (!data) {
@@ -636,7 +636,7 @@ const images = [
         postId: nft,
       };
       // console.log({ data._id });
-      if (data._id != '' || undefined) {
+      if (data._id !== '' || undefined) {
         console.log('test==>>>>>if', requestBody, e.target.id);
         const data = await handleLikes(requestBody, e.target.id, setDisaable);
         if (!data) {

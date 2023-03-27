@@ -7,21 +7,39 @@ import { Link } from "react-router-dom";
 import { getPriceConversion } from "../../services/apiServices";
 import instance from "../../axios";
 function Activity() { 
-  const [noOfElement, setNoOfElement] = useState(6);
+  const [noOfElement, setNoOfElement] = useState(8);
   const [activityData,setActivityData]=useState([])
   const [loading,setLoading]=useState(true)
   const [message, setMessage] = useState("");
+
+  const [xaxis,setxaxis]=useState()
+  const [avgPrice,setAvgPrice]=useState()
+  const [vol,setVolume]=useState()
+  const slice = activityData.slice(0, noOfElement);
+  
   const loadMore = () => {
-    setNoOfElement(noOfElement + 6);
+    // setNoOfElement(noOfElement + 8);
+    // if (noOfElement > activityData.length) {
+    //   const Msg = "--No Content--";
+    //   setMessage(Msg);
+    //   console.log(Msg);
+    // }
     if (noOfElement > activityData.length) {
-      const Msg = "--No Content--";
-      setMessage(Msg);
-      console.log(Msg);
+      // setNoOfElement(prev=>prev-8);
+      
+      
+      setNoOfElement(8);
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    } else {
+      setNoOfElement(noOfElement + 8);
     }
   };
   const [priceCov,setPriceCon]=useState()
 
-  const slice = activityData.slice(0, noOfElement);
   const [show, setShow] = useState("hidden");
   const ShowResult = () => {
     setShow("show");
@@ -31,6 +49,8 @@ function Activity() {
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   const [isOpen, setIsopen] = useState(true);
   const [filter, setfilter] = useState("filterClose");
+
+  let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
 
   const ToggleSidebar = () => {
     isOpen === true ? setIsopen(false) : setIsopen(true);
@@ -43,15 +63,22 @@ function Activity() {
 
 useEffect(async() => {
   instance.get('/api/fetchAllHistory')
-.then(res=> setActivityData(res.data.data))
+.then(res=>{ setActivityData(res.data.data)
+  // sCreated
+  const newAxis=res.data.data.map(data=>data.sCreated)
+  const volume=res.data.data.map(data=>data.action)
+
+  const newprice=res.data.data.map(data=>data.price)
+  setxaxis(newAxis)
+  setAvgPrice(newprice)
+  setVolume(volume)
+            })
 .finally(res=>setLoading(false))
 
 let result = await getPriceConversion()
 setPriceCon(result)
 
 }, [])
-
-
 
   return (
     <>
@@ -165,8 +192,8 @@ setPriceCon(result)
                                 <div className="price-content-wrapper">
                                   <ul>
                                     <li>
-                                      <h5>90 Day Avg. Price</h5>
-                                      <h6>76.5895</h6>
+                                      <h5>Avg. Price</h5>
+                                      <h6>{Average}</h6>
                                     </li>
                                     <li>
                                       <h5>90 Day Avg. Price</h5>
@@ -187,8 +214,9 @@ setPriceCon(result)
                               </div>
                             </div>
                             <div className="row">
-                              <div className=""> 
-                                <Apexcharts/>
+                              <div className="chart"> 
+                             {vol&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={vol}/>:null}
+
                               </div>
                             </div>
                           </div>
@@ -200,7 +228,7 @@ setPriceCon(result)
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                      :activityData?.map((data,i) => {
+                      :slice?.map((data,i) => {
                         return(
                           <tr>
                                                    <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
@@ -229,11 +257,11 @@ setPriceCon(result)
                    <div className="col-lg-6 col-md-6 mx-auto">
                      <h1 className="section-title text-center">
                       {message}</h1>
-                      {!message && (   
-                       <button className="btn btn-load"onClick={loadMore}>
-                           Load More
-                          </button> 
-                        )}
+                      {activityData.length > 6 && (
+                <button className='btn btn-load' onClick={loadMore}>
+                  {noOfElement > activityData.length ? 'Show less' : 'Show more'}
+                </button>
+              )}
                       </div>
                     </div>
               </div>
