@@ -123,7 +123,7 @@ exports.nftStore = async (req) => {
 
 exports.getItemInfo = async (req, res) => {
   try {
-    let result = await nftIteams.find({ status: 'verified' });
+    let result = await nftIteams.find({ status: 'verified' })
 
     return {
       message: 'data find successfully.',

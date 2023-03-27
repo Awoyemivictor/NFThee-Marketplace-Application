@@ -48,11 +48,11 @@ import {
 import { getUserAddress } from "../../Config/constants";
 
 const options = [
-  { label: "Mint", value: "mint" },
-  { label: "Transfer", value: "Transfer" },
-  { label: "Sale", value: "Sale" },
-  { label: "Cancel Listing", value: "Cancel Listing" },
-  { label: "Offer", value: "Offer", disabled: true },
+  { label: "Creation", value: 1 },
+  // { label: "Transfer", value: "Transfer" },
+  { label: "Bids", value: 2 },
+  // { label: "Cancel Listing", value: "Cancel Listing" },
+  // { label: "Offer", value: "Offer", disabled: true },
 ];
 // const mystyle = {
 //   display: "block",
@@ -71,7 +71,7 @@ const options = [
 function ExploreDetail() {
   const { id } = useParams();
   const history = useHistory();
-  console.log("id of /ExploreDetails", id);
+  // console.log("id of /ExploreDetails", id);
   const [selected, setSelected] = useState([]);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +106,7 @@ function ExploreDetail() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log("======>", openForBids);
+  // console.log("======>", openForBids);
 
   const handleTimedAuctionChange = (e) => {
     setTimedAuction({
@@ -144,12 +144,12 @@ function ExploreDetail() {
       .get(`/api/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
-        console.log(response.data, "<><><>><>><><><><><><><");
+        // console.log(response.data, "<><><>><>><><><><><><><");
         setNftData(response.data.data);
 
         setIsLoading(false);
         let name = response.data.data.chooseCollection;
-        console.log({ name });
+        // console.log({ name });
         instance.get(`/api/all?collection=${name}`).then((response) => {
           setShownList(response.data.data);
         });
@@ -176,7 +176,9 @@ function ExploreDetail() {
 
     await handlePriceConversion(priceOfNFT);
   }, [handlePriceConversion]);
+  // const [selected, setSelected] = useState([]);
 
+  
   // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
@@ -243,8 +245,8 @@ function ExploreDetail() {
       bidAmount,
       collectionContractAddress
     );
-    console.log(result);
-    console.log({ bidAmount });
+    // console.log(result);
+    // console.log({ bidAmount });
     let update = e.target.id;
     if (bidAmount != "" || undefined || null) {
       let bidData = {
@@ -297,7 +299,7 @@ function ExploreDetail() {
 
 
   const [itemEvent, setItemEvent] = useState([]);
-  const [itemPrice, setItemPrice] = useState([]);
+  const [itemList, setItemList] = useState([]);
   const [itemFrom, setItemFrom] = useState([]);
   const [itemDate, setItemDate] = useState([]);
 
@@ -370,9 +372,9 @@ function ExploreDetail() {
 
   const handleTokenDelisting = async () => {
     let collectionAddress = await getCollection(nftData.chooseCollection);
-    console.log(collectionAddress);
+    // console.log(collectionAddress);
     let result = await handleDeListToken(collectionAddress, nftData.tokenId);
-    console.log(result);
+    // console.log(result);
   };
 
   useEffect(() => {
@@ -387,18 +389,36 @@ function ExploreDetail() {
     return bid.bidder.hasOwnProperty("_id") && bid.bidder._id === userId._id;
   });
 
-  console.log({ fixedPrice }, { openForBids }, { timedAuction });
+  // console.log({ fixedPrice }, { openForBids }, { timedAuction });
   useEffect(() => {
     let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
       //  console.log('resItem',res.data.data[0].action))
-      const action = res.data.data.map((item) => item);
-      console.log("action", action);
-      setItemEvent(action);
+      // const action = res.data.data.map((item) => item);
+      // console.log("action", action);
+      setItemEvent(res.data.data);
     });
 
     //  .then((res)=>setItemActivity(res.data.data.action))
   }, []);
+  console.log({itemEvent})
+ 
+  
 
+
+  useEffect(() => {
+    let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
+      const action = res.data.data.map((item, index) => {
+        if (item.action === 'Creation') {
+          return {...item, index};
+        }
+        return item;
+      });
+      console.log("List", {action});
+      setItemList(action);
+    });
+  }, []);
+  
+  
   useEffect(() => {
     instance
       .post(`/api/fetchHistory?nftId=${id}`)
@@ -667,7 +687,8 @@ function ExploreDetail() {
                                 <div className="avatars">
                                   <div className="media">
                                     <img
-                                      src="/assets/images/avt-1.jpg"
+                                      src={nftData?.currentOwner?.profile_image ||
+                                        "/assets/images/avt-1.jpg"}
                                       alt=""
                                       className="avatar"
                                     />
@@ -701,7 +722,7 @@ function ExploreDetail() {
                                     </a>
                                   </div>
                                   <div className="ms-3">
-                                    <p className="text1">Collection By</p>
+                                    <p className="text1">Collection </p>
                                     <span className="text2">
                                       {nftData
                                         ? nftData.chooseCollection
@@ -744,7 +765,7 @@ function ExploreDetail() {
                               {t("product.about project")}
                             </button>
                           </li>
-                          <li className="nav-item" role="presentation">
+                          {/* <li className="nav-item" role="presentation">
                             <button
                               className="nav-link"
                               id="history-tab"
@@ -757,7 +778,7 @@ function ExploreDetail() {
                             >
                               History
                             </button>
-                          </li>
+                          </li> */}
                           <li className="nav-item" role="presentation">
                             <button
                               className="nav-link"
@@ -822,7 +843,8 @@ function ExploreDetail() {
                                         </div>
                                         <a href="#">
                                           <img
-                                            src="/assets/images/avt-1.jpg"
+                                            src={nftData?.currentOwner?.profile_image ||
+                                              "/assets/images/avt-1.jpg"}
                                             alt=""
                                             className="avatar"
                                           />
@@ -856,7 +878,7 @@ function ExploreDetail() {
                               <p className='para1'>{nftData ? nftData.about : 'lorem35'}</p>
                             </div>
                           </div>
-                          <div
+                          {/* <div
                             className="tab-pane fade"
                             id="history"
                             role="tabpanel"
@@ -875,7 +897,7 @@ function ExploreDetail() {
                               ))}
                             </div>
 
-                          </div>
+                          </div> */}
 
                           {/* WETHtoETH */}
                           {/* {nftData.putOnMarketplace.Bid_price &&nftData.currentOwner ===id? */}
@@ -1040,7 +1062,7 @@ function ExploreDetail() {
                                   <div className="pricing-detail">
                                     {/* <h4> {t("product.Highest Bid By")} Kohaku Tora</h4> */}
                                     <div className="d-flex align-items-center">
-                                      <span className="d-flex">
+                                      <span className="d-flex align-items-center">
                                         <a href="#" className="value1">
                                           <img
                                             src="/assets/images/icons/ethereum-big.png"
@@ -1053,11 +1075,13 @@ function ExploreDetail() {
                                               ?.Bid_price
                                             : ''}{' '}
                                           MATIC
-                                          <> $ {priceInUSD} </>
+                                           
                                         </a>
-
+                                      <h6 className="m-1 sc-fe5f9c83-0 mGAUR Price--fiat-amount Price--fiat-amount-secondary " style={{fontSize:'12px'}} tabindex="-1">${priceInUSD}</h6>
+                                       
                                         {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
                                       </span>
+                                       {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1527,17 +1551,49 @@ function ExploreDetail() {
                                 <tbody>
                                   <tr>
                                     <td>
-                                      <img
+                                      {itemList.map((event) => (
+                                              event.action === 'Creation' && (
+                                                 <p key={event}>
+                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                               <img
                                         src="/assets/images/icons/ethereum.png"
                                         alt=""
                                         className="me-1"
-                                      />{" "}
-                                      0.3 WETH
+                                      />
+                                               {event.price}WETH
+                                          </p>
+                                        )
+                                      ))}
                                     </td>
-                                    <td>$959.13</td>
-                                    <td>In 5 days</td>
+                                    {/* <td>$959.13</td> */}
+                                    <td>{itemList.map((event) => (
+                                              event.action === 'Creation' && (
+                                                 <p key={event}>
+                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              
+                                          <h6 style={{fontSize:'12px', marginRight: '5px' }} > ${priceInUSD} </h6>
+                                          </p>
+                                        )
+                                      ))}</td>
+                                    {/* <td>In 5 days</td> */}
+                                    <td>{itemList.map((event) => (
+                                              event.action === 'Creation' && (
+                                                 <p key={event}>
+                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                               {event.sCreated}
+                                          </p>
+                                        )
+                                      ))}</td>
                                     <td>
-                                      <a href="#">Shreepadgaonkar</a>
+                                      {/* <a href="#">Shreepadgaonkar</a> */}
+                                      {itemList.map((event) => (
+                                              event.action === 'Creation' && (
+                                                 <p key={event}>
+                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                               {event.from}
+                                          </p>
+                                        )
+                                      ))}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1729,12 +1785,13 @@ function ExploreDetail() {
                                       <MultiSelect
                                         options={options}
                                         value={selected}
+                                        // value={selected.length ? selected[0].action : ''}
                                         onChange={setSelected}
                                         labelledBy='Select'
                                       //  className="form-select"
                                       />
                                     </div>
-                                    <button className="btn btn-search">
+                                    <button className="btn btn-search" >
                                       Search
                                     </button>
                                   </div>
@@ -1757,7 +1814,7 @@ function ExploreDetail() {
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td>
+                                    <td >
                                       {/* <span className='d-flex align-items-center'> */}
                                       {/* <i className='bx bxs-purchase-tag me-1' />{' '} */}
                                       {/* </span>  */}

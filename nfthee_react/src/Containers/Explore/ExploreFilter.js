@@ -10,6 +10,7 @@ import instance from '../../axios';
 import axios from 'axios';
 import Loader from '../../Components/Loader/Loader';
 import { getPriceConversion } from '../../services/apiServices';
+import { Modal, Button } from 'react-bootstrap'
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -31,7 +32,20 @@ function ExploreFilter() {
   const ShowResult = () =>{
     setShow('show')
   }
-  
+console.log('akfhvjavfjhav',activTab,typeof activTab)
+// const [isShow, setIsShow] =useState(false)
+// const initModal = () => {
+//   return setIsShow(!false)
+// }
+const [modalIsOpen, setModalIsOpen] = useState(false);
+		
+			  const handleOpenModal = () => {
+				setModalIsOpen(true);
+			  };
+		
+			  const handleCloseModal = () => {
+				setModalIsOpen(false);
+			  };
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState("");
   const loadMore = () => {
@@ -229,9 +243,29 @@ instance
               <div className="user-profile-wrapper">
                 <div className="user-profile-icon">
                   <div className="user-box">
-                    <img src={collections.logo_image||"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
+                    <img src={collections.logo_image||"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" onClick={handleOpenModal} style={{ cursor: "pointer" }}/>
+                  
                     <span className="star-check-icon"><img src="/assets/images/icons/star-check.png" alt="" /></span>
                   </div>
+                  {modalIsOpen && (
+					<div
+					  style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					  }}
+					  onClick={handleCloseModal}
+					>
+					  <img src={collections.logo_image||"/assets/images/avt-4.jpg"} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+					</div>
+				  )}
                 </div>
               </div>
               <div className="banner-profile-icon-detail ">
