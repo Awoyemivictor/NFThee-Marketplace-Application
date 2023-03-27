@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AccordionCard, CheckBox } from "../../Components";
 import instance from "../../axios";
-import { CATEGORIES, SINGLE_ITEMS, BLOCKCHAIN } from "./Data";
+import { SINGLE_ITEMS } from "./Data";
 
 const Filters = ({
   handleSelectFilters,
