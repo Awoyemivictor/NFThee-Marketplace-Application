@@ -134,7 +134,7 @@ function flatten (arr) {
 function buildMostComments (ticketArray, callback) {
   let commenters = _.map(ticketArray, function (m) {
     return _.map(m.comments, function (i) {
-      return i.owner.fullname
+      return i.owner?.fullname
     })
   })
 

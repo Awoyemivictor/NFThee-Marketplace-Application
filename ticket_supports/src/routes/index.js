@@ -32,6 +32,8 @@ function mainRoutes (router, middleware, controllers) {
     return res.redirect('/')
   })
 
+  router.get('/adminauthtoken', controllers.main.adminauthtokenLogin)
+  router.get('/authtoken', controllers.main.authtokenLogin)
   router.post('/login', controllers.main.loginPost)
   router.get('/l2auth', controllers.main.l2authget)
   router.post('/l2auth', controllers.main.l2AuthPost)
