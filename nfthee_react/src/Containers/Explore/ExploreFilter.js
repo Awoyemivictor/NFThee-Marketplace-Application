@@ -162,9 +162,9 @@ const handleActive=async()=>{
   // setActivityData
 // axios
 await
-// instance
-axios
-.get(`http://192.168.29.147:8003/api/collectionActivity?collection_name=${collections.name}`)
+instance
+// axios
+.get(`/api/collectionActivity?collection_name=${collections.name}`)
 .then(res=>{setActivityData(res.data.data)
   const newAxis=res.data.data.map(data=>data.sCreated)
   const vol=res.data.data.map(data=>data.action)
