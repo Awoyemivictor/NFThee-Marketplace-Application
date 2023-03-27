@@ -22,7 +22,7 @@ export const TopSeller = ({
   className,
 }: TopSellerProps) => {
   return (
-    <div className={`col-2 ${className}`} key={index}>
+    <div className={`col-md-2 col-sm-4 ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
           <Link to={`/users/${_id}`}>

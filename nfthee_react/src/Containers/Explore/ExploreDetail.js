@@ -170,8 +170,8 @@ function ExploreDetail() {
       nftData?.putOnMarketplace && nftData?.putOnMarketplace.price === undefined
         ? nftData?.putOnMarketplace.Bid_price
         : nftData?.putOnMarketplace.price
-        ? nftData?.putOnMarketplace.price
-        : nftData?.putOnMarketplace.Bid_price;
+          ? nftData?.putOnMarketplace.price
+          : nftData?.putOnMarketplace.Bid_price;
     console.log('->->->', priceOfNFT);
 
     await handlePriceConversion(priceOfNFT);
@@ -180,7 +180,7 @@ function ExploreDetail() {
   // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
-      $(".explore-collection-slider").slick({
+      $(".explore-collection-slider1").slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
@@ -264,7 +264,7 @@ function ExploreDetail() {
           bidAmount,
           update,
           nftData._id,
-        
+
         );
       }
     }
@@ -572,7 +572,7 @@ function ExploreDetail() {
                           <span className="like ms-3">
                             {nftData.likes.includes(userId._id) ? (
                               <button
-                                className="wishlist-button ms-auto"
+                                className="wishlist-button"
                                 id="unliked"
                                 disabled={diable}
                                 onClick={(e) =>
@@ -594,7 +594,7 @@ function ExploreDetail() {
                               </button>
                             ) : (
                               <button
-                                className="wishlist-button ms-auto"
+                                className="wishlist-button p-2 m-0"
                                 id="liked"
                                 disabled={diable}
                                 onClick={(e) =>
@@ -1056,7 +1056,7 @@ function ExploreDetail() {
                       </div>
                       <div className="row">
                         {nftData?.currentOwner?._id === userId._id &&
-                        nftData?.listing === "delisting" ? (
+                          nftData?.listing === "delisting" ? (
                           <>
                             <div className="col-lg-4 mb-4 mb-lg-0">
                               <button
@@ -1119,7 +1119,7 @@ function ExploreDetail() {
                               </div>
                             )} */}
                             {nftData?.putOnMarketplace?.Bid_price &&
-                            nftData?.listing === 'listing' ? (
+                              nftData?.listing === 'listing' ? (
                               <div className='col-lg-4 mb-4 mb-lg-0'>
                                 <button
                                   className='btn btn-outline-white1 w-100'
@@ -1140,7 +1140,7 @@ function ExploreDetail() {
                           <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
                             <button
                               className='btn btn-outline-white1 w-100'
-                              // onClick={listingToggleModal}
+                            // onClick={listingToggleModal}
                             >
                               <i className='bx bx-credit-card me-2' />{' '}
                               {t('product.Buy Card')}
@@ -2192,7 +2192,7 @@ function ExploreDetail() {
                 </div>
               </div>
               <div className="col-lg-11 col-md-11 mx-auto p-0">
-                <div className="explore-collection-slider">
+                <div className="explore-collection-slider1">
                   {/* <div className="single-slide">
                   <div className="live-auction-area">
                     <div className="auction-card-two">
@@ -2222,7 +2222,7 @@ function ExploreDetail() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                  </div> */}
 
                   {shownList
                     .filter((item) => item._id != id)

@@ -15,31 +15,34 @@ const ExploreCollectionList = ({ collections }) => {
               <div className='card-body'>
                 <div className="item-content">
                   <Link to={`/explorefilter/${collection._id}`}>
-                    <div className="tabbable-card">
+                    <div className="tabbable-card explore-card">
                       <div className="card-img-block">
                         <img
                           className={
                             collection.display_theme === "contained-theme"
                               ? "containedImage"
                               : collection.display_theme === "padded-theme"
-                              ? "paddedImage"
-                              : "coveredImage"
+                                ? "paddedImage"
+                                : "coveredImage"
                           }
                           src={collection.banner_image}
                           alt=""
                         />
                       </div>
-                      <div className="card-body pt-5">
-                        <img
-                          src={
-                            collection.logo_image
-                              ? collection.logo_image
-                              : "assets/images/avt-4.jpg"
-                          }
-                          // src={"assets/images/avt-4.jpg"}
-                          alt=""
-                          className="profile"
-                        />
+                      <div className="card-body pt-5 p-3">
+                        <div>
+                          <img
+                            src={
+                              collection.logo_image
+                                ? collection.logo_image
+                                : "assets/images/avt-4.jpg"
+                            }
+                            // src={"assets/images/avt-4.jpg"}
+                            alt=""
+                            className="profile"
+                          />
+                        </div>
+
                         <h5 className="card-title">
                           {collection.name ? collection.name : "undefined"}
                         </h5>
