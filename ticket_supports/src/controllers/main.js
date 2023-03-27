@@ -189,6 +189,65 @@ mainController.loginPost = async function (req, res, next) {
   }
 }
 
+mainController.adminauthtokenLogin = async function (req, res, next) {
+  const queryGetUserData = req.query['user_detail'];
+  const secret = '123456'; // secret key for encryption
+  var decryptGet = await decryptObject(queryGetUserData, secret);
+  if (!decryptGet) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+
+  const decryptedObject = JSON.parse(decryptGet.trim()); // decrypts the string
+  if (!decryptedObject.username) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+  var username = decryptedObject?.username;   
+  console.log("decrypted", decryptedObject );
+
+  let ipAddress = req.ip
+
+  // var username = req.body.username;
+  if (process.env.USE_XFORWARDIP == 'true')
+    ipAddress = req.headers["x-forwarded-for"]
+
+  if (process.env.USE_USERRATELIMIT == 'true')
+    ipAddress = ipAddress + username
+
+  const [resEmailAndIP] = await Promise.all([limiterSlowBruteByIP.get(ipAddress)])
+
+  let retrySecs = 0
+  if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 2) {
+    retrySecs = Math.round(resEmailAndIP.msBeforeNext / 1000) || 1
+  }
+
+  if (retrySecs > 0) {
+    res.set('Retry-After', retrySecs.toString())
+    res.status(429).render('429', { timeout: retrySecs.toString(), layout: false })
+  } else { 
+    var userGet = await UserModel.findOne({
+      username: username.toLowerCase()
+    });
+
+    if (!userGet) {      
+      res.status(401).render('401', { message: "unauthrized"})
+    }
+    if (!(userGet.role.isAdmin)) {
+      res.status(401).render('401', { message: "unauthrized admin"})
+    }
+    req.logIn(userGet, function (err) {
+      if (err) {
+        winston.debug(err)
+        return next(err)
+      }
+      return res.redirect('/dashboard')
+    })
+  }
+}
+
 mainController.authtokenLogin = async function (req, res, next) {
   const queryGetUserData = req.query['user_detail'];
   const secret = '123456'; // secret key for encryption
@@ -259,6 +318,8 @@ mainController.authtokenLogin = async function (req, res, next) {
   }
 
 }
+
+
 mainController.l2AuthPost = function (req, res, next) {
   if (!req.user) {
     return res.redirect('/')
