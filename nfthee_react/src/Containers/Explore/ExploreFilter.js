@@ -10,6 +10,7 @@ import instance from '../../axios';
 import axios from 'axios';
 import Loader from '../../Components/Loader/Loader';
 import { getPriceConversion } from '../../services/apiServices';
+import { Modal, Button } from 'react-bootstrap'
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -21,12 +22,30 @@ function ExploreFilter() {
   const [like, setliked] = useState();
   const [activityData,setActivityData]=useState([])
   const [activTab,setActivetab]=useState('1')
+
+  const [xaxis,setxaxis]=useState()
+  const [avgPrice,setAvgPrice]=useState()
+  const [volume,setVolume]=useState()
+
+
   const { t } = useTranslation(); 
   const ShowResult = () =>{
     setShow('show')
   }
 console.log('akfhvjavfjhav',activTab,typeof activTab)
-  
+// const [isShow, setIsShow] =useState(false)
+// const initModal = () => {
+//   return setIsShow(!false)
+// }
+const [modalIsOpen, setModalIsOpen] = useState(false);
+		
+			  const handleOpenModal = () => {
+				setModalIsOpen(true);
+			  };
+		
+			  const handleCloseModal = () => {
+				setModalIsOpen(false);
+			  };
   const [noOfElement, setNoOfElement] = useState(8);
   const [message, setMessage] = useState("");
   const loadMore = () => {
@@ -107,7 +126,6 @@ console.log('akfhvjavfjhav',activTab,typeof activTab)
       .get(`${process.env.REACT_APP_BASE_URL}/api/createCollection/read?id=${id}`)
       .then((response) => {
         // setLoading(true);
-        console.log(response.data,"<><><>><>><><><><><><><");
         setCollections(response.data.data);
         setLoading(false);
       })
@@ -124,7 +142,6 @@ useEffect(async() => {
     await axios
       .get(`${process.env.REACT_APP_BASE_URL}/api/all?collection=${collections?.name}`)
       .then((response) => {
-        console.log("<>P<P<P>", response.data, `collection=${collections?.name}`);
         // if (response.data.data.length === 0) {
         //   axios
         //     .get(`${process.env.REACT_APP_BASE_URL}/api/all`)
@@ -154,19 +171,32 @@ useEffect(async() => {
   //     y.style.display = "block";
   //   }
   // }
+  let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
 const handleActive=async()=>{
   // setActivityData
 // axios
 await
-// instance
-axios
-.get(`http://192.168.29.147:8003/api/collectionActivity?collection_name=${collections.name}`)
-.then(res=>setActivityData(res.data.data))
+instance
+// axios
+.get(`/api/collectionActivity?collection_name=${collections.name}`)
+.then(res=>{setActivityData(res.data.data)
+  const newAxis=res.data.data.map(data=>data.sCreated)
+  const vol=res.data.data.map(data=>data.action)
+  const newprice=res.data.data.map(data=>data.price)
+  setxaxis(newAxis)
+  setAvgPrice(newprice)
+  setVolume(vol)
+  
+  
+})
 
+
+ 
+
+ 
 
 
 }
-
   return (
     <> 
     
@@ -213,9 +243,29 @@ axios
               <div className="user-profile-wrapper">
                 <div className="user-profile-icon">
                   <div className="user-box">
-                    <img src={collections.logo_image||"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" />
+                    <img src={collections.logo_image||"/assets/images/avt-4.jpg"} alt="" className="img-fluid user-img" onClick={handleOpenModal} style={{ cursor: "pointer" }}/>
+                  
                     <span className="star-check-icon"><img src="/assets/images/icons/star-check.png" alt="" /></span>
                   </div>
+                  {modalIsOpen && (
+					<div
+					  style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					  }}
+					  onClick={handleCloseModal}
+					>
+					  <img src={collections.logo_image||"/assets/images/avt-4.jpg"} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+					</div>
+				  )}
                 </div>
               </div>
               <div className="banner-profile-icon-detail ">
@@ -225,12 +275,12 @@ axios
                   <div className="explore-social-icon d-lg-flex d-none align-items-center justify-content-end">
                     <div className="border-end me-4 pe-4">
                       <ul>
-                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Url"   ><img src="/assets/images/icons/url.png" alt="url" /></a></li>
-                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Discord"  ><img src="/assets/images/icons/discord-icon.png" alt="discord" /></a></li>
-                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Twitter" ><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                        <li><a href={collections.url} className="icon-box"   data-toggle="tooltip" title="Instagram" ><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
-                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Youtube"  ><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
-                        <li><a href={collections.url} className="icon-box"  data-toggle="tooltip" title="Email"  ><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
+                        <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Url"   ><img src="/assets/images/icons/url.png" alt="url" /></a></li>
+                        <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Discord"  ><img src="/assets/images/icons/discord-icon.png" alt="discord" /></a></li>
+                        <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Twitter" ><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Instagram" ><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Youtube"  ><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
+                        <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Email"  ><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
                         </li>
                       </ul>
                     </div>
@@ -610,7 +660,7 @@ axios
                                                                        <ul>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>
-                                                                               <h6>76.5895</h6>
+                                                                               <h6>{Average}</h6>
                                                                            </li>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>
@@ -634,7 +684,8 @@ axios
                                                            <div className="row">
                                                                <div>
                                                                 {/*     <div id="chart2" /> */}
-                                                                <Apexcharts/>
+                                                                {volume&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={volume}/>:null}
+
                                                                </div>
                                                            </div>
                                                        </div>

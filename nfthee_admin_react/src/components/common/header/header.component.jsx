@@ -9,6 +9,12 @@ import {
   handleChangeServiceFees,
   getMarketplaceOwner,
 } from '../../../config/settterFunctions';
+import {
+  bscChain,
+  polyTest,
+  harmonyTest,
+  ethTest,
+} from '../../../config/allChains';
 
 const Header = () => {
   const [sidebar, setSidebar] = useState(true);
@@ -103,7 +109,7 @@ const Header = () => {
               src={require('../../../assets/images/light-logo.png')}
               alt=''
               className='image-light img-fluid'
-              style={{ width: '160px', height: '37px' }}
+              style={{ width: '200px', height: '37px' }}
             />
           </a>
         </div>
@@ -127,44 +133,83 @@ const Header = () => {
             <li>
               <Account />
             </li>
-           
-                <li className="onhover-dropdown">
+
+            <li className='onhover-dropdown'>
               <a onClick={serviceFees} className='text-dark' href='#javaScript'>
-                <img
+                {/* <img
                   className='align-self-center pull-right mr-2'
                   src={require('../../../assets/images/dashboard/browser.png')}
                   alt='header-browser'
+                /> */}
+                <img
+                  src={require('../../../assets/images/wallet/ethereum.png')}
+                  alt=""
                 />
-      
-      <ul className="profile-dropdown onhover-show-div p-20">
-        <li>
-          {/* <Link */}
-            {/* to={`${process.env.PUBLIC_URL}/applications/users/edit-profile`} */}
-          {/* > */}
-            <i className="icon-user"></i>
-            Demo 1
-          {/* </Link> */}
-        </li>
-        <li>
-          {/* <Link to={`${process.env.PUBLIC_URL}/applications/email-app`}> */}
-            <i className="icon-email"></i>
-           Demo 2
-          
-        </li>
-        {/* <li>
-          <Link to={`${process.env.PUBLIC_URL}/applications/todo-app`}>
-            <i className="icon-check-box"></i>
-            Task
-          </Link>
-        </li> */}
-        <li >
-          <i className="icon-power-off"></i>
-         Demo 3
-        </li>
-      </ul>
+
+                <ul className='profile-dropdown onhover-show-div p-10'>
+                  <li
+                    onClick={() => {
+                      ethTest();
+                    }}
+                  > 
+                  <img
+                  src={require('../../../assets/images/wallet/ethereum.png')}
+                  style={{ marginRight: '5px' }}
+                  alt="  "
+                />
+                    {/* <i className='icon-user'></i> */}
+                     Ethereum Testnet
+                  </li>
+                  <li
+                    onClick={() => {
+                      polyTest();
+                    }}
+                  >
+                     {/* <i className='icon-email' src={require('../../../assets/images/blockchainLogo/polygon (1).png')}>
+                    
+                   </i> */}
+                   <img
+                   src={require('../../../assets/images/wallet/polygon.png')}
+                   style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    Polygon Testnet
+                  </li>
+
+                  <li
+                    onClick={() => {
+                      bscChain();
+                    }}
+                  >
+                     <img
+                  src={require('../../../assets/images/wallet/binance.png')}
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    {/* <i
+                      className=''
+                      // src={require('../../../assets/blockchainLogo/binance.svg')}
+                    ></i> */}
+                    BSC Testnet
+                  </li>
+
+                  <li
+                    onClick={() => {
+                      harmonyTest();
+                    }}
+                  >
+                 <img
+                  src={require('../../../assets/images/wallet/harmony.png')}
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    {/* <i className='' src='assets/harmony-one-logo.png'></i> */}
+                    Harmony Testnet
+                  </li>
+                </ul>
               </a>
-    </li>
-      
+            </li>
+
             {/* <Language />
                             <Notification /> */}
             {/* <li onClick={ToogleRightSidebar}>

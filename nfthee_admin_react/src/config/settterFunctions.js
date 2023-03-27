@@ -107,16 +107,18 @@ export const handleChangeMarketplaceStatus = async () => {
   return marketplaceStatus.status;
 };
 
-export const handleSetRoyaltyUpperLimit = async () => {
+export const handleSetRoyaltyUpperLimit = async (royaltyValue) => {
   let marketplaceInstance = await exportInstance(
     contracts.polygonContracts.MARKETPLACE,
     Market.abi
   );
   //*value should be not less than 20
-  let royaltyUpeerLimit = await marketplaceInstance.updateRoyaltyUpperLimit();
-  if (royaltyUpeerLimit.status === 0) {
+  let royaltyUpperLimit = await marketplaceInstance.updateRoyaltyUpperLimit(
+    royaltyValue
+  );
+  if (royaltyUpperLimit.status === 0) {
     console.log('Transaction Failed');
   }
 
-  return royaltyUpeerLimit.status;
+  return royaltyUpperLimit.status;
 };
