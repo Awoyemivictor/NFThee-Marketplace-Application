@@ -109,7 +109,7 @@ const Header = () => {
               src={require('../../../assets/images/light-logo.png')}
               alt=''
               className='image-light img-fluid'
-              style={{ width: '160px', height: '37px' }}
+              style={{ width: '200px', height: '37px' }}
             />
           </a>
         </div>
@@ -136,27 +136,43 @@ const Header = () => {
 
             <li className='onhover-dropdown'>
               <a onClick={serviceFees} className='text-dark' href='#javaScript'>
-                <img
+                {/* <img
                   className='align-self-center pull-right mr-2'
                   src={require('../../../assets/images/dashboard/browser.png')}
                   alt='header-browser'
+                /> */}
+                <img
+                  src={require('../../../assets/images/wallet/ethereum.png')}
+                  alt=""
                 />
 
-                <ul className='profile-dropdown onhover-show-div p-20'>
+                <ul className='profile-dropdown onhover-show-div p-10'>
                   <li
                     onClick={() => {
                       ethTest();
                     }}
-                  >
-                    <i className='icon-user'></i>
-                    Ethereum Testnet
+                  > 
+                  <img
+                  src={require('../../../assets/images/wallet/ethereum.png')}
+                  style={{ marginRight: '5px' }}
+                  alt="  "
+                />
+                    {/* <i className='icon-user'></i> */}
+                     Ethereum Testnet
                   </li>
                   <li
                     onClick={() => {
                       polyTest();
                     }}
                   >
-                    <i className='icon-email'></i>
+                     {/* <i className='icon-email' src={require('../../../assets/images/blockchainLogo/polygon (1).png')}>
+                    
+                   </i> */}
+                   <img
+                   src={require('../../../assets/images/wallet/polygon.png')}
+                   style={{ marginRight: '5px' }}
+                  alt=""
+                />
                     Polygon Testnet
                   </li>
 
@@ -165,10 +181,15 @@ const Header = () => {
                       bscChain();
                     }}
                   >
-                    <i
+                     <img
+                  src={require('../../../assets/images/wallet/binance.png')}
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    {/* <i
                       className=''
                       // src={require('../../../assets/blockchainLogo/binance.svg')}
-                    ></i>
+                    ></i> */}
                     BSC Testnet
                   </li>
 
@@ -177,7 +198,12 @@ const Header = () => {
                       harmonyTest();
                     }}
                   >
-                    <i className='' src='assets/harmony-one-logo.png'></i>
+                 <img
+                  src={require('../../../assets/images/wallet/harmony.png')}
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    {/* <i className='' src='assets/harmony-one-logo.png'></i> */}
                     Harmony Testnet
                   </li>
                 </ul>

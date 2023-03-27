@@ -463,7 +463,7 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({_id, uploadFile,designation,title,likes, setliked,putOnMarketplace,created_by}) => {
+  export const FilterCard = ({_id, uploadFile,designation,title,likes, setliked,putOnMarketplace,currentOwner}) => {
     const { t } = useTranslation();
 
     const [diable, setDisaable] = useState(false);
@@ -497,7 +497,7 @@ const images = [
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {created_by?.user_name ? created_by?.user_name : '@Lorihart'}</span> </div>
+                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {currentOwner?.user_name ? currentOwner?.user_name : '@Lorihart'}</span> </div>
             <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media">
                        <img src={uploadFile} alt="" className="img-fluid" />
@@ -624,7 +624,7 @@ const images = [
     );
   };
 
-  export const SingleSlider = ({ _id,name,uploadFile,likes, bidInfo, putOnMarketplace,setliked}) => {
+  export const SingleSlider = ({ _id,name,uploadFile,likes, bidInfo, putOnMarketplace,setliked,currentOwner}) => {
     const { t } = useTranslation();
     const [diable, setDisaable] = useState(false);
     const data = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
@@ -654,19 +654,21 @@ const images = [
      <div className="live-auction-area">
             <div className="auction-card-two mb-4 ">
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {name}</span> </div>
+                    <div className="auction-create-by"> <img src={currentOwner.profile_image ||"/assets/images/img2.png"} alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {currentOwner.user_name ||"undefined"}</span> </div>
             <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media"> <img src={uploadFile} alt="" className="img-fluid" /> </div>
                         </Link>
                     <div className="card-title mb-2 pb-2">
-                        <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5>
+                        {/* <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5> */}
+                        <h5>{name}</h5>
+
                         {/* <h5>{t(`CreativeArtCollection.title`)}</h5> */}
                     </div>
                     <div className="meta-info m-t-24">
                         <div className="meta-info-wrapper">
                             <div className="bid-title mb-1"> <span>{bidInfo}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
+                                <h6> <img src="/assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
                             </div>
                         </div>
                          {/* <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}>

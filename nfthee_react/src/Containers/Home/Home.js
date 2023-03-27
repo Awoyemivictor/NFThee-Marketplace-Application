@@ -293,7 +293,7 @@ function Home(props) {
                           className="img-fluid"
                         />
                       </div>
-                      <div className="bid-detail-block">
+                      {/* <div className="bid-detail-block">
                         <h4>{t('CreativeArtCollection.Current Bid')}</h4>
                         <h5>
                           <img
@@ -303,7 +303,7 @@ function Home(props) {
                           />{' '}
                           2.59{' '}
                         </h5>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div
