@@ -24,7 +24,7 @@ export const TopSeller = ({
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
 
   return (
-    <div className={`col-2 ${className}`} key={index}>
+    <div className={`col-md-2 col-sm-4 ${className}`} key={index}>
       <div className="seller-author-box">
         <div className="author-avatar">
           <Link to={_id===ldata._id?`/profile`:`/users/${_id}`}><img src={profile_image||"/images/avt-2.jpg"} alt="" className="" /></Link>

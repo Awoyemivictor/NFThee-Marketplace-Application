@@ -70,6 +70,9 @@
   .seller-author-box .author-information h5 {
     font-size: 13px;
   }
+  .user-icon-box .user-avatar {
+    margin-left: 0 !important;
+  }
 }
 @media (min-width: 992px) {
   .banner-area .col-lg-4 {
