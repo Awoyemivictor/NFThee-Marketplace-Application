@@ -20,7 +20,7 @@ export default function MarketPlace() {
   const handletoggle=()=>{
 setTimeout(() => {
   instance
-  .post('http://192.168.29.147:8004/api/addToggle',{toggle:toggle?false:true})
+  .post('/api/addToggle',{toggle:toggle?false:true})
 }, 3000);
 
   }
@@ -36,7 +36,7 @@ setTimeout(() => {
   };
   
  useState(()=>{
-  instance.get('http://192.168.29.147:8004/api/getToggle')
+  instance.get('/api/getToggle')
   .then(res=>setToggle(res.data.data[0].toggleValue))
  })
   console.log("first",toggle)
