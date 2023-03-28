@@ -15,7 +15,7 @@ services:
     networks:
       - nfthee-network
 
-  nfthee-backend:    
+  nfthee-backend:
     build:
       context: ./nfthee_nodejs
       dockerfile: Dockerfile
