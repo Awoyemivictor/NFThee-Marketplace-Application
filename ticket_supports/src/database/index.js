@@ -4,11 +4,11 @@ const winston = require('../logger')
 
 const db = {}
 const mongoConnectionUri = {
-  server: process.env.TD_MONGODB_SERVER || nconf.get('mongo:host'),
+  server: process.env.TD_MONGODB_SERVER || nconf.get('mongo:host') || 'cluster0.dziv8sj.mongodb.net',
   port: process.env.TD_MONGODB_PORT || nconf.get('mongo:port'),
-  username: process.env.TD_MONGODB_USERNAME || nconf.get('mongo:username'),
-  password: process.env.TD_MONGODB_PASSWORD || nconf.get('mongo:password'),
-  database: process.env.TD_MONGODB_DATABASE || nconf.get('mongo:database'),
+  username: process.env.TD_MONGODB_USERNAME || nconf.get('mongo:username') || 'ln_dev',
+  password: process.env.TD_MONGODB_PASSWORD || nconf.get('mongo:password') || 'KGTsRBnOvAXGwO97',
+  database: process.env.TD_MONGODB_DATABASE || nconf.get('mongo:database') || 'support_ticket',
   shard: process.env.TD_MONGODB_SHARD || nconf.get('mongo:shard')
 }
  
