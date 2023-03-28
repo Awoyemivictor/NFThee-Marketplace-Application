@@ -664,3 +664,64 @@ export const ListingModal = ({
     </div>
   );
 };
+
+
+export const ModalReport = ({ onRequestClose }) => {
+
+
+  // Use useEffect to add an event listener to the document
+  useEffect(async() => {
+  
+    
+    function onKeyDown(event) {
+      onRequestClose();
+
+     
+    }
+
+    // Prevent scolling
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKeyDown);
+
+    // Clear things up when unmounting this component
+    return () => {
+      document.body.style.overflow = 'visible';
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  });
+// {( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}
+  return (
+    <div className='modal__backdrop'>
+      <div className='modal__container1'>
+        <div class='row'>
+          <div class='col-11'>
+            <h2 class='modal_title'>Report </h2>
+          </div>
+          <div class='col-1'>
+            <Link onClick={onRequestClose}>
+              <img src='/assets/images/icons/close.png' alt='' />
+            </Link>
+          </div>
+        </div>
+
+        <div className='card' style={{ border: 'none' }}>
+          <div className='card-body'>
+            <div className='  table-responsive'>
+             
+            </div>
+            <button
+              type='button'
+              href='#'
+              className='btn btn-violet edit-profile-btn ms-2 w-100'
+              // onClick={buyNFT}
+            >
+              Report
+            </button>
+          </div>
+        </div>
+
+     
+      </div>
+    </div>
+  );
+};

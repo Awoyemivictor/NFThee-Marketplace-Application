@@ -69,6 +69,16 @@ export const MENUITEMS = [
         type: 'link'
     },
     {
+        title: 'Report',
+        icon: 'desktop',
+        type: 'sub',
+        badgeType: 'primary',
+        badgeValue: 'new',
+        active: false,
+        path: `${process.env.PUBLIC_URL}/dashboard/reportdetail`,
+        type: 'link'
+    },
+    {
         title: 'Category',
         icon: 'desktop',
         type: 'sub',
