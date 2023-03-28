@@ -178,7 +178,7 @@ function ExploreDetail() {
   }, [handlePriceConversion]);
   // const [selected, setSelected] = useState([]);
 
-  
+
   // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
@@ -293,9 +293,9 @@ function ExploreDetail() {
   };
   const [fetchHistory, setFetchHistory] = useState([]);
 
-  const [xaxis,setxaxis]=useState()
-  const [avgPrice,setAvgPrice]=useState()
-  const [volume,setVolume]=useState()
+  const [xaxis, setxaxis] = useState()
+  const [avgPrice, setAvgPrice] = useState()
+  const [volume, setVolume] = useState()
 
 
   const [itemEvent, setItemEvent] = useState([]);
@@ -400,25 +400,25 @@ function ExploreDetail() {
 
     //  .then((res)=>setItemActivity(res.data.data.action))
   }, []);
-  console.log({itemEvent})
- 
-  
+  console.log({ itemEvent })
+
+
 
 
   useEffect(() => {
     let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
       const action = res.data.data.map((item, index) => {
         if (item.action === 'Creation') {
-          return {...item, index};
+          return { ...item, index };
         }
         return item;
       });
-      console.log("List", {action});
+      console.log("List", { action });
       setItemList(action);
     });
   }, []);
-  
-  
+
+
   useEffect(() => {
     instance
       .post(`/api/fetchHistory?nftId=${id}`)
@@ -427,9 +427,9 @@ function ExploreDetail() {
 
         const history = res.data.data.map((item) => item.message);
         setFetchHistory(history);
-        const newAxis=res.data.data.map(data=>data.sCreated)
-        const vol=res.data.data.map(data=>data.action)
-        const newprice=res.data.data.map(data=>data.price)
+        const newAxis = res.data.data.map(data => data.sCreated)
+        const vol = res.data.data.map(data => data.action)
+        const newprice = res.data.data.map(data => data.price)
         setxaxis(newAxis)
         setAvgPrice(newprice)
         setVolume(vol)
@@ -1075,13 +1075,13 @@ function ExploreDetail() {
                                               ?.Bid_price
                                             : ''}{' '}
                                           MATIC
-                                           
+
                                         </a>
-                                      <h6 className="m-1 sc-fe5f9c83-0 mGAUR Price--fiat-amount Price--fiat-amount-secondary " style={{fontSize:'12px'}} tabindex="-1">${priceInUSD}</h6>
-                                       
+                                        <h6 className="m-1 sc-fe5f9c83-0 mGAUR Price--fiat-amount Price--fiat-amount-secondary " style={{ fontSize: '12px' }} tabindex="-1">${priceInUSD}</h6>
+
                                         {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
                                       </span>
-                                       {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
+                                      {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1552,45 +1552,45 @@ function ExploreDetail() {
                                   <tr>
                                     <td>
                                       {itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               <img
-                                        src="/assets/images/icons/ethereum.png"
-                                        alt=""
-                                        className="me-1"
-                                      />
-                                               {event.price}WETH
+                                        event.action === 'Creation' && (
+                                          <p key={event}>
+                                            {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                            <img
+                                              src="/assets/images/icons/ethereum.png"
+                                              alt=""
+                                              className="me-1"
+                                            />
+                                            {event.price}WETH
                                           </p>
                                         )
                                       ))}
                                     </td>
                                     {/* <td>$959.13</td> */}
                                     <td>{itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                              
-                                          <h6 style={{fontSize:'12px', marginRight: '5px' }} > ${priceInUSD} </h6>
-                                          </p>
-                                        )
-                                      ))}</td>
+                                      event.action === 'Creation' && (
+                                        <p key={event}>
+                                          {/* <i className="bx bxs-purchase-tag me-1" /> */}
+
+                                          <h6 style={{ fontSize: '12px', marginRight: '5px' }} > ${priceInUSD} </h6>
+                                        </p>
+                                      )
+                                    ))}</td>
                                     {/* <td>In 5 days</td> */}
                                     <td>{itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               {event.sCreated}
-                                          </p>
-                                        )
-                                      ))}</td>
+                                      event.action === 'Creation' && (
+                                        <p key={event}>
+                                          {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                          {event.sCreated}
+                                        </p>
+                                      )
+                                    ))}</td>
                                     <td>
                                       {/* <a href="#">Shreepadgaonkar</a> */}
                                       {itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               {event.from}
+                                        event.action === 'Creation' && (
+                                          <p key={event}>
+                                            {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                            {event.from}
                                           </p>
                                         )
                                       ))}
@@ -1735,7 +1735,7 @@ function ExploreDetail() {
                             </div>
                             <div>
                               {/* <div id="chart" /> */}
-                              {volume&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={volume}/>:null}
+                              {volume && avgPrice && xaxis != undefined || null ? <Apexcharts xaxiss={xaxis} avgPrice={avgPrice} volume={volume} /> : null}
 
 
                             </div>
