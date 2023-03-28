@@ -8,7 +8,7 @@ const { credentials } = require("../../config").constantCredentials;
 
 exports.indexAll = async (req, res) => {
   try {
-    let result = await createCollection.find({});
+    let result = await createCollection.find({}).populate('currentOwner');
     if (result) {
       return {
         message: "All Create Collection Item Data Fetch.....",

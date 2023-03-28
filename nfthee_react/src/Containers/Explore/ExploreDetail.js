@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   // FilterCard,
   // filter_card,
   // AccordionCards,
   // cardData,
   SingleSlider,
-} from "./ExploreFilterData";
-import { NavLink, Link, useParams, useHistory } from "react-router-dom";
+} from './ExploreFilterData';
+import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
 import {
   ModalBuynft,
   ConvertModal,
   ListingModal,
-} from "../../Components/Layout/Modal";
+} from '../../Components/Layout/Modal';
 
-import { useTranslation } from "react-i18next";
-import Apexcharts from "../../Components/Apexcharts";
-import Loader from "../../Components/Loader/Loader";
-import $ from "jquery";
-import { MultiSelect } from "react-multi-select-component";
+import { useTranslation } from 'react-i18next';
+import Apexcharts from '../../Components/Apexcharts';
+import Loader from '../../Components/Loader/Loader';
+import $ from 'jquery';
+import { MultiSelect } from 'react-multi-select-component';
 import {
   acceptBid,
   fetchBid,
@@ -36,22 +36,22 @@ import { handleLikes } from '../../services/apiServices';
 import {
   wrapPaymentTokens,
   unwrapPaymentTokens,
-} from "../../Config/token-actions/wrap-token";
+} from '../../Config/token-actions/wrap-token';
 
 import {
   handleAcceptBid,
   handleDeListToken,
   handleWithdrawBidForToken,
   handleNFTBidListing,
-} from "../../Config/sendFunctions";
+} from '../../Config/sendFunctions';
 
 import { getUserAddress } from "../../Config/constants";
 import Swal from "sweetalert2";
 
 const options = [
-  { label: "Creation", value: 1 },
+  { label: 'Creation', value: 'Creation' },
   // { label: "Transfer", value: "Transfer" },
-  { label: "Bids", value: 2 },
+  { label: 'Bids', value: 'Bids' },
   // { label: "Cancel Listing", value: "Cancel Listing" },
   // { label: "Offer", value: "Offer", disabled: true },
 ];
@@ -79,17 +79,17 @@ function ExploreDetail() {
   const [isModalOpen, setModalIsOpen] = useState(false);
   const [convertModalOpen, setconvertModalIsOpen] = useState(false);
   const [listingModalOpen, setlistingModalIsOpen] = useState(false);
-  const userId = JSON.parse(localStorage.getItem("userLoggedIn")) || "";
+  const userId = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
   const [like, setliked] = useState();
   const [listing, setListing] = useState('0');
   const [priceInUSD, setPriceInUSD] = useState(0);
   const [report, setReport] = useState();
   const [openForBids, setOpenForBids] = useState({
-    Bid_price: "",
+    Bid_price: '',
   });
 
   const [fixedPrice, setFixedPrice] = useState({
-    price: "",
+    price: '',
   });
   const [timedAuction, setTimedAuction] = useState({
     minimumBid: 0,
@@ -177,6 +177,7 @@ instance
 
   }
   useEffect(async () => {
+    // console.log({selected},{options})
     handleBidData();
     await instance
       .get(`/api/read?id=${id}`)
@@ -218,17 +219,16 @@ instance
   }, [handlePriceConversion]);
   // const [selected, setSelected] = useState([]);
 
-  
   // console.log("exploreDetail",nftData)
   const collectionSlider = () => {
     $(document).ready(function () {
-      $(".explore-collection-slider1").slick({
+      $('.explore-collection-slider1').slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
         dots: false,
         arrows: true,
-        cssEase: "linear",
+        cssEase: 'linear',
         adaptiveHeight: true,
         prevArrow:
           '<button class="slide-arrow prev-arrow"><i class="ri-arrow-left-s-line"></i></button>',
@@ -288,15 +288,15 @@ instance
     // console.log(result);
     // console.log({ bidAmount });
     let update = e.target.id;
-    if (bidAmount != "" || undefined || null) {
+    if (bidAmount != '' || undefined || null) {
       let bidData = {
         bidder: userId._id,
         owner: nftData?.currentOwner?._id,
-        bid_status: "Bid",
+        bid_status: 'Bid',
         bid_price: bidAmount,
         nftId: id,
         bid_quantity: 1,
-        collectionName: nftData.chooseCollection
+        collectionName: nftData.chooseCollection,
       };
 
       const data = await createBid(bidData);
@@ -305,8 +305,7 @@ instance
           nftData?.currentOwner?._id,
           bidAmount,
           update,
-          nftData._id,
-
+          nftData._id
         );
       }
     }
@@ -319,8 +318,8 @@ instance
       id: userId._id,
       postId: collection,
     };
-    if (userId._id != "" || undefined) {
-      console.log("test==>>>>>if", requestBody, e.target.id);
+    if (userId._id != '' || undefined) {
+      console.log('test==>>>>>if', requestBody, e.target.id);
       const data = await handleLikes(requestBody, e.target.id, setDisaable);
       if (!data) {
         setDisaable(true);
@@ -333,20 +332,19 @@ instance
   };
   const [fetchHistory, setFetchHistory] = useState([]);
 
-  const [xaxis,setxaxis]=useState()
-  const [avgPrice,setAvgPrice]=useState()
-  const [volume,setVolume]=useState()
-
+  const [xaxis, setxaxis] = useState();
+  const [avgPrice, setAvgPrice] = useState();
+  const [volume, setVolume] = useState();
 
   const [itemEvent, setItemEvent] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [itemFrom, setItemFrom] = useState([]);
   const [itemDate, setItemDate] = useState([]);
 
-  const [activeTab, setActiveTab] = useState("0");
+  const [activeTab, setActiveTab] = useState('0');
   const [eth, setEth] = useState();
   const [wth, setWth] = useState();
-  const [contractAddress, setContractAddress] = useState("");
+  const [contractAddress, setContractAddress] = useState('');
 
   const handleEth = async (e) => {
     console.log({ eth }, { wth });
@@ -381,7 +379,7 @@ instance
       }
       console.log('result', { result });
     }
-    console.log("data.........................result...........", data);
+    console.log('data.........................result...........', data);
   };
 
   const withdrawTokenBid = async (bidid) => {
@@ -401,7 +399,7 @@ instance
   };
 
   const removeFromAuction = async () => {
-    console.log("Remove from auction");
+    console.log('Remove from auction');
     let collectionAddress = await getCollection(nftData.chooseCollection);
 
     let result = await handleWithdrawBidForToken(
@@ -416,17 +414,30 @@ instance
     let result = await handleDeListToken(collectionAddress, nftData.tokenId);
     // console.log(result);
   };
+  // search
+  const [search, setSearch] = React.useState('');
 
+  const handleSearch = (event) => {
+    // if (event.target.value="Creation"){
+    // setSearch(event.target.value);
+    // }
+    // if (event.target.value="Bids"){
+    //   setSearch(event.target.value);
+    //   }
+
+    setSearch(event.target.value);
+  };
+  // search end
   useEffect(() => {
     function openGraph(divId) {
-      $("#" + divId).toggle();
+      $('#' + divId).toggle();
     }
-    $(".graph-icon img").click(function () {
-      $(this).toggleClass("btnColor-pink");
+    $('.graph-icon img').click(function () {
+      $(this).toggleClass('btnColor-pink');
     });
   }, []);
   const hasBidder = bidData.some((bid) => {
-    return bid.bidder.hasOwnProperty("_id") && bid.bidder._id === userId._id;
+    return bid.bidder.hasOwnProperty('_id') && bid.bidder._id === userId._id;
   });
 
   // console.log({ fixedPrice }, { openForBids }, { timedAuction });
@@ -440,25 +451,21 @@ instance
 
     //  .then((res)=>setItemActivity(res.data.data.action))
   }, []);
-  console.log({itemEvent})
- 
-  
-
+  console.log({ itemEvent });
 
   useEffect(() => {
     let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
       const action = res.data.data.map((item, index) => {
         if (item.action === 'Creation') {
-          return {...item, index};
+          return { ...item, index };
         }
         return item;
       });
-      console.log("List", {action});
+      console.log('List', { action });
       setItemList(action);
     });
   }, []);
-  
-  
+
   useEffect(() => {
     instance
       .post(`/api/fetchHistory?nftId=${id}`)
@@ -467,15 +474,15 @@ instance
 
         const history = res.data.data.map((item) => item.message);
         setFetchHistory(history);
-        const newAxis=res.data.data.map(data=>data.sCreated)
-        const vol=res.data.data.map(data=>data.action)
-        const newprice=res.data.data.map(data=>data.price)
-        setxaxis(newAxis)
-        setAvgPrice(newprice)
-        setVolume(vol)
+        const newAxis = res.data.data.map((data) => data.sCreated);
+        const vol = res.data.data.map((data) => data.action);
+        const newprice = res.data.data.map((data) => data.price);
+        setxaxis(newAxis);
+        setAvgPrice(newprice);
+        setVolume(vol);
       })
       .catch((error) => {
-        console.error("Error fetching history", error);
+        console.error('Error fetching history', error);
       });
   }, []);
 
@@ -490,15 +497,15 @@ instance
               <div className="row mb-3">
                 <div className="col-lg-12 col-md-12">
                   <button
-                    className='rounded-pill'
+                    className="rounded-pill"
                     onClick={() => {
                       history.goBack();
                     }}
                   >
                     <span className="back-text">
-                      {" "}
+                      {' '}
                       <i className="ri-arrow-left-s-line" />
-                      {t("product.Back")}
+                      {t('product.Back')}
                     </span>
                   </button>
                 </div>
@@ -553,7 +560,7 @@ instance
                         <h3 className="heading-title mb-0">
                           {nftData
                             ? nftData.name
-                            : t("product.The Fantasy Flower Illustration")}
+                            : t('product.The Fantasy Flower Illustration')}
                         </h3>
                         <div className="user-more-detail">
                           <div className="explore-social-icon d-flex align-items-center">
@@ -562,16 +569,16 @@ instance
                                 <div className="user-more-detail">
                                   <div className="more">
                                     <div className="icon">
-                                      {" "}
+                                      {' '}
                                       <a href={`/exploredetail/${id}`}>
-                                        {" "}
+                                        {' '}
                                         <img
                                           src={
-                                            "/assets/images/icons/rotate.png"
+                                            '/assets/images/icons/rotate.png'
                                           }
                                           alt=""
-                                        />{" "}
-                                      </a>{" "}
+                                        />{' '}
+                                      </a>{' '}
                                     </div>
                                   </div>
                                 </div>
@@ -589,15 +596,15 @@ instance
                                       </a>
                                       <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                         <a className="dropdown-item" href="#">
-                                          {" "}
+                                          {' '}
                                           <span className="dropdown-icon">
                                             <img
                                               src={
-                                                "/assets/images/icons/share.png"
+                                                '/assets/images/icons/share.png'
                                               }
                                             />
-                                          </span>{" "}
-                                          {t("product.share")}{" "}
+                                          </span>{' '}
+                                          {t('product.share')}{' '}
                                         </a>
                                         <a type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal">
                                           
@@ -605,22 +612,22 @@ instance
                                           <span className="dropdown-icon">
                                             <img
                                               src={
-                                                "/assets/images/icons/report.png"
+                                                '/assets/images/icons/report.png'
                                               }
                                             />
-                                          </span>{" "}
-                                          {t("product.report")}{" "}
+                                          </span>{' '}
+                                          {t('product.report')}{' '}
                                         </a>
                                         <a className="dropdown-item" href="#">
-                                          {" "}
+                                          {' '}
                                           <span className="dropdown-icon">
                                             <img
                                               src={
-                                                "/assets/images/icons/home.png"
+                                                '/assets/images/icons/home.png'
                                               }
                                             />
-                                          </span>{" "}
-                                          {t("product.website")}{" "}
+                                          </span>{' '}
+                                          {t('product.website')}{' '}
                                         </a>
                                       </div>
                                     </div>
@@ -660,9 +667,9 @@ instance
                                   />
                                   {nftData.likes
                                     ? nftData.likes.length === 0
-                                      ? ""
+                                      ? ''
                                       : nftData.likes.length
-                                    : ""}
+                                    : ''}
                                 </span>
                               </button>
                             ) : (
@@ -682,9 +689,9 @@ instance
                                   />
                                   {nftData.likes
                                     ? nftData.likes.length === 0
-                                      ? ""
+                                      ? ''
                                       : nftData.likes.length
-                                    : ""}
+                                    : ''}
                                 </span>
                               </button>
                             )}
@@ -693,12 +700,12 @@ instance
                       </div>
                       <div className="mb-3 d-flex d-lg-block flex-wrap">
                         <a href="#" className="token-detail">
-                          <span>{t("product.Token id")} : </span>#
+                          <span>{t('product.Token id')} : </span>#
                           {nftData.tokenId}
                         </a>
                         <a href="#" className="token-detail ms-lg-3">
-                          <span>{t("product.Token standard")} : </span>
-                          {nftData.chooseType === "single" ? (
+                          <span>{t('product.Token standard')} : </span>
+                          {nftData.chooseType === 'single' ? (
                             <span>ERC721 </span>
                           ) : (
                             <span>ERC1155 </span>
@@ -707,16 +714,16 @@ instance
                         <a href="#" className="token-detail ms-lg-3">
                           <span>Contract: </span> Test
                           {/* {contractAddress.substring(0, 5)} */}
-                        </a>{" "}
+                        </a>{' '}
                         <br />
                         <a href="#" className="token-detail ">
-                          <span style={{ marginLeft: "0" }}>
-                            {t("product.Blockchain")} :{" "}
+                          <span style={{ marginLeft: '0' }}>
+                            {t('product.Blockchain')} :{' '}
                           </span>
-                          {nftData ? nftData.chooseBlockchain : "undefined"}
+                          {nftData ? nftData.chooseBlockchain : 'undefined'}
                         </a>
                         <a href="#" className="token-detail ms-lg-3">
-                          <span>Creator Royalties : </span>0.5 %{" "}
+                          <span>Creator Royalties : </span>0.5 %{' '}
                           <i class="las la-info-circle"></i>
                         </a>
                       </div>
@@ -728,8 +735,10 @@ instance
                                 <div className="avatars">
                                   <div className="media">
                                     <img
-                                      src={nftData?.currentOwner?.profile_image ||
-                                        "/assets/images/avt-1.jpg"}
+                                      src={
+                                        nftData?.currentOwner?.profile_image ||
+                                        '/assets/images/avt-1.jpg'
+                                      }
                                       alt=""
                                       className="avatar"
                                     />
@@ -738,7 +747,7 @@ instance
                                     <p className="text1">Owned By</p>
                                     <span className="text2">
                                       {nftData?.currentOwner?.user_name ||
-                                        "Abstract Paint"}
+                                        'Abstract Paint'}
                                     </span>
                                   </div>
                                 </div>
@@ -747,13 +756,13 @@ instance
                           </a>
                         </div>
 
-                        <div className='col-lg-5 col-md-5'>
-                          <a href='#'>
-                            <div className='creator-card'>
-                              <div className='card-body'>
-                                <div className='avatars align-items-start'>
-                                  <div className='media'>
-                                    <a href='#'>
+                        <div className="col-lg-5 col-md-5">
+                          <a href="#">
+                            <div className="creator-card">
+                              <div className="card-body">
+                                <div className="avatars align-items-start">
+                                  <div className="media">
+                                    <a href="#">
                                       {' '}
                                       <img
                                         src="/assets/images/icons/tezoz.png"
@@ -767,7 +776,7 @@ instance
                                     <span className="text2">
                                       {nftData
                                         ? nftData.chooseCollection
-                                        : "undefined"}
+                                        : 'undefined'}
                                     </span>
                                   </div>
                                 </div>
@@ -789,7 +798,7 @@ instance
                               aria-controls="home"
                               aria-selected="true"
                             >
-                              {t("product.Description")}
+                              {t('product.Description')}
                             </button>
                           </li>
                           <li className="nav-item" role="presentation">
@@ -803,7 +812,7 @@ instance
                               aria-controls="about"
                               aria-selected="false"
                             >
-                              {t("product.about project")}
+                              {t('product.about project')}
                             </button>
                           </li>
                           {/* <li className="nav-item" role="presentation">
@@ -831,7 +840,7 @@ instance
                               aria-controls="attribute"
                               aria-selected="false"
                             >
-                              {t("product.Attributes")}
+                              {t('product.Attributes')}
                             </button>
                           </li>
                           {nftData.putOnMarketplace.Bid_price ? (
@@ -847,11 +856,11 @@ instance
                                 aria-controls="Bid"
                                 aria-selected="false"
                               >
-                                {t("Bid")}
+                                {t('Bid')}
                               </button>
                             </li>
                           ) : (
-                            ""
+                            ''
                           )}
                         </ul>
 
@@ -869,14 +878,14 @@ instance
                               <p className="para1">
                                 {nftData
                                   ? nftData.designation
-                                  : t("product.detail_description")}
+                                  : t('product.detail_description')}
                               </p>
-                              <div className='col-lg-6 col-md-6 px-lg-0'>
-                                <div className='creator-card creator-card-two mb-lg-4'>
-                                  <div className='card-body'>
-                                    <div className='avatars '>
-                                      <div className='media'>
-                                        <div className='badge'>
+                              <div className="col-lg-6 col-md-6 px-lg-0">
+                                <div className="creator-card creator-card-two mb-lg-4">
+                                  <div className="card-body">
+                                    <div className="avatars ">
+                                      <div className="media">
+                                        <div className="badge">
                                           <img
                                             src="/assets/images/icons/star-check.png"
                                             alt=""
@@ -884,8 +893,11 @@ instance
                                         </div>
                                         <a href="#">
                                           <img
-                                            src={nftData?.currentOwner?.profile_image ||
-                                              "/assets/images/avt-1.jpg"}
+                                            src={
+                                              nftData?.currentOwner
+                                                ?.profile_image ||
+                                              '/assets/images/avt-1.jpg'
+                                            }
                                             alt=""
                                             className="avatar"
                                           />
@@ -893,15 +905,18 @@ instance
                                       </div>
                                       <div className="ms-3">
                                         <p className="text1">
-                                          {t("product.Minted By")}{" "}
+                                          {t('product.Minted By')}{' '}
                                           <span>
                                             {nftData?.currentOwner?.user_name
                                               ? nftData?.currentOwner?.user_name
-                                              : "HEROSTHENAME"}
+                                              : 'HEROSTHENAME'}
                                           </span>
                                         </p>
                                         <span className="text2">
-                                          3 hours ago
+                                          {/* 3 hours ago */}
+                                          {nftData?.timeSinceCreated
+                                            ? nftData?.timeSinceCreated
+                                            : '3 hours ago'}
                                         </span>
                                       </div>
                                     </div>
@@ -911,12 +926,15 @@ instance
                             </div>
                           </div>
                           <div
-                            className='tab-pane fade'
-                            id='about'
-                            role='tabpanel'
-                            aria-labelledby='about-tab'
-                          ><div className='card-body'>
-                              <p className='para1'>{nftData ? nftData.about : 'lorem35'}</p>
+                            className="tab-pane fade"
+                            id="about"
+                            role="tabpanel"
+                            aria-labelledby="about-tab"
+                          >
+                            <div className="card-body">
+                              <p className="para1">
+                                {nftData ? nftData.about : 'lorem35'}
+                              </p>
                             </div>
                           </div>
                           {/* <div
@@ -952,13 +970,13 @@ instance
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
                               .map((data, i) => (
-                                <div className='card-body'>
-                                  <div className='col-lg-6 col-md-6 px-lg-0'>
-                                    <div className='creator-card creator-card-two mb-lg-4'>
-                                      <div className='card-body' key={i}>
-                                        <div className='avatars align-items-start'>
-                                          <div className='media'>
-                                            <div className='badge'>
+                                <div className="card-body">
+                                  <div className="col-lg-6 col-md-6 px-lg-0">
+                                    <div className="creator-card creator-card-two mb-lg-4">
+                                      <div className="card-body" key={i}>
+                                        <div className="avatars align-items-start">
+                                          <div className="media">
+                                            <div className="badge">
                                               <img
                                                 src="/assets/images/icons/star-check.png"
                                                 alt=""
@@ -969,7 +987,7 @@ instance
                                                 src={
                                                   data?.bidder?.profile_image
                                                     ? data.bidder.profile_image
-                                                    : "/assets/images/avt-1.jpg"
+                                                    : '/assets/images/avt-1.jpg'
                                                 }
                                                 alt=""
                                                 className="avatar"
@@ -984,22 +1002,22 @@ instance
                                                     src="/assets/images/icons/ethereum-pink.png"
                                                     alt=""
                                                     className="me-1 eth-icon"
-                                                  />{" "}
+                                                  />{' '}
                                                   {data.bid_price
                                                     ? data.bid_price
-                                                    : ""}
+                                                    : ''}
                                                   WETH
                                                 </span>
                                                 &nbsp;&nbsp;
                                                 <span
-                                                  style={{ maxWidth: "175px" }}
+                                                  style={{ maxWidth: '175px' }}
                                                 >
                                                   {/* <br/> */}
                                                   &nbsp;&nbsp; Bided
-                                                  &nbsp;&nbsp;By&nbsp;&nbsp;{" "}
+                                                  &nbsp;&nbsp;By&nbsp;&nbsp;{' '}
                                                   {data?.bidder?.user_name
                                                     ? data?.bidder?.user_name
-                                                    : "HEROSTHENAME"}
+                                                    : 'HEROSTHENAME'}
                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </span>
                                                 {nftData?.currentOwner?._id ===
@@ -1020,8 +1038,8 @@ instance
                                                       Accept
                                                     </button>
                                                     <button
-                                                      type='button'
-                                                      class='btn btn-danger'
+                                                      type="button"
+                                                      class="btn btn-danger"
                                                       onClick={() =>
                                                         withdrawTokenBid(
                                                           data._id
@@ -1035,9 +1053,9 @@ instance
                                                 {data?.bidder?._id ===
                                                   userId._id ? (
                                                   <button
-                                                    type='button'
-                                                    id='Cancelled'
-                                                    class='btn btn-danger'
+                                                    type="button"
+                                                    id="Cancelled"
+                                                    class="btn btn-danger"
                                                     onClick={() =>
                                                       withdrawTokenBid(data._id)
                                                     }
@@ -1073,7 +1091,7 @@ instance
                                     <div className="card">
                                       <div className="card-body">
                                         <h3 className="card-title">
-                                          Attribute{" "}
+                                          Attribute{' '}
                                         </h3>
                                         <h4 className="card-text">
                                           Attribute Name:{attri.attrName}
@@ -1116,13 +1134,18 @@ instance
                                               ?.Bid_price
                                             : ''}{' '}
                                           MATIC
-                                           
                                         </a>
-                                      <h6 className="m-1 sc-fe5f9c83-0 mGAUR Price--fiat-amount Price--fiat-amount-secondary " style={{fontSize:'12px'}} tabindex="-1">${priceInUSD}</h6>
-                                       
+                                        <h6
+                                          className="m-1 sc-fe5f9c83-0 mGAUR Price--fiat-amount Price--fiat-amount-secondary "
+                                          style={{ fontSize: '12px' }}
+                                          tabindex="-1"
+                                        >
+                                          ${priceInUSD}
+                                        </h6>
+
                                         {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
                                       </span>
-                                       {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
+                                      {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1133,7 +1156,7 @@ instance
                       </div>
                       <div className="row">
                         {nftData?.currentOwner?._id === userId._id &&
-                          nftData?.listing === "delisting" ? (
+                          nftData?.listing === 'delisting' ? (
                           <>
                             <div className="col-lg-4 mb-4 mb-lg-0">
                               <button
@@ -1178,7 +1201,7 @@ instance
                                   onClick={toggleModal}
                                 >
                                   <i className="bx bxs-basket me-2" />
-                                  {t("product.Buy now")}
+                                  {t('product.Buy now')}
                                 </button>
                               </div>
                             )}
@@ -1197,13 +1220,13 @@ instance
                             )} */}
                             {nftData?.putOnMarketplace?.Bid_price &&
                               nftData?.listing === 'listing' ? (
-                              <div className='col-lg-4 mb-4 mb-lg-0'>
+                              <div className="col-lg-4 mb-4 mb-lg-0">
                                 <button
-                                  className='btn btn-outline-white1 w-100'
-                                  data-bs-toggle='modal'
-                                  data-bs-target='#makeOfferModal'
+                                  className="btn btn-outline-white1 w-100"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#makeOfferModal"
                                 >
-                                  <i className='bx bxs-purchase-tag me-2' />{' '}
+                                  <i className="bx bxs-purchase-tag me-2" />{' '}
                                   Make An Offer
                                 </button>
                               </div>
@@ -1214,12 +1237,12 @@ instance
                           </>
                         )}
                         {nftData?.listing === 'listing' ? (
-                          <div className='col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden'>
+                          <div className="col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden">
                             <button
-                              className='btn btn-outline-white1 w-100'
+                              className="btn btn-outline-white1 w-100"
                             // onClick={listingToggleModal}
                             >
-                              <i className='bx bx-credit-card me-2' />{' '}
+                              <i className="bx bx-credit-card me-2" />{' '}
                               {t('product.Buy Card')}
                             </button>
                           </div>
@@ -1231,8 +1254,8 @@ instance
                               className="btn btn-outline-white1 w-100"
                               onClick={convertToggleModal}
                             >
-                              <i className="bx bx-credit-card me-2" />{" "}
-                              {t("Convert")}
+                              <i className="bx bx-credit-card me-2" />{' '}
+                              {t('Convert')}
                             </button>
                           </div>
                         ) : null}
@@ -1249,7 +1272,7 @@ instance
                           <div className="modal-content">
                             <div className="modal-header text-center d-block">
                               <h5 className="modal-title d-inline-block">
-                                {t("product.Make an offer")}
+                                {t('product.Make an offer')}
                               </h5>
                               <button
                                 type="button"
@@ -1263,7 +1286,7 @@ instance
                             <div className="modal-body">
                               <div className="offer-price">
                                 <label htmlFor className="form-label">
-                                  {t("product.Price")}
+                                  {t('product.Price')}
                                 </label>
                                 <div className="input-group mb-3">
                                   <div className="input-group-prepend">
@@ -1272,14 +1295,14 @@ instance
                                         src="/assets/images/icons/ethereum-pink.png"
                                         alt=""
                                         className="me-1 eth-icon"
-                                      />{" "}
+                                      />{' '}
                                       WETH
                                     </span>
                                   </div>
                                   <input
                                     type="number"
                                     className="form-control"
-                                    placeholder={t("product.amount")}
+                                    placeholder={t('product.amount')}
                                     value={bidAmount}
                                     onChange={(e) =>
                                       setBidAmount(e.target.value)
@@ -1293,7 +1316,7 @@ instance
                                 </div>
                                 <div className="mt-2 text-end">
                                   <h6 className="balance-value">
-                                    {t("product.Balance")} :{" "}
+                                    {t('product.Balance')} :{' '}
                                     <span>0.000 WETH</span>
                                   </h6>
                                 </div>
@@ -1330,7 +1353,7 @@ instance
                                   id="update"
                                   onClick={handleBidAmount}
                                 >
-                                  {t("Update Offer")}
+                                  {t('Update Offer')}
                                 </button>
                               ) : (
                                 <button
@@ -1340,7 +1363,7 @@ instance
                                   aria-label="Close"
                                   onClick={handleBidAmount}
                                 >
-                                  {t("product.Make Offer")}
+                                  {t('product.Make Offer')}
                                 </button>
                               )}
 
@@ -1359,7 +1382,7 @@ instance
                                 data-bs-toggle="modal"
                                 data-bs-target="#convertEth"
                               >
-                                {t("product.Convert ETH")}
+                                {t('product.Convert ETH')}
                               </button>
                             </div>
 
@@ -1376,7 +1399,7 @@ instance
                                 <div className="modal-content">
                                   <div className="modal-header text-center d-block">
                                     <h5 className="modal-title d-inline-block">
-                                      {t("Convert ETH  ")}
+                                      {t('Convert ETH  ')}
                                     </h5>
                                     <button
                                       type="button"
@@ -1416,7 +1439,7 @@ instance
                                                 setActiveTab(e.target.value)
                                               }
                                             >
-                                              {t(" ETH to WETH")}
+                                              {t(' ETH to WETH')}
                                             </button>
                                           </li>
                                           <li
@@ -1437,7 +1460,7 @@ instance
                                                 setActiveTab(e.target.value)
                                               }
                                             >
-                                              {t("WETH to ETH")}
+                                              {t('WETH to ETH')}
                                             </button>
                                           </li>
                                         </ul>
@@ -1454,14 +1477,14 @@ instance
                                                   src="/assets/images/icons/ethereum-pink.png"
                                                   alt=""
                                                   className="me-1 eth-icon"
-                                                />{" "}
+                                                />{' '}
                                                 Eth
                                               </span>
                                             </div>
                                             <input
                                               type="number"
                                               className="form-control"
-                                              placeholder={t("Enter Amount")}
+                                              placeholder={t('Enter Amount')}
                                               value={eth}
                                               onChange={(e) =>
                                                 setEth(e.target.value)
@@ -1487,14 +1510,14 @@ instance
                                                   src="/assets/images/icons/ethereum-pink.png"
                                                   alt=""
                                                   className="me-1 eth-icon"
-                                                />{" "}
+                                                />{' '}
                                                 WETH
                                               </span>
                                             </div>
                                             <input
                                               type="number"
                                               className="form-control"
-                                              placeholder={t("Enter Amount")}
+                                              placeholder={t('Enter Amount')}
                                               value={wth}
                                               onChange={(e) =>
                                                 setWth(e.target.value)
@@ -1511,12 +1534,12 @@ instance
 
                                       <div className="mt-2 text-end">
                                         <h6 className="balance-value">
-                                          {t("product.Balance")} :{" "}
+                                          {t('product.Balance')} :{' '}
                                           <span>0.000 WETH</span>
                                         </h6>
                                       </div>
                                       <div className="modal-footer border-0">
-                                        {activeTab === "1" ? (
+                                        {activeTab === '1' ? (
                                           <button
                                             type="button"
                                             className="btn btn-violet shadow-none"
@@ -1524,7 +1547,7 @@ instance
                                             data-bs-dismiss="modal"
                                             onClick={handleEth}
                                           >
-                                            {t("Wrap")}
+                                            {t('Wrap')}
                                           </button>
                                         ) : (
                                           <button
@@ -1534,7 +1557,7 @@ instance
                                             data-bs-dismiss="modal"
                                             onClick={handleWth}
                                           >
-                                            {t("Unwrap")}
+                                            {t('Unwrap')}
                                           </button>
                                         )}
                                       </div>
@@ -1567,7 +1590,7 @@ instance
                             data-bs-target="#collapseOne"
                             aria-expanded="true"
                           >
-                            {t("product.Listing")}
+                            {t('product.Listing')}
                           </button>
                         </h2>
                         <div
@@ -1579,62 +1602,78 @@ instance
                               <table className="table table1">
                                 <thead>
                                   <tr>
-                                    <th scope="col">{t("product.Price")}</th>
+                                    <th scope="col">{t('product.Price')}</th>
                                     <th scope="col">
-                                      {t("product.USD Price")}
+                                      {t('product.USD Price')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Expiration")}
+                                      {t('product.Expiration')}
                                     </th>
-                                    <th scope="col">{t("product.from")}</th>
+                                    <th scope="col">{t('product.from')}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
                                     <td>
-                                      {itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               <img
-                                        src="/assets/images/icons/ethereum.png"
-                                        alt=""
-                                        className="me-1"
-                                      />
-                                               {event.price}WETH
-                                          </p>
-                                        )
-                                      ))}
+                                      {itemList.map(
+                                        (event) =>
+                                          event.action === 'Creation' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              <img
+                                                src="/assets/images/icons/ethereum.png"
+                                                alt=""
+                                                className="me-1"
+                                              />
+                                              {event.price}WETH
+                                            </p>
+                                          )
+                                      )}
                                     </td>
                                     {/* <td>$959.13</td> */}
-                                    <td>{itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                              
-                                          <h6 style={{fontSize:'12px', marginRight: '5px' }} > ${priceInUSD} </h6>
-                                          </p>
-                                        )
-                                      ))}</td>
+                                    <td>
+                                      {itemList.map(
+                                        (event) =>
+                                          event.action === 'Creation' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+
+                                              <h6
+                                                style={{
+                                                  fontSize: '12px',
+                                                  marginRight: '5px',
+                                                }}
+                                              >
+                                                {' '}
+                                                ${priceInUSD}{' '}
+                                              </h6>
+                                            </p>
+                                          )
+                                      )}
+                                    </td>
                                     {/* <td>In 5 days</td> */}
-                                    <td>{itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               {event.sCreated}
-                                          </p>
-                                        )
-                                      ))}</td>
+                                    <td>
+                                      {itemList.map(
+                                        (event) =>
+                                          event.action === 'Creation' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              {event.sCreated}
+                                            </p>
+                                          )
+                                      )}
+                                    </td>
                                     <td>
                                       {/* <a href="#">Shreepadgaonkar</a> */}
-                                      {itemList.map((event) => (
-                                              event.action === 'Creation' && (
-                                                 <p key={event}>
-                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                               {event.from}
-                                          </p>
-                                        )
-                                      ))}
+                                      {itemList.map(
+                                        (event) =>
+                                          event.action === 'Creation' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              {event.from}
+                                            </p>
+                                          )
+                                      )}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1658,7 +1697,7 @@ instance
                             data-bs-target="#collapseTwo"
                             aria-expanded="true"
                           >
-                            {t("product.Offering")}
+                            {t('product.Offering')}
                           </button>
                         </h2>
                         <div
@@ -1670,17 +1709,17 @@ instance
                               <table className="table table2">
                                 <thead>
                                   <tr>
-                                    <th scope="col">{t("product.Price")}</th>
+                                    <th scope="col">{t('product.Price')}</th>
                                     <th scope="col">
-                                      {t("product.USD Price")}
+                                      {t('product.USD Price')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Floor Difference")}
+                                      {t('product.Floor Difference')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Expiration")}
+                                      {t('product.Expiration')}
                                     </th>
-                                    <th scope="col">{t("product.from")}</th>
+                                    <th scope="col">{t('product.from')}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1690,7 +1729,7 @@ instance
                                         src="/assets/images/icons/ethereum.png"
                                         alt=""
                                         className="me-1"
-                                      />{" "}
+                                      />{' '}
                                       0.3 WETH
                                     </td>
                                     <td>$959.13</td>
@@ -1737,21 +1776,21 @@ instance
                                 <thead>
                                   <tr>
                                     <th scope="col">
-                                      {t("product.Lowest Listing")}
+                                      {t('product.Lowest Listing')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Suggested Price")}
+                                      {t('product.Suggested Price')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Highest Sale")}
+                                      {t('product.Highest Sale')}
                                     </th>
                                     <th scope="col">
-                                      {t("product.Total Sales")}
+                                      {t('product.Total Sales')}
                                     </th>
                                     <th scope="col">
                                       <select
                                         className="form-select"
-                                        style={{ width: "108px" }}
+                                        style={{ width: '108px' }}
                                       >
                                         <option selected>All Time</option>
                                         <option value={1}>One</option>
@@ -1776,9 +1815,14 @@ instance
                             </div>
                             <div>
                               {/* <div id="chart" /> */}
-                              {volume&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={volume}/>:null}
-
-
+                              {(volume && avgPrice && xaxis != undefined) ||
+                                null ? (
+                                <Apexcharts
+                                  xaxiss={xaxis}
+                                  avgPrice={avgPrice}
+                                  volume={volume}
+                                />
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -1798,7 +1842,7 @@ instance
                             data-bs-target="#collapseFour"
                             aria-expanded="true"
                           >
-                            {t("product.Item Activity")}
+                            {t('product.Item Activity')}
                           </button>
                         </h2>
                         <div
@@ -1810,7 +1854,7 @@ instance
                               <div className="row align-items-center">
                                 <div className="col-lg-2 col-md-2">
                                   <h3 className="filter-label">
-                                    {t("product.Filter By")}
+                                    {t('product.Filter By')}
                                   </h3>
                                 </div>
                                 <div className="col-lg-10 col-md-10">
@@ -1823,16 +1867,37 @@ instance
                                   </select> */}
                                     {/* <pre>{JSON.stringify(selected)}</pre> */}
                                     <div className="w-75">
-                                      <MultiSelect
+                                      {/* <MultiSelect
                                         options={options}
                                         value={selected}
                                         // value={selected.length ? selected[0].action : ''}
                                         onChange={setSelected}
+                                        // onChange={(e)=>setSelected(e.target.value)}
                                         labelledBy='Select'
+                                        
+                                         isSearchable
                                       //  className="form-select"
-                                      />
+                                      /> */}
+
+                                      <span className="fa fa-search search-icon"></span>
+                                      <select
+                                        id="search"
+                                        className="form-control"
+                                        onChange={handleSearch}
+                                        style={{ width: '400px' }}
+                                      >
+                                        <option value="">
+                                          Select an option
+                                        </option>
+                                        {/* <option value="Option 1">Option 1</option> */}
+                                        <option value="Creation">
+                                          Creation
+                                        </option>
+                                        <option value="Bids">Bids</option>
+                                      </select>
+                                      {/* </label> */}
                                     </div>
-                                    <button className="btn btn-search" >
+                                    <button className="btn btn-search">
                                       Search
                                     </button>
                                   </div>
@@ -1841,88 +1906,56 @@ instance
                             </div>
                             <div
                               className="table-responsive"
-                              style={{ overflowY: "hidden" }}
+                              style={{ overflowY: 'hidden' }}
                             >
                               <table className="table table4">
                                 <thead>
                                   <tr>
                                     <th scope="col">Event</th>
-                                    <th scope="col">{t("product.Price")}</th>
-                                    <th scope="col">{t("product.from")}</th>
+                                    <th scope="col">{t('product.Price')}</th>
+                                    <th scope="col">{t('product.from')}</th>
                                     <th scope="col">To</th>
                                     <th scope="col">Date</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td >
-                                      {/* <span className='d-flex align-items-center'> */}
-                                      {/* <i className='bx bxs-purchase-tag me-1' />{' '} */}
-                                      {/* </span>  */}
-                                      {itemEvent.map((event) => (
-                                        <p key={event}>
-                                          <i className="bx bxs-purchase-tag me-1" />
-                                          {event.action}
-                                        </p>
-                                      ))}
-                                    </td>
-                                    {/* <td>
-                                    <span className='d-flex align-items-center'>
-                                      <i className='bx bxs-purchase-tag me-1' />{' '}
-                                      list
-                                    </span> 
-                                     {itemEvent.map((event) => (
-                                    <p key={event}>{event.bid_price}</p>
-                                    ))}
-                                  </td> */}
-                                    <td>
-                                      {itemEvent.map((event) => (
-                                        <p key={event}>
+                                  {/* {itemEvent.map((event) => ( */}
+                                  {itemEvent
+                                    .filter((item) =>
+                                      item.action.includes(search)
+                                    )
+                                    .map((event) => (
+                                      <tr key={event}>
+                                        <td>{event.action}</td>
+
+                                        {event.bid_price}
+                                        <td>
                                           <img
                                             src="/assets/images/icons/ethereum.png"
                                             alt=""
                                             className="me-1"
                                           />
                                           {event.price}
-                                        </p>
-                                      ))}
-                                      {/* $959.13 */}
-                                    </td>
-                                    <td>
-                                      {/* <a href='#'> */}
-                                      {itemEvent.map((event) => (
-                                        <p key={event}>{event.from}</p>
-                                      ))}
-                                      {/* </a> */}
-                                    </td>
-                                    <td>
-                                      <a href="#"></a>
-                                    </td>
-                                    <td>
-                                      {/* <a href='#' className='tooltip-wrapper'> */}
-                                      {/* <img
-                                          src='/assets/images/icons/share-blue-icon.png'
-                                          alt=''
-                                          className='me-1'
-                                        />{' '} */}
-                                      {/* 2 Days Ago */}
-                                      {itemEvent.map((event) => (
-                                        <p key={event}>
-                                          {" "}
-                                          <img
-                                            src="/assets/images/icons/share-blue-icon.png"
-                                            alt=""
-                                            className="me-1"
-                                          />{" "}
-                                          {event.sCreated}
-                                        </p>
-                                      ))}
-                                      {/* <span className='tooltip'>
-                                          March 22 2021, 5:10 Pm
-                                        </span> */}
-                                      {/* </a> */}
-                                    </td>
-                                  </tr>
+                                        </td>
+                                        <td>
+                                          <a href="#">{event.from}</a>
+                                        </td>
+                                        <td>{/* <a href="#"></a> */}</td>
+                                        <td>
+                                          <a
+                                            href="#"
+                                            className="tooltip-wrapper"
+                                          >
+                                            <img
+                                              src="/assets/images/icons/share-blue-icon.png"
+                                              alt=""
+                                              className="me-1"
+                                            />{' '}
+                                            {event.timeSinceCreated}
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    ))}
                                   {/* </tr>
                                   <tr>
                                     <td>
@@ -2292,7 +2325,7 @@ instance
               <div className="section-heading text-center mb-4">
                 <div>
                   <h2 className="section-title mb-1">
-                    {t("product.More from this collection")}
+                    {t('product.More from this collection')}
                   </h2>
                   <span>
                     <img

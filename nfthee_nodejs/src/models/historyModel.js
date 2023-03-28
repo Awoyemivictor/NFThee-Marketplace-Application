@@ -40,6 +40,32 @@ const historySchema = new Schema(
       default: Date.now,
     },
 
-  })
-
+  },
+  { toJSON: { virtuals: true } })
+  historySchema.virtual('timeSinceCreated').get(function() {
+    const now = new Date();
+    const diff = now - this.sCreated;
+    const diffInSeconds = Math.round(diff / 1000);
+  
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} seconds ago`;
+    }
+  
+    const diffInMinutes = Math.round(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} minutes ago`;
+    }
+  
+    const diffInHours = Math.round(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours} hours ago`;
+    }
+  
+    const diffInDays = Math.round(diffInHours / 24);
+    if (diffInDays < 7) {
+      return `${diffInDays} days ago`;
+    }
+  
+    return this.sCreated.toLocaleDateString();
+  });
 module.exports = mongoose.model('historymodel', historySchema);
