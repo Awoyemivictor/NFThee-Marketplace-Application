@@ -46,6 +46,7 @@ import {
 } from "../../Config/sendFunctions";
 
 import { getUserAddress } from "../../Config/constants";
+import Swal from "sweetalert2";
 
 const options = [
   { label: "Creation", value: 1 },
@@ -82,6 +83,7 @@ function ExploreDetail() {
   const [like, setliked] = useState();
   const [listing, setListing] = useState('0');
   const [priceInUSD, setPriceInUSD] = useState(0);
+  const [report, setReport] = useState();
   const [openForBids, setOpenForBids] = useState({
     Bid_price: "",
   });
@@ -114,7 +116,12 @@ function ExploreDetail() {
       [e.target.name]: e.target.value,
     });
   };
-
+  const handleReportData = (e) => {
+    setReport({
+      ...report,
+      [e.target.name]: e.target.value,
+    });
+  };
   const toggleModal = () => {
     setModalIsOpen(!isModalOpen);
   };
@@ -138,6 +145,37 @@ function ExploreDetail() {
     setBidData(data.data);
   };
 
+  const submitReport=(e)=>{
+e.preventDefault()
+const formData = new FormData();
+if(report.action){
+  formData.append("action", report.action);
+}
+if(report.report_issue){
+  formData.append("report_issue", report.report.report_issue);
+}
+formData.append("nftId", id);
+formData.append("userId", userId._id);
+
+instance
+.post(`/api/insertReport`, formData)
+.then((response) => {
+  if (response.status === 200) {
+    Swal.fire({
+      icon: "success",
+      title: "Reported Successfully",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  }
+  
+
+})
+.catch((error) => {
+  console.error(error);
+});
+
+  }
   useEffect(async () => {
     handleBidData();
     await instance
@@ -164,6 +202,8 @@ function ExploreDetail() {
     let convertToUSD = (parseFloat(result) * parseFloat(nftPrice)).toFixed(5);
     setPriceInUSD(convertToUSD);
   };
+
+
 
   useEffect(async () => {
     let priceOfNFT =
@@ -559,7 +599,8 @@ function ExploreDetail() {
                                           </span>{" "}
                                           {t("product.share")}{" "}
                                         </a>
-                                        <a className="dropdown-item" href="#">
+                                        <a type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                          
                                           {" "}
                                           <span className="dropdown-icon">
                                             <img
@@ -604,7 +645,7 @@ function ExploreDetail() {
                           <span className="like ms-3">
                             {nftData.likes.includes(userId._id) ? (
                               <button
-                                className="wishlist-button"
+                                className="wishlist-button p-2 m-0"
                                 id="unliked"
                                 disabled={diable}
                                 onClick={(e) =>
@@ -2294,7 +2335,42 @@ function ExploreDetail() {
                     </div>
                   </div>
                   </div> */}
-
+{/* <!-- Button trigger modal --> */}
+{/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+  Launch demo modal
+</button> */}
+{/* 
+<!-- Modal --> */}
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form onSubmit={submitReport}>
+          <div class="mb-3">
+          <select class="form-select" name="action" onChange={handleReportData} aria-label="Default select example">
+  <option disabled selected>Select</option>
+  <option value="Fake Collection">Fake Collection Or possible scam</option>
+  <option value="Explict">Explict and sensitive content</option>
+  <option value="Spam">Spam</option>
+  <option value="Other">Other</option>
+</select>
+          </div>
+         {report?.action==="Other"? <div class="mb-3">
+            <label for="message-text" class="col-form-label">Issue:</label>
+            <textarea name="report_issue" class="form-control" id="message-text"></textarea>
+          </div>:null}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Report</button>
+      </div>
+    </div>
+  </div>
+</div>
                   {shownList
                     .filter((item) => item._id != id)
                     .map((item, index) => {

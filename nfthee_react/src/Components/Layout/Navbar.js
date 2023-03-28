@@ -67,7 +67,7 @@ export const loginTicket = async () => {
   window.location.href = "http://127.0.0.1:8118/authtoken?token=" + token + "&user_detail="+encryptedObject;
   return;
 };
-export const Navbar = ({ checkChanges, setChanges }) => {
+export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
   const [token, setToken] = useState('');
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem('TokenData'));
@@ -319,6 +319,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                   <input
                     type='text'
                     name='str'
+                    disabled={toggle}
                     value={serachTextNav}
                     onChange={(e) =>
                       setSerachTextNav(

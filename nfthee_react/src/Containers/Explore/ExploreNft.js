@@ -87,19 +87,37 @@ console.log(checked,j,e.target.name,name,"expolorenft")
   const handleSortClick = () => {
     switch (sortBy) {
       case "name A-Z":
-        console.info("A-Z");
+       let a= [...filteredData].sort((a, b) =>
+       a.name > b.name ? 1 : -1,
+     );
+     setFilteredData(a)
+     
         break;
 
       case "name Z-A":
-        console.info("Z-A");
+       let b= [...filteredData].sort((a, b) =>
+        a.name > b.name ? -1 : 1,
+      );
+      setFilteredData(b)
         break;
 
       case "price-low":
-        console.info("Low - High");
+        let sortedData = [...filteredData].sort((a, b) => {
+          let priceA = parseFloat(a.putOnMarketplace.price || a.putOnMarketplace.bid_price);
+          let priceB = parseFloat(b.putOnMarketplace.price || b.putOnMarketplace.bid_price);
+          return priceA - priceB;
+        });
+        
+        setFilteredData(sortedData);
+        
+        
+        
+        
         break;
 
       case "price-high":
-        console.info("High - Low");
+       let d= [...filteredData].sort((a, b) => b.id - a.id)
+       setFilteredData(d)
         break;
     }
   };

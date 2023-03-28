@@ -21,7 +21,7 @@ function TopCategories() {
     dispatch(setFavorite(collection))
   }
 
-  console.info(collections)
+  console.info({collections})
   console.info(favoriteStore)
 
 
@@ -39,9 +39,9 @@ function TopCategories() {
                         <div className="author">
                           <div className="author-box">
                             <div className="author-avatar">
-                              <img src="images/avt-1.jpg" alt="" className="avatar" />
+                              <img src={collection.currentOwner.profile_image?collection.currentOwner.profile_image:"/images/avt-1.jpg"} alt="" className="avatar" />
                               <div className="badge">
-                                <img src="images/icons/star-check.png" alt="" />
+                                <img src="/images/icons/star-check.png" alt="" />
                               </div>
                             </div>
                           </div>
@@ -51,7 +51,7 @@ function TopCategories() {
                             </a>
                             <div className="info">
                               <span className="info-text-1">{t("CreativeArtCollection.Created By")}</ span>
-                              <span className="info-text-2">{collection.user ? collection.user.first_name : "undefined"} {collection.user?.last_name}</span>
+                              <span className="info-text-2">{collection.currentOwner.user_name ? collection.currentOwner.user_name : "undefined"}</span>
                             </div>
                           </div>
                         </div>

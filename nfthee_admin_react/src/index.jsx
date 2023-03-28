@@ -52,7 +52,9 @@ import SingleUser from "./components/dashboard/otherusers/usersSingle";
 //projects
 import Projects from "./components/dashboard/projects/index.projects";
 import SingleProject from "./components/dashboard/projects/projectSingle";
-
+//report
+import ReportDetail from "./components/dashboard/report/report-details";
+import VeiwReport from "./components/dashboard/report/viewReport";
 //market place
 import MarketPlace from "./components/dashboard/marketplace/index.marketplace";
 // import View from "./components/dashboard/view/CreateItemDetail";
@@ -404,6 +406,11 @@ const Root = () => {
                 component={CategoryD}
               />
 
+                <Route
+                exact
+                path={`/dashboard/reportdetail`}
+                component={ReportDetail}
+              />
               <Route
                 exact
                 path={`/dashboard/suggestiondetails`}
@@ -438,6 +445,11 @@ const Root = () => {
                 exact
                 path={`/dashboard/viewSuggestion`}
                 component={ViewSuggestion}
+              />
+                <Route
+                exact
+                path={`/dashboard/viewReport`}
+                component={VeiwReport}
               />
 
               <Route path={`/dashboard/ecommerce`} component={Ecommerce} />

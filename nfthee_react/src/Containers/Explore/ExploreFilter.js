@@ -171,7 +171,7 @@ useEffect(async() => {
   //     y.style.display = "block";
   //   }
   // }
-  let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
+  // let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
 const handleActive=async()=>{
   // setActivityData
 // axios
@@ -660,7 +660,7 @@ instance
                                                                        <ul>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>
-                                                                               <h6>{Average}</h6>
+                                                                               {/* <h6>{Average}</h6> */}
                                                                            </li>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>

@@ -22,6 +22,7 @@ export default function Otheruser() {
   
     },[loading  ])
 
+    console.log('user',data)
     const columns = [
   //     {
   //       name: "Icon",
