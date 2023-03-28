@@ -246,7 +246,7 @@ setPriceCon(result)
                                                    <td>1</td>
                                                    <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
                                                    <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
-                                                   <td> <a href="#">{data?.sCreated} seconds ago <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                         )
                       })}

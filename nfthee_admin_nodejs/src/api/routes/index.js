@@ -11,4 +11,6 @@ module.exports = (app) => {
     app.use(apiV1Prefix, require('./partnerRoute'))
     app.use(apiV1Prefix, require('./blockchainRoute'))
     app.use(apiV1Prefix,require('./airdropRoute'))
+    app.use(apiV1Prefix,require('./searchRoutes'))
+
 }

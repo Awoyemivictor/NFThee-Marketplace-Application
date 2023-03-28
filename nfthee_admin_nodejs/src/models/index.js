@@ -7,3 +7,4 @@ exports.suggestionModel = require('./suggestionModel');
 exports.partnerModel = require('./partnerModel');
 exports.blockchainModel = require('./blockchainModel');
 exports.signupModel = require('./signupModel');
+exports.searchModel = require('./searchModel');
