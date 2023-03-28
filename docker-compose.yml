@@ -1,0 +1,69 @@
+version: '3.0'
+
+services:
+  nfthee-frontend:
+    build: ./nfthee_react
+    container_name: nfthee-react-frontend
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-backend
+    networks:
+      - nfthee-network
+
+  nfthee-backend:
+    build: ./nfthee_nodejs
+    container_name: nfthee-node-backend
+    restart: always
+    ports:
+      - '8002:8003'
+    networks:
+      - nfthee-network
+
+  nfthee-admin-frontend:
+    build: ./nfthee_admin_react
+    container_name: nfthee-react-admin-frontend
+    ports:
+      - '3000:3002'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-admin-backend
+    networks:
+      - nfthee-network
+
+  nfthee-admin-backend:
+    build: ./nfthee_admin_nodejs
+    container_name: nfthee-node-admin-backend
+    restart: always
+    ports:
+      - '8004:8005'
+    networks:
+      - nfthee-network
+
+  nfthee-community-frontend:
+    build: ./commuinty/client
+    container_name: nfthee-community-ui
+    ports:
+      - '3000:3002'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-community-backend
+    networks:
+      - nfthee-network
+
+  nfthee-community-backend:
+    build: ./commuinty/server
+    container_name: nfthee-community-api
+    restart: always
+    ports:
+      - '8080-8080'
+    networks:
+      - nfthee-network
+
+networks:
+  nfthee-network:
+    driver: bridge
