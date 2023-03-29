@@ -186,7 +186,10 @@ export const handleCollectionCreation = async (
     }
   } else {
     try {
-      res1 = await creator.deployERC1155('');
+      res1 = await creator.deployERC1155(
+        name,
+        contracts.polygonContracts.MARKETPLACE
+      );
       let hash = res1;
 
       res1 = await res1.wait();

@@ -15,14 +15,14 @@ services:
     networks:
       - nfthee-network
 
-  nfthee-backend:    
+  nfthee-backend:
     build:
       context: ./nfthee_nodejs
       dockerfile: Dockerfile
     container_name: nfthee-node-backend
     restart: always
     ports:
-      - '8002:8003'
+      - '8002:8002'
     networks:
       - nfthee-network
 
