@@ -6,6 +6,7 @@ import ExploreNftListRow from "./ExploreNftListRow";
 import ExploreNftListColumn from "./ExploreNftListColumn";
 import Filters from "./Filters";
 import { useHistory, useLocation } from "react-router-dom";
+import ExploreItemColumn from "./ExploreItem/ExploreItemColumn";
 
 function ExploreNft() {
   const { t } = useTranslation();
@@ -471,7 +472,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                     >
                       <div className="bottom-wrapper">
                         <div className="shop-bottom-wrapper">
-                          {/* <ExploreNftListColumn data={filteredData} /> */}
+                          {/* <ExploreNftListColumn data={filteredData} loadingFilter={loadingFilter} setliked={setliked} /> */}
+                          <ExploreItemColumn data={filteredData} loadingFilter={loadingFilter} setliked={setliked}/>
                         </div>
                       </div>
                     </div>
