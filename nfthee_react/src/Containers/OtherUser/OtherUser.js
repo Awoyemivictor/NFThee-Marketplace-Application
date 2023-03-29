@@ -8,7 +8,7 @@ import instance from "../../axios";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
 export default function OtherUser() {
     const user = useAppSelector(state => state.user.user)
-
+const history=useHistory()
     $(document).ready(function () {
       $('select').niceSelect();
     });
@@ -83,7 +83,6 @@ export default function OtherUser() {
     const[users,setuser]=useState([])
   const [changes,setChanges]=useState()
 
-
  useEffect(async()=>{
    instance.get(`/api/signup/read?id=${id}`)
     .then(res=>setuser(res.data.data))
@@ -98,6 +97,21 @@ export default function OtherUser() {
   const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
   const[collectionData,setCollectionData]=useState([])
   const[itemData,setItemData]=useState([])
+  const [report, setReport] = useState();
+
+
+  if (id === _id) {
+    history.replace('/profile');
+    // history.go(-2); // Go back to the second last page in the history stack
+  }
+  
+  const handleReportData = (e) => {
+    setReport({
+      ...report,
+      [e.target.name]: e.target.value,
+    });
+  };
+
     useEffect(()=>{
   
       instance
@@ -116,7 +130,37 @@ export default function OtherUser() {
   
 
   
-    
+    const submitReport=(e)=>{
+      e.preventDefault()
+      // const formData = new FormData();
+      // if(report.action){
+      //   formData.append("action", report.action);
+      // }
+      // if(report.report_issue){
+      //   formData.append("report_issue", report.report.report_issue);
+      // }
+      // formData.append("reportedUserId", id);
+      // formData.append("userId", _id);
+      
+      // instance
+      // .post(`/api/insertReport`, formData)
+      // .then((response) => {
+      //   if (response.status === 200) {
+      //     Swal.fire({
+      //       icon: "success",
+      //       title: "Reported Successfully",
+      //       showConfirmButton: false,
+      //       timer: 2500,
+      //     });
+      //   }
+        
+      
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
+      
+        }
    
     
     const handlleFollow=async(e)=>{
@@ -259,7 +303,18 @@ export default function OtherUser() {
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/rotate.png" /></span>  Refrash</a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/etherscan-logo.png" /></span>Etherscan  </a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/share.png" /></span> Share </a>
-                              <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/report.png" /></span> Report </a>
+                              <a className="dropdown-item"   type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                          
+                                          {" "}
+                                          <span className="dropdown-icon">
+                                            <img
+                                              src={
+                                                '/assets/images/icons/report.png'
+                                              }
+                                            />
+                                          </span>{' '}
+                                          Report
+                                        </a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/home.png" /></span>Website </a>
                               {/* <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/eyeicon.png" /></span>Preview </a> */}
                             </div>
@@ -326,12 +381,14 @@ export default function OtherUser() {
                                     </span>
                                     Share
                                   </a>
-                                  <a className="dropdown-item" href="#">
-                                    <span className="dropdown-icon">
-                                      <img src="/assets/images/icons/report.png" />
-                                    </span>
-                                    Report
-                                  </a>
+                                  <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                          <span className="dropdown-icon">
+                                            <img
+                                              src='/assets/images/icons/report.png'
+                                            />
+                                          </span>
+                                          Report
+                                        </a>
                                   <a className="dropdown-item" href="#">
   
                                     <span className="dropdown-icon">
@@ -466,11 +523,11 @@ export default function OtherUser() {
                         Following (05)
                       </button> */}
                       <button
-                        className="nav-link"
+                        className="nav-link active"
                         id="created-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#created"
-                        aria-selected="false"
+                        aria-selected="true"
                       >
                         <img src="/assets/images/icons/create-icon.png" alt="" />
                         Created ({itemData?.length})
@@ -875,7 +932,7 @@ export default function OtherUser() {
                                     </table> */}
                                     {/* ))} */} 
                                                         {/* </div> */}
-                    <div className="tab-pane fade" id="created">
+                    <div className="tab-pane fade show active" id="created">
                    <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked}/>
                      
                     </div>
@@ -973,6 +1030,41 @@ export default function OtherUser() {
                     <div className="tab-pane fade" id="offers">
                       7
                     </div> */}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+  Launch demo modal
+</button>
+{/* 
+<!-- Modal --> */}
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form onSubmit={submitReport}>
+          <div class="mb-3">
+          <select class="form-select" onChange={handleReportData} aria-label="Default select example">
+  {/* <option disabled selected>Select</option> */}
+  <option value="Fake Collection">Fake Collection Or possible scam</option>
+  <option value="Explict">Explict and sensitive content</option>
+  <option value="Spam">Spam</option>
+  <option value="Other">Other</option>
+</select>
+          </div>
+         {report?.action==="Other"? <div class="mb-3">
+            <label for="message-text" class="col-form-label">Issue:</label>
+            <textarea name="report_issue" class="form-control" id="message-text"></textarea>
+          </div>:null}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Report</button>
+      </div>
+    </div>
+  </div>
+</div>
                   </div>
                 </div>
               </div>

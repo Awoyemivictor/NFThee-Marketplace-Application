@@ -47,6 +47,7 @@ import {
 
 import { getUserAddress } from "../../Config/constants";
 import Swal from "sweetalert2";
+import axios from 'axios';
 
 const options = [
   { label: 'Creation', value: 'Creation' },
@@ -95,6 +96,19 @@ function ExploreDetail() {
     minimumBid: 0,
     finishDate: 0,
   });
+
+ 
+  const [count,setCount] = useState();
+    
+  //creating function to load ip address from the API
+  const getData = async()=>{
+const postId=id
+    const res = await axios.get('https://geolocation-db.com/json/')
+    
+
+    await  instance.post(`/api/posts/${postId}/views`,{ip:res.data.IPv4})
+      .then(res=>setCount(res.data.data))
+  }
   const handleFixedPriceChange = (e) => {
     setFixedPrice({
       ...fixedPrice,
@@ -179,6 +193,7 @@ instance
   useEffect(async () => {
     // console.log({selected},{options})
     handleBidData();
+    getData()
     await instance
       .get(`/api/read?id=${id}`)
       .then((response) => {
@@ -506,6 +521,7 @@ instance
                       {' '}
                       <i className="ri-arrow-left-s-line" />
                       {t('product.Back')}
+                   
                     </span>
                   </button>
                 </div>
@@ -641,7 +657,7 @@ instance
                       <div className="mb-3">
                         <div className="d-flex align-items-center">
                           <a href="#" className="view">
-                            <i className="ri-eye-line icon" /> 100
+                            <i className="ri-eye-line icon" />  {count?count.toLocaleString():''}
                           </a>
 
                           {/* <i className='ri-heart-line icon' />{' '}

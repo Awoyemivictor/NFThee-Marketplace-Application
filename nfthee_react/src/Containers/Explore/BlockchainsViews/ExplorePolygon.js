@@ -12,12 +12,14 @@ const ExplorePolygon = () => {
 
     const [data, setData] = useState([]);
     const [sortedData, setSortedData] = useState([]);
+  const [like, setliked] = useState();
+
 
     useEffect(() => {
         instance.get('/api/all?blockChain=Polygon%20Testnet')
             .then(response => setData(response.data.data))
             .finally(() => setIsLoading(false))
-    }, [])
+    }, [like])
 
     useEffect(() => {
         let arr = []
@@ -178,17 +180,17 @@ const ExplorePolygon = () => {
                                                 <div
                                                     className="panel-heading d-flex justify-content-between align-items-center mb-4">
                                                     <div className="panel-title">
-                                                        {filter ? <img src="assets/images/icons/filter-icon.png" alt=""
+                                                        {filter ? <img src="/assets/images/icons/filter-icon.png" alt=""
                                                                        className="me-2 filter-icon"
                                                                        onClick={ToggleSidebar}/>
-                                                            : <img src="assets/images/icons/filter-icon.png" alt=""
+                                                            : <img src="/assets/images/icons/filter-icon.png" alt=""
                                                                    className="me-2 filter-icon"
                                                                    onClick={FilterClose}/>} Filter
                                                     </div>
-                                                    <span> {filter ? <img src="assets/images/icons/close.png" alt=""
+                                                    <span> {filter ? <img src="/assets/images/icons/close.png" alt=""
                                                                           className="img-fluid close-icon"
                                                                           onClick={ToggleSidebar}/>
-                                                        : <img src="assets/images/icons/close.png" alt=""
+                                                        : <img src="/assets/images/icons/close.png" alt=""
                                                                className="img-fluid close-icon"
                                                                onClick={FilterClose}/>} </span>
                                                 </div>
@@ -216,7 +218,7 @@ const ExplorePolygon = () => {
                                                         onClick={ToggleSidebar}
                                                     >
                                                         <img
-                                                            src="assets/images/icons/filter-icon.png"
+                                                            src="/assets/images/icons/filter-icon.png"
                                                             alt=""
                                                             className="filter-icon"
                                                         />
@@ -230,7 +232,7 @@ const ExplorePolygon = () => {
                                 {filter ?
                                     <div className="col-lg-12 filter-mobile-wrapper">
                                         <button onClick={FilterClose} className="filter_button"><img
-                                            src="assets/images/icons/filter-icon.png" alt="" className="me-3"/>Filter
+                                            src="/assets/images/icons/filter-icon.png" alt="" className="me-3"/>Filter
                                         </button>
                                     </div> : ""}
                                 <div className={`${isOpen ? 'col-lg-9' : 'col-lg-11'} collection-filter-card`}
@@ -278,10 +280,10 @@ const ExplorePolygon = () => {
                                                                    aria-controls="pills-grid-view"
                                                                    aria-selected="true"
                                                                 >
-                                                                    <img src="assets/images/icons/grid-view-pink.png"
+                                                                    <img src="/assets/images/icons/grid-view-pink.png"
                                                                          alt=""
                                                                          className="img-fluid grid-icon1"/>
-                                                                    <img src="assets/images/icons/grid-view-gray.png"
+                                                                    <img src="/assets/images/icons/grid-view-gray.png"
                                                                          alt=""
                                                                          className="img-fluid grid-icon2"/>
                                                                 </a>
@@ -293,10 +295,10 @@ const ExplorePolygon = () => {
                                                                    type="button" role="tab"
                                                                    aria-controls="pills-list-view"
                                                                    aria-selected="false">
-                                                                    <img src="assets/images/icons/list-view-gray.png"
+                                                                    <img src="/assets/images/icons/list-view-gray.png"
                                                                          alt=""
                                                                          className="img-fluid grid-icon2 "/>
-                                                                    <img src="assets/images/icons/list-view-pink.png"
+                                                                    <img src="/assets/images/icons/list-view-pink.png"
                                                                          alt=""
                                                                          className="img-fluid grid-icon1"/>
                                                                 </a>
@@ -311,14 +313,14 @@ const ExplorePolygon = () => {
                                         <div className="tab-pane fade show active" id="pills-grid-view" role="tabpanel"
                                              aria-labelledby="pills-grid-view-tab">
                                             <div className="bottom-wrapper">
-                                                <ExploreItemRow data={filteredData}/>
+                                                <ExploreItemRow data={filteredData} setliked={setliked}/>
                                             </div>
                                         </div>
                                         <div className="tab-pane fade" id="pills-list-view" role="tabpanel"
                                              aria-labelledby="pills-list-view-tab">
                                             <div className="bottom-wrapper">
                                                 <div className="shop-bottom-wrapper">
-                                                    <ExploreItemColumn data={filteredData}/>
+                                                    <ExploreItemColumn data={filteredData} setliked={setliked}/>
                                                 </div>
                                             </div>
                                         </div>

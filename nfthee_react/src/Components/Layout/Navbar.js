@@ -324,13 +324,14 @@ console.log({icon})
                     type='text'
                     name='str'
                     disabled={toggle}
-                    value={serachTextNav}
+                    value={toggle?null:serachTextNav}
+                    placeholder={toggle?'Disabled':t('navbar.Search')}
                     onChange={(e) =>
                       setSerachTextNav(
                         localStorage.setItem('search', e.target.value)
                       )
                     }
-                    placeholder={t('navbar.Search')}
+                    // placeholder={t('navbar.Search')}
                     className='form-control'
                   />
                   <div className='search-icon'>

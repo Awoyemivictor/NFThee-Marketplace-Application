@@ -11,6 +11,7 @@ import axios from 'axios';
 import Loader from '../../Components/Loader/Loader';
 import { getPriceConversion } from '../../services/apiServices';
 import { Modal, Button } from 'react-bootstrap'
+import ExploreItemColumn from './ExploreItem/ExploreItemColumn';
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -531,11 +532,11 @@ instance
                                                <div className="row">
                                                <div className="bottom-wrapper">
                                                 <div className="row gx-3">
-                                                {slice.map((item) => {
-                                              return(
-                                                <PillsList {...item}/>
-                                              )
-                                            })}
+                                                {/* {slice.map((item) => {
+                                              return( */}
+                                                <ExploreItemColumn data={shownList}  setliked={setliked}/>
+                                            {/* //   )
+                                            // })} */}
                                                     
                                                 </div>
                                                 </div>

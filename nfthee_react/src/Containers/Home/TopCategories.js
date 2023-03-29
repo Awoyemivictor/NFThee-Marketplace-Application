@@ -34,7 +34,7 @@ function TopCategories() {
               <>
                 <div className="single-slide">
                   <div className="card-collection">
-                  <Link to={`/explorefilter/${collection._id}`}>
+                  <Link to={`/explorefilter/${collection?._id}`}>
                       <div className="card-body">
                         <div className="author">
                           <div className="author-box">
