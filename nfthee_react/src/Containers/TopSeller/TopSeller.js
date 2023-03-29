@@ -120,7 +120,7 @@ const[users,setuser]=useState([])
     <>
       <main>
         <section className="bg-section top_sellers_section">
-          <div className="container-fluid">
+          <div className="container-fluid  " >
             <div className="section-heading text-center mb-lg-5 mb-4 top-sellers-heading">
            <div className="d-flex justify-content-center align-items-center">
           <div className="section-title-path mx-lg-auto d-flex day-select">
@@ -159,7 +159,7 @@ const[users,setuser]=useState([])
                     <div className="top-collection-over-section">
                         <div className="row">
 
-                  {isOpen ? ( 
+                  {/* {isOpen ? ( 
                         <div className={`col-lg-3 collection-filter-wrapper filter-sticky custom-scrollbar ${filter}`}>
                                 <div className="collection-filter">
                                     <div className="panel">
@@ -360,7 +360,7 @@ const[users,setuser]=useState([])
                                     </div>
                                 </div>
                             </div>
-                             )} 
+                             )}  */}
        {filter ?  
             <div className="col-lg-12 filter-mobile-wrapper"> 
             <button onClick={FilterClose} className="filter_button"><img src="assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
@@ -374,7 +374,7 @@ const[users,setuser]=useState([])
                   style={{ bsGutterX: "2.5rem" }}
                 >
                   {users.filter(res=>res._id!=_id).map((item, index) => (
-                    <TopSellerCard {...item} index={index} className={'col-1'} />
+                    <TopSellerCard {...item} index={index} className={'col-1 m-5'} />
                   ))}
                 </div>
               </div>

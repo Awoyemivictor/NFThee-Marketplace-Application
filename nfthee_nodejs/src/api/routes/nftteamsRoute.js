@@ -25,7 +25,8 @@ const {
   getPrice,
   uploadData,
   collectionNft,
-  collectionActivity
+  collectionActivity,
+  viewCounts
 } = require('../controller').nftteamsController;
 
 let uploadMultiple = uploadS3.fields([
@@ -49,6 +50,8 @@ router.get('/getItem/update', update_getItemInfo);
 router.post('/like', insert_likes);
 router.get('/userLikes', userLikes);
 router.post('/unlike', remove_likes);
+router.post('/posts/:postId/views', viewCounts);
+
 router.post('/writeImage', uploadS3.single('testImage'), upload_image);
 
 router.post('/uploadImageTest', imageUpload.single('fileName'));

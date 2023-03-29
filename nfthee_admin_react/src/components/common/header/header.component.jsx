@@ -19,12 +19,13 @@ import {
 const Header = () => {
   const [sidebar, setSidebar] = useState(true);
   const [navMenus, setNavMenus] = useState(false);
+  const[icon,setIcon]=useState(0);
   const width = useWindowSize();
   const serviceFees = async () => {
     const fees = await getMarketplaceOwner();
     console.log(fees);
   };
-
+console.log(typeof icon)
   const goFull = () => {
     if (
       (document.fullScreenElement && document.fullScreenElement !== null) ||
@@ -141,15 +142,28 @@ const Header = () => {
                   src={require('../../../assets/images/dashboard/browser.png')}
                   alt='header-browser'
                 /> */}
-                <img
+               {icon===0? <img
                   src={require('../../../assets/images/wallet/ethereum.png')}
                   alt=""
-                />
-
-                <ul className='profile-dropdown onhover-show-div p-10'>
-                  <li
-                    onClick={() => {
+                />:null}
+                {icon===1? <img
+                  src={require('../../../assets/images/wallet/polygon.png')}
+                  alt=""
+                />:null}
+                 {icon===2? <img
+                  src={require('../../../assets/images/wallet/binance.png')}
+                  alt=""
+                />:null}
+                 {icon===3? <img
+                  src={require('../../../assets/images/wallet/harmony.png')}
+                  alt=""
+                />:null}
+                <ul className='profile-dropdown onhover-show-div p-10' >
+                  <li 
+                    value="0"
+                    onClick={(e) => {
                       ethTest();
+                      setIcon(e.target.value)
                     }}
                   > 
                   <img
@@ -161,8 +175,11 @@ const Header = () => {
                      Ethereum Testnet
                   </li>
                   <li
-                    onClick={() => {
+                  value="1"
+                  
+                    onClick={(e) => {
                       polyTest();
+                      setIcon(e.target.value)
                     }}
                   >
                      {/* <i className='icon-email' src={require('../../../assets/images/blockchainLogo/polygon (1).png')}>
@@ -177,8 +194,10 @@ const Header = () => {
                   </li>
 
                   <li
-                    onClick={() => {
+                  value="2"
+                    onClick={(e) => {
                       bscChain();
+                      setIcon(e.target.value)
                     }}
                   >
                      <img
@@ -194,8 +213,10 @@ const Header = () => {
                   </li>
 
                   <li
-                    onClick={() => {
+                  value="3"
+                    onClick={(e) => {
                       harmonyTest();
+                      setIcon(e.target.value)
                     }}
                   >
                  <img

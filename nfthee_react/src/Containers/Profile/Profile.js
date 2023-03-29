@@ -311,6 +311,15 @@ const Profile = () => {
     setChanges(Math.floor(Math.random() * 10))
 
   }
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+		
+  const handleOpenModal = () => {
+  setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+  setModalIsOpen(false);
+  };
   return (
     <>
       <main>
@@ -439,15 +448,36 @@ const Profile = () => {
                           src={image.preview}
                           alt=""
                           className="img-fluid user-img"
-                        />
-                        <span className="edit-img-box" style={{ cursor: "pointer" }}>
+                          onClick={handleOpenModal}
+				              	style={{ cursor: "pointer" }}
+                        /><span className="edit-img-box" style={{ cursor: "pointer" }}>
+                        
+                        
                           <input id="select-image" style={{ display: "none" }} type="file" onChange={handleChange} />
                           {/* <input id="profile-image-upload" className="hidden" type="file" onchange="previewFile()" ></input> */}
                           <label htmlFor="select-image">
                             <img src="/assets/images/icons/pencil.png" onChange={handleChange} style={{ cursor: "pointer" }} alt="" /> </label>
                         </span>
                       </div>
-                    </div>
+                    </div>{modalIsOpen && (
+					<div
+					  style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					  }}
+					  onClick={handleCloseModal}
+					>
+					  <img src={image.preview} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+					</div>
+				  )}
                     <div className="user-profile-detail">
                       {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
                       <h3>{user_name}</h3>

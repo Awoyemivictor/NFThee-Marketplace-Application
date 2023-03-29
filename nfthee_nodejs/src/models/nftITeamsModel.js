@@ -101,6 +101,9 @@ const nftSchema = new Schema(
       ref: 'user',
       // type:String
     },
+    viewsCount: {
+      type: Array,
+    },
     likes: [
       {
         type: mongoose.Schema.ObjectId,
