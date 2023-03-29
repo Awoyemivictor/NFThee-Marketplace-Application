@@ -482,3 +482,26 @@ exports.uploadData = async (req) => {
     throw error;
   }
 };
+
+
+exports.viewCounts = async (req) => {
+  try {
+    const postId = req.params.postId;
+  const ipAddress = req.body.ip ;
+ 
+  const hasViewed = await nftIteams.findOneAndUpdate({_id:postId},{
+      $addToSet: { viewsCount: ipAddress } 
+  },);
+  const viewsCount = hasViewed.viewsCount.length;
+ 
+  console.log('postId',postId,ipAddress,viewsCount)
+ 
+    return {  
+      message: 'Total views on this post',
+      status: true,
+      data: viewsCount,
+    };
+  } catch (error) {
+    throw error;
+  }
+};

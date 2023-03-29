@@ -13,4 +13,6 @@ exports.subscriptionController = require('./subscriptionController');
 exports.orderController = require('./orderController');
 exports.bidController = require('./bidController');
 exports.reportController = require('./reportController');
+exports.reportedUserController = require('./reportedUserController');
+
 

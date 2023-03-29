@@ -223,7 +223,11 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
     MobileSidebar();
     setNewNotificationCount(notifications.length);
   }, []);
-
+  const [navMenus, setNavMenus] = useState(false);
+  const[icon,setIcon]=useState(0);
+  const togglee = () => {
+    setNavMenus(!navMenus);
+  };
   const MobileSidebar = () => {
     if ($('.menu-area li.dropdown .dropdown-menu').length) {
       $('.menu-area .navigation li.dropdown').append(
@@ -259,7 +263,7 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
   const text = localStorage.getItem('search');
   const [serachTextNav, setSerachTextNav] = useState(text || '');
   // console.log({serachTextNav})
-
+console.log({icon})
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -376,6 +380,107 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
                     );
                   })}
                 </ul>
+                
+      <div class="dropdown">
+  <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  {icon===0? <img
+                  src="/assets/images/icons/ethereum.png"
+                  alt=""
+                />:null}
+                {icon===1? <img
+                  src="/assets/images/icons/polygon.png"
+                  alt=""
+                />:null}
+                 {icon===2? <img
+                  src="/assets/images/icons/binance.png"
+                  alt=""
+                />:null}
+                 {icon===3? <img
+                  src="/assets/images/icons/harmony.png"
+                  alt=""
+                />:null}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">       
+                   <button
+                  class="dropdown-item m-0 "
+                  type="button"
+                    value="0"
+                    onClick={(e) => {
+                      
+                      setIcon(e.target.value)
+                    }}
+                  > 
+                  <img
+                 src="/assets/images/icons/ethereum.png"
+                  style={{ marginRight: '5px' }}
+                  alt="  "
+                />
+                    
+                     Ethereum Testnet
+                  </button>
+                  <button
+                  class="dropdown-item m-0"
+                  type="button"
+                  value="1"
+                  
+                    onClick={(e) => {
+                      
+                      setIcon(e.target.value)
+                    }}
+                  >
+                    
+                     
+                   <img
+                   src="/assets/images/icons/polygon.png"
+                   style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    Polygon Testnet
+                  </button>
+
+                  <button
+                   class="dropdown-item m-0"
+                  type="button"
+                  value="2"
+                    onClick={(e) => {
+                      
+                      setIcon(e.target.value)
+                    }}
+                  >
+                     <img
+                  src="/assets/images/icons/binance.png"
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                    
+                    BSC Testnet
+                  </button>
+
+                  <button
+                   class="dropdown-item m-0"
+                  type="button"
+                  value="3"
+                    onClick={(e) => {
+                      
+                      setIcon(e.target.value)
+                    }}
+                  >
+                 <img
+                  src="/assets/images/icons/harmony.png"
+                  style={{ marginRight: '5px' }}
+                  alt=""
+                />
+                   
+                    Harmony Testnet
+                  </button>
+                
+              {/* </a> */}
+            {/* </li> */}
+
+           
+          
+  </ul>
+</div>
                 <form className='d-flex align-items-center'>
                   <div className='dropdown language-dropdown d-none d-md-block'>
                     <span data-bs-toggle='dropdown' aria-expanded='false'>
@@ -601,12 +706,15 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
                       <img src='/images/icons/moon.png' alt='' />
                     </span>
                   </div>
+                 
                 </form>
+                
               </div>
             </div>
           </nav>
         </div>
         <MobileMenuSidebar />
+       
       </header>
     </>
   );

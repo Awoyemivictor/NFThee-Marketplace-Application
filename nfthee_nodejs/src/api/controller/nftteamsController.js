@@ -26,6 +26,14 @@ exports.getItemInfo = async (req, res, next) => {
         next(error);
     }
 } 
+exports.viewCounts = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.viewCounts(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+} 
 exports.getAllItemInfo = async (req, res, next) => {
     try {
         const data = await nftteamsService.getAllItemInfo(req);

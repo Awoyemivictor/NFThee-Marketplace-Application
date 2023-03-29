@@ -105,7 +105,7 @@ const Filters = ({
     </div>
       </AccordionCard> */}
 
-      <AccordionCard title={"Price"}>
+      {/* <AccordionCard title={"Price"}>
         <div className="accordion-body ">
           <div className="currency-search">
             <select
@@ -166,7 +166,7 @@ const Filters = ({
             </div>
           </div>
         </div>
-      </AccordionCard>
+      </AccordionCard> */}
 
       {isShowBlockchain && (
         <AccordionCard title={"Blockchain"}>
