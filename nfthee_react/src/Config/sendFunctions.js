@@ -394,7 +394,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   );
 
   console.info(collectionAddress, tokenId, 1, 1, 2, options);
-  let paymentToken = 1;
+  let paymentToken = 2;
   if (paymentToken === 2) {
     res = await marketplaceInstance.buyToken(
       collectionAddress,

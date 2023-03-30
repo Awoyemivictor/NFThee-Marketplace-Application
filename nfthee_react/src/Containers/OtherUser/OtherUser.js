@@ -946,7 +946,7 @@ const history=useHistory()
                     <div className="card-body">
                       <div className="auction-create-by">
                         <img
-                          src={collection?.currentOwner?.uploadFile ?collection?.currentOwner?.uploadFile :"/assets/images/img2.png"}
+                          src={collection?.currentOwner?.profile_image ?collection?.currentOwner?.profile_image :"/assets/images/img2.png"}
                           alt=""
                           className="avatar-icon img-fluid"
                         />
@@ -977,7 +977,7 @@ const history=useHistory()
                             <a href="#">{collection?.name}</a>
                           </h5>
                           <h6>
-                            {collection?.about ? collection?.about : 'undefined'}
+                            {collection?.description ? collection?.description : 'undefined'}
                           </h6>
                         </div>
                         <div className="eth-price">
@@ -990,9 +990,12 @@ const history=useHistory()
                               alt=""
                               className="me-1"
                             />
-                            {!collection?.putOnMarketplace ? (
+                            {!collection?.putOnMarketplace? 
+                            (
                               <small className="font-weight-light">Bids</small>
-                            ) : collection?.putOnMarketplace?.price ? (
+                            ) : 
+                            collection?.putOnMarketplace?.price ?
+                             (
                               <span>{collection?.putOnMarketplace?.price}</span>
                             ) : (
                               <span>

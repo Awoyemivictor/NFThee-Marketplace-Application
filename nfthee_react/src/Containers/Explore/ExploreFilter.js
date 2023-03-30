@@ -709,7 +709,7 @@ instance
                                                    <td>1</td>
                                                    <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
                                                    <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
-                                                   <td> <a href="#">{data?.sCreated} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated}  <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>)):'noting to show'}
                                                {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>

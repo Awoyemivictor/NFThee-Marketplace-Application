@@ -375,7 +375,7 @@ exports.userLikes = async (req) => {
   try {
     let id = req.query.id;
     console.log(':::::::>', id);
-    let userLikes = await nftIteams.find({ likes: id });
+    let userLikes = await nftIteams.find({ likes: id }).populate('currentOwner');
     return {
       message: 'user liked posts',
       status: true,

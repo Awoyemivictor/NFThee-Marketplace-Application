@@ -145,10 +145,17 @@ setPriceCon(result)
             <div className="col-lg-12 filter-mobile-wrapper"> 
             <button onClick={FilterClose} className="filter_button"><img src="/assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
             </div> : ""}
+            
               <div
                 className={`${isOpen ? "col-lg-9" : "col-lg-11"} px-lg-0 collection-filter-card overflow-hidden ExtraSpaceMobileview`}
                 style={{ width: `${isOpen ? "" :"94.666667%"}` }}
-              >
+              >{loading?
+                <div class="text-center">	
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+                :
                 <div className="activity-table-container table-responsive">
                   <table className="table">
                     <thead>
@@ -222,13 +229,7 @@ setPriceCon(result)
                           </div>
                         </td>
                       </tr>
-                      {loading?
-                      <div class="text-center">	
-                      <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                      :slice?.map((data,i) => {
+                      {slice?.map((data,i) => {
                         return(
                           <tr>
                                                    <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
@@ -252,7 +253,7 @@ setPriceCon(result)
                       })}
                     </tbody>
                   </table>
-                </div>
+                </div>}
                 <div className="row mb-4">
                    <div className="col-lg-6 col-md-6 mx-auto">
                      <h1 className="section-title text-center">

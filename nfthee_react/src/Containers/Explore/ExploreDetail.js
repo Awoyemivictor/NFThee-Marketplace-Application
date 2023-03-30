@@ -51,10 +51,10 @@ import axios from 'axios';
 
 const options = [
   { label: 'Creation', value: 'Creation' },
-  // { label: "Transfer", value: "Transfer" },
+  { label: "Transfer", value: "Transfer" },
   { label: 'Bids', value: 'Bids' },
   // { label: "Cancel Listing", value: "Cancel Listing" },
-  // { label: "Offer", value: "Offer", disabled: true },
+  { label: "Sales", value: "Sales" },
 ];
 // const mystyle = {
 //   display: "block",
@@ -433,12 +433,7 @@ instance
   const [search, setSearch] = React.useState('');
 
   const handleSearch = (event) => {
-    // if (event.target.value="Creation"){
-    // setSearch(event.target.value);
-    // }
-    // if (event.target.value="Bids"){
-    //   setSearch(event.target.value);
-    //   }
+ 
 
     setSearch(event.target.value);
   };
@@ -982,7 +977,7 @@ instance
                             role="tabpanel"
                             aria-labelledby="Bid-tab"
                           >
-                            4
+                          
                             {bidData
                               .filter((bid) => bid.bid_price > 0)
                               .map((data, i) => (
@@ -1897,6 +1892,7 @@ instance
 
                                       <span className="fa fa-search search-icon"></span>
                                       <select
+                                        
                                         id="search"
                                         className="form-control"
                                         onChange={handleSearch}
@@ -1910,10 +1906,12 @@ instance
                                           Creation
                                         </option>
                                         <option value="Bids">Bids</option>
+                                        <option value="Sale">Sale</option>
+                                        <option value="Offer">Offer</option>
                                       </select>
                                       {/* </label> */}
                                     </div>
-                                    <button className="btn btn-search">
+                                    <button disabled className="btn btn-search">
                                       Search
                                     </button>
                                   </div>

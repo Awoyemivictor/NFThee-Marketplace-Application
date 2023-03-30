@@ -925,7 +925,8 @@ const Profile = () => {
                           <tr>
 
                             <td><Link to={`/users/${data._id}`}><div className="d-flex align-items-center">
-                              <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
+                              <img src={data.profile_image || "/assets/images/icons/activeimg.png" } height={35} width={45} alt="" className="user-img" />
+                              {/* <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" /> */}
                               <span className="ms-2">{data.user_name}</span>
                             </div> </Link></td>
                             <td> {buttonLoading ? <button className="btn btn-primary" type="button" disabled>

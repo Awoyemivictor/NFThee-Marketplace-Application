@@ -26,7 +26,7 @@ function App() {
 
  const [checkChanges,setChanges]=useState()
   async function requestPermission() {
-   if(isAuth()){ 
+  //  if(isAuth()){ 
     const permission = await Notification.requestPermission();
     if (permission === "granted" &&ldata._id) {
       // Generate Token
@@ -44,7 +44,8 @@ function App() {
       // Send this token  to server ( db)
     } else if (permission === "denied") {
       alert("You denied for the notification");
-    }}
+    }
+  // }
   }
 
 
