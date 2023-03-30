@@ -1831,7 +1831,7 @@ instance
                             </div>
                             <div>
                               {/* <div id="chart" /> */}
-                              {(volume && avgPrice && xaxis != undefined) ||
+                              {(volume && avgPrice && xaxis != undefined||null||'') ||
                                 null ? (
                                 <Apexcharts
                                   xaxiss={xaxis}
@@ -2410,12 +2410,12 @@ instance
           </div>
          {report?.action==="Other"? <div class="mb-3">
             <label for="message-text" class="col-form-label">Issue:</label>
-            <textarea name="report_issue" class="form-control" id="message-text"></textarea>
+            <textarea name="report_issue" onChange={handleReportData} class="form-control" id="message-text"></textarea>
           </div>:null}
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Report</button>
+        <button type="submit" onClick={submitReport} class="btn btn-primary">Report</button>
       </div>
     </div>
   </div>

@@ -834,18 +834,27 @@ exports.readUser = async (req, res) => {
 exports.checkWalletAddress = async (req, res) => {
   try {
     let resMsg
-    let account_address = req.body.account_address;
+    let account_address = req.body.account_address.toLowerCase();
+    let wallet;
     let id = req.body.id;
-    console.log('snjnsjknssjn', account_address,id);
-        let result =
-        await signup.findOne(
-            { _id: id, account_address: account_address }
+    let result =
+    await signup.findOne(
+            {_id:id }
           )
-          console.log('result',result)
+          if(result){
+            wallet=true
+          }
+          if(!result){
+            wallet=false
+            
+          }
+          console.log('result',result,wallet)
+          console.log('snjnsjknssjn',account_address,id);
+
     return {
       message:'wallet matched successfully.',
       status: true,
-      data:result,
+      data:wallet,
     }; 
 //  else
 //     return {
