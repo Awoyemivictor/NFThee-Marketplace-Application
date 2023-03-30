@@ -14,6 +14,13 @@ import { Magic } from 'magic-sdk';
 import { MobileMenuSidebar } from './MobileMenuSideBar';
 import { ChildMenu, OpenChildMenu } from './ChildMenu';
 import { Modal } from './Modal';
+import {
+  bscChain,
+  polyTest,
+  harmonyTest,
+  ethTest,
+  bscTest,
+} from '../../Config/allchains';
 
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
@@ -24,10 +31,8 @@ let magic = new Magic('pk_live_A57B8D59D07E9901');
 function encryptObject(o, salt) {
   o = JSON.stringify(o).split('');
   for (var i = 0, l = o.length; i < l; i++)
-    if (o[i] == '{')
-      o[i] = '}';
-    else if (o[i] == '}')
-      o[i] = '{';
+    if (o[i] == '{') o[i] = '}';
+    else if (o[i] == '}') o[i] = '{';
   return encodeURI(salt + o.join(''));
 }
 
@@ -37,10 +42,8 @@ function decryptObject(o, salt) {
     throw new Error('object cannot be decrypted');
   o = o.substring(salt.length).split('');
   for (var i = 0, l = o.length; i < l; i++)
-    if (o[i] == '{')
-      o[i] = '}';
-    else if (o[i] == '}')
-      o[i] = '{';
+    if (o[i] == '{') o[i] = '}';
+    else if (o[i] == '}') o[i] = '{';
   return JSON.parse(o.join(''));
 }
 export const logOut = async () => {
@@ -49,13 +52,16 @@ export const logOut = async () => {
   window.location.href = '/';
 };
 
-
 export const logincomunity = async () => {
   const userId = localStorage.getItem('userLoggedIn') || '';
   const token = JSON.parse(localStorage.getItem('TokenData')) || '';
   const secret = '123456'; // secret key for encryption
   const encryptedObject = encryptObject(userId, secret);
-  window.location.href = "http://localhost:3000/authtoken?token=" + token + "&user_detail=" + encryptedObject;
+  window.location.href =
+    'http://localhost:3000/authtoken?token=' +
+    token +
+    '&user_detail=' +
+    encryptedObject;
   return;
 };
 
@@ -64,10 +70,14 @@ export const loginTicket = async () => {
   const token = JSON.parse(localStorage.getItem('TokenData')) || '';
   const secret = '123456'; // secret key for encryption
   var encryptedObject = encryptObject(userId, secret);
-  window.location.href = "http://127.0.0.1:8118/authtoken?token=" + token + "&user_detail="+encryptedObject;
+  window.location.href =
+    'http://127.0.0.1:8118/authtoken?token=' +
+    token +
+    '&user_detail=' +
+    encryptedObject;
   return;
 };
-export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
+export const Navbar = ({ checkChanges, setChanges, toggle }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem('TokenData'));
@@ -86,17 +96,16 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
 
   let receiver_id = userId._id;
   useEffect(() => {
-   let isComponentMounted = true
-    if (receiver_id&&isComponentMounted) {
+    let isComponentMounted = true;
+    if (receiver_id && isComponentMounted) {
       instance
         .post('/api/notificationFetch', { receiver_id })
         .then((res) => setNotification(res.data.data.reverse()));
     }
 
     return () => {
-      isComponentMounted = false
-    }
-
+      isComponentMounted = false;
+    };
   }, [checkChanges]);
 
   // const [fakeState, setFakeState] = useState(true)
@@ -224,7 +233,7 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
     setNewNotificationCount(notifications.length);
   }, []);
   const [navMenus, setNavMenus] = useState(false);
-  const[icon,setIcon]=useState(0);
+  const [icon, setIcon] = useState(0);
   const togglee = () => {
     setNavMenus(!navMenus);
   };
@@ -263,7 +272,7 @@ export const Navbar = ({ checkChanges, setChanges ,toggle}) => {
   const text = localStorage.getItem('search');
   const [serachTextNav, setSerachTextNav] = useState(text || '');
   // console.log({serachTextNav})
-console.log({icon})
+  console.log({ icon });
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -324,8 +333,8 @@ console.log({icon})
                     type='text'
                     name='str'
                     disabled={toggle}
-                    value={toggle?null:serachTextNav}
-                    placeholder={toggle?'Disabled':t('navbar.Search')}
+                    value={toggle ? null : serachTextNav}
+                    placeholder={toggle ? 'Disabled' : t('navbar.Search')}
                     onChange={(e) =>
                       setSerachTextNav(
                         localStorage.setItem('search', e.target.value)
@@ -341,147 +350,147 @@ console.log({icon})
                   </div>
                 </form>
                 <ul className='navbar-nav ms-auto mb-2 mb-lg-0 navigation'>
-                  {!token?link_main_menu.filter(dt=>dt.name!='navbar.Create').map((item) => {
-                    return (
-                      <li
-                        className='nav-item dropdown header-dropdown'
-                        key={item.name}
-                      >
-                        <NavLink
-                          className='nav-link'
-                          activeClassName='active'
-                          to={item.path}
-                          exact
-                        >
-                          {t(item.name)}
-                        </NavLink>
-                        {item.children && (
-                          <OpenChildMenu data={item.children} />
-                        )}
-                      </li>
-                    );
-                  }):link_main_menu.map((item) => {
-                    return (
-                      <li
-                        className='nav-item dropdown header-dropdown'
-                        key={item.name}
-                      >
-                        <NavLink
-                          className='nav-link'
-                          activeClassName='active'
-                          to={item.path}
-                          exact
-                        >
-                          {t(item.name)}
-                        </NavLink>
-                        {item.children && (
-                          <OpenChildMenu data={item.children} />
-                        )}
-                      </li>
-                    );
-                  })}
+                  {!token
+                    ? link_main_menu
+                        .filter((dt) => dt.name != 'navbar.Create')
+                        .map((item) => {
+                          return (
+                            <li
+                              className='nav-item dropdown header-dropdown'
+                              key={item.name}
+                            >
+                              <NavLink
+                                className='nav-link'
+                                activeClassName='active'
+                                to={item.path}
+                                exact
+                              >
+                                {t(item.name)}
+                              </NavLink>
+                              {item.children && (
+                                <OpenChildMenu data={item.children} />
+                              )}
+                            </li>
+                          );
+                        })
+                    : link_main_menu.map((item) => {
+                        return (
+                          <li
+                            className='nav-item dropdown header-dropdown'
+                            key={item.name}
+                          >
+                            <NavLink
+                              className='nav-link'
+                              activeClassName='active'
+                              to={item.path}
+                              exact
+                            >
+                              {t(item.name)}
+                            </NavLink>
+                            {item.children && (
+                              <OpenChildMenu data={item.children} />
+                            )}
+                          </li>
+                        );
+                      })}
                 </ul>
-                
-      <div class="dropdown">
-  <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  {icon===0? <img
-                  src="/assets/images/icons/ethereum.png"
-                  alt=""
-                />:null}
-                {icon===1? <img
-                  src="/assets/images/icons/polygon.png"
-                  alt=""
-                />:null}
-                 {icon===2? <img
-                  src="/assets/images/icons/binance.png"
-                  alt=""
-                />:null}
-                 {icon===3? <img
-                  src="/assets/images/icons/harmony.png"
-                  alt=""
-                />:null}
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">       
-                   <button
-                  class="dropdown-item m-0 "
-                  type="button"
-                    value="0"
-                    onClick={(e) => {
-                      
-                      setIcon(e.target.value)
-                    }}
-                  > 
-                  <img
-                 src="/assets/images/icons/ethereum.png"
-                  style={{ marginRight: '5px' }}
-                  alt="  "
-                />
-                    
-                     Ethereum Testnet
-                  </button>
-                  <button
-                  class="dropdown-item m-0"
-                  type="button"
-                  value="1"
-                  
-                    onClick={(e) => {
-                      
-                      setIcon(e.target.value)
-                    }}
-                  >
-                    
-                     
-                   <img
-                   src="/assets/images/icons/polygon.png"
-                   style={{ marginRight: '5px' }}
-                  alt=""
-                />
-                    Polygon Testnet
-                  </button>
 
+                <div class='dropdown'>
                   <button
-                   class="dropdown-item m-0"
-                  type="button"
-                  value="2"
-                    onClick={(e) => {
-                      
-                      setIcon(e.target.value)
-                    }}
+                    class='btn  dropdown-toggle'
+                    type='button'
+                    id='dropdownMenuButton1'
+                    data-bs-toggle='dropdown'
+                    aria-expanded='false'
                   >
-                     <img
-                  src="/assets/images/icons/binance.png"
-                  style={{ marginRight: '5px' }}
-                  alt=""
-                />
-                    
-                    BSC Testnet
+                    {icon === 0 ? (
+                      <img src='/assets/images/icons/ethereum.png' alt='' />
+                    ) : null}
+                    {icon === 1 ? (
+                      <img src='/assets/images/icons/polygon.png' alt='' />
+                    ) : null}
+                    {icon === 2 ? (
+                      <img src='/assets/images/icons/binance.png' alt='' />
+                    ) : null}
+                    {icon === 3 ? (
+                      <img src='/assets/images/icons/harmony.png' alt='' />
+                    ) : null}
                   </button>
-
-                  <button
-                   class="dropdown-item m-0"
-                  type="button"
-                  value="3"
-                    onClick={(e) => {
-                      
-                      setIcon(e.target.value)
-                    }}
+                  <ul
+                    class='dropdown-menu'
+                    aria-labelledby='dropdownMenuButton1'
                   >
-                 <img
-                  src="/assets/images/icons/harmony.png"
-                  style={{ marginRight: '5px' }}
-                  alt=""
-                />
-                   
-                    Harmony Testnet
-                  </button>
-                
-              {/* </a> */}
-            {/* </li> */}
+                    <button
+                      class='dropdown-item m-0 '
+                      type='button'
+                      value='0'
+                      onClick={(e) => {
+                        ethTest()
+                        setIcon(e.target.value);
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/ethereum.png'
+                        style={{ marginRight: '5px' }}
+                        alt='  '
+                      />
+                      Ethereum Testnet
+                    </button>
+                    <button
+                      class='dropdown-item m-0'
+                      type='button'
+                      value='1'
+                      onClick={(e) => {
+                        polyTest()
+                        setIcon(e.target.value);
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/polygon.png'
+                        style={{ marginRight: '5px' }}
+                        alt=''
+                      />
+                      Polygon Testnet
+                    </button>
 
-           
-          
-  </ul>
-</div>
+                    <button
+                      class='dropdown-item m-0'
+                      type='button'
+                      value='2'
+                      onClick={(e) => {
+                        bscTest()
+                        setIcon(e.target.value);
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/binance.png'
+                        style={{ marginRight: '5px' }}
+                        alt=''
+                      />
+                      BSC Testnet
+                    </button>
+
+                    <button
+                      class='dropdown-item m-0'
+                      type='button'
+                      value='3'
+                      onClick={(e) => {
+                        harmonyTest()
+                        setIcon(e.target.value);
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/harmony.png'
+                        style={{ marginRight: '5px' }}
+                        alt=''
+                      />
+                      Harmony Testnet
+                    </button>
+
+                    {/* </a> */}
+                    {/* </li> */}
+                  </ul>
+                </div>
                 <form className='d-flex align-items-center'>
                   <div className='dropdown language-dropdown d-none d-md-block'>
                     <span data-bs-toggle='dropdown' aria-expanded='false'>
@@ -548,11 +557,23 @@ console.log({icon})
                               .map((notification, index) => (
                                 <div key={index} className='dropdown-item'>
                                   <Link
-                                    to={notification?.nftId?._id?`/exploredetail/${notification.nftId._id}`:''}
+                                    to={
+                                      notification?.nftId?._id
+                                        ? `/exploredetail/${notification.nftId._id}`
+                                        : ''
+                                    }
                                   >
-                                    
-                                    <div class="aligned"><img src={notification?.nftId?.uploadFile||'/images/avatar1.png'} style={{marginRight: '24px'}} height='32px' width='32px' />
-                                    <span> {notification.message}</span>
+                                    <div class='aligned'>
+                                      <img
+                                        src={
+                                          notification?.nftId?.uploadFile ||
+                                          '/images/avatar1.png'
+                                        }
+                                        style={{ marginRight: '24px' }}
+                                        height='32px'
+                                        width='32px'
+                                      />
+                                      <span> {notification.message}</span>
                                     </div>
                                   </Link>
                                   {/* <p>{notification.value}</p> */}
@@ -576,7 +597,11 @@ console.log({icon})
                         aria-expanded='false'
                       >
                         <img
-                          src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
+                          src={
+                            userId?.profile_image
+                              ? userId?.profile_image
+                              : '/images/avatar1.png'
+                          }
                           alt='img'
                           className='img-fluid user-avatar'
                         />
@@ -586,7 +611,11 @@ console.log({icon})
                         <div className='drop-heading'>
                           <a href='#' style={{ width: '50px' }}>
                             <img
-                              src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
+                              src={
+                                userId?.profile_image
+                                  ? userId?.profile_image
+                                  : '/images/avatar1.png'
+                              }
                               alt=''
                               className='img-fluid user-avatar ms-0'
                             />
@@ -609,7 +638,9 @@ console.log({icon})
                         <div className='dropdown-divider m-0' />
                         <Link to='/profile' className='dropdown-item'>
                           <span className='dropdown-icon'>
-                            <img src={'/assets/images/icons/profile-icon.png'} />
+                            <img
+                              src={'/assets/images/icons/profile-icon.png'}
+                            />
                           </span>{' '}
                           Profile{' '}
                         </Link>{' '}
@@ -652,15 +683,21 @@ console.log({icon})
                           </span>{' '}
                           Sign Out{' '}
                         </Link>
-
-                        <Link className='dropdown-item' to='#' onClick={logincomunity}>
+                        <Link
+                          className='dropdown-item'
+                          to='#'
+                          onClick={logincomunity}
+                        >
                           <span className='dropdown-icon'>
                             <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}
                           logincomunity{' '}
                         </Link>
-
-                        <Link className='dropdown-item' to='#' onClick={loginTicket}>
+                        <Link
+                          className='dropdown-item'
+                          to='#'
+                          onClick={loginTicket}
+                        >
                           <span className='dropdown-icon'>
                             <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}
@@ -707,15 +744,12 @@ console.log({icon})
                       <img src='/images/icons/moon.png' alt='' />
                     </span>
                   </div>
-                 
                 </form>
-                
               </div>
             </div>
           </nav>
         </div>
         <MobileMenuSidebar />
-       
       </header>
     </>
   );
