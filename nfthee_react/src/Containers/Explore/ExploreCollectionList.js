@@ -20,7 +20,7 @@ const ExploreCollectionList = ({ collections }) => {
                         <img
                           className={
                             collection.display_theme === "contained-theme"
-                              ? "containedImage"
+                              ? "coveredImage"
                               : collection.display_theme === "padded-theme"
                                 ? "paddedImage"
                                 : "coveredImage"

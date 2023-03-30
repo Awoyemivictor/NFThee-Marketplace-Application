@@ -233,7 +233,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
     setNewNotificationCount(notifications.length);
   }, []);
   const [navMenus, setNavMenus] = useState(false);
-  const [icon, setIcon] = useState(0);
+  const [icon, setIcon] = useState('0');
   const togglee = () => {
     setNavMenus(!navMenus);
   };
@@ -395,102 +395,114 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                       })}
                 </ul>
 
-                <div class='dropdown'>
+                <div class='dropdown m-0'>
                   <button
-                    class='btn  dropdown-toggle'
+                    class='btn dropdown m-0 size-4px'
                     type='button'
                     id='dropdownMenuButton1'
                     data-bs-toggle='dropdown'
                     aria-expanded='false'
                   >
-                    {icon === 0 ? (
-                      <img src='/assets/images/icons/ethereum.png' alt='' />
+                    {icon === '0' ? (
+                      <img
+                        src='/assets/images/icons/ethereum.png'
+                        alt=''
+                        value='0'
+                      />
                     ) : null}
-                    {icon === 1 ? (
-                      <img src='/assets/images/icons/polygon.png' alt='' />
+                    {icon === '1' ? (
+                      <img
+                        src='/assets/images/icons/polygon.png'
+                        alt=''
+                        value='1'
+                      />
                     ) : null}
-                    {icon === 2 ? (
-                      <img src='/assets/images/icons/binance.png' alt='' />
+                    {icon === '2' ? (
+                      <img
+                        src='/assets/images/icons/binance.png'
+                        alt=''
+                        value='2'
+                      />
                     ) : null}
-                    {icon === 3 ? (
-                      <img src='/assets/images/icons/harmony.png' alt='' />
+                    {icon === '3' ? (
+                      <img
+                        src='/assets/images/icons/harmony.png'
+                        alt=''
+                        value='3'
+                      />
                     ) : null}
                   </button>
                   <ul
-                    class='dropdown-menu'
+                    class='dropdown-menu '
                     aria-labelledby='dropdownMenuButton1'
                   >
-                    <button
-                      class='dropdown-item m-0 '
-                      type='button'
+                    <li
+                      class='list-group-item m-1'
                       value='0'
                       onClick={(e) => {
-                        ethTest()
-                        setIcon(e.target.value);
+                        ethTest();
+                        setIcon(e.target.getAttribute('value'));
                       }}
                     >
                       <img
                         src='/assets/images/icons/ethereum.png'
                         style={{ marginRight: '5px' }}
-                        alt='  '
+                        alt='Ethereum Testnet'
+                        value='0'
                       />
                       Ethereum Testnet
-                    </button>
-                    <button
-                      class='dropdown-item m-0'
-                      type='button'
+                    </li>
+                    <li
+                      class='list-group-item m-1'
                       value='1'
                       onClick={(e) => {
-                        polyTest()
-                        setIcon(e.target.value);
+                        polyTest();
+                        setIcon(e.target.getAttribute('value'));
                       }}
                     >
                       <img
                         src='/assets/images/icons/polygon.png'
                         style={{ marginRight: '5px' }}
-                        alt=''
+                        alt='Polygon Testnet'
+                        value='1'
                       />
                       Polygon Testnet
-                    </button>
-
-                    <button
-                      class='dropdown-item m-0'
-                      type='button'
+                    </li>
+                    <li
+                      class='list-group-item m-1'
                       value='2'
                       onClick={(e) => {
-                        bscTest()
-                        setIcon(e.target.value);
+                        bscTest();
+                        setIcon(e.target.getAttribute('value'));
                       }}
                     >
                       <img
                         src='/assets/images/icons/binance.png'
                         style={{ marginRight: '5px' }}
-                        alt=''
+                        alt='Binance Testnet'
+                        value='2'
                       />
-                      BSC Testnet
-                    </button>
-
-                    <button
-                      class='dropdown-item m-0'
-                      type='button'
+                      Binance Testnet
+                    </li>
+                    <li
+                      class='list-group-item m-1'
                       value='3'
                       onClick={(e) => {
-                        harmonyTest()
-                        setIcon(e.target.value);
+                        harmonyTest();
+                        setIcon(e.target.getAttribute('value'));
                       }}
                     >
                       <img
                         src='/assets/images/icons/harmony.png'
                         style={{ marginRight: '5px' }}
-                        alt=''
+                        alt='Harmony Testnet'
+                        value='3'
                       />
                       Harmony Testnet
-                    </button>
-
-                    {/* </a> */}
-                    {/* </li> */}
+                    </li>
                   </ul>
                 </div>
+
                 <form className='d-flex align-items-center'>
                   <div className='dropdown language-dropdown d-none d-md-block'>
                     <span data-bs-toggle='dropdown' aria-expanded='false'>
