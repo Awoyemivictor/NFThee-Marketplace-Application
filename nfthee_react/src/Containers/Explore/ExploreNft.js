@@ -89,7 +89,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
     switch (sortBy) {
       case "name A-Z":
        let a= [...filteredData].sort((a, b) =>
-       a.name > b.name ? 1 : -1,
+       a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
      );
      setFilteredData(a)
      
@@ -97,7 +97,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
 
       case "name Z-A":
        let b= [...filteredData].sort((a, b) =>
-        a.name > b.name ? -1 : 1,
+        a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1,
       );
       setFilteredData(b)
         break;

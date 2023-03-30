@@ -208,7 +208,7 @@ const handleDelete = data => {
 }
 
   const handleView = data => {
-    history.push(`/dashboard/viewReport?id=${data._id}`, {
+    history.push(`/dashboard/nftviewReport?id=${data._id}`, {
         state: {
             _id: data._id
         }
@@ -216,7 +216,7 @@ const handleDelete = data => {
 }
   return (
     <Fragment>
-    <Breadcrumb title='Report' parent='CRM' />
+    <Breadcrumb title="Report's on Nft's" parent='CRM' />
     <Container fluid={true}>
       <DataTableExtensions {...tableData} >
         <DataTable

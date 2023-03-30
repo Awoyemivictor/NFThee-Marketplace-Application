@@ -92,7 +92,7 @@ const Apexcharts =({xaxiss,avgPrice,volume})=>{
       // },
       {
         name: 'Average price(ETH)',
-        type: 'line',
+        type: 'column',
         data:  avgPrice,
         // yAxis: 1
       }

@@ -11,13 +11,13 @@ const { credentials } = require('../../config').constantCredentials;
 
 exports.userReport = async (req, res) => {
   try {
+    console.log(req.body);
     const insertData = new reportedUserModel({
       reportedUser: req.body.reportedUser,
       userId: req.body.userId,
       action: req.body.action,
       report_issue: req.body.report_issue,
     });
-    console.log('insertData', insertData);
     return insertData.save().then((results) => {
       return {
         message: 'report Added Successfully ',

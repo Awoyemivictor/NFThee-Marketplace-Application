@@ -38,13 +38,13 @@ export default function VeiwReport() {
 }, []) 
   return ( 
     <Fragment>
-<Breadcrumb title="Report Detail" parent="CRM" />
+<Breadcrumb title="Nft Report Detail" parent="CRM" />
 <Container fluid={true}>
 <Row>
   <Col sm="12" xl="12">
     <Card>
       <CardHeader>
-        <h5>Report View</h5>
+        <h5>Nft Report View</h5>
       </CardHeader>
     {loading?   <div class="d-flex justify-content-center">
 <div class="spinner-border" role="status">
@@ -56,13 +56,27 @@ export default function VeiwReport() {
             <Col md="12">
               <Form className="theme-form">
               <FormGroup className="form-row">
-                  <h6 className="col-sm-3 col-form-label text-right f-w-700">
-                    From:
-                  </h6>
-                  <div className="col-xl-5 col-sm-9 col-form-label text-left">
-                    <img alt="" src={User[0].profile_image?User[0].profile_image:require('../../../assets/images/user/avt-1.jpg')} height="100px" width="100px"/>
-                  </div>
-                </FormGroup>
+                    <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                      From:
+                    </h6>
+                    <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                      <img alt="" src={User[0].userId.profile_image?User[0].userId.profile_image:require('../../../assets/images/user/avt-1.jpg')} height="100px" width="100px"/>
+                    <h6 className="col-sm-3 col-form-label text-center f-w-700">
+                      {User[0].userId.user_name}
+                    </h6>
+                    </div>
+                  </FormGroup>
+                  <FormGroup className="form-row">
+                    <h6 className="col-sm-3 col-form-label text-right f-w-700">
+                      On:
+                    </h6>
+                    <div className="col-xl-5 col-sm-9 col-form-label text-left">
+                      <img alt="" src={User[0].nftId.uploadFile?User[0].nftId.uploadFile:require('../../../assets/images/user/avt-1.jpg')} height="100px" width="100px"/>
+                    <h6 className="col-sm-3 col-form-label text-center f-w-700">
+                      {User[0].nftId.name}
+                    </h6>
+                    </div>
+                  </FormGroup>
                 <FormGroup className="form-row">
                   <h6 className="col-sm-3 col-form-label text-right f-w-700">
                     Action:

@@ -69,13 +69,23 @@ export const MENUITEMS = [
         type: 'link'
     },
     {
-        title: 'Report',
+        title: `Report On Nft's`,
         icon: 'desktop',
         type: 'sub',
         badgeType: 'primary',
         badgeValue: 'new',
         active: false,
-        path: `${process.env.PUBLIC_URL}/dashboard/reportdetail`,
+        path: `${process.env.PUBLIC_URL}/dashboard/nftreportdetail`,
+        type: 'link'
+    },
+    {
+        title: `Report On User's`,
+        icon: 'desktop',
+        type: 'sub',
+        badgeType: 'primary',
+        badgeValue: 'new',
+        active: false,
+        path: `${process.env.PUBLIC_URL}/dashboard/userreportdetail`,
         type: 'link'
     },
     {

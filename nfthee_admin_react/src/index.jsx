@@ -52,9 +52,12 @@ import SingleUser from "./components/dashboard/otherusers/usersSingle";
 //projects
 import Projects from "./components/dashboard/projects/index.projects";
 import SingleProject from "./components/dashboard/projects/projectSingle";
-//report
-import ReportDetail from "./components/dashboard/report/report-details";
-import VeiwReport from "./components/dashboard/report/viewReport";
+//Nft report
+import ReportDetail from "./components/dashboard/reportOnNft/report-details";
+import VeiwReport from "./components/dashboard/reportOnNft/viewReport"
+//User's report
+import UserReport from "./components/dashboard/reportOnUser/userReportdetail";
+import ViewUserReport from "./components/dashboard/reportOnUser/viewUserReport";
 //market place
 import MarketPlace from "./components/dashboard/marketplace/index.marketplace";
 // import View from "./components/dashboard/view/CreateItemDetail";
@@ -408,8 +411,13 @@ const Root = () => {
 
                 <Route
                 exact
-                path={`/dashboard/reportdetail`}
+                path={`/dashboard/nftreportdetail`}
                 component={ReportDetail}
+              />
+               <Route
+                exact
+                path={`/dashboard/userreportdetail`}
+                component={UserReport}
               />
               <Route
                 exact
@@ -448,8 +456,13 @@ const Root = () => {
               />
                 <Route
                 exact
-                path={`/dashboard/viewReport`}
+                path={`/dashboard/nftviewReport`}
                 component={VeiwReport}
+              />
+              <Route
+                exact
+                path={`/dashboard/userviewReport`}
+                component={ViewUserReport}
               />
 
               <Route path={`/dashboard/ecommerce`} component={Ecommerce} />

@@ -9,9 +9,9 @@ import ExploreNftListRow from "../Explore/ExploreNftListRow";
 export default function OtherUser() {
     const user = useAppSelector(state => state.user.user)
 const history=useHistory()
-    $(document).ready(function () {
-      $('select').niceSelect();
-    });
+    // $(document).ready(function () {
+    //   $('select').niceSelect();
+    // });
   
     useEffect(() => {
       $(document).ready(function () {
@@ -100,17 +100,13 @@ const history=useHistory()
   const [report, setReport] = useState();
 
 
+  
   if (id === _id) {
     history.replace('/profile');
     // history.go(-2); // Go back to the second last page in the history stack
   }
   
-  const handleReportData = (e) => {
-    setReport({
-      ...report,
-      [e.target.name]: e.target.value,
-    });
-  };
+ 
 
     useEffect(()=>{
   
@@ -129,36 +125,37 @@ const history=useHistory()
     },[like])
   
 
-  
+    const handleUser = (e) => {
+      console.log(e.target.value)
+      setReport({
+        ...report,
+        [e.target.name]: e.target.value,
+      });
+    };
+    console.log(report)
+
     const submitReport=(e)=>{
       e.preventDefault()
-      // const formData = new FormData();
-      // if(report.action){
-      //   formData.append("action", report.action);
-      // }
-      // if(report.report_issue){
-      //   formData.append("report_issue", report.report.report_issue);
-      // }
-      // formData.append("reportedUserId", id);
-      // formData.append("userId", _id);
+     
       
       // instance
-      // .post(`/api/insertReport`, formData)
-      // .then((response) => {
-      //   if (response.status === 200) {
-      //     Swal.fire({
-      //       icon: "success",
-      //       title: "Reported Successfully",
-      //       showConfirmButton: false,
-      //       timer: 2500,
-      //     });
-      //   }
+      axios
+      .post(`http://localhost:8002/api/userReport`, {action:report.action,userId:_id,reportedUser:id,report_issue:report.report_issue})
+      .then((response) => {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Reported Successfully",
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
         
       
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
       
         }
    
@@ -457,6 +454,7 @@ const history=useHistory()
                           <a href="#"><span className="profile-sub-header">
                             <img src="/assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
                         </div> */}
+                          <span id="tooltip" class="tooltip ">Copied !</span>
                         <a
                           href="#"
                           type="button"
@@ -464,7 +462,6 @@ const history=useHistory()
                           onClick={myFunction}
                           data-title="Copy Address"
                         >
-                          <sapn id="tooltip" class="tooltip ">Copied !</sapn>
   
                           <img
                             src="/assets/images/icons/ethereum-white.png"
@@ -957,7 +954,7 @@ const history=useHistory()
                         </span>
                       </div>
                       <div className="card-media">
-                <Link to={`/exploredetail/${collection._id}`}>
+                <Link to={`/explorefilter/${collection._id}`}>
   
                           <img
                             // src={'//assets/images/featured-img7.jpg'}
@@ -1030,12 +1027,12 @@ const history=useHistory()
                     <div className="tab-pane fade" id="offers">
                       7
                     </div> */}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                    {/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
   Launch demo modal
-</button>
+</button> */}
 {/* 
 <!-- Modal --> */}
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+<div class="modal fade" id="reportModal" tabIndex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -1045,8 +1042,8 @@ const history=useHistory()
       <div class="modal-body">
       <form onSubmit={submitReport}>
           <div class="mb-3">
-          <select class="form-select" onChange={handleReportData} aria-label="Default select example">
-  {/* <option disabled selected>Select</option> */}
+          <select class="form-select" name="action" onChange={handleUser} aria-label="Default select example" >
+          <option disabled selected>Select</option>
   <option value="Fake Collection">Fake Collection Or possible scam</option>
   <option value="Explict">Explict and sensitive content</option>
   <option value="Spam">Spam</option>
@@ -1054,13 +1051,13 @@ const history=useHistory()
 </select>
           </div>
          {report?.action==="Other"? <div class="mb-3">
-            <label for="message-text" class="col-form-label">Issue:</label>
-            <textarea name="report_issue" class="form-control" id="message-text"></textarea>
+            <label htmlFor="message-text" class="col-form-label">Issue:</label>
+            <textarea name="report_issue" onChange={handleUser} class="form-control" id="message-text"></textarea>
           </div>:null}
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Report</button>
+        <button type="submit" onClick={submitReport} class="btn btn-primary">Report</button>
       </div>
     </div>
   </div>

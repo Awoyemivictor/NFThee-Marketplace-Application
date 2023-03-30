@@ -10,6 +10,7 @@ import instance from "./axios";
 import { getUserAddress } from "./Config/constants";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 // import MultipleFileInput from "./Containers/CreateNewItem/formTest";
 function App() {
@@ -18,15 +19,30 @@ function App() {
   const verifyWallet=async()=>{
   const address=await getUserAddress();
   if(isAuth()){
-   await instance.post('/api/checkWalletAddress',{account_address:address ,id:ldata._id})
-    .then(res=>console.log('app'))
+    
+   await 
+  //  axios
+   instance
+   .post('/api/checkWalletAddress',{account_address:address ,id:ldata._id})
+    .then(res=>{
+      if(res.data.data===false){
+        Swal.fire({
+          icon: "error",
+          title: "Connect Wallet ",
+          text: 'Which you used during Login',
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    })
   }
 }
 
 
+
  const [checkChanges,setChanges]=useState()
   async function requestPermission() {
-   if(isAuth()){ 
+  //  if(isAuth()){ 
     const permission = await Notification.requestPermission();
     if (permission === "granted" &&ldata._id) {
       // Generate Token
@@ -44,7 +60,8 @@ function App() {
       // Send this token  to server ( db)
     } else if (permission === "denied") {
       alert("You denied for the notification");
-    }}
+    }
+  // }
   }
 
 
