@@ -461,7 +461,6 @@ instance
 
     //  .then((res)=>setItemActivity(res.data.data.action))
   }, []);
-  console.log({ itemEvent });
 
   useEffect(() => {
     let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
@@ -485,11 +484,11 @@ instance
         const history = res.data.data.map((item) => item.message);
         setFetchHistory(history);
         const newAxis = res.data.data.map((data) => data.sCreated);
-        const vol = res.data.data.map((data) => data.action);
+        // const vol = res.data.data.map((data) => data.action);
         const newprice = res.data.data.map((data) => data.price);
         setxaxis(newAxis);
         setAvgPrice(newprice);
-        setVolume(vol);
+        // setVolume(vol);
       })
       .catch((error) => {
         console.error('Error fetching history', error);
@@ -527,6 +526,7 @@ instance
                     <ModalBuynft
                       onRequestClose={toggleModal}
                       nftData={nftData}
+                      userId={userId._id}
                     />
                   )}
                   {convertModalOpen && (
@@ -757,8 +757,10 @@ instance
                                   <div className="ms-3">
                                     <p className="text1">Owned By</p>
                                     <span className="text2">
+                                    <Link to={ `/users/${nftData?.currentOwner?._id}`}>
                                       {nftData?.currentOwner?.user_name ||
-                                        'Abstract Paint'}
+                                        ''}
+                                        </Link>
                                     </span>
                                   </div>
                                 </div>
@@ -918,9 +920,12 @@ instance
                                         <p className="text1">
                                           {t('product.Minted By')}{' '}
                                           <span>
+                                    <Link to={ `/users/${nftData?.currentOwner?._id}`}>
+
                                             {nftData?.currentOwner?.user_name
                                               ? nftData?.currentOwner?.user_name
-                                              : 'HEROSTHENAME'}
+                                              : ''}
+                                              </Link>
                                           </span>
                                         </p>
                                         <span className="text2">
@@ -1132,7 +1137,7 @@ instance
                                   <div className="pricing-detail">
                                     {/* <h4> {t("product.Highest Bid By")} Kohaku Tora</h4> */}
                                     <div className="d-flex align-items-center">
-                                      <span className="d-flex align-items-center">
+                                     {!nftData?.putOnMarketplace?.wait? <span className="d-flex align-items-center">
                                         <a href="#" className="value1">
                                           <img
                                             src="/assets/images/icons/ethereum-big.png"
@@ -1155,7 +1160,7 @@ instance
                                         </h6>
 
                                         {/* <sup> <a href="#" className="value2 ml-1">$</a></sup> */}
-                                      </span>
+                                      </span>:'wait for listing'}
                                       {/* <h6 className="text-muted ml-auto mb-0 small"> ${priceInUSD} </h6> */}
                                     </div>
                                   </div>
@@ -1166,7 +1171,9 @@ instance
                         </div>
                       </div>
                       <div className="row">
-                        {nftData?.currentOwner?._id === userId._id &&
+{/* //purchased */}
+                        {
+                          nftData?.currentOwner?._id === userId._id &&
                           nftData?.listing === 'delisting' ? (
                           <>
                             <div className="col-lg-4 mb-4 mb-lg-0">
@@ -1179,88 +1186,36 @@ instance
                               </button>
                             </div>
                           </>
-                        ) : nftData?.currentOwner?._id === userId._id &&
-                          nftData.putOnMarketplace.price ? (
-                          <>
-                            <div className="col-lg-4 mb-4 mb-lg-0">
-                              <button
-                                className="btn btn-outline-white1 w-100"
-                                onClick={handleTokenDelisting}
-                              >
-                                <i className="bx bxs-purchase-tag me-2" />
-                                Delisting
-                              </button>
-                            </div>
-                          </>
-                        ) : nftData?.currentOwner?._id === userId._id &&
-                          nftData.putOnMarketplace.Bid_price ? (
-                          <div className="col-lg-4 mb-4 mb-lg-0">
-                            <button
-                              className="btn btn-outline-white1 w-100"
-                              onClick={removeFromAuction}
-                            >
-                              <i className="bx bx-credit-card me-2" /> Remove
-                              From Auction
-                            </button>
-                          </div>
-                        ) : (
-                          <>
-                            {nftData?.putOnMarketplace?.Bid_price ? null : (
-                              <div className="col-lg-4 mb-4 mb-lg-0">
-                                <button
-                                  className="btn btn-violet btn-shadow w-100"
-                                  onClick={toggleModal}
-                                >
-                                  <i className="bx bxs-basket me-2" />
-                                  {t('product.Buy now')}
-                                </button>
-                              </div>
-                            )}
+                        ) :null
+                        }
 
-                            {/* {nftData?.putOnMarketplace?.price &&nftData?.listing==='listing' ? null : (
-                              <div className='col-lg-4 mb-4 mb-lg-0'>
-                                <button
-                                  className='btn btn-outline-white1 w-100'
-                                  data-bs-toggle='modal'
-                                  data-bs-target='#makeOfferModal'
-                                >
-                                  <i className='bx bxs-purchase-tag me-2' />{' '}
-                                  Make An Offer
-                                </button>
-                              </div>
-                            )} */}
-                            {nftData?.putOnMarketplace?.Bid_price &&
-                              nftData?.listing === 'listing' ? (
-                              <div className="col-lg-4 mb-4 mb-lg-0">
-                                <button
-                                  className="btn btn-outline-white1 w-100"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#makeOfferModal"
-                                >
-                                  <i className="bx bxs-purchase-tag me-2" />{' '}
-                                  Make An Offer
-                                </button>
-                              </div>
-                            ) : null}
-                            {nftData?.listing === 'delisting' ? (
-                              <p>Wait for Listing</p>
-                            ) : null}
-                          </>
-                        )}
-                        {nftData?.listing === 'listing' ? (
-                          <div className="col-lg-4 mb-4 mb-lg-0 create-item-content overflow-hidden">
-                            <button
-                              className="btn btn-outline-white1 w-100"
-                            // onClick={listingToggleModal}
-                            >
-                              <i className="bx bx-credit-card me-2" />{' '}
-                              {t('product.Buy Card')}
-                            </button>
-                          </div>
-                        ) : null}
-
-                        {nftData?.putOnMarketplace?.price ? (
-                          <div className="col-lg-4 mb-4 mb-lg-0">
+{/* buyer */}
+                                           
+              {          
+ nftData?.listing==='listing'&&nftData.putOnMarketplace.Bid_price&&nftData.currentOwner._id !==userId._id?
+ (  <><div className="col-lg-4 mb-4 mb-lg-0">
+   <button
+     className="btn btn-outline-white1 w-100"
+     data-bs-toggle="modal"
+     data-bs-target="#makeOfferModal"
+   >
+     <i className="bx bxs-purchase-tag me-2" />{' '}
+     Make An Offer
+   </button>
+ </div></>):null
+                        }
+                                 {          
+ nftData?.listing==='listing'&&nftData.putOnMarketplace.price&&nftData.currentOwner._id !==userId._id?
+ (  <><div className="col-lg-4 mb-4 mb-lg-0">
+ <button
+   className="btn btn-violet btn-shadow w-100"
+   onClick={toggleModal}
+ >
+   <i className="bx bxs-basket me-2" />
+   {t('product.Buy now')}
+ </button>
+</div>
+<div className="col-lg-4 mb-4 mb-lg-0">
                             <button
                               className="btn btn-outline-white1 w-100"
                               onClick={convertToggleModal}
@@ -1269,7 +1224,42 @@ instance
                               {t('Convert')}
                             </button>
                           </div>
-                        ) : null}
+</>):null }
+                         
+                      
+{/* seller */}
+{
+  nftData?.currentOwner?._id===userId._id&&nftData.putOnMarketplace.price&&nftData.listing==='listing'?
+  <>
+   <div className="col-lg-4 mb-4 mb-lg-0">
+                              <button
+                                className="btn btn-outline-white1 w-100"
+                                onClick={handleTokenDelisting}
+                              >
+                                <i className="bx bxs-purchase-tag me-2" />
+                                Delisting
+                              </button>
+                            </div>
+  </>:null
+}
+{
+  nftData?.currentOwner?._id===userId._id&&nftData.putOnMarketplace.Bid_price&&nftData.listing==='listing'?
+  <>
+    <div className="col-lg-4 mb-4 mb-lg-0">
+                            <button
+                              className="btn btn-outline-white1 w-100"
+                              onClick={removeFromAuction}
+                            >
+                              <i className="bx bx-credit-card me-2" /> Remove
+                              From Auction
+                            </button>
+                          </div>
+  </>:null
+}
+
+
+                      
+                      
                       </div>
                       <div
                         className="modal fade"
@@ -1826,12 +1816,12 @@ instance
                             </div>
                             <div>
                               {/* <div id="chart" /> */}
-                              {(volume && avgPrice && xaxis != undefined||null||'') ||
+                              {(avgPrice && xaxis != undefined||null||'') ||
                                 null ? (
                                 <Apexcharts
                                   xaxiss={xaxis}
                                   avgPrice={avgPrice}
-                                  volume={volume}
+                                  
                                 />
                               ) : null}
                             </div>

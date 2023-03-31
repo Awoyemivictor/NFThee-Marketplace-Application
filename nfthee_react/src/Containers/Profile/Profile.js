@@ -8,7 +8,7 @@ import instance from "../../axios";
 import { messaging } from "../../firebase-config";
 import { async } from "@firebase/util";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
-import { deleteBid, fetchUserBid } from "../../services/apiServices";
+import { deleteBid, fetchUserBid, getPriceConversion } from "../../services/apiServices";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -93,7 +93,7 @@ const Profile = () => {
   const [bidRecieve, setBidRecieve] = useState([])
   const [activeTab, setActiveTab] = useState();
   const [bidchanges, setBidChanged] = useState();
-
+const [activityData,setActivity]=useState([])
 
 
   useEffect(() => {
@@ -101,6 +101,14 @@ const Profile = () => {
     instance
       .get(`/api/userCollections?id=${_id}`)
       .then(res => (setCollectionData(res.data.data)))
+
+  }, [])
+  useEffect(() => {
+
+    instance
+    // axios
+      .get(`/api/fetchUserHistory?userId=${_id}`)
+      .then(res => (setActivity(res.data.data)))
 
   }, [])
 
@@ -156,8 +164,13 @@ const Profile = () => {
 
   const [changes, setChanges] = useState()
   const [buttonLoading, setButtonLoading] = useState(false)
-  useEffect(() => {
+  const [priceCov,setPriceCon]=useState()
+
+  useEffect(async() => {
     // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
+    let result = await getPriceConversion();
+    setPriceCon(result)
+
     instance
       .get(`/api/followingList?id=${_id}`)
       .then(res => setUsersData(res.data.data[0].following))
@@ -588,7 +601,7 @@ const Profile = () => {
                       aria-selected="false"
                     >
                       <img src="/assets/images/icons/act-line-icon.png" alt="" />
-                      Activity (05)
+                      Activity ({activityData.length})
                     </button>
                     {/* <div className="dropdown-menu">
                     <div className="dropdown-divider"></div>
@@ -675,9 +688,8 @@ const Profile = () => {
                               </div>
                               <div id="option1" className="size_chart" >
                                 <div className="activity-table-container table-responsive">
-                                  {
-                                    itemData.lenght > 0 ? itemData.map((data, i) => (
-                                      <table className="table" key={i}>
+                                  
+                                      <table className="table" >
                                         <thead>
                                           <tr>
 
@@ -685,36 +697,46 @@ const Profile = () => {
                                             <th scope="col">Type</th>
                                             <th scope="col">Unit Price</th>
                                             <th scope="col">Floor Difference</th>
-                                            <th scope="col">Expiration Date</th>
+                                            <th scope="col">Time/Date</th>
                                             <th scope="col"> </th>
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
+                                        {
+                                    itemData.length>0 ? itemData.map((data, i) => (
+                                          <tr key={i}>
                                             <td>
+                                       <Link to={`/exploredetail/${data._id}`}>
+
                                               <div className="d-flex align-items-center">
                                                 <img src={data.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
                                                 <span className="ms-2">{data.name}</span>
                                               </div>
+                                              </Link>
                                             </td>
-                                            <td > {data.putOnMarketplace.Bid_price ? 'Bid' : ''}{data.putOnMarketplace.price ? 'Fixed ' : ''}  </td>
+                                            <td > {data.putOnMarketplace.Bid_price ? 'Bid' : ''}{data.putOnMarketplace.price ? 'Fixed ' : ''}
+                                            {data.putOnMarketplace.wait ? 'Waiting ' : ''} 
+                                            
+                                              </td>
+
 
                                             <td>
                                               <div className="price-detail">
                                                 <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.putOnMarketplace.Bid_price ? data.putOnMarketplace.Bid_price : ''}{data.putOnMarketplace.price ? data.putOnMarketplace.price : ''} </h5>
-                                                <h6>$52547.30</h6>
+                                                <h6>${data.putOnMarketplace.price?( parseFloat(priceCov) * parseFloat(data.putOnMarketplace.price)).toFixed(5):null}
+                                                {data.putOnMarketplace.Bid_price?( parseFloat(priceCov) * parseFloat(data.putOnMarketplace.Bid_price)).toFixed(5):null}</h6>
                                               </div>
                                             </td>
                                             <td >   At Floor   </td>
-                                            <td>  {data.updatedAt}</td>
+                                            <td>  {data.timeSinceCreated}</td>
                                             <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
                                           </tr>
-
+                                    )) : `Create Nft's`
+                                  }
                                         </tbody>
                                       </table>
-                                    ))
-                                      : `Create Nft's`
-                                  }
+                                   
+                                     
                                 </div>
 
                                 {/* <div className="row"  >
@@ -958,7 +980,7 @@ const Profile = () => {
 
                   </div>
                   <div className="tab-pane fade" id="collections">
-                    4<div className="row">
+                    <div className="row">
                       {collectionData.map((collection, index) => {
                         return (
                           <div className="col-12 col-sm-3 " key={index}>
@@ -1040,11 +1062,66 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="tab-pane fade" id="liked">
-
+555
                     <ExploreNftListRow data={addFavData} loadingFilter={loadingFilter} setliked={setliked} />
                   </div>
                   <div className="tab-pane fade" id="activity">
-                    6
+          
+                    <div className="activity-table-container table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" />
+                        <th scope="col">Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th
+                          scope="col"
+                          className="d-flex align-items-center justify-content-between border-bottom-0"
+                        >
+                          Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                       
+                      {activityData?.map((data,i) => {
+                        return(
+                          <tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
+                                                   <td>
+                                                    <Link to={`/exploredetail/${data?.nftId?._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.nftId?.uploadFile?data.nftId.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.nftId?.name}</span> </div>
+                                                       </Link>
+                                                   </td>
+                                                   <td>
+                                                       <div className="price-detail">
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.price } </h5>
+                                                           <h6>${( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}</h6>
+                                                       </div>
+                                                   </td>
+                                                   <td>1</td>
+                                                   <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
+                                                   <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                               </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+
+
+
+
+
+
+
                   </div>
                   <div className="tab-pane fade" id="offers">
                     <div className="container">
