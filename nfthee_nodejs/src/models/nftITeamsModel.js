@@ -73,6 +73,7 @@ const nftSchema = new Schema(
       fixedPrice: {
         price: String,
       },
+      wait:String,
       openForBides: String,
       timedAuction: {
         minimum_bid: String,

@@ -156,7 +156,7 @@ const Profile = () => {
 
   const [changes, setChanges] = useState()
   const [buttonLoading, setButtonLoading] = useState(false)
-  useEffect(() => {
+  useEffect(() => { 
     // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
     instance
       .get(`/api/followingList?id=${_id}`)
@@ -230,7 +230,7 @@ const Profile = () => {
         }
       });
 
-      // console.log("collectionData",id,"--",_id)
+      // console.log("collectionData",{collectionData})
       const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
       // console.log("ldata lcal",ldata,"---",ldata.user_name)
 
@@ -958,7 +958,7 @@ const Profile = () => {
 
                   </div>
                   <div className="tab-pane fade" id="collections">
-                    4<div className="row">
+                    <div className="row">
                       {collectionData.map((collection, index) => {
                         return (
                           <div className="col-12 col-sm-3 " key={index}>
@@ -967,7 +967,7 @@ const Profile = () => {
                                 <div className="card-body">
                                   <div className="auction-create-by">
                                     <img
-                                      src="/assets/images/img2.png"
+                                      src={image.preview}
                                       alt=""
                                       className="avatar-icon img-fluid"
                                     />
