@@ -22,12 +22,12 @@ async function main() {
   // );
   // console.log( network)
   //   if (network === 'deployment') {
-  const ERC721 = await hre.ethers.getContractFactory('TestERC721');
-  let erc721 = await ERC721.deploy();
-  await erc721.deployed();
-  console.log(
-    `TestERC721 deployed at ${erc721.address} in network: ${network}.`
-  );
+  // const ERC721 = await hre.ethers.getContractFactory('TestERC721');
+  // let erc721 = await ERC721.deploy();
+  // await erc721.deployed();
+  // console.log(
+  //   `TestERC721 deployed at ${erc721.address} in network: ${network}.`
+  // );
   const ERC20 = await hre.ethers.getContractFactory('TestERC20');
   const erc20 = await ERC20.deploy();
   await erc20.deployed();
