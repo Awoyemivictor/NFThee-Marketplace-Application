@@ -6,6 +6,7 @@ import {
   getCollection,
   getPriceConversion,
   handleBuyNotification,
+  handleNftBuyData,
 } from '../../services/apiServices';
 
 export const Modal = ({ onRequestClose }) => {
@@ -98,7 +99,7 @@ export const Modal = ({ onRequestClose }) => {
   );
 };
 
-export const ModalBuynft = ({ onRequestClose, nftData }) => {
+export const ModalBuynft = ({ onRequestClose, nftData,userId }) => {
   const [priceCov,setPriceCon]=useState()
 
   const buyNFT = async () => {
@@ -121,6 +122,7 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
     if (nftData?.putOnMarketplace?.price !== undefined) {
       await handleNFTBuy(price, collectionName, tokenId);
       await handleBuyNotification(nftData.currentOwner._id);
+      await handleNftBuyData(userId,nftData._id)
     } else {
       await handleNFTBidListing(tokenId, price2, getCollectioAddress);
     }

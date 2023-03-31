@@ -12,11 +12,11 @@ export const MENUITEMS = [
             // {path: `${process.env.PUBLIC_URL}/dashboard/view`, title: 'View', type: 'link' }, 
             //    {title: 'view', icon: 'desktop', type: 'sub', badgeType: 'primary', badgeValue: 'new', sidebartitle: 'General', active: false, children:
             //    [
+                {path: `${process.env.PUBLIC_URL}/dashboard/view/index.marketplace`, title: 'Marketplace', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.component`, title: 'items', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.collection`, title: 'collections', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.otheruser`, title: 'Users', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.projects`, title: 'Projects', type: 'link' },
-                {path: `${process.env.PUBLIC_URL}/dashboard/view/index.marketplace`, title: 'Marketplace', type: 'link' },
             //     ]},
 
 

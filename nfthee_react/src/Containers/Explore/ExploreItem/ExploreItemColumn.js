@@ -4,6 +4,7 @@ import {useAppDispatch} from "../../../hooks/useRedux";
 import {ModalBuynft} from "../../../Components/Layout/Modal";
 import {setFavorite} from "../../../redux/favoriteSlice";
 import { handleLikes } from "../../../services/apiServices";
+import { Link } from "react-router-dom";
 
 const ExploreItemColumn = ({data,setliked}) => {
     const {t} = useTranslation()
@@ -73,10 +74,11 @@ const ExploreItemColumn = ({data,setliked}) => {
                                                     className="col-md-2 col-4">
                                                     <div
                                                         className="card-media">
+                                                               <Link to={`/exploredetail/${nftData._id}`}>
                                                         <img
                                                             src={nftData?.uploadFile ? nftData.uploadFile : "/assets/images/featured-img7.jpg"}
                                                             alt=""
-                                                            className="img-fluid"/>
+                                                            className="img-fluid"/></Link>
                                                     </div>
                                                 </div>
                                                 <div
@@ -160,9 +162,14 @@ const ExploreItemColumn = ({data,setliked}) => {
                                                             </h6>
                                                         </div>
                                                     </div>
-                                                    <button className="btn buy-now-btn" onClick={(e) => toggleModal(index)}>
+                                                   {nftData?.putOnMarketplace?.price? <button className="btn buy-now-btn" onClick={(e) => toggleModal(index)}>
                                                         Buy Now
-                                                    </button>
+                                                    </button>:null}
+                                                    {nftData?.putOnMarketplace?.Bid_price? <button className="btn buy-now-btn" onClick={(e) => toggleModal(index)}>
+                                                    <Link to={`/exploredetail/${nftData._id}`}>
+                                                    Make An Offer
+                                                    </Link>
+                                                    </button>:null}
 
                                                 </div>
                                             </div>

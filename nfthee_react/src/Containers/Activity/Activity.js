@@ -66,12 +66,12 @@ useEffect(async() => {
 .then(res=>{ setActivityData(res.data.data)
   // sCreated
   const newAxis=res.data.data.map(data=>data.sCreated)
-  const volume=res.data.data.map(data=>data.action)
+  // const volume=res.data.data.map(data=>data.action)
 
   const newprice=res.data.data.map(data=>data.price)
   setxaxis(newAxis)
   setAvgPrice(newprice)
-  setVolume(volume)
+  // setVolume(volume)
             })
 .finally(res=>setLoading(false))
 
@@ -222,7 +222,7 @@ setPriceCon(result)
                             </div>
                             <div className="row">
                               <div className="chart"> 
-                             {vol&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={vol}/>:null}
+                             {avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} />:null}
 
                               </div>
                             </div>

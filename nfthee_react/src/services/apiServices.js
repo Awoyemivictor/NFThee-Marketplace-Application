@@ -3,6 +3,7 @@
 import axios from 'axios';
 import instance from '../axios';
 import { NavLink, Link, useParams, useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL + '/api';
 
@@ -464,3 +465,20 @@ export const getPriceConversion = async () => {
     });
   return result;
 };
+export const handleNftBuyData = async (currentOwner,nftId) => {
+
+await instance.post('/api/buyNft',{currentOwner:currentOwner,nftId:nftId})
+.then(res=>{
+  if(res.status===200){
+    Swal.fire({
+      icon: "success",
+      title: "Purchased Successfully",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  }
+})
+  // return result;
+};
+
+

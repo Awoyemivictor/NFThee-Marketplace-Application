@@ -138,12 +138,20 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
                         </div>
                       </div>
                       <div className='meta-info'>
-                        <button
+                        {nft?.putOnMarketplace?.price?<button
                           className='btn buy-now-btn'
                           onClick={(e) => toggleModal(index)}
                         >
                           Buy Now
-                        </button>
+                        </button>:null}
+                       {nft?.putOnMarketplace?.Bid_price? <button
+    className='btn buy-now-btn'
+   >
+     <Link to={`/exploredetail/${nft._id}`}>
+    
+     Make An Offer
+     </Link>
+   </button>:null}
 
                         {nft.likes.includes(_id) ? (
                           <button
@@ -210,6 +218,7 @@ const ExploreNftListRow = ({ data, loadingFilter, setliked }) => {
               )}
             </div>
           </div>
+         
         </div>
       )}
     </>
