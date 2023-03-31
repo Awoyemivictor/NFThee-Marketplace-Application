@@ -243,7 +243,7 @@ const [activityData,setActivity]=useState([])
         }
       });
 
-      // console.log("collectionData",id,"--",_id)
+      // console.log("collectionData",{collectionData})
       const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
       // console.log("ldata lcal",ldata,"---",ldata.user_name)
 
@@ -377,7 +377,7 @@ const [activityData,setActivity]=useState([])
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href={`https://etherscan.io/address/${result1}`} target="_blank">
+                              <a href={`https://etherscan.io/address/${result1}`} target="_blank" rel="noreferrer">
                                 <img
                                   src="/assets/images/icons/etherscan-logo.png"
                                   alt=""
@@ -989,7 +989,7 @@ const [activityData,setActivity]=useState([])
                                 <div className="card-body">
                                   <div className="auction-create-by">
                                     <img
-                                      src="/assets/images/img2.png"
+                                      src={image.preview}
                                       alt=""
                                       className="avatar-icon img-fluid"
                                     />

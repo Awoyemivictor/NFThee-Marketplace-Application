@@ -84,7 +84,10 @@ function ExploreDetail() {
   const [like, setliked] = useState();
   const [listing, setListing] = useState('0');
   const [priceInUSD, setPriceInUSD] = useState(0);
+  const [BidPriceInUSD, setBidPriceInUSD] = useState(0);
   const [report, setReport] = useState();
+  const [priceCov,setPriceCon]=useState()
+
   const [openForBids, setOpenForBids] = useState({
     Bid_price: '',
   });
@@ -217,10 +220,10 @@ instance
     let result = await getPriceConversion();
     let convertToUSD = (parseFloat(result) * parseFloat(nftPrice)).toFixed(5);
     setPriceInUSD(convertToUSD);
+    setPriceCon(result)
   };
 
-
-
+  
   useEffect(async () => {
     let priceOfNFT =
       nftData?.putOnMarketplace && nftData?.putOnMarketplace.price === undefined
@@ -228,7 +231,7 @@ instance
         : nftData?.putOnMarketplace.price
           ? nftData?.putOnMarketplace.price
           : nftData?.putOnMarketplace.Bid_price;
-    console.log('->->->', priceOfNFT);
+    console.log('->->->', {priceOfNFT});
 
     await handlePriceConversion(priceOfNFT);
   }, [handlePriceConversion]);
@@ -353,7 +356,7 @@ instance
 
   const [itemEvent, setItemEvent] = useState([]);
   const [itemList, setItemList] = useState([]);
-  const [itemFrom, setItemFrom] = useState([]);
+  const [itemOffer, setItemOffer] = useState([]);
   const [itemDate, setItemDate] = useState([]);
 
   const [activeTab, setActiveTab] = useState('0');
@@ -474,7 +477,21 @@ instance
       setItemList(action);
     });
   }, []);
+  useEffect(() => {
+    let fetch = instance.post(`/api/fetchHistory?nftId=${id}`).then((res) => {
+      const action = res.data.data.map((item, index) => {
+        if (item.action === 'Bids') {
+          return { ...item, index };
+        }
+        return item;
+      });
+      console.log('List', { action });
+      setItemOffer(action);
+    });
+  }, []);
+ 
 
+  
   useEffect(() => {
     instance
       .post(`/api/fetchHistory?nftId=${id}`)
@@ -1608,7 +1625,8 @@ instance
                                       {t('product.USD Price')}
                                     </th>
                                     <th scope="col">
-                                      {t('product.Expiration')}
+                                      {/* {t('product.ate ')} */}
+                                      Date / Time
                                     </th>
                                     <th scope="col">{t('product.from')}</th>
                                   </tr>
@@ -1659,7 +1677,7 @@ instance
                                           event.action === 'Creation' && (
                                             <p key={event}>
                                               {/* <i className="bx bxs-purchase-tag me-1" /> */}
-                                              {event.sCreated}
+                                              {event.timeSinceCreated}
                                             </p>
                                           )
                                       )}
@@ -1714,17 +1732,18 @@ instance
                                     <th scope="col">
                                       {t('product.USD Price')}
                                     </th>
-                                    <th scope="col">
+                                    {/* <th scope="col">
                                       {t('product.Floor Difference')}
-                                    </th>
+                                    </th> */}
                                     <th scope="col">
-                                      {t('product.Expiration')}
+                                      {/* {t('product.Expiration')} */}
+                                      Date / Time
                                     </th>
                                     <th scope="col">{t('product.from')}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                  {/* <tr>
                                     <td>
                                       <img
                                         src="/assets/images/icons/ethereum.png"
@@ -1738,6 +1757,69 @@ instance
                                     <td>In 5 days</td>
                                     <td>
                                       <a href="#">John Deo</a>
+                                    </td>
+                                  </tr> */}
+                                   <tr>
+                                    <td>
+                                      {itemOffer.map(
+                                        (event) =>
+                                          event.action === 'Bids' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              <img
+                                                src="/assets/images/icons/ethereum.png"
+                                                alt=""
+                                                className="me-1"
+                                              />
+                                              {event.price}WETH
+                                            </p>
+                                          )
+                                      )}
+                                    </td>
+                                    {/* <td>$959.13</td> */}
+                                    <td>
+                                      {itemOffer.map(
+                                        (event) =>
+                                          event.action === 'Bids' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+
+                                              <h6
+                                                style={{
+                                                  fontSize: '12px',
+                                                  marginRight: '5px',
+                                                }}
+                                              >
+                                                ${( parseFloat(priceCov) * parseFloat(event.price)).toFixed(5)}
+                                               
+                                              </h6>
+                                            </p>
+                                          )
+                                      )}
+                                    </td>
+                                    {/* <td>In 5 days</td> */}
+                                    <td>
+                                      {itemOffer.map(
+                                        (event) =>
+                                          event.action === 'Bids' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              {event.timeSinceCreated}
+                                            </p>
+                                          )
+                                      )}
+                                    </td>
+                                    <td>
+                                      {/* <a href="#">Shreepadgaonkar</a> */}
+                                      {itemOffer.map(
+                                        (event) =>
+                                          event.action === 'Bids' && (
+                                            <p key={event}>
+                                              {/* <i className="bx bxs-purchase-tag me-1" /> */}
+                                              {event.from}
+                                            </p>
+                                          )
+                                      )}
                                     </td>
                                   </tr>
                                 </tbody>
