@@ -102,7 +102,7 @@ export default function ReportDetail() {
                   return (
                     <>
                       <img
-                        src={data.nftId.uploadFile||require('../../../assets/images/user/avt-1.jpg')}
+                        src={data.nftId.uploadFile?data.nftId.uploadFile: require('../../../assets/images/user/avt-1.jpg')}
                         height="32px"
                         width="32px"
                         onClick={handleOpenModal}
