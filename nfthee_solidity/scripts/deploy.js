@@ -20,6 +20,7 @@ async function main() {
   //   hre.ethers.utils.formatEther(gasPrice, 'gwei'),
   //   'gwei'
   // );
+  
   // console.log( network)
   //   if (network === 'deployment') {
   // const ERC721 = await hre.ethers.getContractFactory('TestERC721');
