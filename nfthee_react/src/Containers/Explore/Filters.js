@@ -10,6 +10,7 @@ const Filters = ({
   searchText,
   setSearchText,
   handlePriceInput,
+  toggle,
   // value,onChange
 }) => {
   const [collections, setCollections] = useState([]);
@@ -48,16 +49,18 @@ const Filters = ({
         className="filter-search me-auto d-none d-md-block mb-3"
       >
         <input
-          placeholder="Search"
+          // placeholder="Search"
+          disabled={toggle}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           className="form-control"
+          placeholder={toggle?'Disabled':'search'}
         />
-        <div className="search-icon" onClick={handleSearchText}>
+      {toggle?'':  <div className="search-icon" onClick={handleSearchText}>
           <button className="btn">
             <i className="bx bx-search-alt-2" />
           </button>
-        </div>
+        </div>}
       </form>
 
       <AccordionCard title={"CATEGORIES"}>

@@ -7,6 +7,7 @@ import ExploreNftListColumn from "./ExploreNftListColumn";
 import Filters from "./Filters";
 import { useHistory, useLocation } from "react-router-dom";
 import ExploreItemColumn from "./ExploreItem/ExploreItemColumn";
+import axios from "axios";
 
 function ExploreNft() {
   const { t } = useTranslation();
@@ -127,6 +128,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
   const [filteredData, setFilteredData] = useState([]);
   const [queryParamChanged, setQueryParamChanged] = useState(false);
   const [like, setliked] = useState();
+  const [toggle, setToggle] = useState();
+
   useEffect(() => {
     // if (!serachButton) return;
     // if (location.search) {
@@ -186,6 +189,9 @@ console.log(checked,j,e.target.name,name,"expolorenft")
     setSearchButton(true);
   };
   useEffect(() => {
+  
+    axios.get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getToggle`)
+  .then(res=>setToggle(res.data.data[0].toggleValue))
     setFilteredData(nftData);
     console.log({ nftData }, { filterSearch });
   }, [nftData, filterSearch]);
@@ -308,6 +314,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                                 handlePriceInput={handlePriceInput}
                                 setSearchText={setSearchText}
                                 searchText={searchText}
+                                toggle={toggle}
                               />
                             </div>
                           </div>

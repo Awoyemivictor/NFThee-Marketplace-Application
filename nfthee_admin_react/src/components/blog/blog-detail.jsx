@@ -37,12 +37,16 @@ const BlogDetail = () => {
       name: 'Title',
       selector: 'title',
       sortable: true,
+      maxWidth: "13rem",
+      truncateText: true,
       emptyValue: () => <em>null</em>,
     },
     {
       name: 'Author',
       selector: 'author_name',
       sortable: true,
+      width: "10rem",
+      truncateText: true,
     },
     // {
     //   name: "Sub Description",
@@ -55,9 +59,12 @@ const BlogDetail = () => {
     //   sortable: true,
     // },
     {
-      name: 'Posting',
-      selector: 'date_of_posting',
+      name: 'Description',
+      selector: 'description',
       sortable: true,
+      width: "13rem",
+      truncateText: true,
+
     },
     // {
     //   name: "Status",
@@ -88,6 +95,8 @@ const BlogDetail = () => {
       name: 'Date',
       selector: 'createdAt',
       sortable: true,
+      width: "13rem",
+      truncateText: true,
     },
     // {
     //   name: "updated At",

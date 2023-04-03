@@ -1282,7 +1282,7 @@ console.log({itemData},itemData.putOnMarketplace.Bid_price)
                             <div className='creator-create-by'>
                               <a href='#'>
                                 <img
-                                  src='assets/images/img2.png'
+                                  src={userId.profile_image||'assets/images/img2.png'}
                                   alt=''
                                   className='avatar-icon img-fluid'
                                 />

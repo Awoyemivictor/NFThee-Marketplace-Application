@@ -20,12 +20,12 @@ const Header = () => {
   const [sidebar, setSidebar] = useState(true);
   const [navMenus, setNavMenus] = useState(false);
   const[icon,setIcon]=useState(0);
+  const [changes,setChanges]=useState(0)
   const width = useWindowSize();
   const serviceFees = async () => {
     const fees = await getMarketplaceOwner();
     console.log(fees);
   };
-console.log(typeof icon)
   const goFull = () => {
     if (
       (document.fullScreenElement && document.fullScreenElement !== null) ||
@@ -50,7 +50,22 @@ console.log(typeof icon)
       }
     }
   };
+const checkWallet=()=>{
+  let data=window.ethereum.networkVersion
+  switch(data){
+    case '11155111':
+      return setIcon(0);
+    case '80001':
+      return setIcon(1);
+    case '97':
+      return setIcon(2);
+      case '1666700000':
+        return setIcon(3);
+        default:
+          return setIcon(0);
 
+  }
+}
   const openCloseSidebar = () => {
     if (sidebar) {
       setSidebar(false);
@@ -89,7 +104,9 @@ console.log(typeof icon)
         .querySelector('.page-body-wrapper')
         .classList.add('sidebar-close');
     }
-  }, [width]);
+    checkWallet()
+  }, [width,changes]);
+  console.log('first',changes)
 
   const ToogleRightSidebar = () => {
     document.querySelector('.quickview-wrapper').classList.add('open');
@@ -162,7 +179,7 @@ console.log(typeof icon)
                   <li 
                     value="0"
                     onClick={(e) => {
-                      ethTest();
+                      ethTest(setChanges);
                       setIcon(e.target.value)
                     }}
                   > 
@@ -178,7 +195,7 @@ console.log(typeof icon)
                   value="1"
                   
                     onClick={(e) => {
-                      polyTest();
+                      polyTest(setChanges);
                       setIcon(e.target.value)
                     }}
                   >
@@ -196,7 +213,7 @@ console.log(typeof icon)
                   <li
                   value="2"
                     onClick={(e) => {
-                      bscChain();
+                      bscChain(setChanges);
                       setIcon(e.target.value)
                     }}
                   >
@@ -215,7 +232,7 @@ console.log(typeof icon)
                   <li
                   value="3"
                     onClick={(e) => {
-                      harmonyTest();
+                      harmonyTest(setChanges);
                       setIcon(e.target.value)
                     }}
                   >

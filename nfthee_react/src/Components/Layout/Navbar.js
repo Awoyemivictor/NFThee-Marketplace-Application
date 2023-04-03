@@ -20,6 +20,7 @@ import {
   harmonyTest,
   ethTest,
   bscTest,
+  returnChainId,
 } from '../../Config/allchains';
 
 // Local Data
@@ -227,13 +228,39 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
         return '../../assets/images/icons/arabic.png';
     }
   }
+  const [icon, setIcon] = useState('0');
+
 
   useEffect(() => {
+    
+    let data=window.ethereum.networkVersion
+  
+   
     MobileSidebar();
-    setNewNotificationCount(notifications.length);
-  }, []);
+    // setNewNotificationCount(notifications.length);
+    switch(data){
+      case '11155111':
+        return setIcon('0');
+      case '80001':
+        return setIcon('1');
+      case '97':
+        return setIcon('2');
+        case '1666700000':
+          return setIcon('3');
+          default:
+            return setIcon('0');
+
+    }
+  }, [checkChanges]);
   const [navMenus, setNavMenus] = useState(false);
-  const [icon, setIcon] = useState('0');
+
+
+
+
+
+
+
+
   const togglee = () => {
     setNavMenus(!navMenus);
   };
@@ -272,7 +299,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
   const text = localStorage.getItem('search');
   const [serachTextNav, setSerachTextNav] = useState(text || '');
   // console.log({serachTextNav})
-  console.log({ icon });
+ 
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -343,11 +370,11 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                     // placeholder={t('navbar.Search')}
                     className='form-control'
                   />
-                  <div className='search-icon'>
+                  {toggle?'':<div className='search-icon'>
                     <button className='btn'>
                       <i className='bx bx-search-alt-2' />
                     </button>
-                  </div>
+                  </div>}
                 </form>
                 <ul className='navbar-nav ms-auto mb-2 mb-lg-0 navigation'>
                   {!token
@@ -440,7 +467,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                       class='list-group-item m-1'
                       value='0'
                       onClick={(e) => {
-                        ethTest();
+                        ethTest(setChanges);
                         setIcon(e.target.getAttribute('value'));
                       }}
                     >
@@ -456,7 +483,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                       class='list-group-item m-1'
                       value='1'
                       onClick={(e) => {
-                        polyTest();
+                        polyTest(setChanges);
                         setIcon(e.target.getAttribute('value'));
                       }}
                     >
@@ -472,7 +499,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                       class='list-group-item m-1'
                       value='2'
                       onClick={(e) => {
-                        bscTest();
+                        bscTest(setChanges);
                         setIcon(e.target.getAttribute('value'));
                       }}
                     >
@@ -488,7 +515,7 @@ export const Navbar = ({ checkChanges, setChanges, toggle }) => {
                       class='list-group-item m-1'
                       value='3'
                       onClick={(e) => {
-                        harmonyTest();
+                        harmonyTest(setChanges);
                         setIcon(e.target.getAttribute('value'));
                       }}
                     >
