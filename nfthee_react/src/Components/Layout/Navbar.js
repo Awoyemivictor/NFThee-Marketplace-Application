@@ -20,12 +20,53 @@ import { languages, link_menu_profile, link_main_menu } from './Data';
 import instance from '../../axios';
 
 let magic = new Magic('pk_live_A57B8D59D07E9901');
+
+function encryptObject(o, salt) {
+  o = JSON.stringify(o).split('');
+  for (var i = 0, l = o.length; i < l; i++)
+    if (o[i] == '{')
+      o[i] = '}';
+    else if (o[i] == '}')
+      o[i] = '{';
+  return encodeURI(salt + o.join(''));
+}
+
+function decryptObject(o, salt) {
+  o = decodeURI(o);
+  if (salt && o.indexOf(salt) != 0)
+    throw new Error('object cannot be decrypted');
+  o = o.substring(salt.length).split('');
+  for (var i = 0, l = o.length; i < l; i++)
+    if (o[i] == '{')
+      o[i] = '}';
+    else if (o[i] == '}')
+      o[i] = '{';
+  return JSON.parse(o.join(''));
+}
 export const logOut = async () => {
   await magic.user.logout();
   localStorage.clear();
   window.location.href = '/';
 };
 
+
+export const logincomunity = async () => {
+  const userId = localStorage.getItem('userLoggedIn') || '';
+  const token = JSON.parse(localStorage.getItem('TokenData')) || '';
+  const secret = '123456'; // secret key for encryption
+  const encryptedObject = encryptObject(userId, secret);
+  window.location.href = "http://localhost:3000/authtoken?token=" + token + "&user_detail=" + encryptedObject;
+  return;
+};
+
+export const loginTicket = async () => {
+  const userId = localStorage.getItem('userLoggedIn') || '';
+  const token = JSON.parse(localStorage.getItem('TokenData')) || '';
+  const secret = '123456'; // secret key for encryption
+  var encryptedObject = encryptObject(userId, secret);
+  window.location.href = "http://127.0.0.1:8118/authtoken?token=" + token + "&user_detail="+encryptedObject;
+  return;
+};
 export const Navbar = ({ checkChanges, setChanges }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
@@ -503,6 +544,20 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                             <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}
                           Sign Out{' '}
+                        </Link>
+
+                        <Link className='dropdown-item' to='#' onClick={logincomunity}>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/logout-icon.png' />
+                          </span>{' '}
+                          logincomunity{' '}
+                        </Link>
+
+                        <Link className='dropdown-item' to='#' onClick={loginTicket}>
+                          <span className='dropdown-icon'>
+                            <img src='/assets/images/icons/logout-icon.png' />
+                          </span>{' '}
+                          loginTicket{' '}
                         </Link>
                       </div>
                     </div>

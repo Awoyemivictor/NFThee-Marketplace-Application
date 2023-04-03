@@ -108,7 +108,7 @@ export const ModalBuynft = ({ onRequestClose, nftData }) => {
       nftData?.tokenId
     );
     const getCollectioAddress = await getCollection(
-     nftData?.chooseCollection
+      nftData?.chooseCollection
     );
     const price = nftData?.putOnMarketplace?.price;
     const price2 = nftData?.putOnMarketplace.Bid_price;
@@ -417,12 +417,12 @@ export const ListingModal = ({
   };
   return (
     <div className='modal__backdrop'>
-      <div className='modal__container1'>
+      <div className='modal__container1 modal-dialog-centered'>
         <div class='row'>
-          <div class='col-11'>
+          <div class='col-10'>
             <h2 class='modal_title'>Put On Marketplace </h2>
           </div>
-          <div class='col-1'>
+          <div class='col-2 d-flex justify-content-end'>
             <Link onClick={onRequestClose}>
               <img src='/assets/images/icons/close.png' alt='' />
             </Link>
@@ -430,14 +430,14 @@ export const ListingModal = ({
 
           <div className='create-item-tab'>
             <div className='col-md-12 col-lg-12'>
-              <ul
-                className='nav nav-pills pb-4 mb-3 border-bottom row '
+              <div
+                className='nav nav-pills pb-4 pt-4 border-bottom grid gap-2 justify-content-between'
                 id='pills-tab'
                 role='tablist'
               >
-                <li className='nav-item' role='presentation'>
+                <div className='nav-item g-col-4 m-0' role='presentation'>
                   <a
-                    className='nav-link active mb-4 mb-lg-0'
+                    className='nav-link active mb-lg-0'
                     id={0}
                     onClick={(e) => setListing(e.currentTarget.id)}
                     data-bs-toggle='pill'
@@ -452,10 +452,10 @@ export const ListingModal = ({
                     />
                     <h5>Fixed Price</h5>
                   </a>
-                </li>
-                <li className='nav-item' role='presentation'>
+                </div>
+                <div className='nav-item g-col-4 m-0' role='presentation'>
                   <a
-                    className='nav-link mb-4 mb-lg-0'
+                    className='nav-link  mb-lg-0'
                     onClick={(e) => setListing(e.currentTarget.id)}
                     id={1}
                     data-bs-toggle='pill'
@@ -470,8 +470,8 @@ export const ListingModal = ({
                     />
                     <h5>Open For Bids</h5>
                   </a>
-                </li>
-                <li className='nav-item' role='presentation'>
+                </div>
+                <div className='nav-item g-col-4 m-0' role='presentation'>
                   <a
                     className='nav-link'
                     onClick={(e) => setListing(e.currentTarget.id)}
@@ -488,8 +488,8 @@ export const ListingModal = ({
                     />
                     <h5>Timed Auction</h5>
                   </a>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div className='tab-content' id='pills-tabContent'>

@@ -1,17 +1,3 @@
-/*
- *       .                             .o8                     oooo
- *    .o8                             "888                     `888
- *  .o888oo oooo d8b oooo  oooo   .oooo888   .ooooo.   .oooo.o  888  oooo
- *    888   `888""8P `888  `888  d88' `888  d88' `88b d88(  "8  888 .8P'
- *    888    888      888   888  888   888  888ooo888 `"Y88b.   888888.
- *    888 .  888      888   888  888   888  888    .o o.  )88b  888 `88b.
- *    "888" d888b     `V88V"V8P' `Y8bod88P" `Y8bod8P' 8""888P' o888o o888o
- *  ========================================================================
- *  Author:     Chris Brame
- *  Updated:    1/20/19 4:43 PM
- *  Copyright (c) 2014-2019. All rights reserved.
- */
-
 const _ = require('lodash')
 const async = require('async')
 const path = require('path')
@@ -19,6 +5,9 @@ const passport = require('passport')
 const winston = require('winston')
 const pkg = require('../../package')
 const xss = require('xss')
+const UserModel = require('../models/user')
+const SettingSchema = require('../models/setting'); 
+const url = require('url');				   
 const RateLimiterMemory = require('rate-limiter-flexible').RateLimiterMemory
 
 const limiterSlowBruteByIP = new RateLimiterMemory({
@@ -32,6 +21,18 @@ const mainController = {}
 
 mainController.content = {}
 
+function decryptObject(o, salt) {
+  o = decodeURI(o);
+  if (salt && o.indexOf(salt) != 0)
+    throw new Error('object cannot be decrypted');
+  o = o.substring(salt.length).split('');
+  for (var i = 0, l = o.length; i < l; i++)
+    if (o[i] == '{')
+      o[i] = '}';
+    else if (o[i] == '}')
+      o[i] = '{';
+  return JSON.parse(o.join(''));
+}
 mainController.index = function (req, res) {
   const content = {}
   content.title = 'Login'
@@ -173,6 +174,137 @@ mainController.loginPost = async function (req, res, next) {
     })(req, res, next)
   }
 }
+
+mainController.adminauthtokenLogin = async function (req, res, next) {
+  const queryGetUserData = req.query['user_detail'];
+  const secret = '123456'; // secret key for encryption
+  var decryptGet = await decryptObject(queryGetUserData, secret);
+  if (!decryptGet) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+
+  const decryptedObject = JSON.parse(decryptGet.trim()); // decrypts the string
+  if (!decryptedObject.username) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+  var username = decryptedObject?.username;   
+  console.log("decrypted", decryptedObject );
+
+  let ipAddress = req.ip
+
+  // var username = req.body.username;
+  if (process.env.USE_XFORWARDIP == 'true')
+    ipAddress = req.headers["x-forwarded-for"]
+
+  if (process.env.USE_USERRATELIMIT == 'true')
+    ipAddress = ipAddress + username
+
+  const [resEmailAndIP] = await Promise.all([limiterSlowBruteByIP.get(ipAddress)])
+
+  let retrySecs = 0
+  if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 2) {
+    retrySecs = Math.round(resEmailAndIP.msBeforeNext / 1000) || 1
+  }
+
+  if (retrySecs > 0) {
+    res.set('Retry-After', retrySecs.toString())
+    res.status(429).render('429', { timeout: retrySecs.toString(), layout: false })
+  } else { 
+    var userGet = await UserModel.findOne({
+      username: username.toLowerCase()
+    });
+
+    if (!userGet) {      
+      res.status(401).render('401', { message: "unauthrized"})
+    }
+    if (!(userGet.role.isAdmin)) {
+      res.status(401).render('401', { message: "unauthrized admin"})
+    }
+    req.logIn(userGet, function (err) {
+      if (err) {
+        winston.debug(err)
+        return next(err)
+      }
+      return res.redirect('/dashboard')
+    })
+  }
+}
+
+mainController.authtokenLogin = async function (req, res, next) {
+  const queryGetUserData = req.query['user_detail'];
+  const secret = '123456'; // secret key for encryption
+  var decryptGet = await decryptObject(queryGetUserData, secret);
+  if (!decryptGet) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+
+  const decryptedObject = JSON.parse(decryptGet.trim()); // decrypts the string
+  if (!decryptedObject.user_name) {
+    return res.status(400).json({
+      message: "not authorized"
+    });
+  } 
+  var username = decryptedObject?.user_name;   
+  console.log("decrypted", decryptedObject );
+
+  let ipAddress = req.ip
+
+  // var username = req.body.username;
+  if (process.env.USE_XFORWARDIP == 'true')
+    ipAddress = req.headers["x-forwarded-for"]
+
+  if (process.env.USE_USERRATELIMIT == 'true')
+    ipAddress = ipAddress + username
+
+  const [resEmailAndIP] = await Promise.all([limiterSlowBruteByIP.get(ipAddress)])
+
+  let retrySecs = 0
+  if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 2) {
+    retrySecs = Math.round(resEmailAndIP.msBeforeNext / 1000) || 1
+  }
+
+  if (retrySecs > 0) {
+    res.set('Retry-After', retrySecs.toString())
+    res.status(429).render('429', { timeout: retrySecs.toString(), layout: false })
+  } else {
+    var email = decryptedObject?.email_address
+    var userGet = await UserModel.findOne({
+      email: email.toLowerCase()
+    });
+
+    if (!userGet) {      
+      const roleDefault = await SettingSchema.getSetting('role:user:default'); 
+      const hashedPassword = 'abcd@12345' ;
+      const userData = {
+        username: username.toLowerCase(),
+        password: hashedPassword,
+        fullname: decryptedObject?.first_name+" "+ decryptedObject?.last_name,
+        email: decryptedObject?.email_address,
+        role: roleDefault.value
+      };
+      const newUser = new UserModel(userData);
+      const savedUser = await newUser.save();
+      userGet = savedUser;
+
+    }
+
+    req.logIn(userGet, function (err) {
+      if (err) {
+        winston.debug(err)
+        return next(err)
+      }
+      return res.redirect('/tickets')
+    })
+  }
+
+}
+
 
 mainController.l2AuthPost = function (req, res, next) {
   if (!req.user) {

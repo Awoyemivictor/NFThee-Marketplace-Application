@@ -27,7 +27,7 @@ export const CheckBox = ({
           onClick={(e) => handleSelectFilters(name, e)}
         />
         <label className="form-check-label " htmlFor={value}>
-          <img src={img} alt="" className="me-1" />
+          <img src={img} alt="" className="me-1 checkbox-img rounded" />
           <span className="ml-2">{name}</span>
         </label>
       </div>

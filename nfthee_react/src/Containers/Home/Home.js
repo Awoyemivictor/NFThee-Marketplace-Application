@@ -22,19 +22,19 @@ function Home(props) {
   const currentLanguage = i18.language;
   // console.info(meta)
 
-  const[users,setuser]=useState([])
+  const [users, setuser] = useState([])
   const [collections, setCollections] = useState([]);
-     useEffect(()=>{
+  useEffect(() => {
 
-      instance
+    instance
       .get(`/api/getCollection`)
       .then((response) => setCollections(response.data.data));
-      instance
+    instance
       .get(`/api/signUp/all`)
-      .then(res=>( setuser(res.data.data)))
-  
-    },[])
-  
+      .then(res => (setuser(res.data.data)))
+
+  }, [])
+
   const [sliderItems, setSliderItems] = useState([
     {
       text: {
@@ -123,6 +123,8 @@ function Home(props) {
             settings: {
               slidesToShow: 2,
               slidesToScroll: 1,
+              dots: false,
+              arrows: false,
             },
           },
           {
@@ -164,6 +166,7 @@ function Home(props) {
             settings: {
               slidesToShow: 2,
               slidesToScroll: 1,
+              arrows: false,
             },
           },
           {
@@ -205,6 +208,7 @@ function Home(props) {
             settings: {
               slidesToShow: 2,
               slidesToScroll: 1,
+              arrows: false,
             },
           },
           {
@@ -289,7 +293,7 @@ function Home(props) {
                           className="img-fluid"
                         />
                       </div>
-                      <div className="bid-detail-block">
+                      {/* <div className="bid-detail-block">
                         <h4>{t('CreativeArtCollection.Current Bid')}</h4>
                         <h5>
                           <img
@@ -299,7 +303,7 @@ function Home(props) {
                           />{' '}
                           2.59{' '}
                         </h5>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div
@@ -386,11 +390,11 @@ function Home(props) {
             <div className="top-collection-over-section mb-4">
               <div className="row">
                 <div className="col-lg-12 col-md-12">
-                
 
 
-                  <TopCollectionData data={collections}  />
-                
+
+                  <TopCollectionData data={collections} />
+
                 </div>
               </div>
               <div className="row d-lg-none mt-3">
@@ -427,11 +431,11 @@ function Home(props) {
                 className="row justify-content-center"
                 style={{ bsGutterX: '2.1rem' }}
               >
-                {users.slice(0,6)
-                // .filter(res=>res._id!=_id)
-                .map((item, index) => (
-                  <TopSeller {...item} index={index} />
-                ))}
+                {users.slice(0, 6)
+                  // .filter(res=>res._id!=_id)
+                  .map((item, index) => (
+                    <TopSeller {...item} index={index} />
+                  ))}
               </div>
               <div className="row d-lg-none">
                 <Link

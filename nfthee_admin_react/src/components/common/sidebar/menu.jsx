@@ -16,6 +16,7 @@ export const MENUITEMS = [
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.collection`, title: 'collections', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.otheruser`, title: 'Users', type: 'link' },
                 {path: `${process.env.PUBLIC_URL}/dashboard/view/index.projects`, title: 'Projects', type: 'link' },
+                {path: `${process.env.PUBLIC_URL}/dashboard/view/index.marketplace`, title: 'Marketplace', type: 'link' },
             //     ]},
 
 

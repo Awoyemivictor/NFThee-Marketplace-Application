@@ -46,7 +46,7 @@ exports.index = async (req) => {
         ...categories,
         status: 'verified',
       })
-      // .populate('currentOwner')
+      .populate('currentOwner')
       .sort({ id: -1 });
 // let result=
 //   str&&collection&& blockChain &&categories?  await nftIteams
@@ -123,7 +123,7 @@ exports.nftStore = async (req) => {
 
 exports.getItemInfo = async (req, res) => {
   try {
-    let result = await nftIteams.find({ status: 'verified' });
+    let result = await nftIteams.find({ status: 'verified' })
 
     return {
       message: 'data find successfully.',
@@ -435,10 +435,10 @@ exports.remove_likes = async (req) => {
 exports.getPrice = async (req, res) => {
   try {
     let priceRange = req.query.priceRange;
-    // let priceMin = priceRange.split('-')[0];
-    // let priceMax = priceRange.split('-')[1];
-    let priceMin = Number(priceRange.split('-')[0]);
-    let priceMax = Number(priceRange.split('-')[1]);
+    let priceMin = priceRange.split('-')[0];
+    let priceMax = priceRange.split('-')[1];
+    // let priceMin = Number(priceRange.split('-')[0]);
+    // let priceMax = Number(priceRange.split('-')[1]);
     console.log('typeOf', typeof priceMin, priceMin, priceMax);
     let data = await nftIteams.aggregate([
       {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AccordionCard, CheckBox } from "../../Components";
-import {NavLink, Link } from 'react-router-dom'
-import { useTranslation, initReactI18next } from "react-i18next";
+import { Link } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 import { handleLikes } from "../../services/apiServices";
 
 export const cardData =
@@ -296,68 +296,68 @@ export const cardData =
   );
 };
 
-const images = [
-  {
-    id: 1,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 2,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 3,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 4,
-    img: "/assets/images/nft3.png"
-  },
-  {
-    id: 5,
-    img: "/assets/images/icons/bear.png"
-  },
-  {
-    id: 6,
-    img: "/assets/images/icons/fomo.png"
-  },
-  {
-    id: 7,
-    img: "/assets/images/icons/doddles.png"
-  },
-  {
-    id: 8,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 9,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 10,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 11,
-    img: "/assets/images/nft3.png"
-  },
-  {
-    id: 12,
-    img: "/assets/images/featured-img7.jpg"
-  },
-  {
-    id: 13,
-    img: "/assets/images/nft1.png"
-  },
-  {
-    id: 14,
-    img: "/assets/images/nft2.png"
-  },
-  {
-    id: 15,
-    img: "/assets/images/nft3.png"
-  },
-];
+// const images = [
+//   {
+//     id: 1,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 2,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 3,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 4,
+//     img: "/assets/images/nft3.png"
+//   },
+//   {
+//     id: 5,
+//     img: "/assets/images/icons/bear.png"
+//   },
+//   {
+//     id: 6,
+//     img: "/assets/images/icons/fomo.png"
+//   },
+//   {
+//     id: 7,
+//     img: "/assets/images/icons/doddles.png"
+//   },
+//   {
+//     id: 8,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 9,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 10,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 11,
+//     img: "/assets/images/nft3.png"
+//   },
+//   {
+//     id: 12,
+//     img: "/assets/images/featured-img7.jpg"
+//   },
+//   {
+//     id: 13,
+//     img: "/assets/images/nft1.png"
+//   },
+//   {
+//     id: 14,
+//     img: "/assets/images/nft2.png"
+//   },
+//   {
+//     id: 15,
+//     img: "/assets/images/nft3.png"
+//   },
+// ];
   const price_caontainer = () => {
     return (
       <div className="accordion-body ">
@@ -463,7 +463,7 @@ const images = [
     },
   ];
 
-  export const FilterCard = ({_id, uploadFile,designation,title,likes, setliked,putOnMarketplace,created_by}) => {
+  export const FilterCard = ({_id, uploadFile,designation,title,likes, setliked,putOnMarketplace,currentOwner}) => {
     const { t } = useTranslation();
 
     const [diable, setDisaable] = useState(false);
@@ -476,7 +476,7 @@ const images = [
         postId: nft,
       };
       // console.log({ data._id });
-      if (data._id != '' || undefined) {
+      if (data._id !== '' || undefined) {
         console.log('test==>>>>>if', requestBody, e.target.id);
         const data = await handleLikes(requestBody, e.target.id, setDisaable);
         if (!data) {
@@ -497,12 +497,12 @@ const images = [
             <div className="auction-card-two mb-4 ">
 
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {created_by?.user_name ? created_by?.user_name : '@Lorihart'}</span> </div>
+                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")}   {currentOwner?.user_name ? currentOwner?.user_name : '@Lorihart'}</span> </div>
             <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media">
                        <img src={uploadFile} alt="" className="img-fluid" />
 
-                       <img  alt="" className="img-fluid" />
+                       {/* <img  alt="" className="img-fluid" /> */}
 
                        </div>
             </Link>
@@ -624,7 +624,7 @@ const images = [
     );
   };
 
-  export const SingleSlider = ({ _id,name,uploadFile,likes, bidInfo, putOnMarketplace,setliked}) => {
+  export const SingleSlider = ({ _id,name,uploadFile,likes, bidInfo, putOnMarketplace,setliked,currentOwner}) => {
     const { t } = useTranslation();
     const [diable, setDisaable] = useState(false);
     const data = JSON.parse(localStorage.getItem('userLoggedIn')) || '';
@@ -636,7 +636,7 @@ const images = [
         postId: nft,
       };
       // console.log({ data._id });
-      if (data._id != '' || undefined) {
+      if (data._id !== '' || undefined) {
         console.log('test==>>>>>if', requestBody, e.target.id);
         const data = await handleLikes(requestBody, e.target.id, setDisaable);
         if (!data) {
@@ -654,19 +654,21 @@ const images = [
      <div className="live-auction-area">
             <div className="auction-card-two mb-4 ">
                 <div className="card-body">
-                    <div className="auction-create-by"> <img src="/assets/images/img2.png" alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {name}</span> </div>
+                    <div className="auction-create-by"> <img src={currentOwner.profile_image ||"/assets/images/img2.png"} alt="" className="avatar-icon img-fluid" /> <span className="creator-name">{t("CreativeArtCollection.Created By")} {currentOwner.user_name ||"undefined"}</span> </div>
             <Link to={`/exploredetail/${_id}`}>
                     <div className="card-media"> <img src={uploadFile} alt="" className="img-fluid" /> </div>
                         </Link>
                     <div className="card-title mb-2 pb-2">
-                        <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5>
+                        {/* <h5>{t(`CreativeArtCollection.Walking on the Air`)}</h5> */}
+                        <h5>{name}</h5>
+
                         {/* <h5>{t(`CreativeArtCollection.title`)}</h5> */}
                     </div>
                     <div className="meta-info m-t-24">
                         <div className="meta-info-wrapper">
                             <div className="bid-title mb-1"> <span>{bidInfo}</span> </div>
                             <div className="eth-price">
-                                <h6> <img src={uploadFile} alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
+                                <h6> <img src="/assets/images/icons/ethereum-big.png" alt="" className="me-1" /> {putOnMarketplace ? putOnMarketplace.price||putOnMarketplace.Bid_price:''} </h6>
                             </div>
                         </div>
                          {/* <button className="btn place-bid-btn"> {t("explore.Place Bid")}</button> <button className="wishlist-button" tabIndex={0}>

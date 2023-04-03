@@ -24,9 +24,7 @@ function Explore() {
             setFilteredCollections(collections)
             return;
         }
-        const filter = collections.filter((el) => {
-            return e.target.textContent === el.category
-        })
+        const filter = collections.filter((el) => (el.category===e.target.textContent))
         setFilteredCollections(filter)
     }
 
@@ -76,7 +74,7 @@ function Explore() {
                                                 </div>
                                             </div>
 
-                                            <div id="art" className="tab-pane"></div>
+                                            
                                             <div id="collectibles" className="tab-pane"></div>
                                             <div id="domain-name" className="tab-pane"></div>
                                             <div id="music" className="tab-pane"></div>
