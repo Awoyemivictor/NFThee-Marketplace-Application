@@ -19,12 +19,13 @@ import {
 const Header = () => {
   const [sidebar, setSidebar] = useState(true);
   const [navMenus, setNavMenus] = useState(false);
+  const[icon,setIcon]=useState(0);
+  const [changes,setChanges]=useState(0)
   const width = useWindowSize();
   const serviceFees = async () => {
     const fees = await getMarketplaceOwner();
     console.log(fees);
   };
-
   const goFull = () => {
     if (
       (document.fullScreenElement && document.fullScreenElement !== null) ||
@@ -49,7 +50,22 @@ const Header = () => {
       }
     }
   };
+const checkWallet=()=>{
+  let data=window.ethereum.networkVersion
+  switch(data){
+    case '11155111':
+      return setIcon(0);
+    case '80001':
+      return setIcon(1);
+    case '97':
+      return setIcon(2);
+      case '1666700000':
+        return setIcon(3);
+        default:
+          return setIcon(0);
 
+  }
+}
   const openCloseSidebar = () => {
     if (sidebar) {
       setSidebar(false);
@@ -88,7 +104,9 @@ const Header = () => {
         .querySelector('.page-body-wrapper')
         .classList.add('sidebar-close');
     }
-  }, [width]);
+    checkWallet()
+  }, [width,changes]);
+  console.log('first',changes)
 
   const ToogleRightSidebar = () => {
     document.querySelector('.quickview-wrapper').classList.add('open');
@@ -141,15 +159,28 @@ const Header = () => {
                   src={require('../../../assets/images/dashboard/browser.png')}
                   alt='header-browser'
                 /> */}
-                <img
+               {icon===0? <img
                   src={require('../../../assets/images/wallet/ethereum.png')}
                   alt=""
-                />
-
-                <ul className='profile-dropdown onhover-show-div p-10'>
-                  <li
-                    onClick={() => {
-                      ethTest();
+                />:null}
+                {icon===1? <img
+                  src={require('../../../assets/images/wallet/polygon.png')}
+                  alt=""
+                />:null}
+                 {icon===2? <img
+                  src={require('../../../assets/images/wallet/binance.png')}
+                  alt=""
+                />:null}
+                 {icon===3? <img
+                  src={require('../../../assets/images/wallet/harmony.png')}
+                  alt=""
+                />:null}
+                <ul className='profile-dropdown onhover-show-div p-10' >
+                  <li 
+                    value="0"
+                    onClick={(e) => {
+                      ethTest(setChanges);
+                      setIcon(e.target.value)
                     }}
                   > 
                   <img
@@ -161,8 +192,11 @@ const Header = () => {
                      Ethereum Testnet
                   </li>
                   <li
-                    onClick={() => {
-                      polyTest();
+                  value="1"
+                  
+                    onClick={(e) => {
+                      polyTest(setChanges);
+                      setIcon(e.target.value)
                     }}
                   >
                      {/* <i className='icon-email' src={require('../../../assets/images/blockchainLogo/polygon (1).png')}>
@@ -177,8 +211,10 @@ const Header = () => {
                   </li>
 
                   <li
-                    onClick={() => {
-                      bscChain();
+                  value="2"
+                    onClick={(e) => {
+                      bscChain(setChanges);
+                      setIcon(e.target.value)
                     }}
                   >
                      <img
@@ -194,8 +230,10 @@ const Header = () => {
                   </li>
 
                   <li
-                    onClick={() => {
-                      harmonyTest();
+                  value="3"
+                    onClick={(e) => {
+                      harmonyTest(setChanges);
+                      setIcon(e.target.value)
                     }}
                   >
                  <img

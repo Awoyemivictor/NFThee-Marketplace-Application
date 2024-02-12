@@ -1,0 +1,81 @@
+version: '3.0'
+
+services:
+  nfthee-frontend:
+    build:
+      context: ./nfthee_react
+      dockerfile: Dockerfile
+    container_name: nfthee-react-frontend
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-backend
+    networks:
+      - nfthee-network
+
+  nfthee-backend:
+    build:
+      context: ./nfthee_nodejs
+      dockerfile: Dockerfile
+    container_name: nfthee-node-backend
+    restart: always
+    ports:
+      - '8002:8002'
+    networks:
+      - nfthee-network
+
+  nfthee-admin-frontend:
+    build:
+      context: ./nfthee_admin_react
+      dockerfile: Dockerfile
+    container_name: nfthee-react-admin-frontend
+    ports:
+      - '3000:3002'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-admin-backend
+    networks:
+      - nfthee-network
+
+  nfthee-admin-backend:
+    build:
+      context: ./nfthee_admin_nodejs
+      dockerfile: Dockerfile
+    container_name: nfthee-node-admin-backend
+    restart: always
+    ports:
+      - '8004:8005'
+    networks:
+      - nfthee-network
+
+  nfthee-community-frontend:
+    build:
+      context: ./commuinty/client
+      dockerfile: Dockerfile
+    container_name: nfthee-community-ui
+    ports:
+      - '3000:3002'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nfthee-community-backend
+    networks:
+      - nfthee-network
+
+  nfthee-community-backend:
+    build:
+      context: ./commuinty/server
+      dockerfile: Dockerfile
+    container_name: nfthee-community-api
+    restart: always
+    ports:
+      - '8080-8080'
+    networks:
+      - nfthee-network
+
+networks:
+  nfthee-network:
+    driver: bridge

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
-const { history } = require('../../models');
+const { history,signup } = require('../../models');
 const { sign } = require('crypto');
 const { Mail } = require('../../utils');
 const jwt = require('jsonwebtoken');
@@ -154,6 +154,27 @@ console.log('fetchAllHistory',results)
 };
 
 
+exports.fetchUserHistory = async (req, res) => {
+  try {
+    const userId = req.query.userId
+console.log('userId',userId)
+const user= await signup.findById(userId)
+      const results = await history.find({from:user.user_name})
+        .sort({ sCreated: -1 })
+        
+      
+console.log('fetchUserHistory',results)
+      return {
+        message: 'History Details',
+        status: true,
+        data:  results
+
+      };
+    }
+   catch (error) {
+    throw error
+  }
+};
 
 
 

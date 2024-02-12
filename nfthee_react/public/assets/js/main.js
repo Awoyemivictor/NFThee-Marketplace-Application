@@ -1,4 +1,4 @@
- 
+
 $(window).on('scroll', function () {
 	var scroll = $(window).scrollTop();
 	if (scroll < 25) {
@@ -8,7 +8,7 @@ $(window).on('scroll', function () {
 		$("#sticky-header").addClass("sticky-menu fadeInDown");
 	}
 });
- 
+
 $('.partner-area-slider').slick({
 	infinite: true,
 	slidesToShow: 1,
@@ -20,43 +20,43 @@ $('.partner-area-slider').slick({
 	prevArrow: '<button class="slide-arrow prev-arrow"><i class="ri-arrow-left-s-line"></i></button>',
 	nextArrow: '<button class="slide-arrow next-arrow"><i class="ri-arrow-right-s-line"></i></button>',
 	responsive: [{
-	breakpoint: 1124,
-	settings: {
-	   slidesToShow: 2,
-	   slidesToScroll: 1,
-	  }
+		breakpoint: 1124,
+		settings: {
+			slidesToShow: 2,
+			slidesToScroll: 1,
+		}
 	},
 	{
-   breakpoint: 868,
-   settings: {
-	   slidesToShow: 2,
-	   slidesToScroll: 1,
+		breakpoint: 868,
+		settings: {
+			slidesToShow: 2,
+			slidesToScroll: 1,
+		}
+	},
+	{
+		breakpoint: 576,
+		settings: {
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			dots: true,
+			arrows: false,
+		}
 	}
-   },
-   {
-   breakpoint: 576,
-   settings: {
-	   slidesToShow: 1,
-	   slidesToScroll: 1,
-	   dots: true,
-	   arrows: false,
-   }
-}
-]
+	]
 });
- 
+
 //nice-select
-$(document).ready(function() {
-    $('select').niceSelect();      
-  });
+$(document).ready(function () {
+	$('select').niceSelect();
+});
 
 //timer
-  function makeTimer() {	
+function makeTimer() {
 	var endTime = new Date("13 April 2023 9:56:00 GMT+01:00");
-	endTime = (Date.parse(endTime) / 1000); 
+	endTime = (Date.parse(endTime) / 1000);
 	var now = new Date();
-	now = (Date.parse(now) / 1000); 
-	var timeLeft = endTime - now; 
+	now = (Date.parse(now) / 1000);
+	var timeLeft = endTime - now;
 	var days = Math.floor(timeLeft / 86400);
 	var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
 	var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
@@ -74,100 +74,100 @@ $(document).ready(function() {
 setInterval(function () { makeTimer(); }, 1000);
 
 //range-slider
-  var sliderrange = $('#slider-range');
-  var amountprice = $('#amount');
-  $(function() {
-	  sliderrange.slider({
-		  range: true,
-		  min: 16,
+var sliderrange = $('#slider-range');
+var amountprice = $('#amount');
+$(function () {
+	sliderrange.slider({
+		range: true,
+		min: 16,
 
-		  max: 400,
-		  values: [0, 300],
-		  slide: function(event, ui) {
-			  amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
-		  }
-	  });
-	  amountprice.val("$" + sliderrange.slider("values", 0) +
-		  " - $" + sliderrange.slider("values", 1));
-  }); 
+		max: 400,
+		values: [0, 300],
+		slide: function (event, ui) {
+			amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+		}
+	});
+	amountprice.val("$" + sliderrange.slider("values", 0) +
+		" - $" + sliderrange.slider("values", 1));
+});
 
 
 
-  (function ($, Drupal) {
+(function ($, Drupal) {
 	Drupal.behaviors.mySlick = {
-	  attach: function (context, settings) {
-		$('#slick-homepage-thumbnail-slider').on('init', function(e, slickThumbs) {
-		  slickThumbs.setOption('slidesToShow',3, true);
-		});
-	  }
+		attach: function (context, settings) {
+			$('#slick-homepage-thumbnail-slider').on('init', function (e, slickThumbs) {
+				slickThumbs.setOption('slidesToShow', 3, true);
+			});
+		}
 	};
-  
-  })(jQuery, Drupal);
 
-  var options = {
+})(jQuery, Drupal);
+
+var options = {
 	series: [{
-	name: 'series1',
-	data: [31, 40, 250, 500, 42, 109, 100]
-  }],
+		name: 'series1',
+		data: [31, 40, 250, 500, 42, 109, 100]
+	}],
 	chart: {
-	height: 240,
-	type: 'area',
-	toolbar: {
-		show: false
-	  },
-  },
-  dataLabels: {
-	enabled: false
-  },
-  stroke: {
-	curve: 'smooth'
-  },
-  xaxis: {
-	type: 'days',
-	categories: ["M", "T", "W", "T", "F", "S", "S"]
-  },
-  grid: {
-    show: false,
-  }
-  };
- 
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
+		height: 240,
+		type: 'area',
+		toolbar: {
+			show: false
+		},
+	},
+	dataLabels: {
+		enabled: false
+	},
+	stroke: {
+		curve: 'smooth'
+	},
+	xaxis: {
+		type: 'days',
+		categories: ["M", "T", "W", "T", "F", "S", "S"]
+	},
+	grid: {
+		show: false,
+	}
+};
+
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
 
 
-  var options = {
+var options = {
 	series: [{
-	name: 'series1',
-	data: [31, 40, 30, 50, 42, 109, 100]
-  }],
+		name: 'series1',
+		data: [31, 40, 30, 50, 42, 109, 100]
+	}],
 	chart: {
-	height: 240,
-	type: 'area',
-	toolbar: {
-		show: false
-	  },
-  },
-  dataLabels: {
-	enabled: false
-  },
-  stroke: {
-	curve: 'smooth'
-  },
-  xaxis: {
-	type: 'days',
-	categories: ["M", "T", "W", "T", "F", "S", "S"]
-  },
-  grid: {
-    show: false,
-  }
-  };
+		height: 240,
+		type: 'area',
+		toolbar: {
+			show: false
+		},
+	},
+	dataLabels: {
+		enabled: false
+	},
+	stroke: {
+		curve: 'smooth'
+	},
+	xaxis: {
+		type: 'days',
+		categories: ["M", "T", "W", "T", "F", "S", "S"]
+	},
+	grid: {
+		show: false,
+	}
+};
 
-  
 
-  var chart = new ApexCharts(document.querySelector("#chart2"), options);
-  chart.render();
-  
-  $('.explore-collection-slider').slick({
+
+var chart = new ApexCharts(document.querySelector("#chart2"), options);
+chart.render();
+
+$('.explore-collection-slider').slick({
 	infinite: true,
 	slidesToShow: 4,
 	slidesToScroll: 1,
@@ -214,65 +214,65 @@ setInterval(function () { makeTimer(); }, 1000);
 
 $(".panel-set h5").on("click", function () {
 	if ($(this).hasClass("active")) {
-        $(this).removeClass("active");
-        $(this)
-            .siblings(".panel-content")
-            .slideUp(200);
-        $(".panel-set  a i")
-            .removeClass("bx-minus")
-            .addClass("bx-plus");
-    } else {
-        $(".panel-set  a i")
-            .removeClass("bx-minus")
-            .addClass("bx-plus");
-        $(this)
-            .find("i")
-            .removeClass("bx-plus")
-            .addClass("bx-minus");
-        $(".panel-set  a").removeClass("active");
-        $(this).addClass("active");
-        $(".panel-content").slideUp(200);
-        $(this)
-            .siblings(".panel-content")
-            .slideDown(200);
-    }
-    return false
+		$(this).removeClass("active");
+		$(this)
+			.siblings(".panel-content")
+			.slideUp(200);
+		$(".panel-set  a i")
+			.removeClass("bx-minus")
+			.addClass("bx-plus");
+	} else {
+		$(".panel-set  a i")
+			.removeClass("bx-minus")
+			.addClass("bx-plus");
+		$(this)
+			.find("i")
+			.removeClass("bx-plus")
+			.addClass("bx-minus");
+		$(".panel-set  a").removeClass("active");
+		$(this).addClass("active");
+		$(".panel-content").slideUp(200);
+		$(this)
+			.siblings(".panel-content")
+			.slideDown(200);
+	}
+	return false
 });
 
 //follow-btn
-$('.followBtn').click(function() {
-	$(this).text(function(_, text) {
-	  return text === "Follow +" ? "Following" : "Follow +";
+$('.followBtn').click(function () {
+	$(this).text(function (_, text) {
+		return text === "Follow +" ? "Following" : "Follow +";
 	});
-	if($(this).text() == "Follow +") {
-	  $(this).removeClass('Following');
-	} else if($(this).text() == "Following") {
-	  $(this).addClass('Following');
+	if ($(this).text() == "Follow +") {
+		$(this).removeClass('Following');
+	} else if ($(this).text() == "Following") {
+		$(this).addClass('Following');
 	}
-  });
-
-//toggle-graph
-  function openGraph(divId) {
-    $("#" + divId).toggle();
-   }
-   $(".graph-icon img").click(function () {
-	$(this).toggleClass("btnColor-pink");
- });
- 
-//like-button
-$('.likeBtn').click(function(){
-	$(this).find('i').toggleClass('ri-heart-line ri-heart-fill')
-  });
-
-//wallet-toggle
-$('.wallet-ethereum').click(function() {
-    $('.solana-wallet-list').hide();
-    $('.ethereum-wallet-list').show();
 });
 
-$('.wallet-solano').click(function() {
-    $('.ethereum-wallet-list').hide();
-    $('.solana-wallet-list').show();
+//toggle-graph
+function openGraph(divId) {
+	$("#" + divId).toggle();
+}
+$(".graph-icon img").click(function () {
+	$(this).toggleClass("btnColor-pink");
+});
+
+//like-button
+$('.likeBtn').click(function () {
+	$(this).find('i').toggleClass('ri-heart-line ri-heart-fill')
+});
+
+//wallet-toggle
+$('.wallet-ethereum').click(function () {
+	$('.solana-wallet-list').hide();
+	$('.ethereum-wallet-list').show();
+});
+
+$('.wallet-solano').click(function () {
+	$('.ethereum-wallet-list').hide();
+	$('.solana-wallet-list').show();
 });
 
 //home-page-slider

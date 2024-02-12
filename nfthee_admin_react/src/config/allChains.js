@@ -79,7 +79,7 @@ export async function bscChain() {
     }
   }
   
-  export async function bscTest() {
+  export async function bscTest(setChanges) {
     if (window.ethereum && window.ethereum.isMetaMask) {
       try {
         await ethereum.request({
@@ -87,6 +87,9 @@ export async function bscChain() {
           params: [{ chainId: '0x61' }],
         });
       } catch (switchError) {
+        if(switchError.code===4001){
+          setChanges(Math.random())
+        }
         if (switchError.code === 4902) {
           try {
             await window.ethereum.request({
@@ -106,6 +109,7 @@ export async function bscChain() {
               ],
             });
           } catch (addError) {
+            setChanges(Math.random())
             console.log('Error adding Chain');
           }
         }
@@ -113,7 +117,7 @@ export async function bscChain() {
     }
   }
   
-  export async function ethTest() {
+  export async function ethTest(setChanges) {
     if (window.ethereum && window.ethereum.isMetaMask) {
       try {
         await ethereum.request({
@@ -121,6 +125,9 @@ export async function bscChain() {
           params: [{ chainId: '0xaa36a7' }],
         });
       } catch (switchError) {
+        if(switchError.code===4001){
+          setChanges(Math.random())
+        }
         if (switchError.code === 4902) {
           try {
             await window.ethereum.request({
@@ -140,6 +147,9 @@ export async function bscChain() {
               ],
             });
           } catch (addError) {
+            setChanges(Math.random())
+
+
             console.log('Error adding Chain');
           }
         }
@@ -147,7 +157,7 @@ export async function bscChain() {
     }
   }
   
-  export async function polyTest() {
+  export async function polyTest(setChanges) {
     if (window.ethereum && window.ethereum.isMetaMask) {
       try {
         await ethereum.request({
@@ -155,6 +165,9 @@ export async function bscChain() {
           params: [{ chainId: '0x13881' }],
         });
       } catch (switchError) {
+        if(switchError.code===4001){
+          setChanges(Math.random())
+        }
         if (switchError.code === 4902) {
           try {
             await window.ethereum.request({
@@ -174,6 +187,8 @@ export async function bscChain() {
               ],
             });
           } catch (addError) {
+            setChanges(Math.random())
+
             console.log('Error adding Chain');
           }
         }
@@ -181,7 +196,7 @@ export async function bscChain() {
     }
   }
   
-  export async function harmonyTest() {
+  export async function harmonyTest(setChanges) {
     if (window.ethereum && window.ethereum.isMetaMask) {
       try {
         await ethereum.request({
@@ -189,6 +204,9 @@ export async function bscChain() {
           params: [{ chainId: '0x6357d2e0' }],
         });
       } catch (switchError) {
+        if(switchError.code===4001){
+          setChanges(Math.random())
+        } 
         if (switchError.code === 4902) {
           try {
             await window.ethereum.request({
@@ -208,6 +226,8 @@ export async function bscChain() {
               ],
             });
           } catch (addError) {
+            setChanges(Math.random())
+
             console.log('Error adding Chain');
           }
         }

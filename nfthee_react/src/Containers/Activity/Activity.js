@@ -66,12 +66,12 @@ useEffect(async() => {
 .then(res=>{ setActivityData(res.data.data)
   // sCreated
   const newAxis=res.data.data.map(data=>data.sCreated)
-  const volume=res.data.data.map(data=>data.action)
+  // const volume=res.data.data.map(data=>data.action)
 
   const newprice=res.data.data.map(data=>data.price)
   setxaxis(newAxis)
   setAvgPrice(newprice)
-  setVolume(volume)
+  // setVolume(volume)
             })
 .finally(res=>setLoading(false))
 
@@ -145,10 +145,17 @@ setPriceCon(result)
             <div className="col-lg-12 filter-mobile-wrapper"> 
             <button onClick={FilterClose} className="filter_button"><img src="/assets/images/icons/filter-icon.png" alt="" className="me-3" />Filter</button> 
             </div> : ""}
+            
               <div
                 className={`${isOpen ? "col-lg-9" : "col-lg-11"} px-lg-0 collection-filter-card overflow-hidden ExtraSpaceMobileview`}
                 style={{ width: `${isOpen ? "" :"94.666667%"}` }}
-              >
+              >{loading?
+                <div class="text-center">	
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+                :
                 <div className="activity-table-container table-responsive">
                   <table className="table">
                     <thead>
@@ -215,20 +222,14 @@ setPriceCon(result)
                             </div>
                             <div className="row">
                               <div className="chart"> 
-                             {vol&&avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} volume={vol}/>:null}
+                             {avgPrice&&xaxis !=undefined||null?<Apexcharts  xaxiss={xaxis} avgPrice={avgPrice} />:null}
 
                               </div>
                             </div>
                           </div>
                         </td>
                       </tr>
-                      {loading?
-                      <div class="text-center">	
-                      <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                      :slice?.map((data,i) => {
+                      {slice?.map((data,i) => {
                         return(
                           <tr>
                                                    <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
@@ -246,13 +247,13 @@ setPriceCon(result)
                                                    <td>1</td>
                                                    <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
                                                    <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
-                                                   <td> <a href="#">{data?.sCreated} seconds ago <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>
                         )
                       })}
                     </tbody>
                   </table>
-                </div>
+                </div>}
                 <div className="row mb-4">
                    <div className="col-lg-6 col-md-6 mx-auto">
                      <h1 className="section-title text-center">

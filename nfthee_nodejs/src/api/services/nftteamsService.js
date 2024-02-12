@@ -45,6 +45,7 @@ exports.index = async (req) => {
         ...collection,
         ...categories,
         status: 'verified',
+        listing:'listing'
       })
       .populate('currentOwner')
       .sort({ id: -1 });
@@ -134,6 +135,8 @@ exports.getItemInfo = async (req, res) => {
     throw error;
   }
 };
+
+
 exports.getAllItemInfo = async (req, res) => {
   try {
     let result = await nftIteams.find({});
@@ -375,7 +378,7 @@ exports.userLikes = async (req) => {
   try {
     let id = req.query.id;
     console.log(':::::::>', id);
-    let userLikes = await nftIteams.find({ likes: id });
+    let userLikes = await nftIteams.find({ likes: id }).populate('currentOwner');
     return {
       message: 'user liked posts',
       status: true,
@@ -477,6 +480,94 @@ exports.uploadData = async (req) => {
       message: 'Image URL range found successfully.',
       status: true,
       data: result,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+exports.viewCounts = async (req) => {
+  try {
+    const postId = req.params.postId;
+  const ipAddress = req.body.ip ;
+ 
+  const hasViewed = await nftIteams.findOneAndUpdate({_id:postId},{
+      $addToSet: { viewsCount: ipAddress } 
+  },);
+  const viewsCount = hasViewed.viewsCount.length;
+ 
+  console.log('postId',postId,ipAddress,viewsCount)
+ 
+    return {  
+      message: 'Total views on this post',
+      status: true,
+      data: viewsCount,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+// exports.buyNft = async (req) => {
+//   try {
+//     const nftId = req.body.nftId;
+//   const currentOwner = req.body.currentOwner ;
+ 
+//   const result = await nftIteams.findOneAndUpdate({_id:nftId},{
+//       $pull: { price: '' } 
+//   })
+
+//   const viewsCount = hasViewed.viewsCount.length;
+ 
+//   console.log('postId',postId,ipAddress,viewsCount)
+ 
+//     return {  
+//       message: 'Total views on this post',
+//       status: true,
+//       data: viewsCount,
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+
+exports.buyNft = async (req) => {
+  try {
+
+    
+    const { nftId, currentOwner } = req.body;
+
+   
+    const nftItem = await nftIteams.findById(nftId);
+    let wait={wait:'0'}
+    if (nftItem.listing !== 'listing') {
+      return {  
+        message: 'This NFT is not currently available for sale',
+        status: false,
+      };
+    }
+
+    
+    const updatedItem = await nftIteams.findByIdAndUpdate(
+      nftId,
+      {
+        currentOwner,
+        listing: 'delisting',
+       // Set the price to the wait field
+       putOnMarketplace: wait, // Remove the price from the item
+      },
+      // {push:{wait:'0'}},
+      { new: true } 
+    );
+
+    console.log('New owner:', updatedItem.currentOwner);
+
+    return {  
+      message: 'NFT successfully purchased',
+      status: true,
+      data:updatedItem
     };
   } catch (error) {
     throw error;

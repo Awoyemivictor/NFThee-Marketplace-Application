@@ -14,6 +14,14 @@ import { Magic } from 'magic-sdk';
 import { MobileMenuSidebar } from './MobileMenuSideBar';
 import { ChildMenu, OpenChildMenu } from './ChildMenu';
 import { Modal } from './Modal';
+import {
+  bscChain,
+  polyTest,
+  harmonyTest,
+  ethTest,
+  bscTest,
+  returnChainId,
+} from '../../Config/allchains';
 
 // Local Data
 import { languages, link_menu_profile, link_main_menu } from './Data';
@@ -24,10 +32,8 @@ let magic = new Magic('pk_live_A57B8D59D07E9901');
 function encryptObject(o, salt) {
   o = JSON.stringify(o).split('');
   for (var i = 0, l = o.length; i < l; i++)
-    if (o[i] == '{')
-      o[i] = '}';
-    else if (o[i] == '}')
-      o[i] = '{';
+    if (o[i] == '{') o[i] = '}';
+    else if (o[i] == '}') o[i] = '{';
   return encodeURI(salt + o.join(''));
 }
 
@@ -37,10 +43,8 @@ function decryptObject(o, salt) {
     throw new Error('object cannot be decrypted');
   o = o.substring(salt.length).split('');
   for (var i = 0, l = o.length; i < l; i++)
-    if (o[i] == '{')
-      o[i] = '}';
-    else if (o[i] == '}')
-      o[i] = '{';
+    if (o[i] == '{') o[i] = '}';
+    else if (o[i] == '}') o[i] = '{';
   return JSON.parse(o.join(''));
 }
 export const logOut = async () => {
@@ -49,13 +53,16 @@ export const logOut = async () => {
   window.location.href = '/';
 };
 
-
 export const logincomunity = async () => {
   const userId = localStorage.getItem('userLoggedIn') || '';
   const token = JSON.parse(localStorage.getItem('TokenData')) || '';
   const secret = '123456'; // secret key for encryption
   const encryptedObject = encryptObject(userId, secret);
-  window.location.href = "http://localhost:3000/authtoken?token=" + token + "&user_detail=" + encryptedObject;
+  window.location.href =
+    'http://localhost:3000/authtoken?token=' +
+    token +
+    '&user_detail=' +
+    encryptedObject;
   return;
 };
 
@@ -64,10 +71,14 @@ export const loginTicket = async () => {
   const token = JSON.parse(localStorage.getItem('TokenData')) || '';
   const secret = '123456'; // secret key for encryption
   var encryptedObject = encryptObject(userId, secret);
-  window.location.href = "http://127.0.0.1:8118/authtoken?token=" + token + "&user_detail="+encryptedObject;
+  window.location.href =
+    'http://127.0.0.1:8118/authtoken?token=' +
+    token +
+    '&user_detail=' +
+    encryptedObject;
   return;
 };
-export const Navbar = ({ checkChanges, setChanges }) => {
+export const Navbar = ({ checkChanges, setChanges, toggle }) => {
   const [token, setToken] = useState('');
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem('TokenData'));
@@ -86,17 +97,16 @@ export const Navbar = ({ checkChanges, setChanges }) => {
 
   let receiver_id = userId._id;
   useEffect(() => {
-   let isComponentMounted = true
-    if (receiver_id&&isComponentMounted) {
+    let isComponentMounted = true;
+    if (receiver_id && isComponentMounted) {
       instance
         .post('/api/notificationFetch', { receiver_id })
         .then((res) => setNotification(res.data.data.reverse()));
     }
 
     return () => {
-      isComponentMounted = false
-    }
-
+      isComponentMounted = false;
+    };
   }, [checkChanges]);
 
   // const [fakeState, setFakeState] = useState(true)
@@ -218,12 +228,42 @@ export const Navbar = ({ checkChanges, setChanges }) => {
         return '../../assets/images/icons/arabic.png';
     }
   }
+  const [icon, setIcon] = useState('0');
+
 
   useEffect(() => {
+    
+    let data=window.ethereum.networkVersion
+  
+   
     MobileSidebar();
-    setNewNotificationCount(notifications.length);
-  }, []);
+    // setNewNotificationCount(notifications.length);
+    switch(data){
+      case '11155111':
+        return setIcon('0');
+      case '80001':
+        return setIcon('1');
+      case '97':
+        return setIcon('2');
+        case '1666700000':
+          return setIcon('3');
+          default:
+            return setIcon('0');
 
+    }
+  }, [checkChanges]);
+  const [navMenus, setNavMenus] = useState(false);
+
+
+
+
+
+
+
+
+  const togglee = () => {
+    setNavMenus(!navMenus);
+  };
   const MobileSidebar = () => {
     if ($('.menu-area li.dropdown .dropdown-menu').length) {
       $('.menu-area .navigation li.dropdown').append(
@@ -259,7 +299,7 @@ export const Navbar = ({ checkChanges, setChanges }) => {
   const text = localStorage.getItem('search');
   const [serachTextNav, setSerachTextNav] = useState(text || '');
   // console.log({serachTextNav})
-
+ 
   return (
     <>
       {isModalOpen && <Modal onRequestClose={toggleModal} />}
@@ -319,62 +359,177 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                   <input
                     type='text'
                     name='str'
-                    value={serachTextNav}
+                    disabled={toggle}
+                    value={toggle ? null : serachTextNav}
+                    placeholder={toggle ? 'Disabled' : t('navbar.Search')}
                     onChange={(e) =>
                       setSerachTextNav(
                         localStorage.setItem('search', e.target.value)
                       )
                     }
-                    placeholder={t('navbar.Search')}
+                    // placeholder={t('navbar.Search')}
                     className='form-control'
                   />
-                  <div className='search-icon'>
+                  {toggle?'':<div className='search-icon'>
                     <button className='btn'>
                       <i className='bx bx-search-alt-2' />
                     </button>
-                  </div>
+                  </div>}
                 </form>
                 <ul className='navbar-nav ms-auto mb-2 mb-lg-0 navigation'>
-                  {!token?link_main_menu.filter(dt=>dt.name!='navbar.Create').map((item) => {
-                    return (
-                      <li
-                        className='nav-item dropdown header-dropdown'
-                        key={item.name}
-                      >
-                        <NavLink
-                          className='nav-link'
-                          activeClassName='active'
-                          to={item.path}
-                          exact
-                        >
-                          {t(item.name)}
-                        </NavLink>
-                        {item.children && (
-                          <OpenChildMenu data={item.children} />
-                        )}
-                      </li>
-                    );
-                  }):link_main_menu.map((item) => {
-                    return (
-                      <li
-                        className='nav-item dropdown header-dropdown'
-                        key={item.name}
-                      >
-                        <NavLink
-                          className='nav-link'
-                          activeClassName='active'
-                          to={item.path}
-                          exact
-                        >
-                          {t(item.name)}
-                        </NavLink>
-                        {item.children && (
-                          <OpenChildMenu data={item.children} />
-                        )}
-                      </li>
-                    );
-                  })}
+                  {!token
+                    ? link_main_menu
+                        .filter((dt) => dt.name != 'navbar.Create')
+                        .map((item) => {
+                          return (
+                            <li
+                              className='nav-item dropdown header-dropdown'
+                              key={item.name}
+                            >
+                              <NavLink
+                                className='nav-link'
+                                activeClassName='active'
+                                to={item.path}
+                                exact
+                              >
+                                {t(item.name)}
+                              </NavLink>
+                              {item.children && (
+                                <OpenChildMenu data={item.children} />
+                              )}
+                            </li>
+                          );
+                        })
+                    : link_main_menu.map((item) => {
+                        return (
+                          <li
+                            className='nav-item dropdown header-dropdown'
+                            key={item.name}
+                          >
+                            <NavLink
+                              className='nav-link'
+                              activeClassName='active'
+                              to={item.path}
+                              exact
+                            >
+                              {t(item.name)}
+                            </NavLink>
+                            {item.children && (
+                              <OpenChildMenu data={item.children} />
+                            )}
+                          </li>
+                        );
+                      })}
                 </ul>
+
+                <div class='dropdown m-0'>
+                  <button
+                    class='btn dropdown m-0 size-4px'
+                    type='button'
+                    id='dropdownMenuButton1'
+                    data-bs-toggle='dropdown'
+                    aria-expanded='false'
+                  >
+                    {icon === '0' ? (
+                      <img
+                        src='/assets/images/icons/ethereum.png'
+                        alt=''
+                        value='0'
+                      />
+                    ) : null}
+                    {icon === '1' ? (
+                      <img
+                        src='/assets/images/icons/polygon.png'
+                        alt=''
+                        value='1'
+                      />
+                    ) : null}
+                    {icon === '2' ? (
+                      <img
+                        src='/assets/images/icons/binance.png'
+                        alt=''
+                        value='2'
+                      />
+                    ) : null}
+                    {icon === '3' ? (
+                      <img
+                        src='/assets/images/icons/harmony.png'
+                        alt=''
+                        value='3'
+                      />
+                    ) : null}
+                  </button>
+                  <ul
+                    class='dropdown-menu '
+                    aria-labelledby='dropdownMenuButton1'
+                  >
+                    <li
+                      class='list-group-item m-1'
+                      value='0'
+                      onClick={(e) => {
+                        ethTest(setChanges);
+                        setIcon(e.target.getAttribute('value'));
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/ethereum.png'
+                        style={{ marginRight: '5px' }}
+                        alt='Ethereum Testnet'
+                        value='0'
+                      />
+                      Ethereum Testnet
+                    </li>
+                    <li
+                      class='list-group-item m-1'
+                      value='1'
+                      onClick={(e) => {
+                        polyTest(setChanges);
+                        setIcon(e.target.getAttribute('value'));
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/polygon.png'
+                        style={{ marginRight: '5px' }}
+                        alt='Polygon Testnet'
+                        value='1'
+                      />
+                      Polygon Testnet
+                    </li>
+                    <li
+                      class='list-group-item m-1'
+                      value='2'
+                      onClick={(e) => {
+                        bscTest(setChanges);
+                        setIcon(e.target.getAttribute('value'));
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/binance.png'
+                        style={{ marginRight: '5px' }}
+                        alt='Binance Testnet'
+                        value='2'
+                      />
+                      Binance Testnet
+                    </li>
+                    <li
+                      class='list-group-item m-1'
+                      value='3'
+                      onClick={(e) => {
+                        harmonyTest(setChanges);
+                        setIcon(e.target.getAttribute('value'));
+                      }}
+                    >
+                      <img
+                        src='/assets/images/icons/harmony.png'
+                        style={{ marginRight: '5px' }}
+                        alt='Harmony Testnet'
+                        value='3'
+                      />
+                      Harmony Testnet
+                    </li>
+                  </ul>
+                </div>
+
                 <form className='d-flex align-items-center'>
                   <div className='dropdown language-dropdown d-none d-md-block'>
                     <span data-bs-toggle='dropdown' aria-expanded='false'>
@@ -441,11 +596,23 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                               .map((notification, index) => (
                                 <div key={index} className='dropdown-item'>
                                   <Link
-                                    to={notification?.nftId?._id?`/exploredetail/${notification.nftId._id}`:''}
+                                    to={
+                                      notification?.nftId?._id
+                                        ? `/exploredetail/${notification.nftId._id}`
+                                        : ''
+                                    }
                                   >
-                                    
-                                    <div class="aligned"><img src={notification?.nftId?.uploadFile||'/images/avatar1.png'} style={{marginRight: '24px'}} height='32px' width='32px' />
-                                    <span> {notification.message}</span>
+                                    <div class='aligned'>
+                                      <img
+                                        src={
+                                          notification?.nftId?.uploadFile ||
+                                          '/images/avatar1.png'
+                                        }
+                                        style={{ marginRight: '24px' }}
+                                        height='32px'
+                                        width='32px'
+                                      />
+                                      <span> {notification.message}</span>
                                     </div>
                                   </Link>
                                   {/* <p>{notification.value}</p> */}
@@ -469,7 +636,11 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         aria-expanded='false'
                       >
                         <img
-                          src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
+                          src={
+                            userId?.profile_image
+                              ? userId?.profile_image
+                              : '/images/avatar1.png'
+                          }
                           alt='img'
                           className='img-fluid user-avatar'
                         />
@@ -479,7 +650,11 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         <div className='drop-heading'>
                           <a href='#' style={{ width: '50px' }}>
                             <img
-                              src={userId?.profile_image?userId?.profile_image:'/images/avatar1.png'}
+                              src={
+                                userId?.profile_image
+                                  ? userId?.profile_image
+                                  : '/images/avatar1.png'
+                              }
                               alt=''
                               className='img-fluid user-avatar ms-0'
                             />
@@ -502,7 +677,9 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                         <div className='dropdown-divider m-0' />
                         <Link to='/profile' className='dropdown-item'>
                           <span className='dropdown-icon'>
-                            <img src={'/assets/images/icons/profile-icon.png'} />
+                            <img
+                              src={'/assets/images/icons/profile-icon.png'}
+                            />
                           </span>{' '}
                           Profile{' '}
                         </Link>{' '}
@@ -545,15 +722,21 @@ export const Navbar = ({ checkChanges, setChanges }) => {
                           </span>{' '}
                           Sign Out{' '}
                         </Link>
-
-                        <Link className='dropdown-item' to='#' onClick={logincomunity}>
+                        <Link
+                          className='dropdown-item'
+                          to='#'
+                          onClick={logincomunity}
+                        >
                           <span className='dropdown-icon'>
                             <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}
                           logincomunity{' '}
                         </Link>
-
-                        <Link className='dropdown-item' to='#' onClick={loginTicket}>
+                        <Link
+                          className='dropdown-item'
+                          to='#'
+                          onClick={loginTicket}
+                        >
                           <span className='dropdown-icon'>
                             <img src='/assets/images/icons/logout-icon.png' />
                           </span>{' '}

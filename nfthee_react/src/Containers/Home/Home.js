@@ -24,15 +24,15 @@ function Home(props) {
 
   const [users, setuser] = useState([])
   const [collections, setCollections] = useState([]);
-  useEffect(() => {
+  useEffect(async() => {
 
-    instance
+   await instance
       .get(`/api/getCollection`)
       .then((response) => setCollections(response.data.data));
-    instance
+   await instance
       .get(`/api/signUp/all`)
       .then(res => (setuser(res.data.data)))
-
+return
   }, [])
 
   const [sliderItems, setSliderItems] = useState([

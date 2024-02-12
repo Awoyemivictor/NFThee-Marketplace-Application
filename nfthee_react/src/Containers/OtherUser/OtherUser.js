@@ -8,10 +8,10 @@ import instance from "../../axios";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
 export default function OtherUser() {
     const user = useAppSelector(state => state.user.user)
-
-    $(document).ready(function () {
-      $('select').niceSelect();
-    });
+const history=useHistory()
+    // $(document).ready(function () {
+    //   $('select').niceSelect();
+    // });
   
     useEffect(() => {
       $(document).ready(function () {
@@ -83,7 +83,6 @@ export default function OtherUser() {
     const[users,setuser]=useState([])
   const [changes,setChanges]=useState()
 
-
  useEffect(async()=>{
    instance.get(`/api/signup/read?id=${id}`)
     .then(res=>setuser(res.data.data))
@@ -98,6 +97,17 @@ export default function OtherUser() {
   const {_id,user_name}=JSON.parse(localStorage.getItem('userLoggedIn'))
   const[collectionData,setCollectionData]=useState([])
   const[itemData,setItemData]=useState([])
+  const [report, setReport] = useState();
+
+
+  
+  if (id === _id) {
+    history.replace('/profile');
+    // history.go(-2); // Go back to the second last page in the history stack
+  }
+  
+ 
+
     useEffect(()=>{
   
       instance
@@ -115,8 +125,39 @@ export default function OtherUser() {
     },[like])
   
 
-  
-    
+    const handleUser = (e) => {
+      console.log(e.target.value)
+      setReport({
+        ...report,
+        [e.target.name]: e.target.value,
+      });
+    };
+    console.log(report)
+
+    const submitReport=(e)=>{
+      e.preventDefault()
+     
+      
+      // instance
+      axios
+      .post(`http://localhost:8002/api/userReport`, {action:report.action,userId:_id,reportedUser:id,report_issue:report.report_issue})
+      .then((response) => {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Reported Successfully",
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
+        
+      
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      
+        }
    
     
     const handlleFollow=async(e)=>{
@@ -227,6 +268,16 @@ export default function OtherUser() {
   // console.log(data);
      
     }
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+		
+  const handleOpenModal = () => {
+  setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+  setModalIsOpen(false);
+  };
     return (
       <>
         <main>
@@ -249,7 +300,18 @@ export default function OtherUser() {
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/rotate.png" /></span>  Refrash</a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/etherscan-logo.png" /></span>Etherscan  </a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/share.png" /></span> Share </a>
-                              <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/report.png" /></span> Report </a>
+                              <a className="dropdown-item"   type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                          
+                                          {" "}
+                                          <span className="dropdown-icon">
+                                            <img
+                                              src={
+                                                '/assets/images/icons/report.png'
+                                              }
+                                            />
+                                          </span>{' '}
+                                          Report
+                                        </a>
                               <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/home.png" /></span>Website </a>
                               {/* <a className="dropdown-item" href="#"> <span className="dropdown-icon"><img src="/assets/images/icons/eyeicon.png" /></span>Preview </a> */}
                             </div>
@@ -316,12 +378,14 @@ export default function OtherUser() {
                                     </span>
                                     Share
                                   </a>
-                                  <a className="dropdown-item" href="#">
-                                    <span className="dropdown-icon">
-                                      <img src="/assets/images/icons/report.png" />
-                                    </span>
-                                    Report
-                                  </a>
+                                  <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                          <span className="dropdown-icon">
+                                            <img
+                                              src='/assets/images/icons/report.png'
+                                            />
+                                          </span>
+                                          Report
+                                        </a>
                                   <a className="dropdown-item" href="#">
   
                                     <span className="dropdown-icon">
@@ -354,13 +418,33 @@ export default function OtherUser() {
                             src={users.profile_image?users.profile_image:"/assets/images/avt-5.jpg"}
                             alt=""
                             className="img-fluid user-img"
+                            onClick={handleOpenModal}
+                            style={{ cursor: "pointer" }}
                           />
                           {/* <span className="edit-img-box" style={{ cursor: "pointer" }}>
                         
                             {/* <input id="profile-image-upload" class="hidden" type="file" onchange="previewFile()" ></input> */}
                             {/* </span> */} 
                         </div>
-                      </div>
+                      </div>{modalIsOpen && (
+					<div
+					  style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					  }}
+					  onClick={handleCloseModal}
+					>
+					  <img src={users.profile_image?users.profile_image:"/assets/images/avt-5.jpg"}style={{ maxWidth: "100%", maxHeight: "100%" }} />
+					</div>
+				  )}
                       <div className="user-profile-detail">
                         {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
                         <h3>{users.user_name}</h3>
@@ -370,6 +454,7 @@ export default function OtherUser() {
                           <a href="#"><span className="profile-sub-header">
                             <img src="/assets/images/icons/star-check.png" alt="" /> Created Account 19 Dec 2021</span></a>
                         </div> */}
+                          <span id="tooltip" class="tooltip ">Copied !</span>
                         <a
                           href="#"
                           type="button"
@@ -377,7 +462,6 @@ export default function OtherUser() {
                           onClick={myFunction}
                           data-title="Copy Address"
                         >
-                          <sapn id="tooltip" class="tooltip ">Copied !</sapn>
   
                           <img
                             src="/assets/images/icons/ethereum-white.png"
@@ -436,11 +520,11 @@ export default function OtherUser() {
                         Following (05)
                       </button> */}
                       <button
-                        className="nav-link"
+                        className="nav-link active"
                         id="created-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#created"
-                        aria-selected="false"
+                        aria-selected="true"
                       >
                         <img src="/assets/images/icons/create-icon.png" alt="" />
                         Created ({itemData?.length})
@@ -845,7 +929,7 @@ export default function OtherUser() {
                                     </table> */}
                                     {/* ))} */} 
                                                         {/* </div> */}
-                    <div className="tab-pane fade" id="created">
+                    <div className="tab-pane fade show active" id="created">
                    <ExploreNftListRow data={itemData} loadingFilter={loadingFilter} setliked={setliked}/>
                      
                     </div>
@@ -859,7 +943,7 @@ export default function OtherUser() {
                     <div className="card-body">
                       <div className="auction-create-by">
                         <img
-                          src={collection?.currentOwner?.uploadFile ?collection?.currentOwner?.uploadFile :"/assets/images/img2.png"}
+                          src={collection?.currentOwner?.profile_image ?collection?.currentOwner?.profile_image :"/assets/images/img2.png"}
                           alt=""
                           className="avatar-icon img-fluid"
                         />
@@ -870,7 +954,7 @@ export default function OtherUser() {
                         </span>
                       </div>
                       <div className="card-media">
-                <Link to={`/exploredetail/${collection._id}`}>
+                <Link to={`/explorefilter/${collection._id}`}>
   
                           <img
                             // src={'//assets/images/featured-img7.jpg'}
@@ -890,7 +974,7 @@ export default function OtherUser() {
                             <a href="#">{collection?.name}</a>
                           </h5>
                           <h6>
-                            {collection?.about ? collection?.about : 'undefined'}
+                            {collection?.description ? collection?.description : 'undefined'}
                           </h6>
                         </div>
                         <div className="eth-price">
@@ -903,9 +987,12 @@ export default function OtherUser() {
                               alt=""
                               className="me-1"
                             />
-                            {!collection?.putOnMarketplace ? (
+                            {!collection?.putOnMarketplace? 
+                            (
                               <small className="font-weight-light">Bids</small>
-                            ) : collection?.putOnMarketplace?.price ? (
+                            ) : 
+                            collection?.putOnMarketplace?.price ?
+                             (
                               <span>{collection?.putOnMarketplace?.price}</span>
                             ) : (
                               <span>
@@ -943,6 +1030,41 @@ export default function OtherUser() {
                     <div className="tab-pane fade" id="offers">
                       7
                     </div> */}
+                    {/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+  Launch demo modal
+</button> */}
+{/* 
+<!-- Modal --> */}
+<div class="modal fade" id="reportModal" tabIndex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form onSubmit={submitReport}>
+          <div class="mb-3">
+          <select class="form-select" name="action" onChange={handleUser} aria-label="Default select example" >
+          <option disabled selected>Select</option>
+  <option value="Fake Collection">Fake Collection Or possible scam</option>
+  <option value="Explict">Explict and sensitive content</option>
+  <option value="Spam">Spam</option>
+  <option value="Other">Other</option>
+</select>
+          </div>
+         {report?.action==="Other"? <div class="mb-3">
+            <label htmlFor="message-text" class="col-form-label">Issue:</label>
+            <textarea name="report_issue" onChange={handleUser} class="form-control" id="message-text"></textarea>
+          </div>:null}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" onClick={submitReport} class="btn btn-primary">Report</button>
+      </div>
+    </div>
+  </div>
+</div>
                   </div>
                 </div>
               </div>

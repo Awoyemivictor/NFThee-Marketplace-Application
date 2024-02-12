@@ -186,7 +186,10 @@ export const handleCollectionCreation = async (
     }
   } else {
     try {
-      res1 = await creator.deployERC1155('');
+      res1 = await creator.deployERC1155(
+        name,
+        contracts.polygonContracts.MARKETPLACE
+      );
       let hash = res1;
 
       res1 = await res1.wait();
@@ -391,7 +394,7 @@ export const handleNFTBuy = async (tokenPrice, collectionName, tokenId) => {
   );
 
   console.info(collectionAddress, tokenId, 1, 1, 2, options);
-  let paymentToken = 1;
+  let paymentToken = 2;
   if (paymentToken === 2) {
     res = await marketplaceInstance.buyToken(
       collectionAddress,

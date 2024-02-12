@@ -8,7 +8,7 @@ import instance from "../../axios";
 import { messaging } from "../../firebase-config";
 import { async } from "@firebase/util";
 import ExploreNftListRow from "../Explore/ExploreNftListRow";
-import { deleteBid, fetchUserBid } from "../../services/apiServices";
+import { deleteBid, fetchUserBid, getPriceConversion } from "../../services/apiServices";
 
 const Profile = () => {
   const user = useAppSelector(state => state.user.user)
@@ -93,7 +93,7 @@ const Profile = () => {
   const [bidRecieve, setBidRecieve] = useState([])
   const [activeTab, setActiveTab] = useState();
   const [bidchanges, setBidChanged] = useState();
-
+const [activityData,setActivity]=useState([])
 
 
   useEffect(() => {
@@ -101,6 +101,14 @@ const Profile = () => {
     instance
       .get(`/api/userCollections?id=${_id}`)
       .then(res => (setCollectionData(res.data.data)))
+
+  }, [])
+  useEffect(() => {
+
+    instance
+    // axios
+      .get(`/api/fetchUserHistory?userId=${_id}`)
+      .then(res => (setActivity(res.data.data)))
 
   }, [])
 
@@ -156,8 +164,13 @@ const Profile = () => {
 
   const [changes, setChanges] = useState()
   const [buttonLoading, setButtonLoading] = useState(false)
-  useEffect(() => {
+  const [priceCov,setPriceCon]=useState()
+
+  useEffect(async() => {
     // http://192.168.1.143:8002/api/followingList?id=63737c4fe305d4f9b67d3acd
+    let result = await getPriceConversion();
+    setPriceCon(result)
+
     instance
       .get(`/api/followingList?id=${_id}`)
       .then(res => setUsersData(res.data.data[0].following))
@@ -230,7 +243,7 @@ const Profile = () => {
         }
       });
 
-      // console.log("collectionData",id,"--",_id)
+      // console.log("collectionData",{collectionData})
       const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
       // console.log("ldata lcal",ldata,"---",ldata.user_name)
 
@@ -311,6 +324,15 @@ const Profile = () => {
     setChanges(Math.floor(Math.random() * 10))
 
   }
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+		
+  const handleOpenModal = () => {
+  setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+  setModalIsOpen(false);
+  };
   return (
     <>
       <main>
@@ -355,7 +377,7 @@ const Profile = () => {
                         <div className="user-more-detail">
                           <div className="more">
                             <div className="icon">
-                              <a href={`https://etherscan.io/address/${result1}`} target="_blank">
+                              <a href={`https://etherscan.io/address/${result1}`} target="_blank" rel="noreferrer">
                                 <img
                                   src="/assets/images/icons/etherscan-logo.png"
                                   alt=""
@@ -439,15 +461,36 @@ const Profile = () => {
                           src={image.preview}
                           alt=""
                           className="img-fluid user-img"
-                        />
-                        <span className="edit-img-box" style={{ cursor: "pointer" }}>
+                          onClick={handleOpenModal}
+				              	style={{ cursor: "pointer" }}
+                        /><span className="edit-img-box" style={{ cursor: "pointer" }}>
+                        
+                        
                           <input id="select-image" style={{ display: "none" }} type="file" onChange={handleChange} />
                           {/* <input id="profile-image-upload" className="hidden" type="file" onchange="previewFile()" ></input> */}
                           <label htmlFor="select-image">
                             <img src="/assets/images/icons/pencil.png" onChange={handleChange} style={{ cursor: "pointer" }} alt="" /> </label>
                         </span>
                       </div>
-                    </div>
+                    </div>{modalIsOpen && (
+					<div
+					  style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					  }}
+					  onClick={handleCloseModal}
+					>
+					  <img src={image.preview} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+					</div>
+				  )}
                     <div className="user-profile-detail">
                       {/* <h3>{NameInfo.firstName === undefined? "John Doe" :NameInfo.firstName + " " + NameInfo.lastName}</h3> */}
                       <h3>{user_name}</h3>
@@ -464,7 +507,7 @@ const Profile = () => {
                         onClick={myFunction}
                         data-title="Copy Address"
                       >
-                        <span id="tooltip" className="tooltip ">Copied !</span>
+
 
                         <img
                           src="/assets/images/icons/ethereum-white.png"
@@ -473,7 +516,7 @@ const Profile = () => {
                         />
                         {tokenid}
                       </a>
-
+                      <span id="tooltip" className="tooltip ">Copied !</span>
                       <Link
                         to="/profilesetting"
                         type="button"
@@ -558,7 +601,7 @@ const Profile = () => {
                       aria-selected="false"
                     >
                       <img src="/assets/images/icons/act-line-icon.png" alt="" />
-                      Activity (05)
+                      Activity ({activityData.length})
                     </button>
                     {/* <div className="dropdown-menu">
                     <div className="dropdown-divider"></div>
@@ -645,9 +688,8 @@ const Profile = () => {
                               </div>
                               <div id="option1" className="size_chart" >
                                 <div className="activity-table-container table-responsive">
-                                  {
-                                    itemData.lenght > 0 ? itemData.map((data, i) => (
-                                      <table className="table" key={i}>
+                                  
+                                      <table className="table" >
                                         <thead>
                                           <tr>
 
@@ -655,36 +697,46 @@ const Profile = () => {
                                             <th scope="col">Type</th>
                                             <th scope="col">Unit Price</th>
                                             <th scope="col">Floor Difference</th>
-                                            <th scope="col">Expiration Date</th>
+                                            <th scope="col">Time/Date</th>
                                             <th scope="col"> </th>
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
+                                        {
+                                    itemData.length>0 ? itemData.map((data, i) => (
+                                          <tr key={i}>
                                             <td>
+                                       <Link to={`/exploredetail/${data._id}`}>
+
                                               <div className="d-flex align-items-center">
                                                 <img src={data.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
                                                 <span className="ms-2">{data.name}</span>
                                               </div>
+                                              </Link>
                                             </td>
-                                            <td > {data.putOnMarketplace.Bid_price ? 'Bid' : ''}{data.putOnMarketplace.price ? 'Fixed ' : ''}  </td>
+                                            <td > {data.putOnMarketplace.Bid_price ? 'Bid' : ''}{data.putOnMarketplace.price ? 'Fixed ' : ''}
+                                            {data.putOnMarketplace.wait ? 'Waiting ' : ''} 
+                                            
+                                              </td>
+
 
                                             <td>
                                               <div className="price-detail">
                                                 <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.putOnMarketplace.Bid_price ? data.putOnMarketplace.Bid_price : ''}{data.putOnMarketplace.price ? data.putOnMarketplace.price : ''} </h5>
-                                                <h6>$52547.30</h6>
+                                                <h6>${data.putOnMarketplace.price?( parseFloat(priceCov) * parseFloat(data.putOnMarketplace.price)).toFixed(5):null}
+                                                {data.putOnMarketplace.Bid_price?( parseFloat(priceCov) * parseFloat(data.putOnMarketplace.Bid_price)).toFixed(5):null}</h6>
                                               </div>
                                             </td>
                                             <td >   At Floor   </td>
-                                            <td>  {data.updatedAt}</td>
+                                            <td>  {data.timeSinceCreated}</td>
                                             <td><a type="button" href="#" className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
                                           </tr>
-
+                                    )) : `Create Nft's`
+                                  }
                                         </tbody>
                                       </table>
-                                    ))
-                                      : `Create Nft's`
-                                  }
+                                   
+                                     
                                 </div>
 
                                 {/* <div className="row"  >
@@ -895,7 +947,8 @@ const Profile = () => {
                           <tr>
 
                             <td><Link to={`/users/${data._id}`}><div className="d-flex align-items-center">
-                              <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" />
+                              <img src={data.profile_image || "/assets/images/icons/activeimg.png" } height={35} width={45} alt="" className="user-img" />
+                              {/* <img src="/assets/images/icons/activeimg.png" alt="" className="user-img" /> */}
                               <span className="ms-2">{data.user_name}</span>
                             </div> </Link></td>
                             <td> {buttonLoading ? <button className="btn btn-primary" type="button" disabled>
@@ -927,7 +980,7 @@ const Profile = () => {
 
                   </div>
                   <div className="tab-pane fade" id="collections">
-                    4<div className="row">
+                    <div className="row">
                       {collectionData.map((collection, index) => {
                         return (
                           <div className="col-12 col-sm-3 " key={index}>
@@ -936,7 +989,7 @@ const Profile = () => {
                                 <div className="card-body">
                                   <div className="auction-create-by">
                                     <img
-                                      src="/assets/images/img2.png"
+                                      src={image.preview}
                                       alt=""
                                       className="avatar-icon img-fluid"
                                     />
@@ -1009,11 +1062,66 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="tab-pane fade" id="liked">
-
+555
                     <ExploreNftListRow data={addFavData} loadingFilter={loadingFilter} setliked={setliked} />
                   </div>
                   <div className="tab-pane fade" id="activity">
-                    6
+          
+                    <div className="activity-table-container table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" />
+                        <th scope="col">Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th
+                          scope="col"
+                          className="d-flex align-items-center justify-content-between border-bottom-0"
+                        >
+                          Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                       
+                      {activityData?.map((data,i) => {
+                        return(
+                          <tr>
+                                                   <td key={i}> <img src={"/assets/images/icons/cart.png"} alt="" className="me-1" /> {data?.action} </td>
+                                                   <td>
+                                                    <Link to={`/exploredetail/${data?.nftId?._id}`}>
+                                                       <div className="d-flex align-items-center"> <img src={data.nftId?.uploadFile?data.nftId.uploadFile:"/assets/images/avt-5.jpg"} alt="" className="user-img" /> <span className="ms-2">{data?.nftId?.name}</span> </div>
+                                                       </Link>
+                                                   </td>
+                                                   <td>
+                                                       <div className="price-detail">
+                                                           <h5> <img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.price } </h5>
+                                                           <h6>${( parseFloat(priceCov) * parseFloat(data.price)).toFixed(5)}</h6>
+                                                       </div>
+                                                   </td>
+                                                   <td>1</td>
+                                                   <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
+                                                   <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                               </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+
+
+
+
+
+
+
                   </div>
                   <div className="tab-pane fade" id="offers">
                     <div className="container">
@@ -1029,47 +1137,47 @@ const Profile = () => {
                               </div>
                               <div style={{ 'display': 'none' + '!important' }}   >
                                 <div className="activity-table-container table-responsive">
-                                  {userBid.length >0?userBid.map((data,i)=>(
-                                  <table className="table" key={i}>
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Offer Price</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="d-flex align-items-center">
-                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
-                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" onClick={withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
-                                      </tr>
+                                  {userBid.length > 0 ? userBid.map((data, i) => (
+                                    <table className="table" key={i}>
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Item</th>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Offer Price</th>
+                                          <th scope="col">Expiration Date</th>
+                                          <th scope="col"> </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div className="d-flex align-items-center">
+                                              <img src={data.nftId.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                              <span className="ms-2">{data.nftId.name ? data.nftId.name : 'tiger'}</span>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace ? data.nftId.putOnMarketplace.Bid_price : ''}</h5>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
+                                              <h6>$52547.30</h6>
+                                            </div>
+                                          </td>
+                                          <td>  May 16, 2022</td>
+                                          <td><a type="button" href="#" onClick={withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn ms-2">Cancel</a></td>
+                                        </tr>
 
-                                    </tbody>
-                                  </table>)):'Nothing yet'}
+                                      </tbody>
+                                    </table>)) : 'Nothing yet'}
                                 </div>
 
                               </div>
-                              
-<br/>
+
+                              <br />
                             </div>
                           </div>
                         </div>
@@ -1091,44 +1199,44 @@ const Profile = () => {
                               </div>
                               <div style={{ 'display': 'none' + '!important' }}   >
                                 <div className="activity-table-container table-responsive">
-                                  {bidRecieve.length >0?bidRecieve.map((data,i)=>(
-                                  <table className="table" key={i}>
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Offer Price</th>
-                                        <th scope="col">Expiration Date</th>
-                                        <th scope="col"> Accept</th>
-                                        <th scope="col"> Cancel</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="d-flex align-items-center">
-                                            <img src={data.nftId.uploadFile||"/assets/images/icons/activeimg.png"} alt="" className="user-img" />
-                                            <span className="ms-2">{data.nftId.name?data.nftId.name:'tiger'}</span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace?data.nftId.putOnMarketplace.Bid_price:''}</h5>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="price-detail">
-                                            <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
-                                            <h6>$52547.30</h6>
-                                          </div>
-                                        </td>
-                                        <td>  May 16, 2022</td>
-                                        <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
-                                        <td><a type="button" href="#" onClick={()=>withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn">Cancel</a></td>
-                                      </tr>
+                                  {bidRecieve.length > 0 ? bidRecieve.map((data, i) => (
+                                    <table className="table" key={i}>
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Item</th>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Offer Price</th>
+                                          <th scope="col">Expiration Date</th>
+                                          <th scope="col"> Accept</th>
+                                          <th scope="col"> Cancel</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div className="d-flex align-items-center">
+                                              <img src={data.nftId.uploadFile || "/assets/images/icons/activeimg.png"} alt="" className="user-img" />
+                                              <span className="ms-2">{data.nftId.name ? data.nftId.name : 'tiger'}</span>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.nftId.putOnMarketplace ? data.nftId.putOnMarketplace.Bid_price : ''}</h5>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="price-detail">
+                                              <h5><img src="/assets/images/icons/ethereum.png" alt="" className="me-1" /> {data.bid_price}</h5>
+                                              <h6>$52547.30</h6>
+                                            </div>
+                                          </td>
+                                          <td>  May 16, 2022</td>
+                                          <td><a type="button" href="#" className="btn btn-violet edit-profile-btn">Accept</a></td>
+                                          <td><a type="button" href="#" onClick={() => withdrawTokenBid(data._id)} className="btn btn-violet edit-profile-btn">Cancel</a></td>
+                                        </tr>
 
-                                    </tbody>
-                                  </table>)):'Nothing yet'}
+                                      </tbody>
+                                    </table>)) : 'Nothing yet'}
                                 </div>
 
                               </div>

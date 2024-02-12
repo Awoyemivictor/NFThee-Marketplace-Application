@@ -1,9 +1,8 @@
 import {useState} from 'react'
 import Chart from 'react-apexcharts'
 
-const Apexcharts =({xaxiss,avgPrice,volume})=>{
-  console.log(avgPrice)
-  
+const Apexcharts =({xaxiss,avgPrice})=>{
+
     const[options, setObject]= useState({
         chart: {
             id: 'realtime',
@@ -30,33 +29,39 @@ const Apexcharts =({xaxiss,avgPrice,volume})=>{
           categories: xaxiss,
           labels: {
             datetimeFormatter: {
-              year: 'yyyy',
+              // year: 'yyyy',
               month: 'MMM',
-              day: 'dd'
+              day: 'dd',
+              hour: 'HH',
+              minute: 'mm'
             },
             formatter: function(value, timestamp) {
               return new Date(timestamp).toLocaleDateString('en-US', {
-                year: 'numeric',
+                // year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
                 month: 'short',
                 day: 'numeric'
               });
             }
           }
         }
-,                yaxis: [{
-          seriesName: "Volume (ETH)",
-          title: {
-            text: 'Volume (ETH)',
-          },
+,                yaxis: [
+  // {
+  //         seriesName: "Volume (ETH)",
+  //         title: {
+  //           text: 'Volume (ETH)',
+  //         },
          
-          // labels: {
-          //   formatter: function(value) {
-          //     return value.toFixed(4);
-          //   }}
+  //         // labels: {
+  //         //   formatter: function(value) {
+  //         //     return value.toFixed(4);
+  //         //   }}
         
-        }, {
+  //       },
+   {
           seriesName:'Average price(ETH)',
-          opposite: true,
+          // opposite: true,
           title: {
             text: 'Average price(ETH)'
           },
@@ -82,7 +87,7 @@ const Apexcharts =({xaxiss,avgPrice,volume})=>{
         type: "line",
         lineThickness: 5,
       }],
-      
+     
       })
       const[series, setSeries]= useState([
         // {
@@ -92,11 +97,12 @@ const Apexcharts =({xaxiss,avgPrice,volume})=>{
       // },
       {
         name: 'Average price(ETH)',
-        type: 'line',
+        type: 'column',
         data:  avgPrice,
-        // yAxis: 1
+      
       }
     ]) 
+    console.log({options},{series})
       return (
         <Chart options={options} series={series} type="line" width="100%" height={350}  />
       )

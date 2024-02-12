@@ -9,20 +9,40 @@ import { useEffect,useState } from "react";
 import instance from "./axios";
 import { getUserAddress } from "./Config/constants";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 // import MultipleFileInput from "./Containers/CreateNewItem/formTest";
 function App() {
   const ldata = JSON.parse(localStorage.getItem('userLoggedIn'));
+  const [toggle, setToggle] = useState();
   const verifyWallet=async()=>{
   const address=await getUserAddress();
   if(isAuth()){
-   await instance.post('/api/checkWalletAddress',{account_address:address ,id:ldata._id})
-    .then(res=>console.log('app'))
+    
+   await 
+  //  axios
+   instance
+   .post('/api/checkWalletAddress',{account_address:address ,id:ldata._id})
+    .then(res=>{
+      if(res.data.data===false){
+        Swal.fire({
+          icon: "error",
+          title: "Connect Wallet ",
+          text: 'Which you used during Login',
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    })
   }
 }
 
+
+
  const [checkChanges,setChanges]=useState()
   async function requestPermission() {
+  //  if(isAuth()){ 
     const permission = await Notification.requestPermission();
     if (permission === "granted" &&ldata._id) {
       // Generate Token
@@ -41,10 +61,13 @@ function App() {
     } else if (permission === "denied") {
       alert("You denied for the notification");
     }
+  // }
   }
 
+
   useEffect(() => {
-    // Req user for notification permission
+     axios.get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getToggle`)
+  .then(res=>setToggle(res.data.data[0].toggleValue))
     verifyWallet()
     requestPermission();
   }, [useLocation().pathname,checkChanges]);
@@ -108,7 +131,7 @@ function App() {
     <>  
      <Loader />     
     {/* {currentPath === "/launchpage" && <LaunchPage />} */}
-      <Navbar checkChanges={checkChanges} setChanges={setChanges} /> 
+      <Navbar checkChanges={checkChanges} setChanges={setChanges} toggle={toggle} /> 
       <ScrollToTop/>
       <Switch> 
         {routeComponents}

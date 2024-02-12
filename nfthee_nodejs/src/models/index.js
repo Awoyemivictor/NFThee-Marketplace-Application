@@ -14,4 +14,8 @@ exports.bidModel = require('./bidModel');
 exports.nftOwnerModel = require('./nftOwnerModel');
 exports.notificationModel = require('./notificationModel');
 exports.verificationModel = require('./verificationModel');
+exports.reportModel = require('./reportModel');
+exports.reportedUserModel = require('./reportedUserModel');
+
+
 

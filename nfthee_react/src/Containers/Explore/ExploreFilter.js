@@ -11,6 +11,7 @@ import axios from 'axios';
 import Loader from '../../Components/Loader/Loader';
 import { getPriceConversion } from '../../services/apiServices';
 import { Modal, Button } from 'react-bootstrap'
+import ExploreItemColumn from './ExploreItem/ExploreItemColumn';
 function ExploreFilter() {
 
   // const ref = useRef(null);
@@ -171,7 +172,7 @@ useEffect(async() => {
   //     y.style.display = "block";
   //   }
   // }
-  let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
+  // let Average=(avgPrice?.reduce((a, b) => a + b)/avgPrice?.length).toFixed(5)
 const handleActive=async()=>{
   // setActivityData
 // axios
@@ -275,10 +276,10 @@ instance
                   <div className="explore-social-icon d-lg-flex d-none align-items-center justify-content-end">
                     <div className="border-end me-4 pe-4">
                       <ul>
-                        <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Url"   ><img src="/assets/images/icons/url.png" alt="url" /></a></li>
-                        <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Discord"  ><img src="/assets/images/icons/discord-icon.png" alt="discord" /></a></li>
+                        <li><a href={collections.website} className="icon-box" target='_blank'  data-toggle="tooltip" title="Url"   ><img src="/assets/images/icons/url.png" alt="url" /></a></li>
+                        <li><a href={collections.telegram} className="icon-box" target='_blank'   data-toggle="tooltip" title="Discord"  ><img src="/assets/images/icons/discord-icon.png" alt="discord" /></a></li>
                         <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Twitter" ><img src="/assets/images/icons/twitter-icon.png" alt="" /></a></li>
-                        <li><a href={collections.url} className="icon-box" target='_blank'   data-toggle="tooltip" title="Instagram" ><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
+                        <li><a href={collections.instagram} className="icon-box" target='_blank'   data-toggle="tooltip" title="Instagram" ><img src="/assets/images/icons/instagram-icon-large.png" alt="" /></a></li>
                         <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Youtube"  ><img src="/assets/images/icons/youtube-icon2.png" alt="" /></a></li>
                         <li><a href={collections.url} className="icon-box" target='_blank'  data-toggle="tooltip" title="Email"  ><img src="/assets/images/icons/mail-icon.png" alt="" /></a>
                         </li>
@@ -330,7 +331,7 @@ instance
                     </ul>
                   </div>
                 </div>
-                <p>{t("CreativeArtCollection.Created By")}<span>{collections?.created_by?.user_name}</span> </p>
+                <p>{t("CreativeArtCollection.Created By")}<span>    <Link to={ `/users/${collections?.currentOwner?._id}`}>{collections?.currentOwner?.user_name}</Link></span> </p>
               </div>
               <div className="profile-bid-detail">
                 <div className="col-lg-6 col-md-6 p-0">
@@ -531,11 +532,11 @@ instance
                                                <div className="row">
                                                <div className="bottom-wrapper">
                                                 <div className="row gx-3">
-                                                {slice.map((item) => {
-                                              return(
-                                                <PillsList {...item}/>
-                                              )
-                                            })}
+                                                {/* {slice.map((item) => {
+                                              return( */}
+                                                <ExploreItemColumn data={shownList}  setliked={setliked}/>
+                                            {/* //   )
+                                            // })} */}
                                                     
                                                 </div>
                                                 </div>
@@ -660,7 +661,7 @@ instance
                                                                        <ul>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>
-                                                                               <h6>{Average}</h6>
+                                                                               {/* <h6>{Average}</h6> */}
                                                                            </li>
                                                                            <li>
                                                                                <h5>90 {t("explore.Day")}{t("explore.Avg Price")}</h5>
@@ -708,7 +709,7 @@ instance
                                                    <td>1</td>
                                                    <td> <Link to={`/users/${data.userId}`}><span className="text-color-purple">{data.from}</span></Link> </td>
                                                    <td> <span className="text-color-purple">{data.to==''?'__':data.to}</span> </td>
-                                                   <td> <a href="#">{data?.sCreated} {t("explore.seconds ago")} <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
+                                                   <td> <a href="#">{data?.timeSinceCreated}  <img src="/assets/images/icons/share-icon.png" alt="" className="ms-1" /> </a> </td>
                                                </tr>)):'noting to show'}
                                                {/* <tr>
                                                    <td> <img src="/assets/images/icons/cart.png" alt="" className="me-1" /> {t("explore.sale")} </td>

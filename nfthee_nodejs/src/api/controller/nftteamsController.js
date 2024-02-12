@@ -26,6 +26,14 @@ exports.getItemInfo = async (req, res, next) => {
         next(error);
     }
 } 
+exports.viewCounts = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.viewCounts(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+} 
 exports.getAllItemInfo = async (req, res, next) => {
     try {
         const data = await nftteamsService.getAllItemInfo(req);
@@ -212,6 +220,16 @@ exports.getPrice = async (req, res, next) => {
 exports.uploadData = async (req, res, next) => {
     try {
         const data = await nftteamsService.uploadData(req);
+        return successResponse(req, res, data.data, data.message);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+exports.buyNft = async (req, res, next) => {
+    try {
+        const data = await nftteamsService.buyNft(req);
         return successResponse(req, res, data.data, data.message);
     } catch (error) {
         next(error);

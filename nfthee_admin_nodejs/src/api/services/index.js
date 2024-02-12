@@ -5,3 +5,5 @@ exports.manageSettingsService = require('./manageSettingsService')
 exports.partnerServices = require('./partnerServices');
 exports.blockchainService = require('./blockchainService');
 exports.airdropService = require('./airdropServices')
+exports.searchService = require('./searchService')
+

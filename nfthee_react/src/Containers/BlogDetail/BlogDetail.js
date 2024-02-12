@@ -85,21 +85,24 @@ export default function BlogDetail() {
                           <div className="row">
                             <div className="col-lg-12 col-md-12">
                               <h4 className="blog-detail-title-header">
-                                {blog.sub_Description}
+                               Sub Description: {blog.description}
                               </h4>
                               <h2 className="blog-detail-title-header">
-                                {blog.description}
+                             <span> Description:</span>  {blog.sub_description}
                               </h2>
                               <ul>
                                 <li>
                                   <h4 className="blog-detail-title">
-                                    {blog.meta_tag}
+                                   Meta Tag: {blog.meta_tag}
                                   </h4>
                                   <p className="blog-detail-text">
-                                    {blog.meta_Title}
+                                   Meta Title: {blog.meta_title}
                                   </p>
                                   <p className="blog-detail-text">
-                                    {blog.meta_Description}
+                                  Meta Description:  {blog.meta_description}
+                                  </p>
+                                  <p className="blog-detail-text">
+                                   Author: {blog.author_name}
                                   </p>
                                 </li>
                               </ul>

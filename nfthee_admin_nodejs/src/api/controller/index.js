@@ -5,3 +5,5 @@ exports.emailApiController = require('./emailApiController');
 exports.manageSettingsController = require('./manageSettingsController');
 exports.blockchainController = require('./blockchainController');
 exports.airdropController = require('./airdropController')
+exports.searchController = require('./searchController')
+

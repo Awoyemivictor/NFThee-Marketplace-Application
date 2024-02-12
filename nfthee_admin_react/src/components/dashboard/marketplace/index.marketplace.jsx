@@ -5,13 +5,25 @@ import {
   handleSetRoyaltyUpperLimit,
   handleChangeServiceFees,
 } from '../../../config/settterFunctions';
+import axios from 'axios';
+import instance from '../../../axios';
 
 export default function MarketPlace() {
   const [accord, setAccord] = useState(false);
   const [accord1, setAccord1] = useState(false);
+  const [accord2, setAccord2] = useState(false);
   const [royalty, setRoyalty] = useState();
   const [royaltyLimit, setRoyaltyLimit] = useState();
+  const [toggle, setToggle] = useState();
+  const[changes,setChanges]=useState()
 
+  const handletoggle=()=>{
+setTimeout(() => {
+  instance
+  .post('/api/addToggle',{toggle:toggle?false:true})
+}, 3000);
+
+  }
   const handleSetRoyalty = async (e) => {
     e.preventDefault();
     console.log(royalty);
@@ -22,10 +34,16 @@ export default function MarketPlace() {
     console.log(royaltyLimit);
     await handleSetRoyaltyUpperLimit(royaltyLimit);
   };
-
-  return (
+  
+ useState(()=>{
+  instance.get('/api/getToggle')
+  .then(res=>setToggle(res.data.data[0].toggleValue))
+ })
+  console.log("first",toggle)
+   
+    return (
     <Fragment>
-      <Breadcrumb title='Marketplace ' parent='Marketplace' />
+      <Breadcrumb title='Marketplace ' parent='Dashboard' />
       <Container fluid={true}>
         <div id='accordion'>
           <div class='card'>
@@ -117,9 +135,9 @@ export default function MarketPlace() {
                 <button
                   class='btn'
                   data-toggle='collapse'
-                  onClick={() => setAccord1((prevState) => !prevState)}
+                  onClick={() => setAccord2((prevState) => !prevState)}
                   data-target='#collapseTwo'
-                  aria-expanded={accord1 ? 'true' : 'false'}
+                  aria-expanded={accord2 ? 'true' : 'false'}
                 >
                   Change Marketplace Status
                 </button>
@@ -127,7 +145,7 @@ export default function MarketPlace() {
             </div>
             <div
               id='collapseTwo'
-              className={accord1 ? 'collapse show' : 'collapse'}
+              className={accord2 ? 'collapse show' : 'collapse'}
               aria-labelledby='headingThree'
               data-parent='#accordion'
             >
@@ -151,6 +169,31 @@ export default function MarketPlace() {
                 </form>
               </div>
             </div>
+          </div>
+
+          <div class='card'>
+            <div class='card-header' id='headingThree'>
+              <h5 class='mb-0'>
+               
+                Search Bar Disable
+                <div className='mobile-sidebar'>
+<div className='media-body text-right switch-sm'>
+  <label className='switch'>
+    <input
+      type='checkbox'
+      id='sidebar-toggle'
+      defaultChecked={toggle}
+      onClick={(e)=>{setToggle(toggle?false:true)
+     handletoggle()}}
+    />
+    <span className='switch-state'></span>
+  </label>
+</div>
+</div>
+              </h5>
+              
+            </div>
+          
           </div>
         </div>
       </Container>

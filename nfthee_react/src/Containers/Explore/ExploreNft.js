@@ -6,6 +6,8 @@ import ExploreNftListRow from "./ExploreNftListRow";
 import ExploreNftListColumn from "./ExploreNftListColumn";
 import Filters from "./Filters";
 import { useHistory, useLocation } from "react-router-dom";
+import ExploreItemColumn from "./ExploreItem/ExploreItemColumn";
+import axios from "axios";
 
 function ExploreNft() {
   const { t } = useTranslation();
@@ -87,19 +89,37 @@ console.log(checked,j,e.target.name,name,"expolorenft")
   const handleSortClick = () => {
     switch (sortBy) {
       case "name A-Z":
-        console.info("A-Z");
+       let a= [...filteredData].sort((a, b) =>
+       a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+     );
+     setFilteredData(a)
+     
         break;
 
       case "name Z-A":
-        console.info("Z-A");
+       let b= [...filteredData].sort((a, b) =>
+        a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1,
+      );
+      setFilteredData(b)
         break;
 
       case "price-low":
-        console.info("Low - High");
+        let sortedData = [...filteredData].sort((a, b) => {
+          let priceA = parseFloat(a.putOnMarketplace.price || a.putOnMarketplace.bid_price);
+          let priceB = parseFloat(b.putOnMarketplace.price || b.putOnMarketplace.bid_price);
+          return priceA - priceB;
+        });
+        
+        setFilteredData(sortedData);
+        
+        
+        
+        
         break;
 
       case "price-high":
-        console.info("High - Low");
+       let d= [...filteredData].sort((a, b) => b.id - a.id)
+       setFilteredData(d)
         break;
     }
   };
@@ -108,6 +128,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
   const [filteredData, setFilteredData] = useState([]);
   const [queryParamChanged, setQueryParamChanged] = useState(false);
   const [like, setliked] = useState();
+  const [toggle, setToggle] = useState();
+
   useEffect(() => {
     // if (!serachButton) return;
     // if (location.search) {
@@ -167,6 +189,9 @@ console.log(checked,j,e.target.name,name,"expolorenft")
     setSearchButton(true);
   };
   useEffect(() => {
+  
+    axios.get(`${process.env.REACT_APP_ADMIN_BASE_URL}/api/getToggle`)
+  .then(res=>setToggle(res.data.data[0].toggleValue))
     setFilteredData(nftData);
     console.log({ nftData }, { filterSearch });
   }, [nftData, filterSearch]);
@@ -289,6 +314,7 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                                 handlePriceInput={handlePriceInput}
                                 setSearchText={setSearchText}
                                 searchText={searchText}
+                                toggle={toggle}
                               />
                             </div>
                           </div>
@@ -453,7 +479,8 @@ console.log(checked,j,e.target.name,name,"expolorenft")
                     >
                       <div className="bottom-wrapper">
                         <div className="shop-bottom-wrapper">
-                          {/* <ExploreNftListColumn data={filteredData} /> */}
+                          {/* <ExploreNftListColumn data={filteredData} loadingFilter={loadingFilter} setliked={setliked} /> */}
+                          <ExploreItemColumn data={filteredData} loadingFilter={loadingFilter} setliked={setliked}/>
                         </div>
                       </div>
                     </div>
